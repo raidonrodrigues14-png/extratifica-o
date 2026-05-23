@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratificação de Risco da Criança — SES Maranhão</title>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, addDoc, getDocs, query, where, Timestamp, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBXMNklsTmBe2_nSkZglIiAI_SRg1wSBIs",
+    authDomain:        "secretaria-403ac.firebaseapp.com",
+    projectId:          "secretaria-403ac",
+    storageBucket:      "secretaria-403ac.firebasestorage.app",
+    messagingSenderId: "42928182426",
+    appId:             "G-2QVPP4Q8L9"
+  };
+
+  let db = null;
+  let firebaseOk = false;
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    firebaseOk = true;
+    console.log("✅ Firebase conectado.");
+  } catch(e) {
+    console.warn("⚠️ Firebase não configurado. Modo local ativado.", e);
+  }
+
+  window._db = db;
+  window._firebaseOk = firebaseOk;
+  window._fbFns = { collection, addDoc, getDocs, query, where, Timestamp, updateDoc, doc };
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --verde:        #1a7a4a;
+  --verde-claro:  #e8f5ee;
+  --verde-mid:    #22c55e;
+  --amarelo:      #d97706;
+  --amarelo-claro:#fef3c7;
+  --vermelho:     #dc2626;
+  --vermelho-claro:#fee2e2;
+  --azul:         #1e40af;
+  --azul-claro:   #eff6ff;
+  --cinza:        #1f2937;
+  --cinza-claro:  #f9fafb;
+  --borda:        #e5e7eb;
+  --roxo:         #7c3aed;
+  --wpp-green:    #25d366;
+  --wpp-dark:     #075e54;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #f0f4f8;
+  color: var(--cinza);
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════
+   TELA DE LOGIN
+══════════════════════════════════ */
+#tela-login {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #064e2c 0%, #1a7a4a 55%, #34d399 100%);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+#tela-login::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 85%, rgba(52,211,153,0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(26,122,74,0.25) 0%, transparent 45%);
+}
+
+#tela-login::after {
+  content: '👶 🩺 💉 🍼 👶 🩺 💉 🍼';
+  position: absolute; top: -20px; left: 0; right: 0;
+  font-size: 5rem; opacity: 0.04;
+  letter-spacing: 2rem;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.login-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  position: relative; z-index: 1;
+  animation: card-in 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes card-in {
+  from { transform: scale(0.85) translateY(30px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.login-logo {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.75rem; margin-bottom: 1.5rem;
+}
+
+.login-logo-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #1a7a4a, #22c55e);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.75rem;
+  box-shadow: 0 8px 20px rgba(26,122,74,0.35);
+}
+
+.login-logo-text { line-height: 1.2; }
+.login-logo-text strong { display: block; font-size: 1.05rem; font-weight: 900; color: var(--cinza); }
+.login-logo-text span   { font-size: 0.75rem; color: #6b7280; font-weight: 500; }
+
+.login-divider {
+  height: 1px; background: var(--borda); margin: 1.25rem 0;
+}
+
+.campo-login { margin-bottom: 1rem; }
+.campo-login label {
+  display: block; font-size: 0.72rem; font-weight: 800;
+  color: #6b7280; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.6px;
+}
+.campo-login input {
+  width: 100%; border: 2px solid var(--borda); border-radius: 10px;
+  padding: 0.7rem 0.9rem; font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--cinza);
+}
+.campo-login input:focus {
+  border-color: var(--verde); box-shadow: 0 0 0 4px rgba(26,122,74,0.12);
+}
+
+.btn-login {
+  width: 100%; background: linear-gradient(135deg, #1a7a4a, #22c55e);
+  color: white; border: none; padding: 0.85rem;
+  border-radius: 12px; font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 6px 20px rgba(26,122,74,0.35);
+  letter-spacing: 0.3px;
+}
+.btn-login:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(26,122,74,0.4); }
+.btn-login:active { transform: translateY(0); }
+
+.erro-login {
+  background: var(--vermelho-claro); color: var(--vermelho);
+  padding: 0.65rem 0.9rem; border-radius: 8px;
+  margin-bottom: 1rem; font-size: 0.85rem; font-weight: 600;
+  display: none; border-left: 3px solid var(--vermelho);
+}
+
+.login-hint {
+  text-align: center; margin-top: 1.25rem;
+  font-size: 0.75rem; color: #9ca3af;
+}
+.login-hint code {
+  background: #f3f4f6; padding: 0.1rem 0.4rem;
+  border-radius: 4px; font-family: 'DM Mono', monospace;
+  color: var(--verde); font-weight: 500;
+}
+
+/* ══════════════════════════════════
+   TELA PRINCIPAL
+══════════════════════════════════ */
+#tela-principal { display: none; }
+
+/* HEADER */
+.site-header {
+  background: linear-gradient(135deg, #064e2c 0%, #1a7a4a 100%);
+  color: white;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 64px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.header-brand { display: flex; align-items: center; gap: 0.75rem; }
+
+.header-brand-icon {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+
+.header-brand-text strong {
+  display: block; font-size: 0.95rem; font-weight: 800; letter-spacing: -0.2px;
+}
+.header-brand-text span {
+  font-size: 0.7rem; opacity: 0.75; font-weight: 500;
+}
+
+.header-right { display: flex; align-items: center; gap: 1rem; }
+
+.header-user {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(255,255,255,0.1); border-radius: 25px;
+  padding: 0.4rem 0.9rem; font-size: 0.82rem; font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.firebase-status {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.75rem;
+  border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+}
+.firebase-status.ok   { background: rgba(34,197,94,0.2); color: #bbf7d0; }
+.firebase-status.off  { background: rgba(251,191,36,0.2); color: #fde68a; }
+.firebase-dot { width: 7px; height: 7px; border-radius: 50%; animation: pulse-dot 1.5s infinite; }
+.firebase-dot.verde   { background: #4ade80; }
+.firebase-dot.amarelo { background: #fbbf24; }
+@keyframes pulse-dot { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+.btn-sair {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: white; padding: 0.35rem 0.8rem; border-radius: 8px;
+  cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700;
+  transition: background 0.2s;
+}
+.btn-sair:hover { background: rgba(255,255,255,0.2); }
+
+.main-container { max-width: 1020px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+.secao {
+  background: white; border-radius: 16px; overflow: hidden;
+  margin-bottom: 1.25rem; border: 1px solid var(--borda);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s;
+}
+.secao:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+
+.secao-titulo {
+  padding: 0.8rem 1.25rem; font-weight: 800; font-size: 0.9rem;
+  display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.2px;
+}
+.secao-titulo.identificacao { background: var(--azul); color: white; }
+.secao-titulo.neonatal      { background: #374151;       color: white; }
+.secao-titulo.alto          { background: var(--vermelho); color: white; }
+.secao-titulo.intermediario { background: var(--amarelo);  color: white; }
+.secao-titulo.automacao     { background: var(--roxo);      color: white; }
+
+.secao-corpo { padding: 1.25rem; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.75rem; }
+
+.campo label {
+  display: block; font-size: 0.7rem; font-weight: 800;
+  color: #6b7280; margin-bottom: 0.3rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.campo input, .campo select, .campo textarea {
+  width: 100%; border: 2px solid var(--borda); border-radius: 8px;
+  padding: 0.5rem 0.75rem; font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem; color: var(--cinza); outline: none; transition: border-color 0.2s;
+}
+.campo input:focus, .campo select:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(26,122,74,0.1); }
+
+.checklist { display: flex; flex-direction: column; gap: 0.5rem; }
+.check-item {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.6rem 0.85rem; border-radius: 10px;
+  cursor: pointer; border: 2px solid var(--borda);
+  background: var(--cinza-claro); transition: all 0.15s;
+  user-select: none;
+}
+.check-item:hover { border-color: #d1d5db; background: #f3f4f6; }
+.check-item input { margin-top: 3px; width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; accent-color: var(--verde); }
+.check-item span { font-size: 0.875rem; line-height: 1.45; }
+.check-item.marcado-alto  { background: var(--vermelho-claro); color: var(--vermelho); border-color: var(--vermelho); }
+.check-item.marcado-inter { background: var(--amarelo-claro);  color: var(--amarelo);  border-color: var(--amarelo); }
+
+.painel-resultado {
+  border-radius: 14px; padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem; display: flex;
+  align-items: center; gap: 1rem;
+  font-weight: 800; font-size: 1.05rem;
+  transition: all 0.3s;
+}
+.painel-resultado .res-icon { font-size: 2rem; flex-shrink: 0; }
+.painel-resultado .res-text { line-height: 1.4; }
+.painel-resultado .res-text small { display: block; font-size: 0.78rem; font-weight: 600; opacity: 0.8; margin-top: 0.2rem; }
+.res-habitual     { background: var(--verde-claro);   color: var(--verde); }
+.res-intermediario{ background: var(--amarelo-claro); color: #92400e; }
+.res-alto         { background: var(--vermelho-claro);color: #991b1b; }
+
+.pipeline {
+  display: flex; align-items: center; gap: 0;
+  margin: 1.25rem 0; overflow-x: auto; padding-bottom: 0.25rem;
+}
+.pipe-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.4rem; min-width: 100px; padding: 0.5rem;
+  flex: 1;
+}
+.pipe-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.pipe-icon.azul    { background: var(--azul-claro);    border: 2px solid #bfdbfe; }
+.pipe-icon.roxo    { background: #f5f3ff;              border: 2px solid #ddd6fe; }
+.pipe-icon.verde   { background: var(--verde-claro);   border: 2px solid #bbf7d0; }
+.pipe-icon.amarelo { background: var(--amarelo-claro); border: 2px solid #fde68a; }
+.pipe-icon.wpp     { background: #dcfce7;              border: 2px solid #86efac; }
+
+.pipe-label { font-size: 0.68rem; font-weight: 800; text-align: center; color: #6b7280; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.pipe-arrow {
+  font-size: 1.2rem; color: #d1d5db; flex-shrink: 0; padding: 0 0.25rem;
+  align-self: flex-start; margin-top: 1.1rem;
+}
+
+.db-config-box {
+  background: #f8fafc; border: 2px dashed #cbd5e1;
+  border-radius: 12px; padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.db-config-box h4 { font-size: 0.85rem; font-weight: 800; color: #475569; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.db-config-box p  { font-size: 0.8rem; color: #64748b; line-height: 1.6; margin-bottom: 0.5rem; }
+.db-config-box code { background: #e2e8f0; padding: 0.1rem 0.4rem; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: #1e40af; }
+
+.wpp-container {
+  background: #e5ddd5;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c2bab0' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  border-radius: 14px; padding: 1.25rem;
+  border: 1px solid #c8c0b8; margin-top: 1.25rem;
+}
+
+.wpp-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 1rem; font-weight: 800; color: var(--wpp-dark);
+  font-size: 0.9rem;
+}
+
+.wpp-balao {
+  background: white; padding: 0.85rem 1rem;
+  border-radius: 0 12px 12px 12px;
+  max-width: 88%; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: 'Nunito', sans-serif; color: #111;
+  line-height: 1.6; white-space: pre-wrap; font-size: 0.875rem;
+  position: relative;
+}
+.wpp-balao::before {
+  content: ''; position: absolute; top: 0; left: -9px;
+  border: 8px solid transparent; border-right-color: white;
+  border-top: 0; border-left: 0;
+}
+.wpp-balao .wpp-time {
+  display: block; text-align: right; font-size: 0.68rem;
+  color: #8696a0; margin-top: 0.4rem;
+}
+
+/* ══════════════════════════════════
+   BOTÕES DE AÇÃO
+══════════════════════════════════ */
+.acoes-wrap { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+
+.btn-salvar {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, #1a7a4a, #22c55e);
+  color: white; border: none; padding: 0.7rem 1.5rem;
+  border-radius: 10px; font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem; font-weight: 800; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 4px 15px rgba(26,122,74,0.3);
+}
+.btn-salvar:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,122,74,0.4); }
+
+.btn-calcular {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white; border: none; padding: 0.7rem 1.5rem;
+  border-radius: 10px; font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem; font-weight: 800; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 4px 15px rgba(124,58,237,0.3);
+}
+.btn-calcular:hover { transform: translateY(-1px); }
+
+.btn-wpp {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--wpp-green); color: white; border: none;
+  padding: 0.65rem 1.25rem; border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+  font-weight: 800; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(37,211,102,0.3);
+}
+.btn-wpp:hover { background: #1fb855; transform: translateY(-1px); }
+
+/* ══════════════════════════════════
+   BOTÃO PDF
+══════════════════════════════════ */
+.btn-pdf {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: linear-gradient(135deg, #b91c1c, #ef4444);
+  color: white; border: none; padding: 0.65rem 1.25rem;
+  border-radius: 10px; font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem; font-weight: 800; cursor: pointer;
+  transition: all 0.2s; box-shadow: 0 4px 15px rgba(185,28,28,0.3);
+}
+.btn-pdf:hover { background: linear-gradient(135deg, #991b1b, #dc2626); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(185,28,28,0.4); }
+.btn-pdf:active { transform: translateY(0); }
+
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  padding: 0.8rem 1.25rem; border-radius: 12px;
+  font-weight: 700; font-size: 0.875rem; color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 9999; display: none;
+  animation: toast-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes toast-in { from{transform:translateY(60px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+.toast.verde   { background: #1a7a4a; }
+.toast.amarelo { background: #b45309; }
+.toast.vermelho{ background: #dc2626; }
+
+.tabela-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--borda); }
+.tabela-agendamentos {
+  width: 100%; border-collapse: collapse; font-size: 0.82rem;
+}
+.tabela-agendamentos th {
+  background: #f8fafc; padding: 0.6rem 0.85rem;
+  font-weight: 800; text-transform: uppercase; font-size: 0.68rem;
+  letter-spacing: 0.5px; color: #6b7280; border-bottom: 1px solid var(--borda);
+  text-align: left;
+}
+.tabela-agendamentos td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--borda); }
+.tabela-agendamentos tr:last-child td { border-bottom: none; }
+.tabela-agendamentos tr:hover td { background: var(--cinza-claro); }
+
+.badge {
+  display: inline-block; padding: 0.15rem 0.6rem;
+  border-radius: 20px; font-size: 0.7rem; font-weight: 800;
+}
+.badge.verde    { background: var(--verde-claro);    color: var(--verde); }
+.badge.amarelo  { background: var(--amarelo-claro);  color: #92400e; }
+.badge.vermelho { background: var(--vermelho-claro); color: #991b1b; }
+.badge.enviado  { background: #dcfce7; color: #166534; }
+.badge.pendente { background: #fef3c7; color: #92400e; }
+
+/* ══════════════════════════════════
+   ESTILOS DE IMPRESSÃO / PDF
+══════════════════════════════════ */
+@media print {
+  /* Oculta elementos desnecessários */
+  #tela-login,
+  .site-header,
+  .btn-calcular,
+  .btn-salvar,
+  .btn-wpp,
+  .btn-pdf,
+  .btn-sair,
+  .acoes-wrap,
+  .wpp-container,
+  .db-config-box,
+  .pipeline,
+  .tabela-wrap,
+  [style*="margin-top:2rem"],
+  button { display: none !important; }
+
+  body {
+    background: white !important;
+    font-size: 11pt;
+    color: #000 !important;
+  }
+
+  .main-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Cabeçalho do PDF */
+  .pdf-header {
+    display: block !important;
+    text-align: center;
+    border-bottom: 3px solid #1a7a4a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .pdf-header h1 {
+    font-size: 15pt; font-weight: 900; color: #1a7a4a;
+  }
+  .pdf-header p {
+    font-size: 9pt; color: #555; margin-top: 3px;
+  }
+  .pdf-header .pdf-meta {
+    display: flex; justify-content: center; gap: 2rem;
+    margin-top: 8px; font-size: 8pt; color: #666;
+  }
+
+  /* Rodapé do PDF */
+  .pdf-footer {
+    display: block !important;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 8px;
+    font-size: 8pt;
+    color: #888;
+  }
+
+  /* Seções */
+  .secao {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    border-radius: 6px !important;
+    margin-bottom: 10px !important;
+    page-break-inside: avoid;
+  }
+  .secao:hover { box-shadow: none !important; }
+
+  .secao-titulo {
+    padding: 6px 12px !important;
+    font-size: 9pt !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .secao-corpo { padding: 10px 12px !important; }
+
+  /* Grids */
+  .grid-2, .grid-3, .grid-4 {
+    display: grid !important;
+    gap: 6px !important;
+  }
+  .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr !important; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr !important; }
+  .grid-2 { grid-template-columns: 1fr 1fr !important; }
+
+  /* Campos */
+  .campo label {
+    font-size: 7pt !important;
+    color: #555 !important;
+  }
+  .campo input, .campo select {
+    border: 1px solid #bbb !important;
+    border-radius: 4px !important;
+    padding: 3px 6px !important;
+    font-size: 9pt !important;
+    background: white !important;
+  }
+
+  /* Checkboxes */
+  .check-item {
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    border: 1px solid #ddd !important;
+    font-size: 8.5pt !important;
+  }
+  .check-item.marcado-alto {
+    background: #fee2e2 !important;
+    border-color: #dc2626 !important;
+    color: #991b1b !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .check-item.marcado-inter {
+    background: #fef3c7 !important;
+    border-color: #d97706 !important;
+    color: #92400e !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Painel de resultado */
+  .painel-resultado {
+    border-radius: 6px !important;
+    padding: 10px 14px !important;
+    font-size: 11pt !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .res-habitual     { background: #e8f5ee !important; color: #1a7a4a !important; }
+  .res-intermediario{ background: #fef3c7 !important; color: #92400e !important; }
+  .res-alto         { background: #fee2e2 !important; color: #991b1b !important; }
+
+  /* Campo retorno destaque */
+  #data_retorno {
+    font-weight: 900 !important;
+    font-size: 11pt !important;
+    color: #166534 !important;
+    background: #f0fdf4 !important;
+    border-color: #86efac !important;
+  }
+
+  /* Assinatura */
+  .pdf-assinatura {
+    display: block !important;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .pdf-assinatura-linha {
+    border-top: 1px solid #555;
+    padding-top: 4px;
+    font-size: 8pt;
+    color: #555;
+    text-align: center;
+  }
+}
+
+/* Oculta elementos exclusivos do PDF na tela normal */
+.pdf-header,
+.pdf-footer,
+.pdf-assinatura { display: none; }
+
+@media (max-width:640px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .pipeline { gap: 0; }
+  .pipe-step { min-width: 70px; }
+  .header-right .firebase-status { display: none; }
+  .acoes-wrap { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════
+     TELA DE LOGIN
+══════════════════════════════════ -->
+<div id="tela-login">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">👶</div>
+      <div class="login-logo-text">
+        <strong>Sistema APS Criança</strong>
+        <span>SES Maranhão · Estratificação 0–5 anos</span>
+      </div>
+    </div>
+    <div class="login-divider"></div>
+    <div class="erro-login" id="erro-login">Usuário ou senha incorretos.</div>
+    <div class="campo-login">
+      <label>Usuário</label>
+      <input type="text" id="usuario" value="admin" placeholder="Digite seu usuário" onkeydown="if(event.key==='Enter')realizarLogin()">
+    </div>
+    <div class="campo-login">
+      <label>Senha</label>
+      <input type="password" id="senha" value="sus123" placeholder="Digite sua senha" onkeydown="if(event.key==='Enter')realizarLogin()">
+    </div>
+    <button class="btn-login" onclick="realizarLogin()">Entrar no Sistema →</button>
+    <p class="login-hint">Acesso demo: usuário <code>admin</code> / senha <code>sus123</code></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     TELA PRINCIPAL
+══════════════════════════════════ -->
+<div id="tela-principal">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-brand">
+      <div class="header-brand-icon">👶</div>
+      <div class="header-brand-text">
+        <strong>Estratificação de Risco da Criança (0–5 anos)</strong>
+        <span>SES Maranhão · Sistema de Resposta APS</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="firebase-status" id="fb-status-badge">
+        <div class="firebase-dot amarelo"></div>
+        <span>Modo Local</span>
+      </div>
+      <div class="header-user" id="header-usuario">🩺 Enfermeira</div>
+      <button class="btn-sair" onclick="sair()">✕ Sair</button>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- CABEÇALHO EXCLUSIVO DO PDF -->
+    <div class="pdf-header">
+      <h1>👶 Ficha de Estratificação de Risco da Criança (0–5 anos)</h1>
+      <p>Secretaria de Estado da Saúde do Maranhão — Sistema de Resposta APS</p>
+      <div class="pdf-meta">
+        <span id="pdf-meta-data"></span>
+        <span id="pdf-meta-usuario"></span>
+        <span id="pdf-meta-ubs"></span>
+      </div>
+    </div>
+
+    <!-- ── IDENTIFICAÇÃO ── -->
+    <div class="secao">
+      <div class="secao-titulo identificacao">👤 Identificação</div>
+      <div class="secao-corpo">
+        <div class="grid-2" style="margin-bottom:0.75rem">
+          <div class="campo"><label>Nome da Criança</label><input type="text" id="nome_crianca" placeholder="Nome completo"></div>
+          <div class="campo"><label>Nome da Mãe</label><input type="text" id="nome_mae" placeholder="Nome completo da mãe"></div>
+        </div>
+        <div class="grid-4" style="margin-bottom:0.75rem">
+          <div class="campo"><label>CNS</label><input type="text" id="cns" placeholder="000 0000 0000 0000"></div>
+          <div class="campo"><label>Prontuário</label><input type="text" id="prontuario"></div>
+          <div class="campo"><label>Data de Nascimento</label><input type="date" id="data_nascimento" onchange="calcularEstrategicacao()"></div>
+          <div class="campo"><label>Celular/WhatsApp da Mãe</label><input type="tel" id="celular_mae" placeholder="Ex: 98991234567"></div>
+        </div>
+        <div class="grid-3">
+          <div class="campo"><label>UBS</label><input type="text" id="ubs" placeholder="Nome da UBS"></div>
+          <div class="campo"><label>Microárea</label><input type="text" id="microarea"></div>
+          <div class="campo"><label>Enfermeira Responsável</label><input type="text" id="enfermeira_campo" placeholder="Nome da enfermeira" readonly style="background:#f9fafb"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CLASSIFICAÇÃO AO NASCER ── -->
+    <div class="secao">
+      <div class="secao-titulo neonatal">👶 Classificação ao Nascer</div>
+      <div class="secao-corpo">
+        <div class="grid-3">
+          <div class="campo">
+            <label>Peso ao Nascer</label>
+            <select id="peso_nascer" onchange="calcularEstrategicacao()">
+              <option value="adequado">Adequado (2500g – 4500g)</option>
+              <option value="baixo">Baixo peso (&lt; 2500g)</option>
+              <option value="muito_baixo">Muito baixo peso (&lt; 1500g)</option>
+              <option value="extremo_baixo">Extremo baixo peso (&lt; 1000g)</option>
+              <option value="excessivo">Peso excessivo (&gt; 4500g)</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Idade Gestacional</label>
+            <select id="idade_gestacional" onchange="calcularEstrategicacao()">
+              <option value="termo_completo">Termo completo (39–41 sem)</option>
+              <option value="termo_precoce">Termo precoce (37–38 sem)</option>
+              <option value="pre_termo_tardio">Pré-termo tardio (34–36 sem)</option>
+              <option value="pre_termo_mod">Pré-termo moderado (32–33 sem)</option>
+              <option value="muito_prematuro">Muito prematuro (28–31 sem)</option>
+              <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
+              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Proporcionalidade</label>
+            <select id="proporcionalidade">
+              <option value="AIG">Adequado para IG (AIG)</option>
+              <option value="PIG">Pequeno para IG (PIG)</option>
+              <option value="GIG">Grande para IG (GIG)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RISCO ALTO ── -->
+    <div class="secao">
+      <div class="secao-titulo alto">🔴 Fatores de Risco ALTO</div>
+      <div class="secao-corpo">
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Crescimento fora dos limites padronizados / Desenvolvimento insatisfatório</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Sinais de violência física, sexual ou psicológica</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Apgar ≤ 6 no quinto minuto</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Asfixia perinatal ou malformações congênitas graves</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Infecções crônicas confirmadas/em investigação (Grupo ZTORCHS)</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-alto" onchange="marcaItem(this,'marcado-alto')"><span>Internação hospitalar nos últimos 12 meses</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RISCO INTERMEDIÁRIO ── -->
+    <div class="secao">
+      <div class="secao-titulo intermediario">🟡 Fatores de Risco INTERMEDIÁRIO</div>
+      <div class="secao-corpo">
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Mãe com pré-natal incompleto (&lt; 6 consultas)</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Desmame precoce (aleitamento exclusivo &lt; 6 meses)</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Criança não vacinada ou esquema vacinal atrasado</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Não comparecimento à agenda de acompanhamento</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Mãe adolescente ou com baixa escolaridade (&lt; 5 anos de estudo)</span></label>
+          <label class="check-item"><input type="checkbox" class="chk-inter" onchange="marcaItem(this,'marcado-inter')"><span>Vulnerabilidade socioeconômica / Condições desfavoráveis</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AUTOMAÇÃO ── -->
+    <div class="secao">
+      <div class="secao-titulo automacao">⚙️ Automação e Notificação de Retorno</div>
+      <div class="secao-corpo">
+
+        <div class="pipeline">
+          <div class="pipe-step">
+            <div class="pipe-icon azul">📋</div>
+            <div class="pipe-label">Ficha<br>Preenchida</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-icon roxo">🗄️</div>
+            <div class="pipe-label">Salvo no<br>Firebase</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-icon amarelo">🤖</div>
+            <div class="pipe-label">Robô checa<br>a cada hora</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-icon verde">📅</div>
+            <div class="pipe-label">Encontra<br>retorno hoje</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-step">
+            <div class="pipe-icon wpp">💬</div>
+            <div class="pipe-label">Dispara<br>WhatsApp</div>
+          </div>
+        </div>
+
+        <div class="db-config-box">
+          <h4>🔥 Configuração do Banco de Dados (Firebase — Gratuito)</h4>
+          <p>Para ativar o banco de dados online e o robô de disparo automático, siga 3 passos:</p>
+          <p><strong>1.</strong> Acesse <code>console.firebase.google.com</code> → Crie um projeto gratuito (plano Spark)</p>
+          <p><strong>2.</strong> Vá em <strong>Firestore Database → Criar banco de dados</strong> (modo teste, 30 dias gratuitos)</p>
+          <p><strong>3.</strong> Em <strong>Configurações do Projeto → Seus apps → Web</strong>, copie o <code>firebaseConfig</code> e cole no início deste arquivo HTML</p>
+          <p style="margin-top:0.5rem; color:#7c3aed; font-weight:700">🤖 Robô de disparo: após configurar o Firebase, utilize o <strong>Google Apps Script</strong> (gratuito) com um gatilho por tempo (a cada 1h) para checar o Firestore e enviar via API do WhatsApp Business ou CallMeBot.</p>
+        </div>
+
+        <div id="painel_resultado" class="painel-resultado res-habitual">
+          <div class="res-icon">🟢</div>
+          <div class="res-text">
+            <span>Classificação: RISCO HABITUAL</span>
+            <small>Rotina padrão de crescimento e desenvolvimento</small>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:1rem">
+          <div class="campo">
+            <label>Data da Consulta Atual</label>
+            <input type="date" id="data_atual" onchange="calcularEstrategicacao()">
+          </div>
+          <div class="campo">
+            <label>Data do Retorno Calculada Automaticamente</label>
+            <input type="date" id="data_retorno" readonly style="background:#f0fdf4;font-weight:800;color:#166534;font-size:1rem;border-color:#86efac">
+          </div>
+        </div>
+
+        <div class="wpp-container">
+          <div class="wpp-header">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="var(--wpp-dark)"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93a7.897 7.897 0 0 0-2.327-5.645zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.69-4.98c-.202-.101-1.194-.588-1.378-.653-.185-.066-.32-.099-.455.101-.134.2-.522.653-.64 1.293-.117.641-.235.705-.437.604-.202-.102-.85-.313-1.62-.999-.599-.534-1.004-1.195-1.122-1.397-.117-.202-.012-.311.089-.412.09-.09.202-.235.303-.353.101-.117.134-.199.202-.331.066-.134.033-.253-.017-.354-.05-.101-.455-1.096-.623-1.498-.164-.397-.32-.343-.455-.35-.13-.006-.278-.007-.424-.007-.147 0-.386.054-.588.274-.202.221-.773.755-.773 1.84 0 1.085.792 2.135.903 2.286.113.15 1.559 2.38 3.778 3.337.528.228.941.364 1.265.467.53.169.982.144 1.348.09.408-.06 1.194-.488 1.362-.958.168-.47.168-.872.118-.957-.05-.084-.185-.134-.387-.235z"/></svg>
+            Pré-visualização da Mensagem Automática (WhatsApp)
+          </div>
+          <div class="wpp-balao" id="wpp_texto">
+Olá! Aqui é a UBS. A consulta foi realizada. Retorno agendado para --/--/----. Contamos com sua presença! 👶💚
+            <span class="wpp-time" id="wpp_hora">09:41 ✓✓</span>
+          </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div class="acoes-wrap">
+          <button class="btn-calcular" onclick="calcularEstrategicacao()">
+            🔄 Processar Estratificação
+          </button>
+          <button class="btn-salvar" onclick="salvarNoBancoDeDados()">
+            💾 Salvar no Banco de Dados
+          </button>
+          <button class="btn-wpp" onclick="dispararWhatsApp()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93a7.897 7.897 0 0 0-2.327-5.645zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.69-4.98c-.202-.101-1.194-.588-1.378-.653-.185-.066-.32-.099-.455.101-.134.2-.522.653-.64 1.293-.117.641-.235.705-.437.604-.202-.102-.85-.313-1.62-.999-.599-.534-1.004-1.195-1.122-1.397-.117-.202-.012-.311.089-.412.09-.09.202-.235.303-.353.101-.117.134-.199.202-.331.066-.134.033-.253-.017-.354-.05-.101-.455-1.096-.623-1.498-.164-.397-.32-.343-.455-.35-.13-.006-.278-.007-.424-.007-.147 0-.386.054-.588.274-.202.221-.773.755-.773 1.84 0 1.085.792 2.135.903 2.286.113.15 1.559 2.38 3.778 3.337.528.228.941.364 1.265.467.53.169.982.144 1.348.09.408-.06 1.194-.488 1.362-.958.168-.47.168-.872.118-.957-.05-.084-.185-.134-.387-.235z"/></svg>
+            Enviar WhatsApp
+          </button>
+          <button class="btn-pdf" onclick="salvarComoPDF()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10,9 9,9 8,9"/>
+            </svg>
+            Salvar como PDF
+          </button>
+        </div>
+
+        <!-- Assinatura exclusiva do PDF -->
+        <div class="pdf-assinatura">
+          <div class="pdf-assinatura-linha">Assinatura da Enfermeira Responsável</div>
+          <div class="pdf-assinatura-linha">Carimbo / Matrícula</div>
+        </div>
+
+        <!-- RODAPÉ EXCLUSIVO DO PDF -->
+        <div class="pdf-footer">
+          <p>Documento gerado pelo Sistema APS Criança — SES Maranhão &nbsp;|&nbsp; <span id="pdf-footer-data"></span></p>
+          <p style="margin-top:4px">Este documento é sigiloso e de uso exclusivo da equipe de saúde. Classificação: Estratificação de Risco (0–5 anos)</p>
+        </div>
+
+        <!-- TABELA DE AGENDAMENTOS SALVOS -->
+        <div style="margin-top:2rem">
+          <h4 style="font-size:0.85rem;font-weight:800;color:#374151;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
+            📋 Agendamentos Salvos
+            <button onclick="carregarAgendamentos()" style="background:var(--cinza-claro);border:1px solid var(--borda);padding:0.2rem 0.6rem;border-radius:6px;cursor:pointer;font-size:0.72rem;font-weight:700;font-family:'Nunito',sans-serif;">↻ Atualizar</button>
+          </h4>
+          <div class="tabela-wrap">
+            <table class="tabela-agendamentos">
+              <thead>
+                <tr>
+                  <th>Criança</th><th>Mãe</th><th>Telefone</th>
+                  <th>Risco</th><th>Retorno</th><th>WhatsApp</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-corpo">
+                <tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:1.5rem;">
+                  Nenhum registro salvo. Configure o Firebase para persistir os dados.
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- fim container -->
+</div><!-- fim tela-principal -->
+
+<script>
+// ─────────────────────────────────────────────
+// ESTADO GLOBAL
+// ─────────────────────────────────────────────
+let usuarioLogado = '';
+let riscoAtual = 'HABITUAL';
+let agendamentosLocais = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+
+// ─────────────────────────────────────────────
+// INICIALIZAÇÃO
+// ─────────────────────────────────────────────
+window.addEventListener('load', () => {
+  document.getElementById('data_atual').valueAsDate = new Date();
+  atualizarStatusFirebase();
+  calcularEstrategicacao();
+  atualizarHoraWpp();
+});
+
+function atualizarStatusFirebase() {
+  const badge = document.getElementById('fb-status-badge');
+  if (window._firebaseOk) {
+    badge.className = 'firebase-status ok';
+    badge.innerHTML = '<div class="firebase-dot verde"></div><span>Firebase Online</span>';
+  } else {
+    badge.className = 'firebase-status off';
+    badge.innerHTML = '<div class="firebase-dot amarelo"></div><span>Modo Local</span>';
+  }
+}
+
+function atualizarHoraWpp() {
+  const agora = new Date();
+  const h = String(agora.getHours()).padStart(2,'0');
+  const m = String(agora.getMinutes()).padStart(2,'0');
+  const el = document.getElementById('wpp_hora');
+  if (el) el.textContent = `${h}:${m} ✓✓`;
+}
+
+// ─────────────────────────────────────────────
+// LOGIN
+// ─────────────────────────────────────────────
+function realizarLogin() {
+  const user = document.getElementById('usuario').value.trim();
+  const senha = document.getElementById('senha').value.trim();
+  const erroEl = document.getElementById('erro-login');
+
+  const usuarios = { admin:'sus123', enfermeira:'aps2024', gestor:'ses123' };
+  const nomes = { admin:'Enfª. Admin', enfermeira:'Enfª. Maria Silva', gestor:'Gestor(a) SES' };
+
+  if (usuarios[user] && usuarios[user] === senha) {
+    usuarioLogado = nomes[user] || user;
+    erroEl.style.display = 'none';
+    document.getElementById('tela-login').style.display = 'none';
+    document.getElementById('tela-principal').style.display = 'block';
+    document.getElementById('header-usuario').textContent = '🩺 ' + usuarioLogado;
+    document.getElementById('enfermeira_campo').value = usuarioLogado;
+    calcularEstrategicacao();
+    carregarAgendamentos();
+    atualizarStatusFirebase();
+  } else {
+    erroEl.style.display = 'block';
+    setTimeout(() => erroEl.style.display = 'none', 3000);
+  }
+}
+
+function sair() {
+  if (confirm('Deseja sair do sistema?')) {
+    document.getElementById('tela-principal').style.display = 'none';
+    document.getElementById('tela-login').style.display = 'flex';
+    usuarioLogado = '';
+  }
+}
+
+// ─────────────────────────────────────────────
+// CHECKBOXES
+// ─────────────────────────────────────────────
+function marcaItem(cb, classe) {
+  const label = cb.parentElement;
+  if (cb.checked) label.classList.add(classe);
+  else label.classList.remove(classe);
+  calcularEstrategicacao();
+}
+
+// ─────────────────────────────────────────────
+// ESTRATIFICAÇÃO DE RISCO
+// ─────────────────────────────────────────────
+function calcularEstrategicacao() {
+  const pesoNascer = document.getElementById('peso_nascer').value;
+  const idadeGest  = document.getElementById('idade_gestacional').value;
+  const temAlto    = document.querySelectorAll('.chk-alto:checked').length > 0;
+  const temInter   = document.querySelectorAll('.chk-inter:checked').length > 0;
+
+  let diasRetorno = 30;
+
+  if (temAlto
+    || pesoNascer === 'muito_baixo'
+    || pesoNascer === 'extremo_baixo'
+    || idadeGest === 'extremo_prematuro'
+    || idadeGest === 'muito_prematuro'
+    || idadeGest === 'pre_termo_mod') {
+    riscoAtual = 'ALTO'; diasRetorno = 7;
+  } else if (temInter
+    || pesoNascer === 'baixo'
+    || pesoNascer === 'excessivo'
+    || idadeGest === 'termo_precoce'
+    || idadeGest === 'pre_termo_tardio'
+    || idadeGest === 'pos_termo') {
+    riscoAtual = 'INTERMEDIÁRIO'; diasRetorno = 15;
+  } else {
+    riscoAtual = 'HABITUAL'; diasRetorno = 30;
+  }
+
+  const painel = document.getElementById('painel_resultado');
+  const configs = {
+    'HABITUAL':      { cls:'res-habitual',      icon:'🟢', titulo:'Classificação: RISCO HABITUAL',      sub:'Rotina padrão de crescimento e desenvolvimento' },
+    'INTERMEDIÁRIO': { cls:'res-intermediario', icon:'🟡', titulo:'Classificação: RISCO INTERMEDIÁRIO', sub:'Acompanhamento estratégico na UBS (retorno em 15 dias)' },
+    'ALTO':          { cls:'res-alto',           icon:'🔴', titulo:'Classificação: ALTO RISCO',          sub:'Encaminhar ao ambulatório especializado + monitoramento APS (retorno em 7 dias)' }
+  };
+  const cfg = configs[riscoAtual];
+  painel.className = 'painel-resultado ' + cfg.cls;
+  painel.innerHTML = `<div class="res-icon">${cfg.icon}</div><div class="res-text"><span>${cfg.titulo}</span><small>${cfg.sub}</small></div>`;
+
+  const dataAtualStr = document.getElementById('data_atual').value;
+  if (dataAtualStr) {
+    const base = new Date(dataAtualStr + 'T12:00:00');
+    base.setDate(base.getDate() + diasRetorno);
+    const yy = base.getFullYear();
+    const mm = String(base.getMonth()+1).padStart(2,'0');
+    const dd = String(base.getDate()).padStart(2,'0');
+    document.getElementById('data_retorno').value = `${yy}-${mm}-${dd}`;
+    atualizarMensagemWpp(dd, mm, yy);
+  }
+}
+
+// ─────────────────────────────────────────────
+// MENSAGEM WHATSAPP
+// ─────────────────────────────────────────────
+function atualizarMensagemWpp(dd, mm, yy) {
+  const mae    = document.getElementById('nome_mae').value    || '[Nome da Mãe]';
+  const crianca= document.getElementById('nome_crianca').value|| '[Nome da Criança]';
+  const ubs    = document.getElementById('ubs').value         || '[UBS]';
+  const data   = `${dd}/${mm}/${yy}`;
+
+  const extras = {
+    'ALTO':
+      '*⚠️ Atenção:* A criança foi classificada em ALTO RISCO. O retorno em 7 dias é fundamental para garantir sua saúde e segurança. Caso observe qualquer piora, procure a unidade imediatamente.',
+    'INTERMEDIÁRIO':
+      '*📌 Nota:* O acompanhamento preventivo é importante para monitorar o ganho de peso, vacinas e desenvolvimento.',
+    'HABITUAL': ''
+  };
+
+  const msg =
+`Olá, Sra. *${mae}*! 👋
+Aqui é o assistente virtual da *${ubs}*.
+
+A avaliação de saúde e estratificação de risco do(a) pequeno(a) *${crianca}* foi concluída com sucesso! ✅
+
+📅 *Próxima consulta de retorno confirmada:*
+🗓️ *Data:* ${data}
+⏰ *Horário:* Turno matutino — por ordem de chegada
+
+${extras[riscoAtual]}
+
+Não esqueça de trazer a *Caderneta de Vacinação*! 💉
+Em caso de dúvidas ou necessidade de remarcar, entre em contato com a unidade com antecedência.
+
+👶💚 *Cuidando juntos da saúde da criança!*`;
+
+  document.getElementById('wpp_texto').innerHTML =
+    msg.replace(/\*(.*?)\*/g, '<strong>$1</strong>') +
+    `<span class="wpp-time" id="wpp_hora">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} ✓✓</span>`;
+}
+
+// ─────────────────────────────────────────────
+// SALVAR NO BANCO DE DADOS
+// ─────────────────────────────────────────────
+async function salvarNoBancoDeDados() {
+  calcularEstrategicacao();
+
+  const registro = {
+    nomeCrianca:     document.getElementById('nome_crianca').value,
+    nomeMae:         document.getElementById('nome_mae').value,
+    cns:             document.getElementById('cns').value,
+    prontuario:      document.getElementById('prontuario').value,
+    dataNascimento:  document.getElementById('data_nascimento').value,
+    celularMae:      document.getElementById('celular_mae').value,
+    ubs:             document.getElementById('ubs').value,
+    microarea:       document.getElementById('microarea').value,
+    enfermeira:      usuarioLogado,
+    pesoNascer:      document.getElementById('peso_nascer').value,
+    idadeGestacional:document.getElementById('idade_gestacional').value,
+    proporcionalidade:document.getElementById('proporcionalidade').value,
+    risco:           riscoAtual,
+    dataConsulta:    document.getElementById('data_atual').value,
+    dataRetorno:     document.getElementById('data_retorno').value,
+    statusWhatsApp:  'PENDENTE',
+    criadoEm:        new Date().toISOString(),
+    id:              'REG-' + Date.now()
+  };
+
+  if (!registro.nomeCrianca || !registro.nomeMae) {
+    mostrarToast('⚠️ Preencha ao menos o nome da criança e da mãe!', 'amarelo');
+    return;
+  }
+
+  if (window._firebaseOk && window._db) {
+    try {
+      const fns = window._fbFns;
+      await fns.addDoc(fns.collection(window._db, 'agendamentos'), registro);
+      mostrarToast('✅ Salvo no Firebase! Robô irá verificar e disparar no dia do retorno.', 'verde');
+    } catch(e) {
+      console.error(e);
+      mostrarToast('⚠️ Erro no Firebase. Salvo localmente.', 'amarelo');
+      salvarLocal(registro);
+    }
+  } else {
+    salvarLocal(registro);
+    mostrarToast('💾 Salvo localmente (configure o Firebase para persistência online).', 'amarelo');
+  }
+
+  carregarAgendamentos();
+}
+
+function salvarLocal(reg) {
+  agendamentosLocais.push(reg);
+  localStorage.setItem('agendamentos', JSON.stringify(agendamentosLocais));
+}
+
+// ─────────────────────────────────────────────
+// CARREGAR AGENDAMENTOS
+// ─────────────────────────────────────────────
+async function carregarAgendamentos() {
+  const tbody = document.getElementById('tabela-corpo');
+  let registros = [];
+
+  if (window._firebaseOk && window._db) {
+    try {
+      const fns = window._fbFns;
+      const snap = await fns.getDocs(fns.collection(window._db, 'agendamentos'));
+      snap.forEach(d => registros.push({ ...d.data(), _docId: d.id }));
+    } catch(e) {
+      registros = [...agendamentosLocais];
+    }
+  } else {
+    registros = [...agendamentosLocais];
+  }
+
+  if (registros.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:1.5rem;">Nenhum agendamento salvo ainda.</td></tr>';
+    return;
+  }
+
+  registros.sort((a,b) => (a.dataRetorno||'').localeCompare(b.dataRetorno||''));
+
+  const hoje = new Date().toISOString().split('T')[0];
+
+  tbody.innerHTML = registros.map(r => {
+    const riscoClass = { ALTO:'vermelho', INTERMEDIÁRIO:'amarelo', HABITUAL:'verde' }[r.risco] || 'verde';
+    const retornoFormatado = r.dataRetorno ? r.dataRetorno.split('-').reverse().join('/') : '—';
+    const ehHoje = r.dataRetorno === hoje;
+    const statusWpp = r.statusWhatsApp === 'ENVIADO'
+      ? '<span class="badge enviado">✓ Enviado</span>'
+      : (ehHoje
+          ? '<span class="badge amarelo">📤 Hoje!</span>'
+          : '<span class="badge pendente">⏳ Pendente</span>');
+
+    return `<tr>
+      <td><strong>${r.nomeCrianca || '—'}</strong></td>
+      <td>${r.nomeMae || '—'}</td>
+      <td><a href="https://wa.me/55${(r.celularMae||'').replace(/\D/g,'')}" target="_blank" style="color:var(--wpp-dark);text-decoration:none;">${r.celularMae || '—'}</a></td>
+      <td><span class="badge ${riscoClass}">${r.risco || '—'}</span></td>
+      <td style="${ehHoje ? 'font-weight:800;color:var(--verde)' : ''}">${retornoFormatado}</td>
+      <td>${statusWpp}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// DISPARAR WHATSAPP (manual)
+// ─────────────────────────────────────────────
+function dispararWhatsApp() {
+  const fone = document.getElementById('celular_mae').value;
+  if (!fone) { mostrarToast('⚠️ Informe o número de WhatsApp da mãe!', 'amarelo'); return; }
+  const foneLimpo = fone.replace(/\D/g, '');
+  const texto = document.getElementById('wpp_texto').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${foneLimpo}&text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+// ─────────────────────────────────────────────
+// SALVAR COMO PDF
+// ─────────────────────────────────────────────
+function salvarComoPDF() {
+  // Garante que a estratificação está atualizada
+  calcularEstrategicacao();
+
+  // Preenche metadados do cabeçalho do PDF
+  const agora = new Date();
+  const dataFormatada = agora.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+  const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+
+  const nomeCrianca = document.getElementById('nome_crianca').value || 'Não informado';
+  const ubs = document.getElementById('ubs').value || 'Não informada';
+
+  const metaData = document.getElementById('pdf-meta-data');
+  const metaUser = document.getElementById('pdf-meta-usuario');
+  const metaUbs  = document.getElementById('pdf-meta-ubs');
+  const footerData = document.getElementById('pdf-footer-data');
+
+  if (metaData)  metaData.textContent  = `📅 Emitido em: ${dataFormatada} às ${horaFormatada}`;
+  if (metaUser)  metaUser.textContent  = `👤 Responsável: ${usuarioLogado || 'Não identificado'}`;
+  if (metaUbs)   metaUbs.textContent   = `🏥 UBS: ${ubs}`;
+  if (footerData) footerData.textContent = `Emitido em ${dataFormatada} às ${horaFormatada}`;
+
+  // Define o título da janela de impressão (será o nome sugerido do arquivo)
+  const tituloOriginal = document.title;
+  document.title = `Estratificacao_Risco_${nomeCrianca.replace(/\s+/g,'_')}_${agora.toISOString().split('T')[0]}`;
+
+  // Abre o diálogo de impressão (Ctrl+P → "Salvar como PDF")
+  window.print();
+
+  // Restaura o título após imprimir
+  setTimeout(() => { document.title = tituloOriginal; }, 1000);
+}
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+function mostrarToast(msg, tipo = 'verde') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${tipo}`;
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.display = 'none', 4000);
+}
+
+// ─────────────────────────────────────────────
+// ROBÔ LOCAL
+// ─────────────────────────────────────────────
+function roboVerificarRetornos() {
+  const hoje = new Date().toISOString().split('T')[0];
+  const pendentes = agendamentosLocais.filter(r =>
+    r.dataRetorno === hoje && r.statusWhatsApp !== 'ENVIADO' && r.celularMae
+  );
+  if (pendentes.length > 0) {
+    mostrarToast(`🤖 Robô: ${pendentes.length} retorno(s) para hoje! Acesse a tabela.`, 'verde');
+  }
+}
+
+setInterval(roboVerificarRetornos, 60 * 60 * 1000);
+setTimeout(roboVerificarRetornos, 2000);
+</script>
+
+</body>
+</html>
