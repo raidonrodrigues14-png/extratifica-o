@@ -1,0 +1,23 @@
+{
+  "name": "portal-aps-backend",
+  "version": "1.0.0",
+  "description": "API Serverless Portal APS - SES Maranhão",
+  "main": "api/index.js",
+  "scripts": {
+    "vercel-build": "npm install",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "sequelize": "^6.33.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
