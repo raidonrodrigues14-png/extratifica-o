@@ -9,24 +9,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-  --verde:         #1a6b40;
-  --verde-mid:     #22a05a;
-  --verde-claro:   #e6f4ed;
+  --verde:        #1a6b40;
+  --verde-mid:    #22a05a;
+  --verde-claro:  #e6f4ed;
   --verde-escuro: #0d3d25;
-  --amarelo:       #d97706;
-  --amarelo-cl:    #fef3c7;
-  --laranja:       #c2410c;
-  --laranja-cl:    #fff0e8;
-  --vermelho:      #b91c1c;
-  --vermelho-cl:   #fee2e2;
-  --azul:          #1e40af;
-  --azul-cl:       #eff6ff;
-  --cinza-100:     #f3f4f6;
-  --cinza-200:     #e5e7eb;
-  --cinza-500:     #6b7280;
-  --cinza-700:     #374151;
-  --cinza-900:     #111827;
-  --borda:         #e5e7eb;
+  --amarelo:      #d97706;
+  --amarelo-cl:   #fef3c7;
+  --laranja:      #c2410c;
+  --laranja-cl:   #fff0e8;
+  --vermelho:     #b91c1c;
+  --vermelho-cl:  #fee2e2;
+  --azul:         #1e40af;
+  --azul-cl:      #eff6ff;
+  --cinza-100:    #f3f4f6;
+  --cinza-200:    #e5e7eb;
+  --cinza-500:    #6b7280;
+  --cinza-700:    #374151;
+  --cinza-900:    #111827;
+  --borda:        #e5e7eb;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -845,49 +845,6 @@ body {
     </div>
   </div>
 </div>
-
-<script>
-// Função de validação de autenticação local temporária
-function fazerLogin() {
-  const usuarioInput = document.getElementById('login-user').value.trim();
-  const senhaInput = document.getElementById('login-senha').value.trim();
-  const painelErro = document.getElementById('login-erro');
-
-  // Oculta o erro caso ele já estivesse visível
-  painelErro.style.display = 'none';
-
-  // Validação exata das credenciais solicitadas
-  if (usuarioInput === 'enfermeira' && senhaInput === '123') {
-    // Esconde a tela de login
-    document.getElementById('tela-login').style.display = 'none';
-    // Exibe o painel/portal principal do sistema
-    document.getElementById('tela-portal').style.display = 'flex';
-  } else {
-    // Exibe a mensagem de erro com efeito de vibração
-    painelErro.style.display = 'block';
-    painelErro.style.animation = 'none';
-    setTimeout(() => {
-      painelErro.style.animation = 'shake 0.35s ease';
-    }, 10);
-  }
-}
-
-// Funções de navegação do Portal para os módulos
-function abrirModulo(modulo) {
-  document.getElementById('tela-portal').style.display = 'none';
-  if (modulo === 'gestante') {
-    document.getElementById('modulo-gestante').style.display = 'block';
-  } else if (modulo === 'crianca') {
-    // Altere aqui se tiver o id do elemento do módulo criança
-    alert('Módulo criança selecionado');
-  }
-}
-
-function voltarPortal() {
-  document.getElementById('modulo-gestante').style.display = 'none';
-  document.getElementById('tela-portal').style.display = 'flex';
-}
-</script>
 
 <script type="module" src="apicrianca.js"></script>
 
