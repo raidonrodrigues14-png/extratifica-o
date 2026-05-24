@@ -996,15 +996,129 @@ async function salvarEdicao() {
 // ══════════════════════════════════════
 //  EXCLUIR
 // ══════════════════════════════════════
-async function excluirRegistro(id) {
-  if (!confirm('Excluir este registro permanentemente?')) return;
+═════════════════════
+async function marcarWpp(id) {
   try {
-    const resp = await fetch(`/api/apicrianca?id=${id}`, { method: 'DELETE' });
-    if (resp.ok) { toast('🗑️ Registro excluído!'); await cCarregar(); }
-    else toast('❌ Erro ao excluir', 'warn');
+    const resp = await fetch(`/api/apicrianca?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ wpp: 'ENVIADO' })
+    });
+    if (resp.ok) { toast('✅ WhatsApp marcado como enviado!'); await cCarregar(); }
+    else toast('❌ Erro', 'warn');
   } catch (e) { toast('❌ Erro de conexão', 'warn'); }
 }
 
-// ══════════════════════════════════════
-//  MARCAR WHATSAPP
-// ════════════════════════════════
+async function verHistorico(id, nome) {
+  document.getElementById('historico-titulo').textContent = `📋 Histórico: ${nome}`;
+  document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
+  document.getElementById('modal-historico').classList.add('aberto');
+  try {
+    const resp = await fetch(`/api/apicrianca?id=${id}`);
+    const data = await resp.json();
+    if (data.success && data.data && data.data.length > 0) {
+      const r = data.data[0];
+      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
+      const criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '—';
+      document.getElementById('historico-conteudo').innerHTML = `
+        <div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">
+          <p><strong>Criança:</strong> ${r.crianca||'—'}</p>
+          <p><strong>Mãe:</strong> ${r.mae||'—'}</p>
+          <p><strong>Telefone:</strong> ${r.telefone||'—'}</p>
+          <p><strong>Risco:</strong> ${r.risco||'—'}</p>
+          <p><strong>Retorno:</strong> ${dt}</p>
+          <p><strong>WhatsApp:</strong> ${r.wpp||'—'}</p>
+          <p><strong>Cadastrado em:</strong> ${criado}</p>
+        </div>`;
+    } else {
+      document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
+    }
+  } catch (e) {
+    document.getElementById('historico-conteudo').innerHTML = '<p style="color:var(--vermelho)">Erro ao carregar.</p>';
+  }
+}
+
+function fecharHistorico() {
+  document.getElementById('modal-historico').classList.remove('aberto');
+}
+
+function cEnviarWpp() {
+  const fone = (document.getElementById('c-cel').value || '').replace(/\D/g,'');
+  if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!', 'warn'); return; }
+  const texto = document.getElementById('c-wpp').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${fone}&text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+function cNova() {
+  if (!confirm('Limpar formulário?')) return;
+  document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date]').forEach(i => i.value = '');
+  document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.c-check').className = 'c-check'; });
+  document.getElementById('c-data').valueAsDate = new Date();
+  document.getElementById('c-peso').value = 'adequado';
+  document.getElementById('c-ig').value = 'termo_completo';
+  cCalcular(); window.scrollTo(0, 0);
+}
+
+function toast(msg, tipo) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = tipo === 'warn' ? '#b45309' : '#1a6b40';
+  t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.style.display = 'none', 3800);
+}
+
+const USUARIOS_APS = { "enfermeira": "123" };
+let _tentativas = 0, _bloqueadoAte = 0;
+
+function fazerLogin() {
+  const agora = Date.now();
+  if (agora < _bloqueadoAte) { mostrarErroLogin('Bloqueado. Aguarde ' + Math.ceil((_bloqueadoAte-agora)/1000) + 's.'); return; }
+  const user  = (document.getElementById('login-user').value  || '').trim();
+  const senha = (document.getElementById('login-senha').value || '');
+  if (!user || !senha) { mostrarErroLogin('Preencha usuário e senha.'); return; }
+  const btn = document.getElementById('btn-login');
+  btn.classList.add('loading'); btn.textContent = 'Verificando...';
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.textContent = 'Entrar no Sistema →';
+    if (USUARIOS_APS[user] && USUARIOS_APS[user] === senha) {
+      _tentativas = 0;
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-senha').value = '';
+      document.getElementById('login-erro').style.display = 'none';
+      const card = document.querySelector('.login-card');
+      card.style.transition = 'transform 0.3s ease,opacity 0.3s ease';
+      card.style.transform = 'scale(0.95) translateY(-10px)';
+      card.style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('tela-login').style.display = 'none';
+        document.getElementById('tela-portal').style.display = 'flex';
+        document.getElementById('tela-portal').style.flexDirection = 'column';
+      }, 320);
+    } else {
+      _tentativas++;
+      document.getElementById('login-senha').value = '';
+      document.getElementById('login-senha').focus();
+      if (_tentativas >= 5) { _bloqueadoAte = Date.now() + 30000; _tentativas = 0; mostrarErroLogin('Bloqueado por 30 segundos.'); }
+      else mostrarErroLogin('Incorretos. (' + (5-_tentativas) + ' tentativas restantes)');
+    }
+  }, 500);
+}
+
+function mostrarErroLogin(msg) {
+  const el = document.getElementById('login-erro');
+  el.textContent = msg; el.style.display = 'block';
+  el.style.animation = 'none'; void el.offsetHeight; el.style.animation = '';
+  clearTimeout(el._t); el._t = setTimeout(() => el.style.display = 'none', 4500);
+}
+
+window.addEventListener('load', () => {
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-senha').value = '';
+  document.getElementById('login-user').focus();
+  const c = document.getElementById('c-data');
+  if (c) c.valueAsDate = new Date();
+});
+</script>
+</body>
+</html>
