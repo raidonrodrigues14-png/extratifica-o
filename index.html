@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal APS — SES Maranhão</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --verde:        #1a6b40;
+  --verde-mid:    #22a05a;
+  --verde-claro:  #e6f4ed;
+  --verde-escuro: #0d3d25;
+  --amarelo:      #d97706;
+  --amarelo-cl:   #fef3c7;
+  --laranja:      #c2410c;
+  --laranja-cl:   #fff0e8;
+  --vermelho:     #b91c1c;
+  --vermelho-cl:  #fee2e2;
+  --azul:         #1e40af;
+  --azul-cl:      #eff6ff;
+  --cinza-100:    #f3f4f6;
+  --cinza-200:    #e5e7eb;
+  --cinza-500:    #6b7280;
+  --cinza-700:    #374151;
+  --cinza-900:    #111827;
+  --borda:        #e5e7eb;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: #f0f4f0;
+  color: var(--cinza-900);
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════
+   PORTAL — tela de escolha
+═══════════════════════════════ */
+#tela-portal {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--cinza-100);
+}
+
+.portal-hero {
+  background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 60%, #2d8f56 100%);
+  padding: 3rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3Ccircle cx='40' cy='40' r='10'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+}
+
+.portal-hero::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0; right: 0; height: 40px;
+  background: var(--cinza-100);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.portal-logo-box {
+  display: inline-flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px; padding: 0.75rem 1.5rem;
+  margin-bottom: 2rem; backdrop-filter: blur(6px);
+  position: relative; z-index: 1;
+}
+
+.portal-logo-icon {
+  width: 44px; height: 44px; background: white; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.portal-logo-text { text-align: left; color: white; }
+.portal-logo-text strong { display: block; font-size: 0.95rem; font-weight: 700; }
+.portal-logo-text span   { font-size: 0.72rem; opacity: 0.8; font-weight: 400; }
+
+.portal-hero h1 {
+  font-size: 2.4rem; font-weight: 800; color: white;
+  line-height: 1.15; margin-bottom: 0.6rem;
+  letter-spacing: -0.5px; position: relative; z-index: 1;
+}
+
+.portal-hero h1 em {
+  font-style: normal; color: #86efac;
+}
+
+.portal-hero p {
+  color: rgba(255,255,255,0.8); font-size: 1rem; font-weight: 300;
+  position: relative; z-index: 1;
+}
+
+/* Cards de escolha */
+.portal-cards-wrap {
+  padding: 2.5rem 1.5rem 3rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+}
+
+.portal-cards-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--cinza-500);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.portal-cards-label::before,
+.portal-cards-label::after {
+  content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--cinza-200);
+}
+
+.portal-cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.25rem; width: 100%; max-width: 760px;
+}
+
+.portal-card {
+  background: white; border-radius: 20px; padding: 2rem 1.75rem;
+  border: 2px solid var(--borda);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  cursor: pointer; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative; overflow: hidden;
+}
+
+.portal-card::before {
+  content: ''; position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.25s;
+}
+
+.portal-card.gestante::before  { background: linear-gradient(135deg, rgba(139,92,246,0.06), rgba(124,58,237,0.03)); }
+.portal-card.crianca::before   { background: linear-gradient(135deg, rgba(20,184,166,0.06), rgba(13,148,136,0.03)); }
+
+.portal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+.portal-card:hover::before { opacity: 1; }
+.portal-card.gestante:hover { border-color: #a78bfa; }
+.portal-card.crianca:hover  { border-color: #5eead4; }
+
+.card-emoji-wrap {
+  width: 64px; height: 64px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.gestante .card-emoji-wrap { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 2px solid #ddd6fe; }
+.crianca  .card-emoji-wrap { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border: 2px solid #99f6e4; }
+
+.portal-card h2 {
+  font-size: 1.15rem; font-weight: 800; line-height: 1.2;
+  color: var(--cinza-900);
+}
+
+.portal-card p {
+  font-size: 0.82rem; color: var(--cinza-500); line-height: 1.6; font-weight: 400;
+}
+
+.card-riscos {
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+}
+
+.risco-pill {
+  font-size: 0.65rem; font-weight: 700; padding: 0.2rem 0.55rem;
+  border-radius: 20px; letter-spacing: 0.3px;
+}
+.risco-pill.verde    { background: #dcfce7; color: #166534; }
+.risco-pill.amarelo  { background: #fef9c3; color: #854d0e; }
+.risco-pill.laranja  { background: #ffedd5; color: #9a3412; }
+.risco-pill.vermelho { background: #fee2e2; color: #991b1b; }
+
+.card-arrow {
+  margin-top: auto; display: flex; align-items: center;
+  gap: 0.4rem; font-size: 0.8rem; font-weight: 700;
+  transition: gap 0.2s;
+}
+.gestante .card-arrow { color: #7c3aed; }
+.crianca  .card-arrow { color: #0d9488; }
+.portal-card:hover .card-arrow { gap: 0.7rem; }
+
+.portal-footer {
+  text-align: center; padding: 1.5rem; font-size: 0.72rem;
+  color: var(--cinza-500); border-top: 1px solid var(--borda);
+  background: white; margin-top: auto;
+}
+
+/* ═══════════════════════════════
+   HEADER COMPARTILHADO
+═══════════════════════════════ */
+.app-header {
+  background: linear-gradient(135deg, var(--verde-escuro), var(--verde));
+  color: white; padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 58px; position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.25);
+}
+
+.app-header-brand { display: flex; align-items: center; gap: 0.75rem; }
+
+.app-header-icon {
+  width: 36px; height: 36px; background: rgba(255,255,255,0.15);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.2);
+}
+
+.app-header-text strong { display: block; font-size: 0.88rem; font-weight: 700; }
+.app-header-text span   { font-size: 0.68rem; opacity: 0.75; }
+
+.btn-portal-voltar {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+  color: white; padding: 0.4rem 1rem; border-radius: 8px;
+  cursor: pointer; font-family: 'Sora', sans-serif;
+  font-size: 0.78rem; font-weight: 600; transition: background 0.2s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.btn-portal-voltar:hover { background: rgba(255,255,255,0.22); }
+
+/* ═══════════════════════════════
+   MÓDULO GESTANTE
+═══════════════════════════════ */
+#modulo-gestante { display: none; }
+
+.gest-progress {
+  background: white; border-bottom: 1px solid var(--borda);
+  padding: 0.65rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+}
+
+.gest-steps { display: flex; gap: 0.5rem; flex: 1; }
+.gest-step  { flex: 1; height: 5px; border-radius: 4px; background: var(--borda); transition: background 0.3s; }
+.gest-step.ativo    { background: #7c3aed; }
+.gest-step.concluido{ background: #7c3aed; opacity: 0.35; }
+
+.gest-step-label { font-size: 0.75rem; font-weight: 600; color: var(--cinza-500); white-space: nowrap; }
+
+.gest-content { max-width: 980px; margin: 0 auto; padding: 1.5rem 1rem 8rem; }
+
+/* seções gestante */
+.g-secao {
+  background: white; border-radius: 14px; overflow: hidden;
+  margin-bottom: 1.25rem; border: 1px solid var(--borda);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.g-secao-titulo {
+  padding: 0.8rem 1.2rem; font-weight: 700; font-size: 0.88rem;
+  display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.2px;
+}
+.g-secao-titulo.t-id         { background: var(--azul); color: white; }
+.g-secao-titulo.t-habitual   { background: #16a34a; color: white; }
+.g-secao-titulo.t-vigilancia { background: var(--amarelo); color: white; }
+.g-secao-titulo.t-compartilhado { background: var(--laranja); color: white; }
+.g-secao-titulo.t-maternidade   { background: var(--vermelho); color: white; }
+
+.g-secao-corpo { padding: 1.25rem; }
+
+.g-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.g-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+.g-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.75rem; }
+
+.g-campo label {
+  display: block; font-size: 0.68rem; font-weight: 700;
+  color: var(--cinza-500); margin-bottom: 0.3rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.g-campo input, .g-campo select {
+  width: 100%; border: 2px solid var(--borda); border-radius: 8px;
+  padding: 0.5rem 0.75rem; font-family: 'Sora', sans-serif;
+  font-size: 0.88rem; color: var(--cinza-900); outline: none; transition: border-color 0.2s;
+}
+.g-campo input:focus, .g-campo select:focus {
+  border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+}
+
+.g-raca { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.35rem; }
+.g-raca label {
+  display: flex; align-items: center; gap: 0.35rem;
+  padding: 0.4rem 0.9rem; border: 2px solid var(--borda);
+  border-radius: 20px; cursor: pointer; font-size: 0.82rem;
+  font-weight: 600; transition: all 0.15s;
+}
+.g-raca label:hover { border-color: #a78bfa; background: #f5f3ff; }
+.g-raca input[type=radio] { accent-color: #7c3aed; width: 14px; height: 14px; }
+
+.g-duas-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+.g-sub {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--cinza-700); margin: 0.9rem 0 0.6rem;
+  padding-bottom: 0.3rem; border-bottom: 2px solid var(--cinza-100);
+}
+
+.g-checklist { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.g-check {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.55rem 0.85rem; border-radius: 9px; cursor: pointer;
+  border: 2px solid var(--borda); background: white; transition: all 0.15s;
+  user-select: none;
+}
+.g-check:hover { background: var(--cinza-100); border-color: #d1d5db; }
+.g-check input { margin-top: 3px; width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; accent-color: #7c3aed; }
+.g-check span  { font-size: 0.855rem; line-height: 1.45; font-weight: 500; }
+
+.g-check.m-verde    { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+.g-check.m-amarelo  { background: var(--amarelo-cl); border-color: #fde68a; color: #92400e; }
+.g-check.m-laranja  { background: var(--laranja-cl); border-color: #fed7aa; color: #9a3412; }
+.g-check.m-vermelho { background: var(--vermelho-cl); border-color: #fecaca; color: #991b1b; }
+
+/* Resultado gestante */
+.g-resultado-header {
+  min-height: 28vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2.5rem; text-align: center; color: white;
+}
+.g-resultado-header.rh-habitual     { background: linear-gradient(135deg, #15803d, #166534); }
+.g-resultado-header.rh-vigilancia   { background: linear-gradient(135deg, #d97706, #b45309); }
+.g-resultado-header.rh-compartilhado{ background: linear-gradient(135deg, #ea580c, #c2410c); }
+.g-resultado-header.rh-maternidade  { background: linear-gradient(135deg, #dc2626, #991b1b); }
+
+.g-resultado-header .badge { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.g-resultado-header h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem; }
+.g-resultado-header p  { font-size: 0.95rem; opacity: 0.9; }
+
+.g-resultado-body { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+.g-res-card {
+  background: white; border-radius: 14px; padding: 1.25rem;
+  margin-bottom: 1.25rem; border: 1px solid var(--borda);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.g-res-card h3 {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--cinza-500);
+  margin-bottom: 0.9rem; border-bottom: 1px solid var(--cinza-100); padding-bottom: 0.5rem;
+}
+
+.g-item-alerta {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  font-size: 0.88rem; padding: 0.45rem 0;
+  border-bottom: 1px solid var(--cinza-100); color: var(--cinza-900);
+}
+.g-item-alerta:last-child { border-bottom: none; }
+.g-item-alerta::before { content: '▸'; color: #9ca3af; flex-shrink: 0; margin-top: 2px; }
+
+/* ═══════════════════════════════
+   MÓDULO CRIANÇA
+═══════════════════════════════ */
+#modulo-crianca { display: none; }
+
+.cri-content { max-width: 980px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+.c-secao {
+  background: white; border-radius: 14px; overflow: hidden;
+  margin-bottom: 1.25rem; border: 1px solid var(--borda);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.c-secao-titulo {
+  padding: 0.8rem 1.2rem; font-weight: 700; font-size: 0.88rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.c-secao-titulo.t-id     { background: var(--azul); color: white; }
+.c-secao-titulo.t-natal  { background: #334155; color: white; }
+.c-secao-titulo.t-alto   { background: var(--vermelho); color: white; }
+.c-secao-titulo.t-inter  { background: var(--amarelo); color: white; }
+.c-secao-titulo.t-auto   { background: #7c3aed; color: white; }
+
+.c-secao-corpo { padding: 1.25rem; }
+
+.c-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.c-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; }
+.c-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.75rem; }
+
+.c-campo label {
+  display: block; font-size: 0.68rem; font-weight: 700;
+  color: var(--cinza-500); margin-bottom: 0.3rem;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.c-campo input, .c-campo select {
+  width: 100%; border: 2px solid var(--borda); border-radius: 8px;
+  padding: 0.5rem 0.75rem; font-family: 'Sora', sans-serif;
+  font-size: 0.88rem; color: var(--cinza-900); outline: none; transition: border-color 0.2s;
+}
+.c-campo input:focus, .c-campo select:focus {
+  border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+}
+
+.c-checklist { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.c-check {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.55rem 0.85rem; border-radius: 9px; cursor: pointer;
+  border: 2px solid var(--borda); background: white; transition: all 0.15s;
+  user-select: none;
+}
+.c-check:hover { background: var(--cinza-100); }
+.c-check input { margin-top: 3px; width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; accent-color: #0d9488; }
+.c-check span  { font-size: 0.855rem; line-height: 1.45; font-weight: 500; }
+
+.c-check.m-alto { background: var(--vermelho-cl); border-color: #fca5a5; color: #991b1b; }
+.c-check.m-inter{ background: var(--amarelo-cl);  border-color: #fde68a; color: #92400e; }
+
+.c-painel {
+  border-radius: 12px; padding: 1.1rem 1.4rem;
+  display: flex; align-items: center; gap: 1rem;
+  font-weight: 700; font-size: 1rem; margin-bottom: 1rem;
+}
+.c-painel .p-icon { font-size: 1.8rem; flex-shrink: 0; }
+.c-painel .p-text small { display: block; font-size: 0.75rem; font-weight: 500; opacity: 0.75; margin-top: 0.15rem; }
+.c-habitual     { background: var(--verde-claro); color: var(--verde); }
+.c-intermediario{ background: var(--amarelo-cl); color: #92400e; }
+.c-alto         { background: var(--vermelho-cl); color: #991b1b; }
+
+.wpp-wrap {
+  background: #e5ddd5; border-radius: 12px; padding: 1.1rem;
+  border: 1px solid #c8c0b8; margin-top: 1rem;
+}
+.wpp-head {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; font-weight: 700; color: #075e54; margin-bottom: 0.75rem;
+}
+.wpp-balao {
+  background: white; padding: 0.8rem 1rem;
+  border-radius: 0 12px 12px 12px;
+  max-width: 88%; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 0.82rem; line-height: 1.6; white-space: pre-wrap;
+  position: relative;
+}
+.wpp-balao::before {
+  content: ''; position: absolute; top: 0; left: -8px;
+  border: 7px solid transparent; border-right-color: white;
+  border-top: 0; border-left: 0;
+}
+.wpp-time { display: block; text-align: right; font-size: 0.65rem; color: #8696a0; margin-top: 0.35rem; }
+
+/* ═══════════════════════════════
+   BARRA INFERIOR NAVEGAÇÃO
+═══════════════════════════════ */
+.nav-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid var(--borda);
+  padding: 0.85rem 1.5rem; display: flex;
+  justify-content: space-between; align-items: center;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.07); z-index: 150;
+}
+
+.nav-bottom.hidden { display: none; }
+
+/* botões gerais */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.6rem 1.3rem; border-radius: 9px; border: none;
+  font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn-prev    { background: white; color: var(--cinza-700); border: 2px solid var(--borda); }
+.btn-prev:hover  { background: var(--cinza-100); }
+.btn-next-g  { background: #7c3aed; color: white; box-shadow: 0 4px 14px rgba(124,58,237,0.3); }
+.btn-next-g:hover{ background: #6d28d9; transform: translateY(-1px); }
+.btn-next-c  { background: #0d9488; color: white; box-shadow: 0 4px 14px rgba(13,148,136,0.3); }
+.btn-next-c:hover{ background: #0f766e; transform: translateY(-1px); }
+.btn-calc-g  { background: #7c3aed; color: white; box-shadow: 0 4px 14px rgba(124,58,237,0.3); }
+.btn-calc-g:hover{ background: #6d28d9; }
+.btn-calc-c  { background: #0d9488; color: white; box-shadow: 0 4px 14px rgba(13,148,136,0.3); }
+.btn-calc-c:hover{ background: #0f766e; }
+.btn-salvar  { background: var(--verde); color: white; box-shadow: 0 4px 14px rgba(26,107,64,0.3); }
+.btn-salvar:hover{ background: var(--verde-escuro); transform: translateY(-1px); }
+.btn-wpp     { background: #25d366; color: white; box-shadow: 0 4px 14px rgba(37,211,102,0.3); }
+.btn-wpp:hover{ background: #1fb855; }
+.btn-pdf     { background: #dc2626; color: white; }
+.btn-pdf:hover{ background: #b91c1c; }
+.btn-excel   { background: #16a34a; color: white; }
+.btn-excel:hover{ background: #15803d; }
+.btn-nova    { background: white; color: var(--cinza-700); border: 2px solid var(--borda); }
+.btn-nova:hover{ background: var(--cinza-100); }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 5rem; right: 1.5rem;
+  background: #1a6b40; color: white;
+  padding: 0.75rem 1.2rem; border-radius: 10px;
+  font-weight: 700; font-size: 0.85rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 9999; display: none;
+  animation: tin 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes tin { from{transform:translateY(50px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* tabela agendamentos */
+.tabela-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--borda); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.tbl th { background: var(--cinza-100); padding: 0.55rem 0.85rem; font-weight: 700;
+  text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.5px;
+  color: var(--cinza-500); border-bottom: 1px solid var(--borda); text-align: left; }
+.tbl td { padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--borda); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: var(--cinza-100); }
+
+.badge-pill {
+  display: inline-block; padding: 0.12rem 0.55rem;
+  border-radius: 20px; font-size: 0.67rem; font-weight: 700;
+}
+.bp-verde    { background: var(--verde-claro); color: var(--verde); }
+.bp-amarelo  { background: var(--amarelo-cl); color: #92400e; }
+.bp-vermelho { background: var(--vermelho-cl); color: #991b1b; }
+.bp-pendente { background: #fef9c3; color: #854d0e; }
+.bp-enviado  { background: #dcfce7; color: #166534; }
+
+/* responsivo */
+@media (max-width: 640px) {
+  .portal-cards { grid-template-columns: 1fr; }
+  .g-grid-2,.g-grid-3,.g-grid-4,
+  .c-grid-2,.c-grid-3,.c-grid-4,
+  .g-duas-col { grid-template-columns: 1fr; }
+  .portal-hero h1 { font-size: 1.6rem; }
+  .nav-bottom { padding: 0.7rem 1rem; }
+}
+
+@media print {
+  .app-header,.nav-bottom,.wpp-wrap,.tabela-wrap,
+  [data-noprint],.btn,.portal-hero,#tela-portal { display: none !important; }
+  body { background: white; }
+  .c-secao,.g-secao { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+}
+
+/* ═══════════════════════════════
+   TELA DE LOGIN
+═══════════════════════════════ */
+#tela-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 55%, #2d8f56 100%);
+}
+
+#tela-login::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 12% 80%, rgba(255,255,255,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 88% 15%, rgba(255,255,255,0.05) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* grade de pontos decorativa */
+#tela-login::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.login-card {
+  background: white;
+  border-radius: 24px;
+  padding: 2.75rem 2.25rem 2.25rem;
+  width: 100%; max-width: 410px;
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.28),
+    0 0 0 1px rgba(255,255,255,0.08);
+  position: relative; z-index: 1;
+  animation: card-up 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes card-up {
+  from { transform: translateY(32px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.login-top {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.login-icon-wrap {
+  width: 54px; height: 54px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--verde-escuro), var(--verde));
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 20px rgba(26,107,64,0.4);
+}
+
+.login-title-block strong {
+  display: block; font-size: 1rem; font-weight: 800;
+  color: var(--cinza-900); line-height: 1.2;
+}
+.login-title-block span {
+  font-size: 0.72rem; color: var(--cinza-500); font-weight: 400;
+}
+
+.login-divider {
+  height: 1px; background: var(--borda); margin-bottom: 1.5rem;
+}
+
+.login-campo { margin-bottom: 1rem; }
+
+.login-campo label {
+  display: block; font-size: 0.68rem; font-weight: 700;
+  color: var(--cinza-500); margin-bottom: 0.35rem;
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+
+.login-campo input {
+  width: 100%; border: 2px solid var(--borda); border-radius: 10px;
+  padding: 0.7rem 0.95rem; font-family: 'Sora', sans-serif;
+  font-size: 0.92rem; color: var(--cinza-900); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+}
+.login-campo input:focus {
+  border-color: var(--verde);
+  box-shadow: 0 0 0 4px rgba(26,107,64,0.12);
+}
+
+.login-erro {
+  background: var(--vermelho-cl); color: var(--vermelho);
+  border: 1px solid #fca5a5; border-left: 3px solid var(--vermelho);
+  border-radius: 8px; padding: 0.6rem 0.9rem;
+  font-size: 0.82rem; font-weight: 600;
+  margin-bottom: 1rem; display: none;
+  animation: shake 0.35s ease;
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+.btn-login-submit {
+  width: 100%;
+  background: linear-gradient(135deg, var(--verde-escuro), var(--verde));
+  color: white; border: none; padding: 0.85rem;
+  border-radius: 12px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; font-family: 'Sora', sans-serif;
+  box-shadow: 0 6px 20px rgba(26,107,64,0.38);
+  letter-spacing: 0.2px;
+  transition: transform 0.15s, box-shadow 0.2s;
+  margin-top: 0.25rem;
+}
+.btn-login-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(26,107,64,0.45);
+}
+.btn-login-submit:active { transform: translateY(0); }
+
+.login-tentativas {
+  text-align: center; margin-top: 1.1rem;
+  font-size: 0.72rem; color: var(--cinza-500);
+}
+
+/* indicador de carregamento no botão */
+.btn-login-submit.loading {
+  opacity: 0.75; pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════
+     TELA DE LOGIN
+═══════════════════════════════════════ -->
+<div id="tela-login">
+  <div class="login-card">
+
+    <div class="login-top">
+      <div class="login-icon-wrap">🏥</div>
+      <div class="login-title-block">
+        <strong>Portal APS — SES Maranhão</strong>
+        <span>Estratificação de Risco · Acesso Seguro</span>
+      </div>
+    </div>
+
+    <div class="login-divider"></div>
+
+    <div class="login-erro" id="login-erro">Usuário ou senha incorretos.</div>
+
+    <div class="login-campo">
+      <label>Usuário</label>
+      <input
+        type="text"
+        id="login-user"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="Digite seu usuário"
+        onkeydown="if(event.key=='Enter') fazerLogin()"
+      >
+    </div>
+
+    <div class="login-campo">
+      <label>Senha</label>
+      <input
+        type="password"
+        id="login-senha"
+        autocomplete="new-password"
+        placeholder="Digite sua senha"
+        onkeydown="if(event.key=='Enter') fazerLogin()"
+      >
+    </div>
+
+    <button class="btn-login-submit" id="btn-login" onclick="fazerLogin()">
+      Entrar no Sistema →
+    </button>
+
+    <p class="login-tentativas" id="login-info">
+      Acesso restrito à equipe de saúde autorizada
+    </p>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PORTAL — ESCOLHA DE MÓDULO
+═══════════════════════════════════════ -->
+<div id="tela-portal" style="display:none">
+
+  <div class="portal-hero">
+    <div class="portal-logo-box">
+      <div class="portal-logo-icon">🏥</div>
+      <div class="portal-logo-text">
+        <strong>Sistema APS — SES Maranhão</strong>
+        <span>Atenção Primária à Saúde · Estratificação de Risco</span>
+      </div>
+    </div>
+    <h1>Portal de <em>Estratificação</em><br>de Risco APS</h1>
+    <p>Selecione o módulo de atendimento para iniciar</p>
+  </div>
+
+  <div class="portal-cards-wrap">
+    <div class="portal-cards-label">Módulos disponíveis</div>
+
+    <div class="portal-cards">
+
+      <!-- GESTANTE -->
+      <div class="portal-card gestante" onclick="abrirModulo('gestante')">
+        <div class="card-emoji-wrap">🤰</div>
+        <h2>Estratificação da Gestante</h2>
+        <p>Ficha de monitoramento e estratificação de risco obstétrico com 3 etapas de avaliação clínica.</p>
+        <div class="card-riscos">
+          <span class="risco-pill verde">🟢 Habitual</span>
+          <span class="risco-pill amarelo">🟡 Vigilância</span>
+          <span class="risco-pill laranja">🟠 Compartilhado</span>
+          <span class="risco-pill vermelho">🔴 Maternidade</span>
+        </div>
+        <div class="card-arrow">Iniciar ficha <span>→</span></div>
+      </div>
+
+      <!-- CRIANÇA -->
+      <div class="portal-card crianca" onclick="abrirModulo('crianca')">
+        <div class="card-emoji-wrap">👶</div>
+        <h2>Estratificação da Criança</h2>
+        <p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p>
+        <div class="card-riscos">
+          <span class="risco-pill verde">🟢 Habitual</span>
+          <span class="risco-pill amarelo">🟡 Intermediário</span>
+          <span class="risco-pill vermelho">🔴 Alto Risco</span>
+        </div>
+        <div class="card-arrow">Iniciar ficha <span>→</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    Sistema APS Criança e Gestante · Secretaria de Estado da Saúde do Maranhão · Uso exclusivo da equipe de saúde
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MÓDULO GESTANTE
+═══════════════════════════════════════ -->
+<div id="modulo-gestante">
+
+  <!-- header -->
+  <div class="app-header">
+    <div class="app-header-brand">
+      <div class="app-header-icon">🤰</div>
+      <div class="app-header-text">
+        <strong>Estratificação da Gestante</strong>
+        <span>Ficha de Monitoramento e Risco Obstétrico</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+  </div>
+
+  <!-- barra de progresso -->
+  <div class="gest-progress">
+    <div class="gest-steps">
+      <div class="gest-step ativo" id="gs-1"></div>
+      <div class="gest-step" id="gs-2"></div>
+      <div class="gest-step" id="gs-3"></div>
+    </div>
+    <span class="gest-step-label" id="gs-label">Passo 1 de 3</span>
+  </div>
+
+  <!-- PÁGINA 1 — identificação -->
+  <div class="gest-content" id="gpag-1">
+    <div class="g-secao">
+      <div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div>
+      <div class="g-secao-corpo">
+        <div class="g-campo" style="margin-bottom:0.75rem">
+          <label>Nome completo da gestante</label>
+          <input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off">
+        </div>
+        <div class="g-grid-4" style="margin-bottom:0.75rem">
+          <div class="g-campo"><label>CNS (Cartão SUS)</label><input type="text" id="g-cns" placeholder="000.0000.0000.0000" autocomplete="off"></div>
+          <div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" placeholder="000.000.000-00" autocomplete="off"></div>
+          <div class="g-campo"><label>Idade</label><input type="number" id="g-idade" placeholder="Anos"></div>
+          <div class="g-campo"><label>Data de Nascimento</label><input type="date" id="g-data_nasc"></div>
+        </div>
+        <div class="g-grid-3" style="margin-bottom:0.75rem">
+          <div class="g-campo">
+            <label>Estado Civil</label>
+            <select id="g-estado_civil">
+              <option value="">Selecione</option>
+              <option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option>
+            </select>
+          </div>
+          <div class="g-campo"><label>DUM (Última Menstruação)</label><input type="date" id="g-dum"></div>
+          <div class="g-campo"><label>DPP (Data Provável do Parto)</label><input type="date" id="g-dpp"></div>
+        </div>
+        <div style="margin-bottom:0.75rem">
+          <label style="font-size:0.68rem;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.4rem">Autodeclaração de Raça/Cor</label>
+          <div class="g-raca">
+            <label><input type="radio" name="graca" value="Branca"> Branca</label>
+            <label><input type="radio" name="graca" value="Preta"> Preta</label>
+            <label><input type="radio" name="graca" value="Parda"> Parda</label>
+            <label><input type="radio" name="graca" value="Amarela"> Amarela</label>
+            <label><input type="radio" name="graca" value="Indígena"> Indígena</label>
+          </div>
+        </div>
+        <div class="g-grid-4" style="margin-bottom:0.75rem">
+          <div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="0"></div>
+          <div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div>
+          <div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div>
+          <div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div>
+        </div>
+        <div class="g-grid-3">
+          <div class="g-campo"><label>UBS de Referência</label><input type="text" id="g-ubs" autocomplete="off" placeholder="Nome da Unidade"></div>
+          <div class="g-campo"><label>Equipe de Saúde da Família</label><input type="text" id="g-equipe" autocomplete="off" placeholder="Nome da Equipe"></div>
+          <div class="g-campo"><label>Agente Comunitário (ACS)</label><input type="text" id="g-acs" autocomplete="off" placeholder="Nome do ACS"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 2 — habitual + vigilância -->
+  <div class="gest-content" id="gpag-2" style="display:none">
+    <div class="g-secao">
+      <div class="g-secao-titulo t-habitual">🟢 Critérios de Risco Habitual</div>
+      <div class="g-secao-corpo">
+        <div class="g-checklist">
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Idade adequada (entre 15 e 39 anos)"><span>Idade adequada (entre 15 e 39 anos)</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Ausência de comorbidades ou antecedentes reprodutivos graves</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Evolução gestacional clínica e obstétrica totalmente fisiológica"><span>Evolução gestacional clínica e obstétrica totalmente fisiológica</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-secao">
+      <div class="g-secao-titulo t-vigilancia">🟡 Fatores de Maior Vigilância (Acompanhamento na APS)</div>
+      <div class="g-secao-corpo">
+        <div class="g-duas-col">
+          <div>
+            <div class="g-sub">Socioeconômicos / Individuais</div>
+            <div class="g-checklist">
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixa escolaridade ou extrema vulnerabilidade socioeconômica"><span>Baixa escolaridade ou extrema vulnerabilidade</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Idade nos extremos reprodutivos (menor que 15 ou maior que 40 anos)"><span>Idade nos extremos reprodutivos (&lt;15 ou &gt;40 anos)</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Falta de apoio social ou familiar estruturado"><span>Falta de apoio social ou familiar estruturado</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="g-sub">Histórico ou Clínico Atual</div>
+            <div class="g-checklist">
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Ganho de peso inadequado ou IMC inadequado"><span>Ganho de peso inadequado ou IMC inadequado</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Infecção urinária baixa recorrente"><span>Infecção urinária baixa recorrente</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de tabaco ou dependências leves"><span>Uso de tabaco ou dependências leves</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PÁGINA 3 — alto risco -->
+  <div class="gest-content" id="gpag-3" style="display:none">
+    <div class="g-secao">
+      <div class="g-secao-titulo t-compartilhado">🟠 Alto Risco — Acompanhamento Compartilhado (Policlínica / Especialista)</div>
+      <div class="g-secao-corpo">
+        <div class="g-checklist">
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Diabetes Mellitus Gestacional (DMG) controlado"><span>Diabetes Mellitus Gestacional (DMG) controlado</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Hipertensão Arterial Crônica controlada farmacologicamente"><span>Hipertensão Arterial Crônica (controlada farmacologicamente)</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Anemia grave refratária ao tratamento primário"><span>Anemia grave refratária ao tratamento primário</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatrizes uterinas múltiplas anteriores (2 ou mais cesáreas)"><span>Cicatrizes uterinas múltiplas anteriores (2 ou mais cesáreas)</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-secao">
+      <div class="g-secao-titulo t-maternidade">🔴 Alto Risco Gravíssimo — Vinculação à Maternidade de Alta Complexidade</div>
+      <div class="g-secao-corpo">
+        <div class="g-checklist">
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Pré-eclâmpsia sobreposta ou Sinais de Eclâmpsia"><span>Pré-eclâmpsia sobreposta ou Sinais de Eclâmpsia</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes Mellitus Insulino-dependente prévio descompensado"><span>Diabetes Mellitus Insulino-dependente prévio descompensado</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Cardiopatias maternas limitantes estruturais"><span>Cardiopatias maternas limitantes estruturais</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias ativas persistentes na gestação atual"><span>Hemorragias ativas persistentes na gestação atual</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADO GESTANTE -->
+  <div id="gpag-resultado" style="display:none">
+    <div class="g-resultado-header" id="g-res-header">
+      <div class="badge" id="g-res-icone">🟢</div>
+      <h2 id="g-res-titulo">Risco Habitual</h2>
+      <p id="g-res-sub">Direcionamento: Linha de Cuidado Primário na UBS</p>
+    </div>
+    <div class="g-resultado-body">
+      <div class="g-res-card">
+        <h3>Identificação da Gestante</h3>
+        <div class="g-grid-2" style="gap:0.5rem">
+          <p><strong>Gestante:</strong> <span id="go-nome">—</span></p>
+          <p><strong>CNS:</strong> <span id="go-cns">—</span></p>
+          <p><strong>Idade:</strong> <span id="go-idade">—</span> anos</p>
+          <p><strong>UBS:</strong> <span id="go-ubs">—</span></p>
+        </div>
+      </div>
+      <div class="g-res-card">
+        <h3>Fatores de Risco Identificados</h3>
+        <div id="go-alertas"></div>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
+        <button class="btn btn-excel" onclick="exportarExcelGestante()">📊 Exportar Excel</button>
+        <button class="btn btn-pdf" onclick="window.print()">🖨️ Imprimir / PDF</button>
+        <button class="btn btn-nova" onclick="reiniciarGestante()">↺ Nova Consulta</button>
+        <button class="btn btn-nova" onclick="voltarPortal()">← Voltar ao Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- barra navegação gestante -->
+  <div class="nav-bottom" id="gnav">
+    <button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>← Anterior</button>
+    <button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">Próximo →</button>
+    <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button>
+  </div>
+
+</div><!-- fim módulo gestante -->
+
+<!-- ═══════════════════════════════════════
+     MÓDULO CRIANÇA
+═══════════════════════════════════════ -->
+<div id="modulo-crianca">
+
+  <div class="app-header">
+    <div class="app-header-brand">
+      <div class="app-header-icon">👶</div>
+      <div class="app-header-text">
+        <strong>Estratificação da Criança (0–5 anos)</strong>
+        <span>Monitoramento de Risco e Retorno APS</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+  </div>
+
+  <div class="cri-content">
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-id">👤 Identificação</div>
+      <div class="c-secao-corpo">
+        <div class="c-grid-2" style="margin-bottom:0.75rem">
+          <div class="c-campo"><label>Nome da Criança</label><input type="text" id="c-nome" autocomplete="off" placeholder="Nome completo"></div>
+          <div class="c-campo"><label>Nome da Mãe</label><input type="text" id="c-mae" autocomplete="off" placeholder="Nome completo da mãe"></div>
+        </div>
+        <div class="c-grid-4" style="margin-bottom:0.75rem">
+          <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" autocomplete="off" placeholder="000 0000 0000"></div>
+          <div class="c-campo"><label>Prontuário</label><input type="text" id="c-pront" autocomplete="off"></div>
+          <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="c-nasc" onchange="cCalcular()"></div>
+          <div class="c-campo"><label>WhatsApp da Mãe</label><input type="tel" id="c-cel" autocomplete="off" placeholder="98991234567"></div>
+        </div>
+        <div class="c-grid-3">
+          <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" autocomplete="off" placeholder="Nome da UBS"></div>
+          <div class="c-campo"><label>Microárea</label><input type="text" id="c-micro" autocomplete="off"></div>
+          <div class="c-campo"><label>Responsável</label><input type="text" id="c-enf" autocomplete="off" placeholder="Enfermeira / profissional"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASSIFICAÇÃO AO NASCER -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-natal">👶 Classificação ao Nascer</div>
+      <div class="c-secao-corpo">
+        <div class="c-grid-3">
+          <div class="c-campo">
+            <label>Peso ao Nascer</label>
+            <select id="c-peso" onchange="cCalcular()">
+              <option value="adequado">Adequado (2500g – 4500g)</option>
+              <option value="baixo">Baixo peso (&lt; 2500g)</option>
+              <option value="muito_baixo">Muito baixo peso (&lt; 1500g)</option>
+              <option value="extremo_baixo">Extremo baixo peso (&lt; 1000g)</option>
+              <option value="excessivo">Peso excessivo (&gt; 4500g)</option>
+            </select>
+          </div>
+          <div class="c-campo">
+            <label>Idade Gestacional</label>
+            <select id="c-ig" onchange="cCalcular()">
+              <option value="termo_completo">Termo completo (39–41 sem)</option>
+              <option value="termo_precoce">Termo precoce (37–38 sem)</option>
+              <option value="pre_termo_tardio">Pré-termo tardio (34–36 sem)</option>
+              <option value="pre_termo_mod">Pré-termo moderado (32–33 sem)</option>
+              <option value="muito_prematuro">Muito prematuro (28–31 sem)</option>
+              <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
+              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
+            </select>
+          </div>
+          <div class="c-campo">
+            <label>Proporcionalidade</label>
+            <select id="c-prop">
+              <option value="AIG">Adequado para IG (AIG)</option>
+              <option value="PIG">Pequeno para IG (PIG)</option>
+              <option value="GIG">Grande para IG (GIG)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FATORES ALTO RISCO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-alto">🔴 Fatores de Risco ALTO</div>
+      <div class="c-secao-corpo">
+        <div class="c-checklist">
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Crescimento fora dos limites padronizados / Desenvolvimento insatisfatório</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Sinais de violência física, sexual ou psicológica</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Apgar ≤ 6 no quinto minuto</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Asfixia perinatal ou malformações congênitas graves</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Infecções crônicas confirmadas/em investigação (Grupo ZTORCHS)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Internação hospitalar nos últimos 12 meses</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FATORES INTERMEDIÁRIO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-inter">🟡 Fatores de Risco INTERMEDIÁRIO</div>
+      <div class="c-secao-corpo">
+        <div class="c-checklist">
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe com pré-natal incompleto (&lt; 6 consultas)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Desmame precoce (aleitamento exclusivo &lt; 6 meses)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Criança não vacinada ou esquema vacinal atrasado</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Não comparecimento à agenda de acompanhamento</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe adolescente ou com baixa escolaridade (&lt; 5 anos de estudo)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Vulnerabilidade socioeconômica / Condições desfavoráveis</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO E AUTOMAÇÃO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
+      <div class="c-secao-corpo">
+
+        <div id="c-painel" class="c-painel c-habitual">
+          <div class="p-icon">🟢</div>
+          <div class="p-text">
+            <span>Classificação: RISCO HABITUAL</span>
+            <small>Rotina padrão de crescimento e desenvolvimento</small>
+          </div>
+        </div>
+
+        <div class="c-grid-2" style="margin-bottom:1rem">
+          <div class="c-campo">
+            <label>Data da Consulta Atual</label>
+            <input type="date" id="c-data" onchange="cCalcular()">
+          </div>
+          <div class="c-campo">
+            <label>Data do Retorno (calculada automaticamente)</label>
+            <input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534;border-color:#86efac">
+          </div>
+        </div>
+
+        <div class="wpp-wrap">
+          <div class="wpp-head">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="#075e54"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/></svg>
+            Prévia da mensagem WhatsApp
+          </div>
+          <div class="wpp-balao" id="c-wpp">
+Olá! Aqui é a UBS. A consulta foi realizada. Retorno agendado para --/--/----. Contamos com sua presença! 👶💚
+            <span class="wpp-time" id="c-wpp-hora">09:41 ✓✓</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
+          <button class="btn btn-salvar" onclick="cSalvar()">💾 Salvar Registro</button>
+          <button class="btn btn-wpp" onclick="cEnviarWpp()">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg>
+            Enviar WhatsApp
+          </button>
+          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-nova" onclick="cNova()">↺ Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        </div>
+
+        <!-- tabela -->
+        <div style="margin-top:1.75rem">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
+            📋 Registros Salvos
+            <button onclick="cCarregar()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">↻</button>
+          </div>
+          <div class="tabela-wrap">
+            <table class="tbl">
+              <thead><tr>
+                <th>Criança</th><th>Mãe</th><th>Telefone</th>
+                <th>Risco</th><th>Retorno</th><th>WhatsApp</th>
+              </tr>
+              </thead>
+              <tbody id="c-tbody">
+                <tr><td colspan="6" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro salvo.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- fim cri-content -->
+</div><!-- fim módulo criança -->
+
+<script>
+// ══════════════════════════════════════
+//  PORTAL
+// ══════════════════════════════════════
+function abrirModulo(mod) {
+  document.getElementById('tela-portal').style.display = 'none';
+  if (mod === 'gestante') {
+    document.getElementById('modulo-gestante').style.display = 'block';
+    document.getElementById('gnav').classList.remove('hidden');
+    gPagAtual = 1; gRenderPag();
+    document.getElementById('c-data') && (document.getElementById('c-data').valueAsDate = new Date());
+  } else {
+    document.getElementById('modulo-crianca').style.display = 'block';
+    document.getElementById('c-data').valueAsDate = new Date();
+    cCalcular(); cCarregar();
+  }
+}
+
+function voltarPortal() {
+  if (!confirm('Voltar ao portal? Os dados não salvos serão perdidos.')) return;
+  document.getElementById('tela-portal').style.display = 'flex';
+  document.getElementById('tela-portal').style.flexDirection = 'column';
+  document.getElementById('modulo-gestante').style.display = 'none';
+  document.getElementById('modulo-crianca').style.display = 'none';
+  document.getElementById('gnav').classList.add('hidden');
+}
+
+// ══════════════════════════════════════
+//  MÓDULO GESTANTE
+// ══════════════════════════════════════
+let gPagAtual = 1;
+const G_TOTAL  = 3;
+let gMarcados  = [];
+let gHistorico = [];
+
+function gRenderPag() {
+  for (let i = 1; i <= G_TOTAL; i++) {
+    const p = document.getElementById('gpag-' + i);
+    if (p) p.style.display = (i === gPagAtual) ? 'block' : 'none';
+  }
+  document.getElementById('gpag-resultado').style.display = 'none';
+
+  // steps
+  for (let i = 1; i <= G_TOTAL; i++) {
+    const s = document.getElementById('gs-' + i);
+    s.className = 'gest-step';
+    if (i === gPagAtual) s.classList.add('ativo');
+    else if (i < gPagAtual) s.classList.add('concluido');
+  }
+  document.getElementById('gs-label').textContent = `Passo ${gPagAtual} de ${G_TOTAL}`;
+
+  const prev = document.getElementById('g-btn-prev');
+  const next = document.getElementById('g-btn-next');
+  const calc = document.getElementById('g-btn-calc');
+  prev.disabled = (gPagAtual === 1);
+
+  if (gPagAtual === G_TOTAL) {
+    next.style.display = 'none';
+    calc.style.display = 'inline-flex';
+  } else {
+    next.style.display = 'inline-flex';
+    calc.style.display = 'none';
+  }
+  document.getElementById('gnav').classList.remove('hidden');
+}
+
+function gMudarPag(dir) {
+  gPagAtual = Math.max(1, Math.min(G_TOTAL, gPagAtual + dir));
+  gRenderPag();
+  window.scrollTo(0, 0);
+}
+
+function gToggle(el, classe) {
+  const cb = el.querySelector('input[type=checkbox]');
+  if (event.target.type !== 'checkbox') cb.checked = !cb.checked;
+  el.className = 'g-check';
+  if (cb.checked) el.classList.add(classe);
+}
+
+function processarGestante() {
+  const sels = document.querySelectorAll('#modulo-gestante input[type=checkbox]:checked');
+  gMarcados = [];
+  let maiorRisco = 'habitual';
+
+  sels.forEach(c => {
+    const g = c.getAttribute('data-grupo');
+    const l = c.getAttribute('data-label');
+    gMarcados.push({grupo: g, label: l});
+    if (g === 'alto_risco_maternidade') maiorRisco = 'maternidade';
+    else if (g === 'alto_risco' && maiorRisco !== 'maternidade') maiorRisco = 'compartilhado';
+    else if (g === 'vigilancia' && !['maternidade','compartilhado'].includes(maiorRisco)) maiorRisco = 'vigilancia';
+  });
+
+  const cfgs = {
+    habitual:      { cls:'rh-habitual',      icon:'🟢', titulo:'Risco Habitual',                    sub:'Direcionamento: Linha de Cuidado Primário na UBS' },
+    vigilancia:    { cls:'rh-vigilancia',    icon:'🟡', titulo:'Risco Habitual com Maior Vigilância', sub:'Acompanhamento reforçado na Atenção Primária' },
+    compartilhado: { cls:'rh-compartilhado', icon:'🟠', titulo:'Alto Risco Compartilhado',            sub:'Encaminhar para Policlínica / Especialista' },
+    maternidade:   { cls:'rh-maternidade',   icon:'🔴', titulo:'Alto Risco — Maternidade',            sub:'Vinculação imediata à Maternidade de Alta Complexidade' }
+  };
+  const cfg = cfgs[maiorRisco];
+
+  const h = document.getElementById('g-res-header');
+  h.className = 'g-resultado-header ' + cfg.cls;
+  document.getElementById('g-res-icone').textContent = cfg.icon;
+  document.getElementById('g-res-titulo').textContent = cfg.titulo;
+  document.getElementById('g-res-sub').textContent    = cfg.sub;
+
+  document.getElementById('go-nome').textContent  = document.getElementById('g-nome').value  || '—';
+  document.getElementById('go-cns').textContent   = document.getElementById('g-cns').value   || '—';
+  document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || '—';
+  document.getElementById('go-ubs').textContent   = document.getElementById('g-ubs').value   || '—';
+
+  const box = document.getElementById('go-alertas');
+  box.innerHTML = gMarcados.length === 0
+    ? '<div class="g-item-alerta">Nenhum fator de risco assinalado. Gestação segue padrão fisiológico.</div>'
+    : gMarcados.map(m => `<div class="g-item-alerta"><strong>[${m.grupo.replace(/_/g,' ').toUpperCase()}]</strong> ${m.label}</div>`).join('');
+
+  // esconde tudo, mostra resultado
+  for (let i = 1; i <= G_TOTAL; i++) document.getElementById('gpag-' + i).style.display = 'none';
+  document.getElementById('gpag-resultado').style.display = 'block';
+  document.getElementById('gnav').classList.add('hidden');
+  window.scrollTo(0, 0);
+}
+
+function exportarExcelGestante() {
+  const reg = {
+    Data_Consulta: new Date().toLocaleDateString('pt-BR'),
+    Nome_Gestante: document.getElementById('g-nome').value,
+    CNS: document.getElementById('g-cns').value,
+    Idade: document.getElementById('g-idade').value,
+    UBS: document.getElementById('g-ubs').value,
+    Equipe: document.getElementById('g-equipe').value,
+    Classificacao: document.getElementById('g-res-titulo').textContent,
+    Qtd_Fatores: gMarcados.length
+  };
+  gHistorico.push(reg);
+  const ws = XLSX.utils.json_to_sheet(gHistorico);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Gestantes');
+  XLSX.writeFile(wb, 'Estratificacao_Gestante.xlsx');
+  toast('✅ Excel exportado com sucesso!');
+}
+
+function reiniciarGestante() {
+  if (!confirm('Iniciar nova consulta? Os dados serão limpos.')) return;
+  document.querySelectorAll('#modulo-gestante input[type=text], #modulo-gestante input[type=number], #modulo-gestante input[type=date], #modulo-gestante input[type=tel]').forEach(i => i.value = '');
+  document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.g-check').className = 'g-check'; });
+  document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r => r.checked = false);
+  gPagAtual = 1; gMarcados = [];
+  document.getElementById('gpag-resultado').style.display = 'none';
+  gRenderPag();
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════
+//  MÓDULO CRIANÇA
+// ══════════════════════════════════════
+let cRisco      = 'HABITUAL';
+let cRegistros  = JSON.parse(localStorage.getItem('_crianca_regs') || '[]');
+
+function cMarca(cb, cls) {
+  const label = cb.closest('.c-check');
+  label.className = 'c-check';
+  if (cb.checked) label.classList.add(cls);
+  cCalcular();
+}
+
+function cCalcular() {
+  const peso = document.getElementById('c-peso').value;
+  const ig   = document.getElementById('c-ig').value;
+  const alto = document.querySelectorAll('#modulo-crianca .chk-alto:checked').length > 0;
+  const inter = document.querySelectorAll('#modulo-crianca .chk-inter:checked').length > 0;
+
+  let dias = 30;
+  if (alto || ['muito_baixo','extremo_baixo'].includes(peso) || ['extremo_prematuro','muito_prematuro','pre_termo_mod'].includes(ig)) {
+    cRisco = 'ALTO'; dias = 7;
+  } else if (inter || ['baixo','excessivo'].includes(peso) || ['termo_precoce','pre_termo_tardio','pos_termo'].includes(ig)) {
+    cRisco = 'INTERMEDIÁRIO'; dias = 15;
+  } else {
+    cRisco = 'HABITUAL'; dias = 30;
+  }
+
+  const cfgs = {
+    HABITUAL:      { cls:'c-habitual',      icon:'🟢', txt:'Classificação: RISCO HABITUAL',      sub:'Rotina padrão de crescimento e desenvolvimento' },
+    INTERMEDIÁRIO: { cls:'c-intermediario', icon:'🟡', txt:'Classificação: RISCO INTERMEDIÁRIO', sub:'Acompanhamento estratégico na UBS (retorno em 15 dias)' },
+    ALTO:          { cls:'c-alto',           icon:'🔴', txt:'Classificação: ALTO RISCO',          sub:'Encaminhar ao ambulatório especializado (retorno em 7 dias)' }
+  };
+  const cfg = cfgs[cRisco];
+  const painel = document.getElementById('c-painel');
+  painel.className = 'c-painel ' + cfg.cls;
+  painel.innerHTML = `<div class="p-icon">${cfg.icon}</div><div class="p-text"><span>${cfg.txt}</span><small>${cfg.sub}</small></div>`;
+
+  const dataStr = document.getElementById('c-data').value;
+  if (dataStr) {
+    const d = new Date(dataStr + 'T12:00:00');
+    d.setDate(d.getDate() + dias);
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const yy = d.getFullYear();
+    document.getElementById('c-retorno').value = `${yy}-${mm}-${dd}`;
+    cAtualizarWpp(dd, mm, yy);
+  }
+}
+
+function cAtualizarWpp(dd, mm, yy) {
+  const mae     = document.getElementById('c-mae').value     || '[Nome da Mãe]';
+  const crianca = document.getElementById('c-nome').value    || '[Nome da Criança]';
+  const ubs     = document.getElementById('c-ubs').value     || '[UBS]';
+  const data    = `${dd}/${mm}/${yy}`;
+  const extras  = {
+    ALTO: '*⚠️ Atenção:* Criança em ALTO RISCO. Retorno em 7 dias é fundamental. Qualquer piora, procure a unidade imediatamente.',
+    INTERMEDIÁRIO: '*📌 Nota:* Acompanhamento preventivo importante para monitorar peso, vacinas e desenvolvimento.',
+    HABITUAL: ''
+  };
+  const msg =
+`Olá, Sra. *${mae}*! 👋
+Aqui é o assistente da *${ubs}*.
+
+A avaliação do(a) *${crianca}* foi concluída! ✅
+
+📅 *Próximo retorno:* ${data}
+⏰ Turno matutino — por ordem de chegada
+
+${extras[cRisco]}
+
+Traga a *Caderneta de Vacinação*! 💉
+👶💚 Cuidando juntos da saúde da criança!`;
+
+  const hora = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('c-wpp').innerHTML =
+    msg.replace(/\*(.*?)\*/g,'<strong>$1</strong>') +
+    `<span class="wpp-time" id="c-wpp-hora">${hora} ✓✓</span>`;
+}
+
+function cSalvar() {
+  cCalcular();
+  const reg = {
+    id:         'R-' + Date.now(),
+    nomeCrianca: document.getElementById('c-nome').value,
+    nomeMae:     document.getElementById('c-mae').value,
+    celular:     document.getElementById('c-cel').value,
+    ubs:         document.getElementById('c-ubs').value,
+    risco:       cRisco,
+    dataConsulta:document.getElementById('c-data').value,
+    dataRetorno: document.getElementById('c-retorno').value,
+    wpp:         'PENDENTE',
+    criadoEm:    new Date().toISOString()
+  };
+  if (!reg.nomeCrianca || !reg.nomeMae) {
+    toast('⚠️ Informe o nome da criança e da mãe!', 'warn'); return;
+  }
+  cRegistros.push(reg);
+  localStorage.setItem('_crianca_regs', JSON.stringify(cRegistros));
+  cCarregar();
+  toast('💾 Registro salvo com sucesso!');
+}
+
+function cCarregar() {
+  const tbody = document.getElementById('c-tbody');
+  const regs  = [...cRegistros].sort((a,b) => (a.dataRetorno||'').localeCompare(b.dataRetorno||''));
+  if (regs.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro salvo ainda.</td></tr>';
+    return;
+  }
+  const hoje = new Date().toISOString().split('T')[0];
+  const map  = { ALTO:'bp-vermelho', INTERMEDIÁRIO:'bp-amarelo', HABITUAL:'bp-verde' };
+  tbody.innerHTML = regs.map(r => {
+    const dt = r.dataRetorno ? r.dataRetorno.split('-').reverse().join('/') : '—';
+    const ehHoje = r.dataRetorno === hoje;
+    const wppEl = r.wpp === 'ENVIADO'
+      ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
+      : (ehHoje ? '<span class="badge-pill bp-pendente">📤 Hoje!</span>'
+          : '<span class="badge-pill bp-pendente">⏳</span>');
+    return `<tr>
+      <td><strong>${r.nomeCrianca||'—'}</strong></td>
+      <td>${r.nomeMae||'—'}</td>
+      <td><a href="https://wa.me/55${(r.celular||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.celular||'—'}</a></td>
+      <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'—'}</span></td>
+      <td style="${ehHoje?'font-weight:800;color:var(--verde)':''}">${dt}</td>
+      <td>${wppEl}</td>
+    </tr>`;
+  }).join('');
+}
+
+function cEnviarWpp() {
+  const fone = (document.getElementById('c-cel').value || '').replace(/\D/g,'');
+  if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!', 'warn'); return; }
+  const texto = document.getElementById('c-wpp').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${fone}&text=${encodeURIComponent(texto)}`, '_blank');
+}
+
+function cNova() {
+  if (!confirm('Limpar formulário para nova ficha?')) return;
+  document.querySelectorAll('#modulo-crianca input[type=text], #modulo-crianca input[type=tel], #modulo-crianca input[type=date]').forEach(i => i.value = '');
+  document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.c-check').className = 'c-check'; });
+  document.getElementById('c-data').valueAsDate = new Date();
+  document.getElementById('c-peso').value = 'adequado';
+  document.getElementById('c-ig').value   = 'termo_completo';
+  cCalcular();
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════
+function toast(msg, tipo) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = tipo === 'warn' ? '#b45309' : '#1a6b40';
+  t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.style.display = 'none', 3800);
+}
+
+// ══════════════════════════════════════
+//  LOGIN — APENAS enfermeira / 123
+// ══════════════════════════════════════
+const USUARIOS_APS = {
+  "enfermeira": "123"
+};
+
+let _tentativas = 0;
+let _bloqueadoAte = 0;
+
+function fazerLogin() {
+  const agora = Date.now();
+  if (agora < _bloqueadoAte) {
+    const seg = Math.ceil((_bloqueadoAte - agora) / 1000);
+    mostrarErroLogin('Acesso bloqueado. Aguarde ' + seg + 's.');
+    return;
+  }
+
+  const user  = (document.getElementById('login-user').value  || '').trim();
+  const senha = (document.getElementById('login-senha').value || '');
+
+  if (!user || !senha) {
+    mostrarErroLogin('Preencha o usuário e a senha.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-login');
+  btn.classList.add('loading');
+  btn.textContent = 'Verificando...';
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.textContent = 'Entrar no Sistema →';
+
+    if (USUARIOS_APS[user] && USUARIOS_APS[user] === senha) {
+      _tentativas = 0;
+      document.getElementById('login-user').value  = '';
+      document.getElementById('login-senha').value = '';
+      document.getElementById('login-erro').style.display = 'none';
+
+      const card = document.querySelector('.login-card');
+      card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      card.style.transform  = 'scale(0.95) translateY(-10px)';
+      card.style.opacity    = '0';
+
+      setTimeout(() => {
+        document.getElementById('tela-login').style.display  = 'none';
+        document.getElementById('tela-portal').style.display = 'flex';
+        document.getElementById('tela-portal').style.flexDirection = 'column';
+      }, 320);
+
+    } else {
+      _tentativas++;
+      document.getElementById('login-senha').value = '';
+      document.getElementById('login-senha').focus();
+
+      if (_tentativas >= 5) {
+        _bloqueadoAte = Date.now() + 30000;
+        _tentativas = 0;
+        mostrarErroLogin('5 tentativas incorretas. Bloqueado por 30 segundos.');
+      } else {
+        const restam = 5 - _tentativas;
+        mostrarErroLogin('Usuário ou senha incorretos. (' + restam + ' tentativa' + (restam > 1 ? 's' : '') + ' restante' + (restam > 1 ? 's' : '') + ')');
+      }
+    }
+  }, 500);
+}
+
+function mostrarErroLogin(msg) {
+  const el = document.getElementById('login-erro');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.animation = 'none';
+  void el.offsetHeight;
+  el.style.animation = 'shake 0.35s ease';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.style.display = 'none', 4500);
+}
+
+// init
+window.addEventListener('load', () => {
+  document.getElementById('login-user').value  = '';
+  document.getElementById('login-senha').value = '';
+  document.getElementById('login-user').focus();
+
+  const hoje = new Date();
+  const c = document.getElementById('c-data');
+  if (c) c.valueAsDate = hoje;
+});
+</script>
+</body>
+</html>
