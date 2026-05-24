@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal APS — SECRETARIA DE SAÚDE - ALTO ALEGRE DO Maranhão</title>
+<title>Portal APS â SECRETARIA DE SAÃDE - ALTO ALEGRE DO MaranhÃo</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
@@ -133,9 +133,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .g-res-card h3{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--cinza-500);margin-bottom:0.9rem;border-bottom:1px solid var(--cinza-100);padding-bottom:0.5rem}
 .g-item-alerta{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.88rem;padding:0.45rem 0;border-bottom:1px solid var(--cinza-100);color:var(--cinza-900)}
 .g-item-alerta:last-child{border-bottom:none}
-.g-item-alerta::before{content:'▸';color:#9ca3af;flex-shrink:0;margin-top:2px}
+.g-item-alerta::before{content:'OK';color:#9ca3af;flex-shrink:0;margin-top:2px}
 
-/* CRIANÇA */
+/* CRIANÃA */
 #modulo-crianca{display:none}
 .cri-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .c-secao{background:white;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
@@ -171,7 +171,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .wpp-balao::before{content:'';position:absolute;top:0;left:-8px;border:7px solid transparent;border-right-color:white;border-top:0;border-left:0}
 .wpp-time{display:block;text-align:right;font-size:0.65rem;color:#8696a0;margin-top:0.35rem}
 
-/* BOTÕES */
+/* BOTÃES */
 .btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.6rem 1.3rem;border-radius:9px;border:none;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.18s}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none!important}
 .btn-prev{background:white;color:var(--cinza-700);border:2px solid var(--borda)}
@@ -233,7 +233,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .modal-campo input:focus,.modal-campo select:focus{border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
 .modal-btns{display:flex;gap:0.75rem;margin-top:1.25rem;justify-content:flex-end}
 
-/* HISTÓRICO */
+/* HISTÃRICO */
 .historico-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .historico-overlay.aberto{display:flex}
 .historico-box{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
@@ -258,33 +258,33 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 <!-- MODAL EDITAR -->
 <div class="modal-overlay" id="modal-editar">
   <div class="modal">
-    <h3>✏️ Editar Registro</h3>
+    <h3>âï Editar Registro</h3>
     <input type="hidden" id="edit-id">
-    <div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div>
-    <div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div>
+    <div class="modal-campo"><label>Nome da CrianÃa</label><input type="text" id="edit-crianca"></div>
+    <div class="modal-campo"><label>Nome da MÃe</label><input type="text" id="edit-mae"></div>
     <div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div>
     <div class="modal-campo">
       <label>Risco</label>
       <select id="edit-risco">
-        <option value="HABITUAL">🟢 Habitual</option>
-        <option value="INTERMEDIÁRIO">🟡 Intermediário</option>
-        <option value="ALTO">🔴 Alto</option>
+        <option value="HABITUAL">ðŸŸ Habitual</option>
+        <option value="INTERMEDIÃRIO">ðŸŸ IntermediÃrio</option>
+        <option value="ALTO">ðŸ Alto</option>
       </select>
     </div>
     <div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div>
     <div class="modal-btns">
       <button class="btn btn-nova" onclick="fecharModal()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicao()">💾 Salvar</button>
+      <button class="btn btn-salvar" onclick="salvarEdicao()">ðŸ Salvar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL HISTÓRICO -->
+<!-- MODAL HISTÃRICO -->
 <div class="historico-overlay" id="modal-historico">
   <div class="historico-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <h3 id="historico-titulo">📋 Histórico</h3>
-      <button class="btn btn-nova" onclick="fecharHistorico()" style="padding:0.3rem 0.75rem;font-size:0.78rem">✕ Fechar</button>
+      <h3 id="historico-titulo">ðŸ HistÃrico</h3>
+      <button class="btn btn-nova" onclick="fecharHistorico()" style="padding:0.3rem 0.75rem;font-size:0.78rem">â Fechar</button>
     </div>
     <div id="historico-conteudo"></div>
   </div>
@@ -294,24 +294,24 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 <div id="tela-login">
   <div class="login-card">
     <div class="login-top">
-      <div class="login-icon-wrap">🏥</div>
+      <div class="login-icon-wrap">ðŸ</div>
       <div class="login-title-block">
-        <strong>Portal APS — SES Maranhão</strong>
-        <span>Estratificação de Risco · Acesso Seguro</span>
+        <strong>Portal APS â SES MaranhÃo</strong>
+        <span>EstratificaÃÃo de Risco Â Acesso Seguro</span>
       </div>
     </div>
     <div class="login-divider"></div>
-    <div class="login-erro" id="login-erro">Usuário ou senha incorretos.</div>
+    <div class="login-erro" id="login-erro">UsuÃrio ou senha incorretos.</div>
     <div class="login-campo">
-      <label>Usuário</label>
-      <input type="text" id="login-user" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite seu usuário" onkeydown="if(event.key=='Enter') fazerLogin()">
+      <label>UsuÃrio</label>
+      <input type="text" id="login-user" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite seu usuÃrio" onkeydown="if(event.key=='Enter') fazerLogin()">
     </div>
     <div class="login-campo">
       <label>Senha</label>
       <input type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha" onkeydown="if(event.key=='Enter') fazerLogin()">
     </div>
-    <button class="btn-login-submit" id="btn-login" onclick="fazerLogin()">Entrar no Sistema →</button>
-    <p class="login-tentativas">Acesso restrito à equipe de saúde autorizada</p>
+    <button class="btn-login-submit" id="btn-login" onclick="fazerLogin()">Entrar no Sistema â</button>
+    <p class="login-tentativas">Acesso restrito Ã equipe de saÃde autorizada</p>
   </div>
 </div>
 
@@ -319,57 +319,57 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 <div id="tela-portal" style="display:none">
   <div class="portal-hero">
     <div class="portal-logo-box">
-      <div class="portal-logo-icon">🏥</div>
+      <div class="portal-logo-icon">ðŸ</div>
       <div class="portal-logo-text">
-        <strong>Sistema APS — SES Maranhão</strong>
-        <span>Atenção Primária à Saúde · Estratificação de Risco</span>
+        <strong>Sistema APS â SES MaranhÃo</strong>
+        <span>AtenÃÃo PrimÃria Ã SaÃde Â EstratificaÃÃo de Risco</span>
       </div>
     </div>
-    <h1>Portal de <em>Estratificação</em><br>de Risco APS</h1>
-    <p>Selecione o módulo de atendimento para iniciar</p>
+    <h1>Portal de <em>EstratificaÃÃo</em><br>de Risco APS</h1>
+    <p>Selecione o mÃdulo de atendimento para iniciar</p>
   </div>
   <div class="portal-cards-wrap">
-    <div class="portal-cards-label">Módulos disponíveis</div>
+    <div class="portal-cards-label">MÃdulos disponÃveis</div>
     <div class="portal-cards">
       <div class="portal-card gestante" onclick="abrirModulo('gestante')">
-        <div class="card-emoji-wrap">🤰</div>
-        <h2>Estratificação da Gestante</h2>
-        <p>Ficha de monitoramento e estratificação de risco obstétrico com 3 etapas de avaliação clínica.</p>
+        <div class="card-emoji-wrap">ðŸ</div>
+        <h2>EstratificaÃÃo da Gestante</h2>
+        <p>Ficha de monitoramento e estratificaÃÃo de risco obstÃtrico com 3 etapas de avaliaÃÃo clÃnica.</p>
         <div class="card-riscos">
-          <span class="risco-pill verde">🟢 Habitual</span>
-          <span class="risco-pill amarelo">🟡 Vigilância</span>
-          <span class="risco-pill laranja">🟠 Compartilhado</span>
-          <span class="risco-pill vermelho">🔴 Maternidade</span>
+          <span class="risco-pill verde">ðŸŸ Habitual</span>
+          <span class="risco-pill amarelo">ðŸŸ VigilÃncia</span>
+          <span class="risco-pill laranja">ðŸŸ Compartilhado</span>
+          <span class="risco-pill vermelho">ðŸ Maternidade</span>
         </div>
-        <div class="card-arrow">Iniciar ficha <span>→</span></div>
+        <div class="card-arrow">Iniciar ficha <span>â</span></div>
       </div>
       <div class="portal-card crianca" onclick="abrirModulo('crianca')">
-        <div class="card-emoji-wrap">👶</div>
-        <h2>Estratificação da Criança</h2>
-        <p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p>
+        <div class="card-emoji-wrap">ðŸ</div>
+        <h2>EstratificaÃÃo da CrianÃa</h2>
+        <p>Ficha de estratificaÃÃo de risco 0â5 anos com cÃlculo automÃtico de retorno e envio via WhatsApp.</p>
         <div class="card-riscos">
-          <span class="risco-pill verde">🟢 Habitual</span>
-          <span class="risco-pill amarelo">🟡 Intermediário</span>
-          <span class="risco-pill vermelho">🔴 Alto Risco</span>
+          <span class="risco-pill verde">ðŸŸ Habitual</span>
+          <span class="risco-pill amarelo">ðŸŸ IntermediÃrio</span>
+          <span class="risco-pill vermelho">ðŸ Alto Risco</span>
         </div>
-        <div class="card-arrow">Iniciar ficha <span>→</span></div>
+        <div class="card-arrow">Iniciar ficha <span>â</span></div>
       </div>
     </div>
   </div>
-  <div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Estado da Saúde do Maranhão · Uso exclusivo da equipe de saúde</div>
+  <div class="portal-footer">Sistema APS CrianÃa e Gestante Â Secretaria de Estado da SaÃde do MaranhÃo Â Uso exclusivo da equipe de saÃde</div>
 </div>
 
-<!-- MÓDULO GESTANTE -->
+<!-- MÃDULO GESTANTE -->
 <div id="modulo-gestante">
   <div class="app-header">
     <div class="app-header-brand">
-      <div class="app-header-icon">🤰</div>
+      <div class="app-header-icon">ðŸ</div>
       <div class="app-header-text">
-        <strong>Estratificação da Gestante</strong>
-        <span>Ficha de Monitoramento e Risco Obstétrico</span>
+        <strong>EstratificaÃÃo da Gestante</strong>
+        <span>Ficha de Monitoramento e Risco ObstÃtrico</span>
       </div>
     </div>
-    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">â Portal</button>
   </div>
   <div class="gest-progress">
     <div class="gest-steps">
@@ -381,7 +381,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   </div>
   <div class="gest-content" id="gpag-1">
     <div class="g-secao">
-      <div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div>
+      <div class="g-secao-titulo t-id">ðŸ IdentificaÃÃo Cadastral da Gestante</div>
       <div class="g-secao-corpo">
         <div class="g-campo" style="margin-bottom:0.75rem"><label>Nome completo da gestante</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div>
         <div class="g-grid-4" style="margin-bottom:0.75rem">
@@ -391,25 +391,25 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="g-campo"><label>Data de Nascimento</label><input type="date" id="g-data_nasc"></div>
         </div>
         <div class="g-grid-3" style="margin-bottom:0.75rem">
-          <div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div>
+          <div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>UniÃo EstÃvel</option><option>Outro</option></select></div>
           <div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div>
           <div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div>
         </div>
         <div style="margin-bottom:0.75rem">
-          <label style="font-size:0.68rem;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.4rem">Autodeclaração de Raça/Cor</label>
+          <label style="font-size:0.68rem;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.4rem">AutodeclaraÃÃo de RaÃa/Cor</label>
           <div class="g-raca">
             <label><input type="radio" name="graca" value="Branca"> Branca</label>
             <label><input type="radio" name="graca" value="Preta"> Preta</label>
             <label><input type="radio" name="graca" value="Parda"> Parda</label>
             <label><input type="radio" name="graca" value="Amarela"> Amarela</label>
-            <label><input type="radio" name="graca" value="Indígena"> Indígena</label>
+            <label><input type="radio" name="graca" value="IndÃgena"> IndÃgena</label>
           </div>
         </div>
         <div class="g-grid-4" style="margin-bottom:0.75rem">
-          <div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="0"></div>
+          <div class="g-campo"><label>GestaÃÃes (G)</label><input type="number" id="g-gest" value="0"></div>
           <div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div>
           <div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div>
-          <div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div>
+          <div class="g-campo"><label>Partos CesÃreos</label><input type="number" id="g-pc" value="0"></div>
         </div>
         <div class="g-grid-3">
           <div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" autocomplete="off" placeholder="Nome da Unidade"></div>
@@ -421,21 +421,21 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   </div>
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
-      <div class="g-secao-titulo t-habitual">🟢 Critérios de Risco Habitual</div>
+      <div class="g-secao-titulo t-habitual">ðŸŸ CritÃrios de Risco Habitual</div>
       <div class="g-secao-corpo">
         <div class="g-checklist">
           <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Idade adequada (entre 15 e 39 anos)"><span>Idade adequada (entre 15 e 39 anos)</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Ausência de comorbidades ou antecedentes reprodutivos graves</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Evolução gestacional totalmente fisiológica"><span>Evolução gestacional totalmente fisiológica</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="AusÃncia de comorbidades ou antecedentes reprodutivos graves"><span>AusÃncia de comorbidades ou antecedentes reprodutivos graves</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="EvoluÃÃo gestacional totalmente fisiolÃgica"><span>EvoluÃÃo gestacional totalmente fisiolÃgica</span></label>
         </div>
       </div>
     </div>
     <div class="g-secao">
-      <div class="g-secao-titulo t-vigilancia">🟡 Fatores de Maior Vigilância</div>
+      <div class="g-secao-titulo t-vigilancia">ðŸŸ Fatores de Maior VigilÃncia</div>
       <div class="g-secao-corpo">
         <div class="g-duas-col">
           <div>
-            <div class="g-sub">Socioeconômicos / Individuais</div>
+            <div class="g-sub">SocioeconÃmicos / Individuais</div>
             <div class="g-checklist">
               <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixa escolaridade ou extrema vulnerabilidade"><span>Baixa escolaridade ou extrema vulnerabilidade</span></label>
               <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Idade nos extremos reprodutivos"><span>Idade nos extremos reprodutivos (&lt;15 ou &gt;40)</span></label>
@@ -443,11 +443,11 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             </div>
           </div>
           <div>
-            <div class="g-sub">Histórico ou Clínico Atual</div>
+            <div class="g-sub">HistÃrico ou ClÃnico Atual</div>
             <div class="g-checklist">
               <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Ganho de peso inadequado"><span>Ganho de peso inadequado ou IMC inadequado</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Infecção urinária baixa recorrente"><span>Infecção urinária baixa recorrente</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de tabaco ou dependências leves"><span>Uso de tabaco ou dependências leves</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="InfecÃÃo urinÃria baixa recorrente"><span>InfecÃÃo urinÃria baixa recorrente</span></label>
+              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de tabaco ou dependÃncias leves"><span>Uso de tabaco ou dependÃncias leves</span></label>
             </div>
           </div>
         </div>
@@ -456,42 +456,42 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   </div>
   <div class="gest-content" id="gpag-3" style="display:none">
     <div class="g-secao">
-      <div class="g-secao-titulo t-compartilhado">🟠 Alto Risco — Acompanhamento Compartilhado</div>
+      <div class="g-secao-titulo t-compartilhado">ðŸŸ Alto Risco â Acompanhamento Compartilhado</div>
       <div class="g-secao-corpo">
         <div class="g-checklist">
           <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Diabetes Mellitus Gestacional controlado"><span>Diabetes Mellitus Gestacional (DMG) controlado</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Hipertensão Arterial Crônica controlada"><span>Hipertensão Arterial Crônica controlada</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Anemia grave refratária"><span>Anemia grave refratária ao tratamento primário</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatrizes uterinas múltiplas (2+ cesáreas)"><span>Cicatrizes uterinas múltiplas (2 ou mais cesáreas)</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="HipertensÃo Arterial CrÃnica controlada"><span>HipertensÃo Arterial CrÃnica controlada</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Anemia grave refratÃria"><span>Anemia grave refratÃria ao tratamento primÃrio</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatrizes uterinas mÃltiplas (2+ cesÃreas)"><span>Cicatrizes uterinas mÃltiplas (2 ou mais cesÃreas)</span></label>
         </div>
       </div>
     </div>
     <div class="g-secao">
-      <div class="g-secao-titulo t-maternidade">🔴 Alto Risco Gravíssimo — Maternidade</div>
+      <div class="g-secao-titulo t-maternidade">ðŸ Alto Risco GravÃssimo â Maternidade</div>
       <div class="g-secao-corpo">
         <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Pré-eclâmpsia ou Eclâmpsia"><span>Pré-eclâmpsia sobreposta ou Sinais de Eclâmpsia</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes Insulino-dependente descompensado"><span>Diabetes Insulino-dependente prévio descompensado</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="PrÃ-eclÃmpsia ou EclÃmpsia"><span>PrÃ-eclÃmpsia sobreposta ou Sinais de EclÃmpsia</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes Insulino-dependente descompensado"><span>Diabetes Insulino-dependente prÃvio descompensado</span></label>
           <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Cardiopatias maternas limitantes"><span>Cardiopatias maternas limitantes estruturais</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias ativas persistentes"><span>Hemorragias ativas persistentes na gestação</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias ativas persistentes"><span>Hemorragias ativas persistentes na gestaÃÃo</span></label>
         </div>
       </div>
     </div>
   </div>
   <div id="gpag-resultado" style="display:none">
     <div class="g-resultado-header" id="g-res-header">
-      <div class="badge" id="g-res-icone">🟢</div>
+      <div class="badge" id="g-res-icone">ðŸŸ</div>
       <h2 id="g-res-titulo">Risco Habitual</h2>
-      <p id="g-res-sub">Direcionamento: Linha de Cuidado Primário na UBS</p>
+      <p id="g-res-sub">Direcionamento: Linha de Cuidado PrimÃrio na UBS</p>
     </div>
     <div class="g-resultado-body">
       <div class="g-res-card">
-        <h3>Identificação da Gestante</h3>
+        <h3>IdentificaÃÃo da Gestante</h3>
         <div class="g-grid-2" style="gap:0.5rem">
-          <p><strong>Gestante:</strong> <span id="go-nome">—</span></p>
-          <p><strong>CNS:</strong> <span id="go-cns">—</span></p>
-          <p><strong>Idade:</strong> <span id="go-idade">—</span> anos</p>
-          <p><strong>UBS:</strong> <span id="go-ubs">—</span></p>
+          <p><strong>Gestante:</strong> <span id="go-nome">â</span></p>
+          <p><strong>CNS:</strong> <span id="go-cns">â</span></p>
+          <p><strong>Idade:</strong> <span id="go-idade">â</span> anos</p>
+          <p><strong>UBS:</strong> <span id="go-ubs">â</span></p>
         </div>
       </div>
       <div class="g-res-card">
@@ -499,60 +499,60 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         <div id="go-alertas"></div>
       </div>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
-        <button class="btn btn-excel" onclick="exportarExcelGestante()">📊 Excel</button>
-        <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
-        <button class="btn btn-nova" onclick="reiniciarGestante()">↺ Nova Consulta</button>
-        <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        <button class="btn btn-excel" onclick="exportarExcelGestante()">ðŸ Excel</button>
+        <button class="btn btn-pdf" onclick="window.print()">ðŸï PDF</button>
+        <button class="btn btn-nova" onclick="reiniciarGestante()">â Nova Consulta</button>
+        <button class="btn btn-nova" onclick="voltarPortal()">â Portal</button>
       </div>
     </div>
   </div>
   <div class="nav-bottom" id="gnav">
-    <button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>← Anterior</button>
-    <button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">Próximo →</button>
-    <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button>
+    <button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>â Anterior</button>
+    <button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">PrÃximo â</button>
+    <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">ðŸ Gerar DiagnÃstico</button>
   </div>
 </div>
 
-<!-- MÓDULO CRIANÇA -->
+<!-- MÃDULO CRIANÃA -->
 <div id="modulo-crianca">
   <div class="app-header">
     <div class="app-header-brand">
-      <div class="app-header-icon">👶</div>
+      <div class="app-header-icon">ðŸ</div>
       <div class="app-header-text">
-        <strong>Estratificação da Criança (0–5 anos)</strong>
+        <strong>EstratificaÃÃo da CrianÃa (0â5 anos)</strong>
         <span>Monitoramento de Risco e Retorno APS</span>
       </div>
     </div>
-    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">â Portal</button>
   </div>
   <div class="cri-content">
     <div class="c-secao">
-      <div class="c-secao-titulo t-id">👤 Identificação</div>
+      <div class="c-secao-titulo t-id">ðŸ IdentificaÃÃo</div>
       <div class="c-secao-corpo">
         <div class="c-grid-2" style="margin-bottom:0.75rem">
-          <div class="c-campo"><label>Nome da Criança</label><input type="text" id="c-nome" autocomplete="off" placeholder="Nome completo"></div>
-          <div class="c-campo"><label>Nome da Mãe</label><input type="text" id="c-mae" autocomplete="off" placeholder="Nome completo da mãe"></div>
+          <div class="c-campo"><label>Nome da CrianÃa</label><input type="text" id="c-nome" autocomplete="off" placeholder="Nome completo"></div>
+          <div class="c-campo"><label>Nome da MÃe</label><input type="text" id="c-mae" autocomplete="off" placeholder="Nome completo da mÃe"></div>
         </div>
         <div class="c-grid-4" style="margin-bottom:0.75rem">
           <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" autocomplete="off"></div>
-          <div class="c-campo"><label>Prontuário</label><input type="text" id="c-pront" autocomplete="off"></div>
+          <div class="c-campo"><label>ProntuÃrio</label><input type="text" id="c-pront" autocomplete="off"></div>
           <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="c-nasc" onchange="cCalcular()"></div>
-          <div class="c-campo"><label>WhatsApp da Mãe</label><input type="tel" id="c-cel" autocomplete="off" placeholder="98991234567"></div>
+          <div class="c-campo"><label>WhatsApp da MÃe</label><input type="tel" id="c-cel" autocomplete="off" placeholder="98991234567"></div>
         </div>
         <div class="c-grid-3">
           <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" autocomplete="off" placeholder="Nome da UBS"></div>
-          <div class="c-campo"><label>Microárea</label><input type="text" id="c-micro" autocomplete="off"></div>
-          <div class="c-campo"><label>Responsável</label><input type="text" id="c-enf" autocomplete="off"></div>
+          <div class="c-campo"><label>MicroÃrea</label><input type="text" id="c-micro" autocomplete="off"></div>
+          <div class="c-campo"><label>ResponsÃvel</label><input type="text" id="c-enf" autocomplete="off"></div>
         </div>
       </div>
     </div>
     <div class="c-secao">
-      <div class="c-secao-titulo t-natal">👶 Classificação ao Nascer</div>
+      <div class="c-secao-titulo t-natal">ðŸ ClassificaÃÃo ao Nascer</div>
       <div class="c-secao-corpo">
         <div class="c-grid-3">
           <div class="c-campo"><label>Peso ao Nascer</label>
             <select id="c-peso" onchange="cCalcular()">
-              <option value="adequado">Adequado (2500g–4500g)</option>
+              <option value="adequado">Adequado (2500gâ4500g)</option>
               <option value="baixo">Baixo peso (&lt;2500g)</option>
               <option value="muito_baixo">Muito baixo (&lt;1500g)</option>
               <option value="extremo_baixo">Extremo baixo (&lt;1000g)</option>
@@ -561,13 +561,13 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           </div>
           <div class="c-campo"><label>Idade Gestacional</label>
             <select id="c-ig" onchange="cCalcular()">
-              <option value="termo_completo">Termo completo (39–41 sem)</option>
-              <option value="termo_precoce">Termo precoce (37–38 sem)</option>
-              <option value="pre_termo_tardio">Pré-termo tardio (34–36 sem)</option>
-              <option value="pre_termo_mod">Pré-termo moderado (32–33 sem)</option>
-              <option value="muito_prematuro">Muito prematuro (28–31 sem)</option>
+              <option value="termo_completo">Termo completo (39â41 sem)</option>
+              <option value="termo_precoce">Termo precoce (37â38 sem)</option>
+              <option value="pre_termo_tardio">PrÃ-termo tardio (34â36 sem)</option>
+              <option value="pre_termo_mod">PrÃ-termo moderado (32â33 sem)</option>
+              <option value="muito_prematuro">Muito prematuro (28â31 sem)</option>
               <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
-              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
+              <option value="pos_termo">PÃs-termo (&gt;42 sem)</option>
             </select>
           </div>
           <div class="c-campo"><label>Proporcionalidade</label>
@@ -581,76 +581,76 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
       </div>
     </div>
     <div class="c-secao">
-      <div class="c-secao-titulo t-alto">🔴 Fatores de Risco ALTO</div>
+      <div class="c-secao-titulo t-alto">ðŸ Fatores de Risco ALTO</div>
       <div class="c-secao-corpo">
         <div class="c-checklist">
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Crescimento fora dos limites / Desenvolvimento insatisfatório</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Sinais de violência física, sexual ou psicológica</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Apgar ≤ 6 no quinto minuto</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Asfixia perinatal ou malformações congênitas graves</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Infecções crônicas (Grupo ZTORCHS)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Internação hospitalar nos últimos 12 meses</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Crescimento fora dos limites / Desenvolvimento insatisfatÃrio</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Sinais de violÃncia fÃsica, sexual ou psicolÃgica</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Apgar â 6 no quinto minuto</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Asfixia perinatal ou malformaÃÃes congÃnitas graves</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>InfecÃÃes crÃnicas (Grupo ZTORCHS)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>InternaÃÃo hospitalar nos Ãltimos 12 meses</span></label>
         </div>
       </div>
     </div>
     <div class="c-secao">
-      <div class="c-secao-titulo t-inter">🟡 Fatores de Risco INTERMEDIÁRIO</div>
+      <div class="c-secao-titulo t-inter">ðŸŸ Fatores de Risco INTERMEDIÃRIO</div>
       <div class="c-secao-corpo">
         <div class="c-checklist">
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe com pré-natal incompleto (&lt;6 consultas)</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>MÃe com prÃ-natal incompleto (&lt;6 consultas)</span></label>
           <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Desmame precoce (aleitamento &lt;6 meses)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Criança não vacinada ou esquema atrasado</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Não comparecimento à agenda</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe adolescente ou baixa escolaridade</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Vulnerabilidade socioeconômica</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>CrianÃa nÃo vacinada ou esquema atrasado</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>NÃo comparecimento Ã agenda</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>MÃe adolescente ou baixa escolaridade</span></label>
+          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Vulnerabilidade socioeconÃmica</span></label>
         </div>
       </div>
     </div>
     <div class="c-secao">
-      <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
+      <div class="c-secao-titulo t-auto">âï ClassificaÃÃo e Retorno</div>
       <div class="c-secao-corpo">
         <div id="c-painel" class="c-painel c-habitual">
-          <div class="p-icon">🟢</div>
-          <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
+          <div class="p-icon">ðŸŸ</div>
+          <div class="p-text"><span>ClassificaÃÃo: RISCO HABITUAL</span><small>Rotina padrÃo de crescimento e desenvolvimento</small></div>
         </div>
         <div class="c-grid-2" style="margin-bottom:1rem">
           <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
-          <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534;border-color:#86efac"></div>
+          <div class="c-campo"><label>Data do Retorno (automÃtica)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534;border-color:#86efac"></div>
         </div>
         <div class="wpp-wrap">
           <div class="wpp-head">
             <svg width="18" height="18" viewBox="0 0 16 16" fill="#075e54"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg>
-            Prévia da mensagem WhatsApp
+            PrÃvia da mensagem WhatsApp
           </div>
-          <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado. Contamos com sua presença! 👶💚<span class="wpp-time">09:41 ✓✓</span></div>
+          <div class="wpp-balao" id="c-wpp">OlÃ! Aqui Ã a UBS. Retorno agendado. Contamos com sua presenÃa! ðŸðŸ<span class="wpp-time">09:41 ââ</span></div>
         </div>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
-          <button class="btn btn-salvar" id="btn-salvar" onclick="cSalvar()">💾 Salvar Registro</button>
+          <button class="btn btn-salvar" id="btn-salvar" onclick="cSalvar()">ðŸ Salvar Registro</button>
           <button class="btn btn-wpp" onclick="cEnviarWpp()">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg>
             Enviar WhatsApp
           </button>
-          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
-          <button class="btn btn-nova" onclick="cNova()">↺ Nova Ficha</button>
-          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+          <button class="btn btn-pdf" onclick="window.print()">ðŸï PDF</button>
+          <button class="btn btn-nova" onclick="cNova()">â Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">â Portal</button>
         </div>
 
         <!-- BUSCA E TABELA -->
         <div style="margin-top:1.75rem">
           <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
-            📋 Registros Salvos
-            <button onclick="cCarregar()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">↻</button>
+            ðŸ Registros Salvos
+            <button onclick="cCarregar()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">â</button>
           </div>
           <div class="busca-wrap">
-            <input type="text" class="busca-input" id="busca-input" placeholder="🔍 Buscar pelo nome da criança..." onkeydown="if(event.key=='Enter') cBuscar()">
+            <input type="text" class="busca-input" id="busca-input" placeholder="ðŸ Buscar pelo nome da crianÃa..." onkeydown="if(event.key=='Enter') cBuscar()">
             <button class="busca-btn" onclick="cBuscar()">Buscar</button>
             <button class="busca-btn" onclick="cCarregar()" style="background:var(--cinza-500)">Limpar</button>
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
               <thead><tr>
-                <th>Criança</th><th>Mãe</th><th>Telefone</th>
-                <th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>Ações</th>
+                <th>CrianÃa</th><th>MÃe</th><th>Telefone</th>
+                <th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>AÃÃes</th>
               </tr></thead>
               <tbody id="c-tbody">
                 <tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.</td></tr>
@@ -664,9 +664,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 </div>
 
 <script>
-// ══════════════════════════════════════
+
 //  PORTAL
-// ══════════════════════════════════════
+
 function abrirModulo(mod) {
   document.getElementById('tela-portal').style.display = 'none';
   if (mod === 'gestante') {
@@ -681,7 +681,7 @@ function abrirModulo(mod) {
 }
 
 function voltarPortal() {
-  if (!confirm('Voltar ao portal? Dados não salvos serão perdidos.')) return;
+  if (!confirm('Voltar ao portal? Dados nÃo salvos serÃo perdidos.')) return;
   document.getElementById('tela-portal').style.display = 'flex';
   document.getElementById('tela-portal').style.flexDirection = 'column';
   document.getElementById('modulo-gestante').style.display = 'none';
@@ -689,9 +689,9 @@ function voltarPortal() {
   document.getElementById('gnav').classList.add('hidden');
 }
 
-// ══════════════════════════════════════
+
 //  GESTANTE
-// ══════════════════════════════════════
+
 let gPagAtual = 1;
 const G_TOTAL = 3;
 let gMarcados = [];
@@ -743,10 +743,10 @@ function processarGestante() {
     else if (g === 'vigilancia' && !['maternidade','compartilhado'].includes(maiorRisco)) maiorRisco = 'vigilancia';
   });
   const cfgs = {
-    habitual:      { cls:'rh-habitual',      icon:'🟢', titulo:'Risco Habitual',                    sub:'Direcionamento: Linha de Cuidado Primário na UBS' },
-    vigilancia:    { cls:'rh-vigilancia',    icon:'🟡', titulo:'Risco Habitual com Maior Vigilância', sub:'Acompanhamento reforçado na Atenção Primária' },
-    compartilhado: { cls:'rh-compartilhado', icon:'🟠', titulo:'Alto Risco Compartilhado',            sub:'Encaminhar para Policlínica / Especialista' },
-    maternidade:   { cls:'rh-maternidade',   icon:'🔴', titulo:'Alto Risco — Maternidade',            sub:'Vinculação imediata à Maternidade de Alta Complexidade' }
+    habitual:      { cls:'rh-habitual',      icon:'ðŸŸ', titulo:'Risco Habitual',                    sub:'Direcionamento: Linha de Cuidado PrimÃrio na UBS' },
+    vigilancia:    { cls:'rh-vigilancia',    icon:'ðŸŸ', titulo:'Risco Habitual com Maior VigilÃncia', sub:'Acompanhamento reforÃado na AtenÃÃo PrimÃria' },
+    compartilhado: { cls:'rh-compartilhado', icon:'ðŸŸ', titulo:'Alto Risco Compartilhado',            sub:'Encaminhar para PoliclÃnica / Especialista' },
+    maternidade:   { cls:'rh-maternidade',   icon:'ðŸ', titulo:'Alto Risco â Maternidade',            sub:'VinculaÃÃo imediata Ã Maternidade de Alta Complexidade' }
   };
   const cfg = cfgs[maiorRisco];
   const h = document.getElementById('g-res-header');
@@ -754,13 +754,13 @@ function processarGestante() {
   document.getElementById('g-res-icone').textContent = cfg.icon;
   document.getElementById('g-res-titulo').textContent = cfg.titulo;
   document.getElementById('g-res-sub').textContent = cfg.sub;
-  document.getElementById('go-nome').textContent  = document.getElementById('g-nome').value  || '—';
-  document.getElementById('go-cns').textContent   = document.getElementById('g-cns').value   || '—';
-  document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || '—';
-  document.getElementById('go-ubs').textContent   = document.getElementById('g-ubs').value   || '—';
+  document.getElementById('go-nome').textContent  = document.getElementById('g-nome').value  || 'OK';
+  document.getElementById('go-cns').textContent   = document.getElementById('g-cns').value   || 'OK';
+  document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || 'OK';
+  document.getElementById('go-ubs').textContent   = document.getElementById('g-ubs').value   || 'OK';
   const box = document.getElementById('go-alertas');
   box.innerHTML = gMarcados.length === 0
-    ? '<div class="g-item-alerta">Nenhum fator de risco. Gestação fisiológica.</div>'
+    ? '<div class="g-item-alerta">Nenhum fator de risco. GestaÃÃo fisiolÃgica.</div>'
     : gMarcados.map(m => `<div class="g-item-alerta"><strong>[${m.grupo.replace(/_/g,' ').toUpperCase()}]</strong> ${m.label}</div>`).join('');
   for (let i = 1; i <= G_TOTAL; i++) document.getElementById('gpag-' + i).style.display = 'none';
   document.getElementById('gpag-resultado').style.display = 'block';
@@ -783,7 +783,7 @@ function exportarExcelGestante() {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Gestantes');
   XLSX.writeFile(wb, 'Estratificacao_Gestante.xlsx');
-  toast('✅ Excel exportado!');
+  toast('WhatsApp marcado como enviado!');
 }
 
 function reiniciarGestante() {
@@ -796,9 +796,9 @@ function reiniciarGestante() {
   gRenderPag(); window.scrollTo(0, 0);
 }
 
-// ══════════════════════════════════════
-//  CRIANÇA
-// ══════════════════════════════════════
+
+//  CRIANÃA
+
 let cRisco = 'HABITUAL';
 
 function cMarca(cb, cls) {
@@ -817,14 +817,14 @@ function cCalcular() {
   if (alto || ['muito_baixo','extremo_baixo'].includes(peso) || ['extremo_prematuro','muito_prematuro','pre_termo_mod'].includes(ig)) {
     cRisco = 'ALTO'; dias = 7;
   } else if (inter || ['baixo','excessivo'].includes(peso) || ['termo_precoce','pre_termo_tardio','pos_termo'].includes(ig)) {
-    cRisco = 'INTERMEDIÁRIO'; dias = 15;
+    cRisco = 'INTERMEDIÃRIO'; dias = 15;
   } else {
     cRisco = 'HABITUAL'; dias = 30;
   }
   const cfgs = {
-    HABITUAL:       { cls:'c-habitual',      icon:'🟢', txt:'Classificação: RISCO HABITUAL',      sub:'Rotina padrão de crescimento e desenvolvimento' },
-    'INTERMEDIÁRIO':{ cls:'c-intermediario', icon:'🟡', txt:'Classificação: RISCO INTERMEDIÁRIO', sub:'Acompanhamento estratégico (retorno em 15 dias)' },
-    ALTO:           { cls:'c-alto',           icon:'🔴', txt:'Classificação: ALTO RISCO',          sub:'Encaminhar ao especialista (retorno em 7 dias)' }
+    HABITUAL:       { cls:'c-habitual',      icon:'ðŸŸ', txt:'ClassificaÃÃo: RISCO HABITUAL',      sub:'Rotina padrÃo de crescimento e desenvolvimento' },
+    'INTERMEDIÃRIO':{ cls:'c-intermediario', icon:'ðŸŸ', txt:'ClassificaÃÃo: RISCO INTERMEDIÃRIO', sub:'Acompanhamento estratÃgico (retorno em 15 dias)' },
+    ALTO:           { cls:'c-alto',           icon:'ðŸ', txt:'ClassificaÃÃo: ALTO RISCO',          sub:'Encaminhar ao especialista (retorno em 7 dias)' }
   };
   const cfg = cfgs[cRisco];
   const painel = document.getElementById('c-painel');
@@ -843,46 +843,46 @@ function cCalcular() {
 }
 
 function cAtualizarWpp(dd, mm, yy) {
-  const mae     = document.getElementById('c-mae').value     || '[Mãe]';
-  const crianca = document.getElementById('c-nome').value    || '[Criança]';
+  const mae     = document.getElementById('c-mae').value     || '[MÃe]';
+  const crianca = document.getElementById('c-nome').value    || '[CrianÃa]';
   const ubs     = document.getElementById('c-ubs').value     || '[UBS]';
   const data    = `${dd}/${mm}/${yy}`;
   const extras  = {
-    ALTO: '*⚠️ Atenção:* Criança em ALTO RISCO. Retorno em 7 dias é fundamental.',
-    'INTERMEDIÁRIO': '*📌 Nota:* Acompanhamento preventivo importante.',
+    ALTO: '*âï AtenÃÃo:* CrianÃa em ALTO RISCO. Retorno em 7 dias Ã fundamental.',
+    'INTERMEDIÃRIO': '*ðŸ Nota:* Acompanhamento preventivo importante.',
     HABITUAL: ''
   };
   const msg =
-`Olá, Sra. *${mae}*! 👋
-Aqui é o assistente da *${ubs}*.
+`OlÃ, Sra. *${mae}*! ðŸ
+Aqui Ã o assistente da *${ubs}*.
 
-A avaliação do(a) *${crianca}* foi concluída! ✅
+A avaliaÃÃo do(a) *${crianca}* foi concluÃda! â
 
-📅 *Próximo retorno:* ${data}
-⏰ Turno matutino — por ordem de chegada
+ðŸ *PrÃximo retorno:* ${data}
+â Turno matutino â por ordem de chegada
 
 ${extras[cRisco]}
 
-Traga a *Caderneta de Vacinação*! 💉
-👶💚 Cuidando juntos da saúde da criança!`;
+Traga a *Caderneta de VacinaÃÃo*! ðŸ
+ðŸðŸ Cuidando juntos da saÃde da crianÃa!`;
   const hora = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
   document.getElementById('c-wpp').innerHTML =
     msg.replace(/\*(.*?)\*/g,'<strong>$1</strong>') +
-    `<span class="wpp-time">${hora} ✓✓</span>`;
+    `<span class="wpp-time">${hora} ââ</span>`;
 }
 
-// ══════════════════════════════════════
+
 //  SALVAR
-// ══════════════════════════════════════
+
 async function cSalvar() {
   cCalcular();
   const nomeCrianca = document.getElementById('c-nome').value.trim();
   const nomeMae     = document.getElementById('c-mae').value.trim();
   const celular     = document.getElementById('c-cel').value.trim();
   const dataRetorno = document.getElementById('c-retorno').value;
-  if (!nomeCrianca || !nomeMae) { toast('⚠️ Informe o nome da criança e da mãe!', 'warn'); return; }
+  if (!nomeCrianca || !nomeMae) { toast('OK', 'warn'); return; }
   const btn = document.getElementById('btn-salvar');
-  btn.disabled = true; btn.textContent = '⏳ Salvando...';
+  btn.disabled = true; btn.textContent = 'OK';
   try {
     const resp = await fetch('/api/apicrianca', {
       method: 'POST',
@@ -890,19 +890,19 @@ async function cSalvar() {
       body: JSON.stringify({ crianca: nomeCrianca, mae: nomeMae, telefone: celular, risco: cRisco, data_retorno: dataRetorno || null, wpp: 'PENDENTE' })
     });
     const data = await resp.json();
-    if (!resp.ok) { toast('❌ Erro: ' + (data.error || 'Tente novamente'), 'warn'); return; }
-    toast('💾 Registro salvo no banco de dados!');
+    if (!resp.ok) { toast('OK' + (data.error || 'Tente novamente'), 'warn'); return; }
+    toast('Registro excluido!');
     await cCarregar();
   } catch (err) {
-    toast('❌ Erro de conexão', 'warn'); console.error(err);
+    toast('OK', 'warn'); console.error(err);
   } finally {
-    btn.disabled = false; btn.innerHTML = '💾 Salvar Registro';
+    btn.disabled = false; btn.innerHTML = 'ðŸ Salvar Registro';
   }
 }
 
-// ══════════════════════════════════════
+
 //  CARREGAR / BUSCAR
-// ══════════════════════════════════════
+
 async function cCarregar() {
   document.getElementById('busca-input').value = '';
   await cCarregarUrl('/api/apicrianca');
@@ -934,32 +934,32 @@ function cRenderTabela(regs) {
     return;
   }
   const hoje = new Date().toISOString().split('T')[0];
-  const map  = { ALTO:'bp-vermelho', 'INTERMEDIÁRIO':'bp-amarelo', HABITUAL:'bp-verde' };
+  const map  = { ALTO:'bp-vermelho', 'INTERMEDIÃRIO':'bp-amarelo', HABITUAL:'bp-verde' };
   tbody.innerHTML = regs.map(r => {
-    const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
+    const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : 'OK';
     const ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
     const wppStatus = r.wpp === 'ENVIADO'
-      ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
-      : `<button class="btn-wpp-ok" onclick="marcarWpp(${r.id})">📤 Marcar</button>`;
+      ? '<span class="badge-pill bp-enviado">â Enviado</span>'
+      : `<button class="btn-wpp-ok" onclick="marcarWpp(${r.id})">ðŸ Marcar</button>`;
     return `<tr>
-      <td><strong>${r.crianca||'—'}</strong></td>
-      <td>${r.mae||'—'}</td>
-      <td><a href="https://wa.me/55${(r.telefone||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.telefone||'—'}</a></td>
-      <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'—'}</span></td>
+      <td><strong>${r.crianca||'OK'}</strong></td>
+      <td>${r.mae||'OK'}</td>
+      <td><a href="https://wa.me/55${(r.telefone||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.telefone||'OK'}</a></td>
+      <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'OK'}</span></td>
       <td style="${ehHoje?'font-weight:800;color:var(--verde)':''}">${dt}</td>
       <td>${wppStatus}</td>
       <td style="display:flex;gap:0.35rem;flex-wrap:wrap">
-        <button class="btn-editar" onclick="abrirEditar(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}','${(r.mae||'').replace(/'/g,"\\'")}','${(r.telefone||'').replace(/'/g,"\\'")}','${r.risco||''}','${r.data_retorno?r.data_retorno.split('T')[0]:''}')">✏️</button>
-        <button class="btn-excluir" onclick="excluirRegistro(${r.id})">🗑️</button>
-        <button class="btn-editar" style="background:#7c3aed" onclick="verHistorico(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}')">📋</button>
+        <button class="btn-editar" onclick="abrirEditar(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}','${(r.mae||'').replace(/'/g,"\\'")}','${(r.telefone||'').replace(/'/g,"\\'")}','${r.risco||''}','${r.data_retorno?r.data_retorno.split('T')[0]:''}')">âï</button>
+        <button class="btn-excluir" onclick="excluirRegistro(${r.id})">ðŸï</button>
+        <button class="btn-editar" style="background:#7c3aed" onclick="verHistorico(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}')">ðŸ</button>
       </td>
     </tr>`;
   }).join('');
 }
 
-// ══════════════════════════════════════
+
 //  EDITAR
-// ══════════════════════════════════════
+
 function abrirEditar(id, crianca, mae, telefone, risco, retorno) {
   document.getElementById('edit-id').value       = id;
   document.getElementById('edit-crianca').value  = crianca;
@@ -981,22 +981,21 @@ async function salvarEdicao() {
   const telefone = document.getElementById('edit-telefone').value.trim();
   const risco    = document.getElementById('edit-risco').value;
   const retorno  = document.getElementById('edit-retorno').value;
-  if (!crianca || !mae) { toast('⚠️ Nome obrigatório!', 'warn'); return; }
+  if (!crianca || !mae) { toast('OK', 'warn'); return; }
   try {
     const resp = await fetch(`/api/apicrianca?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ crianca, mae, telefone, risco, data_retorno: retorno || null })
     });
-    if (resp.ok) { toast('✅ Registro atualizado!'); fecharModal(); await cCarregar(); }
-    else toast('❌ Erro ao atualizar', 'warn');
-  } catch (e) { toast('❌ Erro de conexão', 'warn'); }
+    if (resp.ok) { toast('WhatsApp marcado como enviado!'); fecharModal(); await cCarregar(); }
+    else toast('OK', 'warn');
+  } catch (e) { toast('OK', 'warn'); }
 }
 
-// ══════════════════════════════════════
+
 //  EXCLUIR
-// ══════════════════════════════════════
-═════════════════════
+
 async function marcarWpp(id) {
   try {
     const resp = await fetch(`/api/apicrianca?id=${id}`, {
@@ -1004,13 +1003,13 @@ async function marcarWpp(id) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ wpp: 'ENVIADO' })
     });
-    if (resp.ok) { toast('✅ WhatsApp marcado como enviado!'); await cCarregar(); }
-    else toast('❌ Erro', 'warn');
-  } catch (e) { toast('❌ Erro de conexão', 'warn'); }
+    if (resp.ok) { toast('WhatsApp marcado como enviado!'); await cCarregar(); }
+    else toast('OK', 'warn');
+  } catch (e) { toast('OK', 'warn'); }
 }
 
 async function verHistorico(id, nome) {
-  document.getElementById('historico-titulo').textContent = `📋 Histórico: ${nome}`;
+  document.getElementById('historico-titulo').textContent = `ðŸ HistÃrico: ${nome}`;
   document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
   document.getElementById('modal-historico').classList.add('aberto');
   try {
@@ -1018,20 +1017,20 @@ async function verHistorico(id, nome) {
     const data = await resp.json();
     if (data.success && data.data && data.data.length > 0) {
       const r = data.data[0];
-      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
-      const criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '—';
+      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : 'OK';
+      const criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : 'OK';
       document.getElementById('historico-conteudo').innerHTML = `
         <div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">
-          <p><strong>Criança:</strong> ${r.crianca||'—'}</p>
-          <p><strong>Mãe:</strong> ${r.mae||'—'}</p>
-          <p><strong>Telefone:</strong> ${r.telefone||'—'}</p>
-          <p><strong>Risco:</strong> ${r.risco||'—'}</p>
+          <p><strong>CrianÃa:</strong> ${r.crianca||'OK'}</p>
+          <p><strong>MÃe:</strong> ${r.mae||'OK'}</p>
+          <p><strong>Telefone:</strong> ${r.telefone||'OK'}</p>
+          <p><strong>Risco:</strong> ${r.risco||'OK'}</p>
           <p><strong>Retorno:</strong> ${dt}</p>
-          <p><strong>WhatsApp:</strong> ${r.wpp||'—'}</p>
+          <p><strong>WhatsApp:</strong> ${r.wpp||'OK'}</p>
           <p><strong>Cadastrado em:</strong> ${criado}</p>
         </div>`;
     } else {
-      document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
+      document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histÃrico encontrado.</p>';
     }
   } catch (e) {
     document.getElementById('historico-conteudo').innerHTML = '<p style="color:var(--vermelho)">Erro ao carregar.</p>';
@@ -1044,13 +1043,13 @@ function fecharHistorico() {
 
 function cEnviarWpp() {
   const fone = (document.getElementById('c-cel').value || '').replace(/\D/g,'');
-  if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!', 'warn'); return; }
+  if (!fone) { toast('OK', 'warn'); return; }
   const texto = document.getElementById('c-wpp').innerText;
   window.open(`https://api.whatsapp.com/send?phone=55${fone}&text=${encodeURIComponent(texto)}`, '_blank');
 }
 
 function cNova() {
-  if (!confirm('Limpar formulário?')) return;
+  if (!confirm('Limpar formulÃrio?')) return;
   document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date]').forEach(i => i.value = '');
   document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.c-check').className = 'c-check'; });
   document.getElementById('c-data').valueAsDate = new Date();
@@ -1076,11 +1075,11 @@ function fazerLogin() {
   if (agora < _bloqueadoAte) { mostrarErroLogin('Bloqueado. Aguarde ' + Math.ceil((_bloqueadoAte-agora)/1000) + 's.'); return; }
   const user  = (document.getElementById('login-user').value  || '').trim();
   const senha = (document.getElementById('login-senha').value || '');
-  if (!user || !senha) { mostrarErroLogin('Preencha usuário e senha.'); return; }
+  if (!user || !senha) { mostrarErroLogin('Preencha usuÃrio e senha.'); return; }
   const btn = document.getElementById('btn-login');
   btn.classList.add('loading'); btn.textContent = 'Verificando...';
   setTimeout(() => {
-    btn.classList.remove('loading'); btn.textContent = 'Entrar no Sistema →';
+    btn.classList.remove('loading'); btn.textContent = 'Entrar no Sistema â';
     if (USUARIOS_APS[user] && USUARIOS_APS[user] === senha) {
       _tentativas = 0;
       document.getElementById('login-user').value = '';
@@ -1122,3 +1121,5 @@ window.addEventListener('load', () => {
 </script>
 </body>
 </html>
+
+
