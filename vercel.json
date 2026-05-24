@@ -1,32 +1,18 @@
-{
-  "version": 2,
-  "builds": [
+"routes": [
     {
-      "src": "api/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/api/apicrianca",
+      "dest": "/apicrianca.js"
     },
     {
-      "src": "/health",
-      "dest": "/api/health.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "headers": [
+      "src": "/api/apigestante",
+      "dest": "/apigestante.js"
+    },
     {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" }
-      ]
+      "src": "/api/apireports",
+      "dest": "/apireports.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
-}
