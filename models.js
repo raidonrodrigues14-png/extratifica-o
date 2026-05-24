@@ -18,16 +18,15 @@ const Gestante = sequelize.define('Gestante', {
 }, { tableName: 'gestantes', timestamps: true });
 
 const Crianca = sequelize.define('Crianca', {
-  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  nome: { type: DataTypes.STRING, allowNull: false },
-  nome_mae: { type: DataTypes.STRING, allowNull: false },
-  telefone: DataTypes.STRING,
-  ubs: DataTypes.STRING,
-  risco: { type: DataTypes.ENUM('HABITUAL', 'INTERMEDIÁRIO', 'ALTO'), defaultValue: 'HABITUAL' },
-  data_consulta: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
-  data_retorno: DataTypes.DATEONLY,
-  fatores_alto: { type: DataTypes.JSONB, defaultValue: [] },
-  fatores_inter: { type: DataTypes.JSONB, defaultValue: [] }
-}, { tableName: 'criancas', timestamps: true });
+  id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+  crianca: { type: DataTypes.TEXT, allowNull: false },
+  mae: { type: DataTypes.TEXT, allowNull: false },
+  telefone: { type: DataTypes.TEXT }
+}, { 
+  tableName: 'extratifica',
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: false
+});
 
 module.exports = { Gestante, Crianca, sequelize };
