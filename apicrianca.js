@@ -16,20 +16,28 @@ export default async (req, res) => {
   };
 
   try {
+    // GET — listar ou buscar
     if (req.method === 'GET') {
       const { busca, id } = req.query;
+
+      // Histórico de uma criança específica
       if (id) {
         const resp = await fetch(`${SUPABASE_URL}/rest/v1/extratifica?id=eq.${id}`, { headers });
         const data = await resp.json();
         return res.json({ success: true, data });
       }
+
+      // Busca por nome
       let url = `${SUPABASE_URL}/rest/v1/extratifica?order=id.desc`;
-      if (busca) url += `&crianca=ilike.*${busca}*`;
+      if (busca) {
+        url += `&crianca=ilike.*${busca}*`;
+      }
       const resp = await fetch(url, { headers });
       const data = await resp.json();
       return res.json({ success: true, data });
     }
 
+    // POST — criar novo registro
     if (req.method === 'POST') {
       const { crianca, mae, telefone, risco, data_retorno, wpp } = req.body;
       if (!crianca || !mae) {
@@ -44,6 +52,7 @@ export default async (req, res) => {
       return res.status(201).json({ success: true, data });
     }
 
+    // PUT — editar registro
     if (req.method === 'PUT') {
       const { id } = req.query;
       if (!id) return res.status(400).json({ error: 'ID obrigatório' });
@@ -57,6 +66,7 @@ export default async (req, res) => {
       return res.json({ success: true, data });
     }
 
+    // DELETE — excluir registro
     if (req.method === 'DELETE') {
       const { id } = req.query;
       if (!id) return res.status(400).json({ error: 'ID obrigatório' });
