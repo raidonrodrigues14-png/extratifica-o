@@ -1,6 +1,7 @@
 {
-  "name": "portal-aps-backend",
+  "name": "extratifica-o-de-crian-a",
   "version": "1.0.0",
+  "type": "module",
   "description": "API Serverless Portal APS - SES Maranhão",
   "main": "api/index.js",
   "scripts": {
