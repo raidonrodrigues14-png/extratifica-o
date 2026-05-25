@@ -675,7 +675,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 // ============================================================
 const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bQ5PHKLu1jAhiV8Tcd';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Teste de conexão
 supabase.from('extratifica').select('count').then(res => {
     console.log('✅ Supabase conectado! Total de registros:', res.data);
