@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal APS — SECRETARIA DE SAÚDE - ALTO ALEGRE DO Maranhão</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 :root {
@@ -255,10 +257,10 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 <body>
 <div class="toast" id="toast"></div>
 
-<!-- MODAL EDITAR -->
+<!-- MODAL EDITAR CRIANÇA -->
 <div class="modal-overlay" id="modal-editar">
   <div class="modal">
-    <h3>✏️ Editar Registro</h3>
+    <h3>✏️ Editar Registro (Criança)</h3>
     <input type="hidden" id="edit-id">
     <div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div>
     <div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div>
@@ -274,12 +276,36 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
     <div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div>
     <div class="modal-btns">
       <button class="btn btn-nova" onclick="fecharModal()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicao()">💾 Salvar</button>
+      <button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">💾 Salvar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL HISTÓRICO -->
+<!-- MODAL EDITAR GESTANTE -->
+<div class="modal-overlay" id="modal-editar-gestante">
+  <div class="modal">
+    <h3>✏️ Editar Registro (Gestante)</h3>
+    <input type="hidden" id="edit-gestante-id">
+    <div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="edit-gestante-nome"></div>
+    <div class="modal-campo"><label>CNS</label><input type="text" id="edit-gestante-cns"></div>
+    <div class="modal-campo"><label>UBS</label><input type="text" id="edit-gestante-ubs"></div>
+    <div class="modal-campo">
+      <label>Classificação de Risco</label>
+      <select id="edit-gestante-risco">
+        <option value="habitual">🟢 Habitual</option>
+        <option value="vigilancia">🟡 Vigilância</option>
+        <option value="compartilhado">🟠 Compartilhado</option>
+        <option value="maternidade">🔴 Maternidade</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-nova" onclick="fecharModalGestante()">Cancelar</button>
+      <button class="btn btn-salvar" onclick="salvarEdicaoGestante()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL HISTÓRICO CRIANÇA -->
 <div class="historico-overlay" id="modal-historico">
   <div class="historico-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -418,6 +444,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         </div>
       </div>
     </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:1rem">
+      <button class="btn btn-salvar" onclick="salvarGestante()">💾 Salvar Rascunho</button>
+    </div>
   </div>
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
@@ -499,6 +528,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         <div id="go-alertas"></div>
       </div>
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
+        <button class="btn btn-salvar" onclick="finalizarGestante()">💾 Salvar e Finalizar</button>
         <button class="btn btn-excel" onclick="exportarExcelGestante()">📊 Excel</button>
         <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
         <button class="btn btn-nova" onclick="reiniciarGestante()">↺ Nova Consulta</button>
@@ -510,6 +540,23 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
     <button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>← Anterior</button>
     <button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">Próximo →</button>
     <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button>
+  </div>
+  <div style="margin-top:2rem;padding:0 1rem 2rem">
+    <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
+      📋 Gestantes Cadastradas
+      <button onclick="carregarGestantes()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">↻</button>
+    </div>
+    <div class="busca-wrap">
+      <input type="text" class="busca-input" id="busca-gestante-input" placeholder="🔍 Buscar por nome ou CNS...">
+      <button class="busca-btn" onclick="buscarGestantes()">Buscar</button>
+      <button class="busca-btn" onclick="carregarGestantes()" style="background:var(--cinza-500)">Limpar</button>
+    </div>
+    <div class="tabela-wrap">
+      <table class="tbl">
+        <thead><tr><th>Nome</th><th>CNS</th><th>UBS</th><th>Risco</th><th>Ações</th></tr></thead>
+        <tbody id="g-tbody"><tr><td colspan="5" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhuma gestante cadastrada.</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -635,7 +682,6 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
         </div>
 
-        <!-- BUSCA E TABELA -->
         <div style="margin-top:1.75rem">
           <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
             📋 Registros Salvos
@@ -648,13 +694,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
-              <thead><tr>
-                <th>Criança</th><th>Mãe</th><th>Telefone</th>
-                <th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>Ações</th>
-              </tr></thead>
-              <tbody id="c-tbody">
-                <tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.</td></tr>
-              </tbody>
+              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>Ações</th></tr></thead>
+              <tbody id="c-tbody"><tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -664,19 +705,36 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 </div>
 
 <script>
-// ══════════════════════════════════════
-//  PORTAL
-// ══════════════════════════════════════
+// ============================================================
+// SUPABASE CONFIGURAÇÃO
+// ============================================================
+const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ============================================================
+// VARIÁVEIS GLOBAIS
+// ============================================================
+let gPagAtual = 1;
+const G_TOTAL = 3;
+let gMarcados = [];
+
+// ============================================================
+// PORTAL
+// ============================================================
 function abrirModulo(mod) {
   document.getElementById('tela-portal').style.display = 'none';
   if (mod === 'gestante') {
     document.getElementById('modulo-gestante').style.display = 'block';
     document.getElementById('gnav').classList.remove('hidden');
-    gPagAtual = 1; gRenderPag();
+    gPagAtual = 1; 
+    gRenderPag();
+    carregarGestantes();
   } else {
     document.getElementById('modulo-crianca').style.display = 'block';
     document.getElementById('c-data').valueAsDate = new Date();
-    cCalcular(); cCarregar();
+    cCalcular(); 
+    cCarregar();
   }
 }
 
@@ -689,14 +747,9 @@ function voltarPortal() {
   document.getElementById('gnav').classList.add('hidden');
 }
 
-// ══════════════════════════════════════
-//  GESTANTE
-// ══════════════════════════════════════
-let gPagAtual = 1;
-const G_TOTAL = 3;
-let gMarcados = [];
-let gHistorico = [];
-
+// ============================================================
+// GESTANTE - NAVEGAÇÃO
+// ============================================================
 function gRenderPag() {
   for (let i = 1; i <= G_TOTAL; i++) {
     const p = document.getElementById('gpag-' + i);
@@ -714,14 +767,20 @@ function gRenderPag() {
   const next = document.getElementById('g-btn-next');
   const calc = document.getElementById('g-btn-calc');
   prev.disabled = (gPagAtual === 1);
-  if (gPagAtual === G_TOTAL) { next.style.display = 'none'; calc.style.display = 'inline-flex'; }
-  else { next.style.display = 'inline-flex'; calc.style.display = 'none'; }
+  if (gPagAtual === G_TOTAL) { 
+    next.style.display = 'none'; 
+    calc.style.display = 'inline-flex'; 
+  } else { 
+    next.style.display = 'inline-flex'; 
+    calc.style.display = 'none'; 
+  }
   document.getElementById('gnav').classList.remove('hidden');
 }
 
 function gMudarPag(dir) {
   gPagAtual = Math.max(1, Math.min(G_TOTAL, gPagAtual + dir));
-  gRenderPag(); window.scrollTo(0, 0);
+  gRenderPag(); 
+  window.scrollTo(0, 0);
 }
 
 function gToggle(el, classe) {
@@ -731,23 +790,30 @@ function gToggle(el, classe) {
   if (cb.checked) el.classList.add(classe);
 }
 
+// ============================================================
+// GESTANTE - PROCESSAMENTO
+// ============================================================
 function processarGestante() {
   const sels = document.querySelectorAll('#modulo-gestante input[type=checkbox]:checked');
-  gMarcados = []; let maiorRisco = 'habitual';
+  gMarcados = []; 
+  let maiorRisco = 'habitual';
+  
   sels.forEach(c => {
     const g = c.getAttribute('data-grupo');
     const l = c.getAttribute('data-label');
-    gMarcados.push({grupo: g, label: l});
+    if (l) gMarcados.push({grupo: g, label: l});
     if (g === 'alto_risco_maternidade') maiorRisco = 'maternidade';
     else if (g === 'alto_risco' && maiorRisco !== 'maternidade') maiorRisco = 'compartilhado';
     else if (g === 'vigilancia' && !['maternidade','compartilhado'].includes(maiorRisco)) maiorRisco = 'vigilancia';
   });
+  
   const cfgs = {
     habitual:      { cls:'rh-habitual',      icon:'🟢', titulo:'Risco Habitual',                    sub:'Direcionamento: Linha de Cuidado Primário na UBS' },
     vigilancia:    { cls:'rh-vigilancia',    icon:'🟡', titulo:'Risco Habitual com Maior Vigilância', sub:'Acompanhamento reforçado na Atenção Primária' },
     compartilhado: { cls:'rh-compartilhado', icon:'🟠', titulo:'Alto Risco Compartilhado',            sub:'Encaminhar para Policlínica / Especialista' },
     maternidade:   { cls:'rh-maternidade',   icon:'🔴', titulo:'Alto Risco — Maternidade',            sub:'Vinculação imediata à Maternidade de Alta Complexidade' }
   };
+  
   const cfg = cfgs[maiorRisco];
   const h = document.getElementById('g-res-header');
   h.className = 'g-resultado-header ' + cfg.cls;
@@ -758,32 +824,165 @@ function processarGestante() {
   document.getElementById('go-cns').textContent   = document.getElementById('g-cns').value   || '—';
   document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || '—';
   document.getElementById('go-ubs').textContent   = document.getElementById('g-ubs').value   || '—';
+  
   const box = document.getElementById('go-alertas');
   box.innerHTML = gMarcados.length === 0
     ? '<div class="g-item-alerta">Nenhum fator de risco. Gestação fisiológica.</div>'
     : gMarcados.map(m => `<div class="g-item-alerta"><strong>[${m.grupo.replace(/_/g,' ').toUpperCase()}]</strong> ${m.label}</div>`).join('');
+  
   for (let i = 1; i <= G_TOTAL; i++) document.getElementById('gpag-' + i).style.display = 'none';
   document.getElementById('gpag-resultado').style.display = 'block';
   document.getElementById('gnav').classList.add('hidden');
   window.scrollTo(0, 0);
 }
 
-function exportarExcelGestante() {
-  const reg = {
-    Data: new Date().toLocaleDateString('pt-BR'),
-    Nome: document.getElementById('g-nome').value,
-    CNS: document.getElementById('g-cns').value,
-    Idade: document.getElementById('g-idade').value,
-    UBS: document.getElementById('g-ubs').value,
-    Classificacao: document.getElementById('g-res-titulo').textContent,
-    Fatores: gMarcados.length
+// ============================================================
+// GESTANTE - SUPABASE CRUD
+// ============================================================
+async function salvarGestante() {
+  const nome = document.getElementById('g-nome').value.trim();
+  if (!nome) { toast('⚠️ Informe o nome da gestante!', 'warn'); return; }
+  
+  const raca_cor = document.querySelector('input[name="graca"]:checked');
+  
+  const dados = {
+    nome: nome,
+    cns: document.getElementById('g-cns').value || null,
+    cpf: document.getElementById('g-cpf').value || null,
+    idade: parseInt(document.getElementById('g-idade').value) || null,
+    data_nasc: document.getElementById('g-data_nasc').value || null,
+    estado_civil: document.getElementById('g-estado_civil').value || null,
+    raca_cor: raca_cor ? raca_cor.value : null,
+    dum: document.getElementById('g-dum').value || null,
+    dpp: document.getElementById('g-dpp').value || null,
+    gestacoes: parseInt(document.getElementById('g-gest').value) || 0,
+    abortos: parseInt(document.getElementById('g-abort').value) || 0,
+    partos_normais: parseInt(document.getElementById('g-pn').value) || 0,
+    partos_cesareos: parseInt(document.getElementById('g-pc').value) || 0,
+    ubs: document.getElementById('g-ubs').value || null,
+    equipe_esf: document.getElementById('g-equipe').value || null,
+    acs: document.getElementById('g-acs').value || null,
+    fatores_risco: gMarcados,
+    risco_classificacao: document.getElementById('g-res-titulo') ? 
+      document.getElementById('g-res-titulo').textContent.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z_]/g,'') : 'habitual'
   };
-  gHistorico.push(reg);
-  const ws = XLSX.utils.json_to_sheet(gHistorico);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Gestantes');
-  XLSX.writeFile(wb, 'Estratificacao_Gestante.xlsx');
-  toast('✅ Excel exportado!');
+  
+  try {
+    const { data, error } = await supabase
+      .from('gestantes')
+      .insert([dados]);
+    
+    if (error) throw error;
+    toast('✅ Gestante salva com sucesso!');
+    carregarGestantes();
+  } catch (err) {
+    console.error(err);
+    toast('❌ Erro ao salvar: ' + err.message, 'warn');
+  }
+}
+
+async function finalizarGestante() {
+  await salvarGestante();
+  reiniciarGestante();
+}
+
+async function carregarGestantes() {
+  document.getElementById('busca-gestante-input').value = '';
+  await carregarGestantesUrl();
+}
+
+async function buscarGestantes() {
+  const termo = document.getElementById('busca-gestante-input').value.trim();
+  await carregarGestantesUrl(termo);
+}
+
+async function carregarGestantesUrl(termo = '') {
+  const tbody = document.getElementById('g-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+  
+  try {
+    let query = supabase.from('gestantes').select('*').order('created_at', { ascending: false });
+    if (termo) {
+      query = query.or(`nome.ilike.%${termo}%,cns.ilike.%${termo}%`);
+    }
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhuma gestante cadastrada.</td></tr>';
+      return;
+    }
+    
+    const riscosMap = {
+      habitual: 'bp-verde', vigilancia: 'bp-amarelo', compartilhado: 'bp-amarelo', maternidade: 'bp-vermelho'
+    };
+    
+    tbody.innerHTML = data.map(g => `
+      <tr>
+        <td><strong>${g.nome || '—'}</strong></td>
+        <td>${g.cns || '—'}</td>
+        <td>${g.ubs || '—'}</td>
+        <td><span class="badge-pill ${riscosMap[g.risco_classificacao] || 'bp-verde'}">${g.risco_classificacao || 'habitual'}</span></td>
+        <td style="display:flex;gap:0.35rem">
+          <button class="btn-editar" onclick="abrirEditarGestante(${g.id}, '${(g.nome||'').replace(/'/g,"\\'")}', '${(g.cns||'').replace(/'/g,"\\'")}', '${(g.ubs||'').replace(/'/g,"\\'")}', '${g.risco_classificacao||'habitual'}')">✏️</button>
+          <button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️</button>
+        </td>
+      甚
+    `).join('');
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--vermelho);padding:1.5rem">Erro ao carregar.</td></tr>';
+  }
+}
+
+function abrirEditarGestante(id, nome, cns, ubs, risco) {
+  document.getElementById('edit-gestante-id').value = id;
+  document.getElementById('edit-gestante-nome').value = nome;
+  document.getElementById('edit-gestante-cns').value = cns;
+  document.getElementById('edit-gestante-ubs').value = ubs;
+  document.getElementById('edit-gestante-risco').value = risco;
+  document.getElementById('modal-editar-gestante').classList.add('aberto');
+}
+
+function fecharModalGestante() {
+  document.getElementById('modal-editar-gestante').classList.remove('aberto');
+}
+
+async function salvarEdicaoGestante() {
+  const id = document.getElementById('edit-gestante-id').value;
+  const nome = document.getElementById('edit-gestante-nome').value.trim();
+  const cns = document.getElementById('edit-gestante-cns').value.trim();
+  const ubs = document.getElementById('edit-gestante-ubs').value.trim();
+  const risco = document.getElementById('edit-gestante-risco').value;
+  
+  if (!nome) { toast('⚠️ Nome obrigatório!', 'warn'); return; }
+  
+  try {
+    const { error } = await supabase
+      .from('gestantes')
+      .update({ nome, cns, ubs, risco_classificacao: risco })
+      .eq('id', id);
+    
+    if (error) throw error;
+    toast('✅ Gestante atualizada!');
+    fecharModalGestante();
+    carregarGestantes();
+  } catch (err) {
+    toast('❌ Erro: ' + err.message, 'warn');
+  }
+}
+
+async function excluirGestante(id) {
+  if (!confirm('Excluir este registro permanentemente?')) return;
+  try {
+    const { error } = await supabase.from('gestantes').delete().eq('id', id);
+    if (error) throw error;
+    toast('🗑️ Registro excluído');
+    carregarGestantes();
+  } catch (err) {
+    toast('❌ Erro: ' + err.message, 'warn');
+  }
 }
 
 function reiniciarGestante() {
@@ -796,9 +995,13 @@ function reiniciarGestante() {
   gRenderPag(); window.scrollTo(0, 0);
 }
 
-// ══════════════════════════════════════
-//  CRIANÇA
-// ══════════════════════════════════════
+function exportarExcelGestante() {
+  toast('📊 Exportação em desenvolvimento', 'warn');
+}
+
+// ============================================================
+// CRIANÇA
+// ============================================================
 let cRisco = 'HABITUAL';
 
 function cMarca(cb, cls) {
@@ -814,6 +1017,7 @@ function cCalcular() {
   const alto = document.querySelectorAll('#modulo-crianca .chk-alto:checked').length > 0;
   const inter = document.querySelectorAll('#modulo-crianca .chk-inter:checked').length > 0;
   let dias = 30;
+  
   if (alto || ['muito_baixo','extremo_baixo'].includes(peso) || ['extremo_prematuro','muito_prematuro','pre_termo_mod'].includes(ig)) {
     cRisco = 'ALTO'; dias = 7;
   } else if (inter || ['baixo','excessivo'].includes(peso) || ['termo_precoce','pre_termo_tardio','pos_termo'].includes(ig)) {
@@ -821,6 +1025,7 @@ function cCalcular() {
   } else {
     cRisco = 'HABITUAL'; dias = 30;
   }
+  
   const cfgs = {
     HABITUAL:       { cls:'c-habitual',      icon:'🟢', txt:'Classificação: RISCO HABITUAL',      sub:'Rotina padrão de crescimento e desenvolvimento' },
     'INTERMEDIÁRIO':{ cls:'c-intermediario', icon:'🟡', txt:'Classificação: RISCO INTERMEDIÁRIO', sub:'Acompanhamento estratégico (retorno em 15 dias)' },
@@ -830,6 +1035,7 @@ function cCalcular() {
   const painel = document.getElementById('c-painel');
   painel.className = 'c-painel ' + cfg.cls;
   painel.innerHTML = `<div class="p-icon">${cfg.icon}</div><div class="p-text"><span>${cfg.txt}</span><small>${cfg.sub}</small></div>`;
+  
   const dataStr = document.getElementById('c-data').value;
   if (dataStr) {
     const d = new Date(dataStr + 'T12:00:00');
@@ -871,96 +1077,127 @@ Traga a *Caderneta de Vacinação*! 💉
     `<span class="wpp-time">${hora} ✓✓</span>`;
 }
 
-// ══════════════════════════════════════
-//  SALVAR
-// ══════════════════════════════════════
+// ============================================================
+// CRIANÇA - SUPABASE CRUD
+// ============================================================
 async function cSalvar() {
   cCalcular();
   const nomeCrianca = document.getElementById('c-nome').value.trim();
   const nomeMae     = document.getElementById('c-mae').value.trim();
   const celular     = document.getElementById('c-cel').value.trim();
   const dataRetorno = document.getElementById('c-retorno').value;
+  const dataNasc    = document.getElementById('c-nasc').value;
+  const cns         = document.getElementById('c-cns').value;
+  const prontuario  = document.getElementById('c-pront').value;
+  const ubs         = document.getElementById('c-ubs').value;
+  const microarea   = document.getElementById('c-micro').value;
+  const responsavel = document.getElementById('c-enf').value;
+  const pesoNascer  = document.getElementById('c-peso').value;
+  const idadeGestacional = document.getElementById('c-ig').value;
+  const proporcionalidade = document.getElementById('c-prop').value;
+  
+  const fatoresAlto = Array.from(document.querySelectorAll('#modulo-crianca .chk-alto:checked'))
+    .map(cb => cb.closest('.c-check')?.querySelector('span')?.innerText || 'Fator de alto risco');
+  const fatoresInter = Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked'))
+    .map(cb => cb.closest('.c-check')?.querySelector('span')?.innerText || 'Fator intermediário');
+  
   if (!nomeCrianca || !nomeMae) { toast('⚠️ Informe o nome da criança e da mãe!', 'warn'); return; }
+  
   const btn = document.getElementById('btn-salvar');
   btn.disabled = true; btn.textContent = '⏳ Salvando...';
+  
   try {
-    const resp = await fetch('/api/apicrianca', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ crianca: nomeCrianca, mae: nomeMae, telefone: celular, risco: cRisco, data_retorno: dataRetorno || null, wpp: 'PENDENTE' })
-    });
-    const data = await resp.json();
-    if (!resp.ok) { toast('❌ Erro: ' + (data.error || 'Tente novamente'), 'warn'); return; }
+    const { data, error } = await supabase
+      .from('extratifica')
+      .insert([{
+        crianca: nomeCrianca,
+        mae: nomeMae,
+        telefone: celular,
+        risco: cRisco,
+        data_retorno: dataRetorno || null,
+        wpp: 'PENDENTE',
+        cns: cns || null,
+        prontuario: prontuario || null,
+        nascimento: dataNasc || null,
+        ubs: ubs || null,
+        microarea: microarea || null,
+        responsavel: responsavel || null,
+        peso_nascer: pesoNascer,
+        idade_gestacional: idadeGestacional,
+        proporcionalidade: proporcionalidade,
+        fatores_alto: fatoresAlto,
+        fatores_inter: fatoresInter
+      }]);
+    
+    if (error) throw error;
     toast('💾 Registro salvo no banco de dados!');
     await cCarregar();
   } catch (err) {
-    toast('❌ Erro de conexão', 'warn'); console.error(err);
+    toast('❌ Erro: ' + err.message, 'warn');
+    console.error(err);
   } finally {
     btn.disabled = false; btn.innerHTML = '💾 Salvar Registro';
   }
 }
 
-// ══════════════════════════════════════
-//  CARREGAR / BUSCAR
-// ══════════════════════════════════════
 async function cCarregar() {
   document.getElementById('busca-input').value = '';
-  await cCarregarUrl('/api/apicrianca');
+  await cCarregarUrl();
 }
 
 async function cBuscar() {
   const termo = document.getElementById('busca-input').value.trim();
-  if (!termo) { await cCarregar(); return; }
-  await cCarregarUrl(`/api/apicrianca?busca=${encodeURIComponent(termo)}`);
+  await cCarregarUrl(termo);
 }
 
-async function cCarregarUrl(url) {
+async function cCarregarUrl(termo = '') {
   const tbody = document.getElementById('c-tbody');
-  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Carregando...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+  
   try {
-    const resp = await fetch(url);
-    const data = await resp.json();
-    if (data.success && data.data) cRenderTabela(data.data);
-    else tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro encontrado.</td></tr>';
-  } catch (e) {
+    let query = supabase.from('extratifica').select('*').order('created_at', { ascending: false });
+    if (termo) {
+      query = query.or(`crianca.ilike.%${termo}%,mae.ilike.%${termo}%`);
+    }
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro encontrado.</td></tr>';
+      return;
+    }
+    
+    const hoje = new Date().toISOString().split('T')[0];
+    const map  = { ALTO:'bp-vermelho', 'INTERMEDIÁRIO':'bp-amarelo', HABITUAL:'bp-verde' };
+    
+    tbody.innerHTML = data.map(r => {
+      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
+      const ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
+      const wppStatus = r.wpp === 'ENVIADO'
+        ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
+        : `<button class="btn-wpp-ok" onclick="marcarWpp(${r.id})">📤 Marcar</button>`;
+      return `<tr>
+        <td><strong>${r.crianca||'—'}</strong></td>
+        <td>${r.mae||'—'}</td>
+        <td><a href="https://wa.me/55${(r.telefone||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.telefone||'—'}</a></td>
+        <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'—'}</span></td>
+        <td style="${ehHoje?'font-weight:800;color:var(--verde)':''}">${dt}</td>
+        <td>${wppStatus}</td>
+        <td style="display:flex;gap:0.35rem;flex-wrap:wrap">
+          <button class="btn-editar" onclick="abrirEditarCrianca(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}','${(r.mae||'').replace(/'/g,"\\'")}','${(r.telefone||'').replace(/'/g,"\\'")}','${r.risco||''}','${r.data_retorno?r.data_retorno.split('T')[0]:''}')">✏️</button>
+          <button class="btn-excluir" onclick="excluirCrianca(${r.id})">🗑️</button>
+          <button class="btn-editar" style="background:#7c3aed" onclick="verHistoricoCrianca(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}')">📋</button>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch (err) {
+    console.error(err);
     tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--vermelho);padding:1.5rem">Erro ao carregar.</td></tr>';
   }
 }
 
-function cRenderTabela(regs) {
-  const tbody = document.getElementById('c-tbody');
-  if (!regs || regs.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro salvo ainda.</td></tr>';
-    return;
-  }
-  const hoje = new Date().toISOString().split('T')[0];
-  const map  = { ALTO:'bp-vermelho', 'INTERMEDIÁRIO':'bp-amarelo', HABITUAL:'bp-verde' };
-  tbody.innerHTML = regs.map(r => {
-    const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
-    const ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
-    const wppStatus = r.wpp === 'ENVIADO'
-      ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
-      : `<button class="btn-wpp-ok" onclick="marcarWpp(${r.id})">📤 Marcar</button>`;
-    return `<tr>
-      <td><strong>${r.crianca||'—'}</strong></td>
-      <td>${r.mae||'—'}</td>
-      <td><a href="https://wa.me/55${(r.telefone||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.telefone||'—'}</a></td>
-      <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'—'}</span></td>
-      <td style="${ehHoje?'font-weight:800;color:var(--verde)':''}">${dt}</td>
-      <td>${wppStatus}</td>
-      <td style="display:flex;gap:0.35rem;flex-wrap:wrap">
-        <button class="btn-editar" onclick="abrirEditar(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}','${(r.mae||'').replace(/'/g,"\\'")}','${(r.telefone||'').replace(/'/g,"\\'")}','${r.risco||''}','${r.data_retorno?r.data_retorno.split('T')[0]:''}')">✏️</button>
-        <button class="btn-excluir" onclick="excluirRegistro(${r.id})">🗑️</button>
-        <button class="btn-editar" style="background:#7c3aed" onclick="verHistorico(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}')">📋</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-// ══════════════════════════════════════
-//  EDITAR
-// ══════════════════════════════════════
-function abrirEditar(id, crianca, mae, telefone, risco, retorno) {
+function abrirEditarCrianca(id, crianca, mae, telefone, risco, retorno) {
   document.getElementById('edit-id').value       = id;
   document.getElementById('edit-crianca').value  = crianca;
   document.getElementById('edit-mae').value      = mae;
@@ -974,66 +1211,98 @@ function fecharModal() {
   document.getElementById('modal-editar').classList.remove('aberto');
 }
 
-async function salvarEdicao() {
+async function salvarEdicaoCrianca() {
   const id       = document.getElementById('edit-id').value;
   const crianca  = document.getElementById('edit-crianca').value.trim();
   const mae      = document.getElementById('edit-mae').value.trim();
   const telefone = document.getElementById('edit-telefone').value.trim();
   const risco    = document.getElementById('edit-risco').value;
   const retorno  = document.getElementById('edit-retorno').value;
+  
   if (!crianca || !mae) { toast('⚠️ Nome obrigatório!', 'warn'); return; }
+  
   try {
-    const resp = await fetch(`/api/apicrianca?id=${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ crianca, mae, telefone, risco, data_retorno: retorno || null })
-    });
-    if (resp.ok) { toast('✅ Registro atualizado!'); fecharModal(); await cCarregar(); }
-    else toast('❌ Erro ao atualizar', 'warn');
-  } catch (e) { toast('❌ Erro de conexão', 'warn'); }
+    const { error } = await supabase
+      .from('extratifica')
+      .update({ crianca, mae, telefone, risco, data_retorno: retorno || null })
+      .eq('id', id);
+    
+    if (error) throw error;
+    toast('✅ Registro atualizado!');
+    fecharModal();
+    await cCarregar();
+  } catch (err) {
+    toast('❌ Erro: ' + err.message, 'warn');
+  }
 }
 
-// ══════════════════════════════════════
-//  EXCLUIR
-// ══════════════════════════════════════
+async function excluirCrianca(id) {
+  if (!confirm('Excluir este registro permanentemente?')) return;
+  try {
+    const { error } = await supabase.from('extratifica').delete().eq('id', id);
+    if (error) throw error;
+    toast('🗑️ Registro excluído');
+    await cCarregar();
+  } catch (err) {
+    toast('❌ Erro: ' + err.message, 'warn');
+  }
+}
 
 async function marcarWpp(id) {
   try {
-    const resp = await fetch(`/api/apicrianca?id=${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wpp: 'ENVIADO' })
-    });
-    if (resp.ok) { toast('✅ WhatsApp marcado como enviado!'); await cCarregar(); }
-    else toast('❌ Erro', 'warn');
-  } catch (e) { toast('❌ Erro de conexão', 'warn'); }
+    const { error } = await supabase
+      .from('extratifica')
+      .update({ wpp: 'ENVIADO' })
+      .eq('id', id);
+    
+    if (error) throw error;
+    toast('✅ WhatsApp marcado como enviado!');
+    await cCarregar();
+  } catch (err) {
+    toast('❌ Erro: ' + err.message, 'warn');
+  }
 }
 
-async function verHistorico(id, nome) {
+async function verHistoricoCrianca(id, nome) {
   document.getElementById('historico-titulo').textContent = `📋 Histórico: ${nome}`;
   document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
   document.getElementById('modal-historico').classList.add('aberto');
+  
   try {
-    const resp = await fetch(`/api/apicrianca?id=${id}`);
-    const data = await resp.json();
-    if (data.success && data.data && data.data.length > 0) {
-      const r = data.data[0];
+    const { data, error } = await supabase
+      .from('extratifica')
+      .select('*')
+      .eq('id', id);
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      const r = data[0];
       const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
       const criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '—';
+      const fatoresAlto = r.fatores_alto && r.fatores_alto.length ? r.fatores_alto.join(', ') : 'Nenhum';
+      const fatoresInter = r.fatores_inter && r.fatores_inter.length ? r.fatores_inter.join(', ') : 'Nenhum';
+      
       document.getElementById('historico-conteudo').innerHTML = `
         <div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">
           <p><strong>Criança:</strong> ${r.crianca||'—'}</p>
           <p><strong>Mãe:</strong> ${r.mae||'—'}</p>
           <p><strong>Telefone:</strong> ${r.telefone||'—'}</p>
+          <p><strong>CNS:</strong> ${r.cns||'—'}</p>
+          <p><strong>UBS:</strong> ${r.ubs||'—'}</p>
           <p><strong>Risco:</strong> ${r.risco||'—'}</p>
           <p><strong>Retorno:</strong> ${dt}</p>
           <p><strong>WhatsApp:</strong> ${r.wpp||'—'}</p>
+          <p><strong>Peso ao Nascer:</strong> ${r.peso_nascer||'—'}</p>
+          <p><strong>Idade Gestacional:</strong> ${r.idade_gestacional||'—'}</p>
+          <p><strong>Fatores Alto Risco:</strong> ${fatoresAlto}</p>
+          <p><strong>Fatores Intermediário:</strong> ${fatoresInter}</p>
           <p><strong>Cadastrado em:</strong> ${criado}</p>
         </div>`;
     } else {
       document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
     }
-  } catch (e) {
+  } catch (err) {
     document.getElementById('historico-conteudo').innerHTML = '<p style="color:var(--vermelho)">Erro ao carregar.</p>';
   }
 }
@@ -1059,6 +1328,9 @@ function cNova() {
   cCalcular(); window.scrollTo(0, 0);
 }
 
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
 function toast(msg, tipo) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1108,7 +1380,6 @@ function fazerLogin() {
 function mostrarErroLogin(msg) {
   const el = document.getElementById('login-erro');
   el.textContent = msg; el.style.display = 'block';
-  el.style.animation = 'none'; void el.offsetHeight; el.style.animation = '';
   clearTimeout(el._t); el._t = setTimeout(() => el.style.display = 'none', 4500);
 }
 
