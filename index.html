@@ -7,6 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+/* ... (seu CSS permanece o mesmo) ... */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap');
 :root {
   --verde:#1a6b40;--verde-claro:#e6f4ed;--verde-escuro:#0d3d25;
@@ -569,7 +570,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             <tbody id="g-tbody">
               <tr><td colspan="8" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.</td></tr>
             </tbody>
-          </table>
+          保持
         </div>
       </div>
     </div>
@@ -726,8 +727,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
                 <th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>Acoes</th>
               </tr></thead>
               <tbody id="c-tbody">
-                <tr><td colspan="8" style="text-align:center;color:var(--cinza-500);padding:1.5rem">
-                                </tbody>
+                <tr><td colspan="8" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.-></td></tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -738,11 +739,11 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 
 <script>
 // ============================================================
-// CONEXÃO SUPABASE
+// CONEXÃO SUPABASE - CRIAR CLIENTE
 // ============================================================
 const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bQ5PHKLu1jAhiV8Tcd';
-
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================================
 // CONFIGURACAO: 10 UBS COM EQUIPES E USUARIOS
@@ -1208,7 +1209,7 @@ function _gCarregarRegistros(busca, equipe) {
 function gRenderTabela(regs) {
   var tbody = document.getElementById('g-tbody');
   if (!regs || regs.length === 0) {
-    tbody.innerHTML = '<td><td colspan="8" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro salvo ainda.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro salvo ainda.</td></tr>';
     return;
   }
   var mapCls = {
@@ -1347,62 +1348,9 @@ function cAtualizarWpp(dd, mm, yy) {
 }
 
 // ============================================================
-// MODULO CRIANCA - SUPABASE (e fallback localStorage)
+// MODULO CRIANCA - FUNÇÕES PRINCIPAIS
 // ============================================================
-async function cSalvar() {
-    cCalcular();
-    var nomeCrianca = document.getElementById('c-nome').value.trim();
-    var nomeMae = document.getElementById('c-mae').value.trim();
-    var celular = document.getElementById('c-cel').value.trim();
-    var dataRetorno = document.getElementById('c-retorno').value;
-    var equipe = document.getElementById('c-equipe').value;
-    
-    if (!nomeCrianca || !nomeMae) {
-        toast('Informe o nome da criança e da mãe!');
-        return;
-    }
-    
-    var btn = document.getElementById('btn-salvar');
-    btn.disabled = true;
-    btn.textContent = 'Salvando...';
-    
-    var dados = {
-        crianca: nomeCrianca,
-        mae: nomeMae,
-        telefone: celular,
-        risco: cRisco,
-        data_retorno: dataRetorno || null,
-        wpp_status: 'PENDENTE',
-        equipe: equipe,
-        ubs_id: SESSAO ? SESSAO.ubsId : 'ubs01',
-        ubs_nome: SESSAO ? SESSAO.ubsNome : 'UBS'
-    };
-    
-    try {
-        // SALVAR DIRETAMENTE NO SUPABASE
-        const { data, error } = await supabase
-            .from('extratifica')
-            .insert([dados])
-            .select();
-        
-        if (error) {
-            console.error('Erro Supabase:', error);
-            throw error;
-        }
-        
-        toast('✅ Registro salvo no Supabase!');
-        console.log('Registro inserido:', data);
-        await cCarregar();
-        cNova();
-        
-    } catch (err) {
-        console.error('Erro detalhado:', err);
-        toast('Erro: ' + err.message);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = 'Salvar Registro';
-    }
-}
+
 function carregarDadosLocalStorage() {
   if (SESSAO && SESSAO.isGestor) {
     var todos = [];
@@ -1436,16 +1384,81 @@ function salvarDadosLocalStorage(regs) {
   } catch(e) { toast('Erro ao salvar localmente'); }
 }
 
+async function cSalvar() {
+    cCalcular();
+    var nomeCrianca = document.getElementById('c-nome').value.trim();
+    var nomeMae = document.getElementById('c-mae').value.trim();
+    var celular = document.getElementById('c-cel').value.trim();
+    var dataRetorno = document.getElementById('c-retorno').value;
+    var equipe = document.getElementById('c-equipe').value;
+    
+    if (!nomeCrianca || !nomeMae) {
+        toast('Informe o nome da criança e da mãe!');
+        return;
+    }
+    
+    var btn = document.getElementById('btn-salvar');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
+    
+    var dados = {
+        crianca: nomeCrianca,
+        mae: nomeMae,
+        telefone: celular,
+        risco: cRisco,
+        data_retorno: dataRetorno || null,
+        wpp_status: 'PENDENTE',
+        equipe: equipe,
+        ubs_id: SESSAO ? SESSAO.ubsId : 'ubs01',
+        ubs_nome: SESSAO ? SESSAO.ubsNome : 'UBS'
+    };
+    
+    try {
+        const { data, error } = await supabase
+            .from('extratifica')
+            .insert([dados])
+            .select();
+        
+        if (error) throw error;
+        
+        toast('✅ Registro salvo no Supabase!');
+        console.log('Registro inserido:', data);
+        await cCarregar();
+        cNova();
+    } catch (err) {
+        console.error('Erro ao salvar:', err);
+        toast('Erro ao salvar no Supabase: ' + err.message);
+        
+        // Fallback localStorage
+        var regs = carregarDadosLocalStorage();
+        var novoId = Date.now();
+        regs.push({
+            id: novoId, crianca: nomeCrianca, mae: nomeMae, telefone: celular,
+            risco: cRisco, data_retorno: dataRetorno || null, wpp: 'PENDENTE', wpp_status: 'PENDENTE',
+            equipe: equipe,
+            ubsId: SESSAO ? SESSAO.ubsId : 'local',
+            ubsNome: SESSAO ? SESSAO.ubsNome : 'Local',
+            created_at: new Date().toISOString()
+        });
+        salvarDadosLocalStorage(regs);
+        toast('⚠️ Salvo localmente (sem conexão com Supabase)');
+        await cCarregar();
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Salvar Registro';
+    }
+}
+
 async function cCarregar() {
-  document.getElementById('busca-input').value = '';
-  document.getElementById('filtro-equipe').value = '';
-  await _carregarRegistros();
+    document.getElementById('busca-input').value = '';
+    document.getElementById('filtro-equipe').value = '';
+    await _carregarRegistros();
 }
 
 async function cBuscar() {
-  var termo = document.getElementById('busca-input').value.trim();
-  var equipe = document.getElementById('filtro-equipe').value;
-  await _carregarRegistros(termo, equipe);
+    var termo = document.getElementById('busca-input').value.trim();
+    var equipe = document.getElementById('filtro-equipe').value;
+    await _carregarRegistros(termo, equipe);
 }
 
 async function _carregarRegistros(busca, equipe) {
@@ -1477,276 +1490,272 @@ async function _carregarRegistros(busca, equipe) {
             tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">📭 Nenhum registro encontrado. 📭</td></tr>';
         }
     } catch (err) {
-        console.error('Erro ao carregar:', err);
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:red;padding:1.5rem">❌ Erro ao carregar dados do Supabase</td></tr>';
+        console.error('Erro ao carregar do Supabase:', err);
+        // Fallback localStorage
+        var regs = carregarDadosLocalStorage();
+        if (busca) {
+            var b = busca.toLowerCase();
+            regs = regs.filter(function(r) {
+                return (r.crianca || '').toLowerCase().includes(b) || (r.mae || '').toLowerCase().includes(b);
+            });
+        }
+        if (equipe) {
+            regs = regs.filter(function(r) { return (r.equipe || '') === equipe; });
+        }
+        cRenderTabela(regs);
     }
 }
-  
-  // Fallback localStorage
-  var regs = carregarDadosLocalStorage();
-  if (busca) {
-    var b = busca.toLowerCase();
-    regs = regs.filter(function(r) {
-      return (r.crianca||'').toLowerCase().includes(b) || (r.mae||'').toLowerCase().includes(b);
-    });
-  }
-  if (equipe) {
-    regs = regs.filter(function(r) { return (r.equipe||'') === equipe; });
-  }
-  cRenderTabela(regs);
 
 function cRenderTabela(regs) {
-  var tbody = document.getElementById('c-tbody');
-  if (!regs || regs.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">📭 Nenhum registro salvo ainda. 📭</td></tr>';
-    return;
-  }
-  
-  var hoje = new Date().toISOString().split('T')[0];
-  var map = { ALTO: 'bp-vermelho', INTERMEDIARIO: 'bp-amarelo', HABITUAL: 'bp-verde' };
-  
-  var html = '';
-  for (var i = 0; i < regs.length; i++) {
-    var r = regs[i];
-    var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
-    var ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
-    var wppStatus = r.wpp_status === 'ENVIADO' || r.wpp === 'ENVIADO'
-      ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
-      : '<button class="btn-wpp-ok" onclick="marcarWpp(' + r.id + ')">📱 Marcar</button>';
+    var tbody = document.getElementById('c-tbody');
+    if (!regs || regs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">📭 Nenhum registro salvo ainda. 📭</td></tr>';
+        return;
+    }
     
-    var nomeEsc = (r.crianca || '').replace(/'/g, "\\'");
-    var maeEsc = (r.mae || '').replace(/'/g, "\\'");
-    var telEsc = (r.telefone || '').replace(/'/g, "\\'");
-    var equipeEsc = (r.equipe || '').replace(/'/g, "\\'");
-    var retEsc = r.data_retorno ? r.data_retorno.split('T')[0] : '';
+    var hoje = new Date().toISOString().split('T')[0];
+    var map = { ALTO: 'bp-vermelho', INTERMEDIARIO: 'bp-amarelo', HABITUAL: 'bp-verde' };
     
-    html += '<tr>';
-    html += '<td><strong>' + (r.crianca || '-') + '</strong></td>';
-    html += '<td>' + (r.mae || '-') + '</td>';
-    html += '<td><span style="font-size:0.75rem;color:var(--cinza-500)">' + (r.equipe || '-') + '</span></td>';
-    html += '<td><a href="https://wa.me/55' + (r.telefone || '').replace(/\D/g, '') + '" target="_blank" style="color:#075e54">' + (r.telefone || '-') + '</a></td>';
-    html += '<td><span class="badge-pill ' + (map[r.risco] || 'bp-verde') + '">' + (r.risco || '-') + '</span></td>';
-    html += '<td style="' + (ehHoje ? 'font-weight:800;color:#1a6b40' : '') + '">' + dt + '</td>';
-    html += '<td>' + wppStatus + '</td>';
-    html += '<td style="display:flex;gap:0.35rem;flex-wrap:wrap">';
-    html += '<button class="btn-editar" onclick="abrirEditar(' + r.id + ',\'' + nomeEsc + '\',\'' + maeEsc + '\',\'' + telEsc + '\',\'' + (r.risco || '') + '\',\'' + retEsc + '\',\'' + equipeEsc + '\')">✏️ Editar</button>';
-    html += '<button class="btn-excluir" onclick="excluirRegistro(' + r.id + ')">🗑️ Excluir</button>';
-    html += '<button class="btn-editar" style="background:#7c3aed" onclick="verHistorico(' + r.id + ',\'' + nomeEsc + '\')">📜 Histórico</button>';
-    html += '</td>';
-    html += '</tr>';
-  }
-  tbody.innerHTML = html;
+    var html = '';
+    for (var i = 0; i < regs.length; i++) {
+        var r = regs[i];
+        var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
+        var ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
+        var wppStatus = r.wpp_status === 'ENVIADO' || r.wpp === 'ENVIADO'
+            ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
+            : '<button class="btn-wpp-ok" onclick="marcarWpp(' + r.id + ')">📱 Marcar</button>';
+        
+        var nomeEsc = (r.crianca || '').replace(/'/g, "\\'");
+        var maeEsc = (r.mae || '').replace(/'/g, "\\'");
+        var telEsc = (r.telefone || '').replace(/'/g, "\\'");
+        var equipeEsc = (r.equipe || '').replace(/'/g, "\\'");
+        var retEsc = r.data_retorno ? r.data_retorno.split('T')[0] : '';
+        
+        html += '<tr>';
+        html += '<td><strong>' + (r.crianca || '-') + '</strong></td>';
+        html += '<td>' + (r.mae || '-') + '</td>';
+        html += '<td><span style="font-size:0.75rem;color:var(--cinza-500)">' + (r.equipe || '-') + '</span></td>';
+        html += '<td><a href="https://wa.me/55' + (r.telefone || '').replace(/\D/g, '') + '" target="_blank" style="color:#075e54">' + (r.telefone || '-') + '</a></td>';
+        html += '<td><span class="badge-pill ' + (map[r.risco] || 'bp-verde') + '">' + (r.risco || '-') + '</span></td>';
+        html += '<td style="' + (ehHoje ? 'font-weight:800;color:#1a6b40' : '') + '">' + dt + '</td>';
+        html += '<td>' + wppStatus + '</td>';
+        html += '<td style="display:flex;gap:0.35rem;flex-wrap:wrap">';
+        html += '<button class="btn-editar" onclick="abrirEditar(' + r.id + ',\'' + nomeEsc + '\',\'' + maeEsc + '\',\'' + telEsc + '\',\'' + (r.risco || '') + '\',\'' + retEsc + '\',\'' + equipeEsc + '\')">✏️ Editar</button>';
+        html += '<button class="btn-excluir" onclick="excluirRegistro(' + r.id + ')">🗑️ Excluir</button>';
+        html += '<button class="btn-editar" style="background:#7c3aed" onclick="verHistorico(' + r.id + ',\'' + nomeEsc + '\')">📜 Histórico</button>';
+        html += '</td>';
+        html += '</tr>';
+    }
+    tbody.innerHTML = html;
 }
 
 async function excluirRegistro(id) {
-  if (!confirm('Excluir este registro permanentemente?')) return;
-  
-  try {
-    var { error } = await supabase.from('extratifica').delete().eq('id', id);
-    if (error) throw error;
-    toast('🗑️ Registro excluído do Supabase!');
-    await cCarregar();
-    return;
-  } catch (err) {
-    console.warn('Erro ao excluir do Supabase, tentando local:', err);
-  }
-  
-  // Fallback localStorage
-  var numId = parseInt(id);
-  var regs = carregarDadosLocalStorage();
-  var novos = regs.filter(function(r) { return r.id !== numId; });
-  salvarDadosLocalStorage(novos);
-  toast('🗑️ Registro excluído localmente!');
-  await cCarregar();
+    if (!confirm('Excluir este registro permanentemente?')) return;
+    
+    try {
+        const { error } = await supabase.from('extratifica').delete().eq('id', id);
+        if (error) throw error;
+        toast('🗑️ Registro excluído do Supabase!');
+        await cCarregar();
+    } catch (err) {
+        console.warn('Erro ao excluir do Supabase:', err);
+        // Fallback localStorage
+        var numId = parseInt(id);
+        var regs = carregarDadosLocalStorage();
+        var novos = regs.filter(function(r) { return r.id !== numId; });
+        salvarDadosLocalStorage(novos);
+        toast('🗑️ Registro excluído localmente!');
+        await cCarregar();
+    }
 }
 
 async function marcarWpp(id) {
-  try {
-    var { error } = await supabase.from('extratifica').update({ wpp_status: 'ENVIADO' }).eq('id', id);
-    if (error) throw error;
-    toast('📱 WhatsApp marcado como enviado!');
-    await cCarregar();
-    return;
-  } catch (err) {
-    console.warn('Erro ao marcar no Supabase:', err);
-  }
-  
-  // Fallback localStorage
-  var numId = parseInt(id);
-  var regs = carregarDadosLocalStorage();
-  var idx = regs.findIndex(function(r) { return r.id === numId; });
-  if (idx >= 0) {
-    regs[idx].wpp = 'ENVIADO';
-    regs[idx].wpp_status = 'ENVIADO';
-    salvarDadosLocalStorage(regs);
-    toast('📱 WhatsApp marcado localmente!');
-    await cCarregar();
-  }
+    try {
+        const { error } = await supabase.from('extratifica').update({ wpp_status: 'ENVIADO' }).eq('id', id);
+        if (error) throw error;
+        toast('📱 WhatsApp marcado como enviado!');
+        await cCarregar();
+    } catch (err) {
+        console.warn('Erro ao marcar no Supabase:', err);
+        // Fallback localStorage
+        var numId = parseInt(id);
+        var regs = carregarDadosLocalStorage();
+        var idx = regs.findIndex(function(r) { return r.id === numId; });
+        if (idx >= 0) {
+            regs[idx].wpp = 'ENVIADO';
+            regs[idx].wpp_status = 'ENVIADO';
+            salvarDadosLocalStorage(regs);
+            toast('📱 WhatsApp marcado localmente!');
+            await cCarregar();
+        }
+    }
 }
 
 async function salvarEdicao() {
-  var id = document.getElementById('edit-id').value;
-  var crianca = document.getElementById('edit-crianca').value.trim();
-  var mae = document.getElementById('edit-mae').value.trim();
-  var telefone = document.getElementById('edit-telefone').value.trim();
-  var risco = document.getElementById('edit-risco').value;
-  var retorno = document.getElementById('edit-retorno').value;
-  var equipe = document.getElementById('edit-equipe-modal').value;
-  
-  if (!crianca || !mae) {
-    toast('Nome obrigatório!');
-    return;
-  }
-  
-  try {
-    var { error } = await supabase.from('extratifica')
-      .update({
-        crianca: crianca,
-        mae: mae,
-        telefone: telefone,
-        risco: risco,
-        data_retorno: retorno || null,
-        equipe: equipe
-      })
-      .eq('id', id);
+    var id = document.getElementById('edit-id').value;
+    var crianca = document.getElementById('edit-crianca').value.trim();
+    var mae = document.getElementById('edit-mae').value.trim();
+    var telefone = document.getElementById('edit-telefone').value.trim();
+    var risco = document.getElementById('edit-risco').value;
+    var retorno = document.getElementById('edit-retorno').value;
+    var equipe = document.getElementById('edit-equipe-modal').value;
     
-    if (error) throw error;
-    toast('✅ Registro atualizado no Supabase!');
-    fecharModal();
-    await cCarregar();
-    return;
-  } catch (err) {
-    console.warn('Erro ao atualizar no Supabase:', err);
-  }
-  
-  // Fallback localStorage
-  var numId = parseInt(id);
-  var regs = carregarDadosLocalStorage();
-  var idx = regs.findIndex(function(r) { return r.id === numId; });
-  if (idx >= 0) {
-    regs[idx] = Object.assign(regs[idx], { crianca, mae, telefone, risco, data_retorno: retorno || null, equipe });
-    salvarDadosLocalStorage(regs);
-    toast('✅ Registro atualizado localmente!');
-    fecharModal();
-    await cCarregar();
-  } else {
-    toast('Registro não encontrado.');
-  }
+    if (!crianca || !mae) {
+        toast('Nome obrigatório!');
+        return;
+    }
+    
+    try {
+        const { error } = await supabase.from('extratifica')
+            .update({
+                crianca: crianca,
+                mae: mae,
+                telefone: telefone,
+                risco: risco,
+                data_retorno: retorno || null,
+                equipe: equipe
+            })
+            .eq('id', id);
+        
+        if (error) throw error;
+        toast('✅ Registro atualizado no Supabase!');
+        fecharModal();
+        await cCarregar();
+    } catch (err) {
+        console.warn('Erro ao atualizar no Supabase:', err);
+        // Fallback localStorage
+        var numId = parseInt(id);
+        var regs = carregarDadosLocalStorage();
+        var idx = regs.findIndex(function(r) { return r.id === numId; });
+        if (idx >= 0) {
+            regs[idx] = Object.assign(regs[idx], { crianca, mae, telefone, risco, data_retorno: retorno || null, equipe });
+            salvarDadosLocalStorage(regs);
+            toast('✅ Registro atualizado localmente!');
+            fecharModal();
+            await cCarregar();
+        } else {
+            toast('Registro não encontrado.');
+        }
+    }
 }
 
 async function verHistorico(id, nome) {
-  document.getElementById('historico-titulo').textContent = 'Histórico: ' + nome;
-  document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
-  document.getElementById('modal-historico').classList.add('aberto');
-  
-  try {
-    var { data, error } = await supabase.from('extratifica').select('*').eq('id', id);
-    if (error) throw error;
-    if (data && data.length > 0) {
-      renderHistoricoSupabase(data[0]);
-      return;
+    document.getElementById('historico-titulo').textContent = 'Histórico: ' + nome;
+    document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
+    document.getElementById('modal-historico').classList.add('aberto');
+    
+    try {
+        const { data, error } = await supabase.from('extratifica').select('*').eq('id', id);
+        if (error) throw error;
+        if (data && data.length > 0) {
+            renderHistoricoSupabase(data[0]);
+            return;
+        }
+    } catch (err) {
+        console.warn('Erro ao buscar histórico do Supabase:', err);
     }
-  } catch (err) {
-    console.warn('Erro ao buscar histórico do Supabase:', err);
-  }
-  
-  // Fallback localStorage
-  var numId = parseInt(id);
-  var regs = carregarDadosLocalStorage();
-  var r = regs.find(function(x) { return x.id === numId; });
-  if (r) renderHistoricoLocal(r);
-  else document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
+    
+    // Fallback localStorage
+    var numId = parseInt(id);
+    var regs = carregarDadosLocalStorage();
+    var r = regs.find(function(x) { return x.id === numId; });
+    if (r) renderHistoricoLocal(r);
+    else document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
 }
 
 function renderHistoricoSupabase(r) {
-  var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
-  var criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '-';
-  var html = '<div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">';
-  html += '<p><strong>👶 Criança:</strong> ' + (r.crianca || '-') + '</p>';
-  html += '<p><strong>👩 Mãe:</strong> ' + (r.mae || '-') + '</p>';
-  html += '<p><strong>📱 Telefone:</strong> ' + (r.telefone || '-') + '</p>';
-  html += '<p><strong>🏥 UBS:</strong> ' + (r.ubs_nome || r.ubs_id || '-') + '</p>';
-  html += '<p><strong>👥 Equipe:</strong> ' + (r.equipe || '-') + '</p>';
-  html += '<p><strong>⚠️ Risco:</strong> ' + (r.risco || '-') + '</p>';
-  html += '<p><strong>📅 Retorno:</strong> ' + dt + '</p>';
-  html += '<p><strong>💬 WhatsApp:</strong> ' + (r.wpp_status || '-') + '</p>';
-  html += '<p><strong>🕐 Cadastrado em:</strong> ' + criado + '</p>';
-  html += '</div>';
-  document.getElementById('historico-conteudo').innerHTML = html;
+    var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
+    var criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '-';
+    var html = '<div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">';
+    html += '<p><strong>👶 Criança:</strong> ' + (r.crianca || '-') + '</p>';
+    html += '<p><strong>👩 Mãe:</strong> ' + (r.mae || '-') + '</p>';
+    html += '<p><strong>📱 Telefone:</strong> ' + (r.telefone || '-') + '</p>';
+    html += '<p><strong>🏥 UBS:</strong> ' + (r.ubs_nome || r.ubs_id || '-') + '</p>';
+    html += '<p><strong>👥 Equipe:</strong> ' + (r.equipe || '-') + '</p>';
+    html += '<p><strong>⚠️ Risco:</strong> ' + (r.risco || '-') + '</p>';
+    html += '<p><strong>📅 Retorno:</strong> ' + dt + '</p>';
+    html += '<p><strong>💬 WhatsApp:</strong> ' + (r.wpp_status || '-') + '</p>';
+    html += '<p><strong>🕐 Cadastrado em:</strong> ' + criado + '</p>';
+    html += '</div>';
+    document.getElementById('historico-conteudo').innerHTML = html;
 }
 
 function renderHistoricoLocal(r) {
-  var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
-  var criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '-';
-  var html = '<div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">';
-  html += '<p><strong>👶 Criança:</strong> ' + (r.crianca || '-') + '</p>';
-  html += '<p><strong>👩 Mãe:</strong> ' + (r.mae || '-') + '</p>';
-  html += '<p><strong>📱 Telefone:</strong> ' + (r.telefone || '-') + '</p>';
-  html += '<p><strong>🏥 UBS:</strong> ' + (r.ubsNome || '-') + '</p>';
-  html += '<p><strong>👥 Equipe:</strong> ' + (r.equipe || '-') + '</p>';
-  html += '<p><strong>⚠️ Risco:</strong> ' + (r.risco || '-') + '</p>';
-  html += '<p><strong>📅 Retorno:</strong> ' + dt + '</p>';
-  html += '<p><strong>💬 WhatsApp:</strong> ' + (r.wpp || '-') + '</p>';
-  html += '<p><strong>🕐 Cadastrado em:</strong> ' + criado + '</p>';
-  html += '</div>';
-  document.getElementById('historico-conteudo').innerHTML = html;
+    var dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '-';
+    var criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '-';
+    var html = '<div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">';
+    html += '<p><strong>👶 Criança:</strong> ' + (r.crianca || '-') + '</p>';
+    html += '<p><strong>👩 Mãe:</strong> ' + (r.mae || '-') + '</p>';
+    html += '<p><strong>📱 Telefone:</strong> ' + (r.telefone || '-') + '</p>';
+    html += '<p><strong>🏥 UBS:</strong> ' + (r.ubsNome || '-') + '</p>';
+    html += '<p><strong>👥 Equipe:</strong> ' + (r.equipe || '-') + '</p>';
+    html += '<p><strong>⚠️ Risco:</strong> ' + (r.risco || '-') + '</p>';
+    html += '<p><strong>📅 Retorno:</strong> ' + dt + '</p>';
+    html += '<p><strong>💬 WhatsApp:</strong> ' + (r.wpp || '-') + '</p>';
+    html += '<p><strong>🕐 Cadastrado em:</strong> ' + criado + '</p>';
+    html += '</div>';
+    document.getElementById('historico-conteudo').innerHTML = html;
 }
 
 function abrirEditar(id, crianca, mae, telefone, risco, retorno, equipe) {
-  document.getElementById('edit-id').value = id;
-  document.getElementById('edit-crianca').value = crianca;
-  document.getElementById('edit-mae').value = mae;
-  document.getElementById('edit-telefone').value = telefone;
-  document.getElementById('edit-risco').value = risco || 'HABITUAL';
-  document.getElementById('edit-retorno').value = retorno || '';
-  
-  var selModal = document.getElementById('edit-equipe-modal');
-  for (var i = 0; i < selModal.options.length; i++) {
-    if (selModal.options[i].value === equipe) { selModal.selectedIndex = i; break; }
-  }
-  document.getElementById('modal-editar').classList.add('aberto');
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-crianca').value = crianca;
+    document.getElementById('edit-mae').value = mae;
+    document.getElementById('edit-telefone').value = telefone;
+    document.getElementById('edit-risco').value = risco || 'HABITUAL';
+    document.getElementById('edit-retorno').value = retorno || '';
+    
+    var selModal = document.getElementById('edit-equipe-modal');
+    for (var i = 0; i < selModal.options.length; i++) {
+        if (selModal.options[i].value === equipe) {
+            selModal.selectedIndex = i;
+            break;
+        }
+    }
+    document.getElementById('modal-editar').classList.add('aberto');
 }
 
 function fecharModal() { document.getElementById('modal-editar').classList.remove('aberto'); }
 function fecharHistorico() { document.getElementById('modal-historico').classList.remove('aberto'); }
 
 function cEnviarWpp() {
-  var fone = (document.getElementById('c-cel').value || '').replace(/\D/g,'');
-  if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!'); return; }
-  var texto = document.getElementById('c-wpp').innerText;
-  window.open('https://api.whatsapp.com/send?phone=55' + fone + '&text=' + encodeURIComponent(texto), '_blank');
+    var fone = (document.getElementById('c-cel').value || '').replace(/\D/g, '');
+    if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!'); return; }
+    var texto = document.getElementById('c-wpp').innerText;
+    window.open('https://api.whatsapp.com/send?phone=55' + fone + '&text=' + encodeURIComponent(texto), '_blank');
 }
 
 function cNova() {
-  if (!confirm('🔄 Limpar formulário?')) return;
-  document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel]').forEach(function(i) {
-    if (!i.readOnly) i.value = '';
-  });
-  document.querySelectorAll('#modulo-crianca input[type=date]').forEach(function(i) {
-    if (!i.readOnly) i.value = '';
-  });
-  document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(function(c) { c.checked = false; c.closest('.c-check').className = 'c-check'; });
-  document.getElementById('c-data').valueAsDate = new Date();
-  document.getElementById('c-peso').value = 'adequado';
-  document.getElementById('c-ig').value = 'termo_completo';
-  document.getElementById('c-ubs').value = SESSAO ? SESSAO.ubsNome : '';
-  cCalcular(); window.scrollTo(0, 0);
+    if (!confirm('🔄 Limpar formulário?')) return;
+    document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel]').forEach(function(i) {
+        if (!i.readOnly) i.value = '';
+    });
+    document.querySelectorAll('#modulo-crianca input[type=date]').forEach(function(i) {
+        if (!i.readOnly) i.value = '';
+    });
+    document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(function(c) { c.checked = false; c.closest('.c-check').className = 'c-check'; });
+    document.getElementById('c-data').valueAsDate = new Date();
+    document.getElementById('c-peso').value = 'adequado';
+    document.getElementById('c-ig').value = 'termo_completo';
+    document.getElementById('c-ubs').value = SESSAO ? SESSAO.ubsNome : '';
+    cCalcular(); window.scrollTo(0, 0);
 }
 
 function toast(msg, tipo) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = tipo === 'erro' ? '#b91c1c' : '#1a6b40';
-  t.style.display = 'block';
-  clearTimeout(t._t);
-  t._t = setTimeout(function() { t.style.display = 'none'; }, 3800);
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = tipo === 'erro' ? '#b91c1c' : '#1a6b40';
+    t.style.display = 'block';
+    clearTimeout(t._t);
+    t._t = setTimeout(function() { t.style.display = 'none'; }, 3800);
 }
+
 window.addEventListener('load', function() {
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-senha').value = '';
-  document.getElementById('login-user').focus();
-  var c = document.getElementById('c-data');
-  if (c) c.valueAsDate = new Date();
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-senha').value = '';
+    document.getElementById('login-user').focus();
+    var c = document.getElementById('c-data');
+    if (c) c.valueAsDate = new Date();
 });
 </script>
 </body>
