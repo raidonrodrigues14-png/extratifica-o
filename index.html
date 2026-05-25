@@ -671,16 +671,16 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 
 <script>
 // ============================================================
-// CONEXÃO SUPABASE - APENAS UMA VEZ
+/<script>
+// ============================================================
+// CONEXÃO SUPABASE - CORRIGIDA
 // ============================================================
 const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bQ5PHKLu1jAhiV8Tcd';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Teste de conexão
-supabase.from('extratifica').select('count').then(res => {
-    console.log('✅ Supabase conectado! Total de registros:', res.data);
-    if (res.error) console.error('Erro:', res.error);
-}).catch(err => console.error('❌ Erro de conexão:', err));
+console.log('✅ Supabase conectado!');
 
 // ============================================================
 // CONFIGURAÇÃO
@@ -826,7 +826,7 @@ async function gCarregar() {
     var { data, error } = await supabase.from('gestantes').select('*').order('created_at', { ascending: false });
     if (error) throw error;
     var tbody = document.getElementById('g-tbody');
-    if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="5">Nenhuma gestante cadastrada</td></tr>'; return; }
+    if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="5">Nenhuma gestante cadastrada</td></table>'; return; }
     tbody.innerHTML = data.map(function(r) { return '<tr><td>' + (r.nome_gestante || '-') + '</td><td>' + (r.telefone || '-') + '</td><td>' + (r.classificacao || '-') + '</td><td>' + (r.data_retorno ? r.data_retorno.split('-').reverse().join('/') : '-') + '</td><td><button class="btn-excluir" onclick="excluirGestante(' + r.id + ')">Excluir</button></td></tr>'; }).join('');
   } catch (err) { toast('Erro ao carregar gestantes'); }
 }
@@ -923,9 +923,10 @@ async function cCarregar() {
         
     } catch (err) {
         console.error('Erro:', err);
-        document.getElementById('c-tbody').innerHTML = '<td><td colspan="7">Erro ao carregar: ' + err.message + '</td></tr>';
+        document.getElementById('c-tbody').innerHTML = '<tr><td colspan="7">Erro ao carregar: ' + err.message + '</td></tr>';
     }
 }
+
 async function cBuscar() {
   var termo = document.getElementById('busca-input').value.trim();
   if (!termo) { cCarregar(); return; }
