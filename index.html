@@ -1350,77 +1350,59 @@ function cAtualizarWpp(dd, mm, yy) {
 // MODULO CRIANCA - SUPABASE (e fallback localStorage)
 // ============================================================
 async function cSalvar() {
-  cCalcular();
-  var nomeCrianca = document.getElementById('c-nome').value.trim();
-  var nomeMae = document.getElementById('c-mae').value.trim();
-  var celular = document.getElementById('c-cel').value.trim();
-  var dataRetorno = document.getElementById('c-retorno').value;
-  var equipe = document.getElementById('c-equipe').value;
-  
-  if (!nomeCrianca || !nomeMae) {
-    toast('Informe o nome da criança e da mãe!');
-    return;
-  }
-  
-  var btn = document.getElementById('btn-salvar');
-  btn.disabled = true;
-  btn.textContent = 'Salvando...';
-  
-  var dados = {
-    crianca: nomeCrianca,
-    mae: nomeMae,
-    telefone: celular,
-    risco: cRisco,
-    data_retorno: dataRetorno || null,
-    wpp_status: 'PENDENTE',
-    equipe: equipe,
-    ubs_id: SESSAO ? SESSAO.ubsId : 'local',
-    ubs_nome: SESSAO ? SESSAO.ubsNome : 'Teste UBS'
-  };
-  
-  try {
-    // Inserir diretamente no Supabase
-    const { data, error } = await supabase.from('extratifica').insert([dados]).select();
+    cCalcular();
+    var nomeCrianca = document.getElementById('c-nome').value.trim();
+    var nomeMae = document.getElementById('c-mae').value.trim();
+    var celular = document.getElementById('c-cel').value.trim();
+    var dataRetorno = document.getElementById('c-retorno').value;
+    var equipe = document.getElementById('c-equipe').value;
     
-    if (error) {
-      console.error('Erro Supabase:', error);
-      throw error;
+    if (!nomeCrianca || !nomeMae) {
+        toast('Informe o nome da criança e da mãe!');
+        return;
     }
     
-    toast('✅ Registro salvo no Supabase!');
-    console.log('Registro inserido:', data);
-    await cCarregar();
-    cNova();
+    var btn = document.getElementById('btn-salvar');
+    btn.disabled = true;
+    btn.textContent = 'Salvando...';
     
-  } catch (err) {
-    console.error('Erro detalhado:', err);
-    toast('Erro ao salvar no Supabase: ' + err.message);
+    var dados = {
+        crianca: nomeCrianca,
+        mae: nomeMae,
+        telefone: celular,
+        risco: cRisco,
+        data_retorno: dataRetorno || null,
+        wpp_status: 'PENDENTE',
+        equipe: equipe,
+        ubs_id: SESSAO ? SESSAO.ubsId : 'ubs01',
+        ubs_nome: SESSAO ? SESSAO.ubsNome : 'UBS'
+    };
     
-    // Fallback: salvar no localStorage
-    var regs = carregarDadosLocalStorage();
-    var novoId = Date.now();
-    regs.push({
-      id: novoId, 
-      crianca: nomeCrianca, 
-      mae: nomeMae, 
-      telefone: celular,
-      risco: cRisco, 
-      data_retorno: dataRetorno || null, 
-      wpp: 'PENDENTE',
-      equipe: equipe,
-      ubsId: SESSAO ? SESSAO.ubsId : 'local',
-      ubsNome: SESSAO ? SESSAO.ubsNome : 'Local',
-      created_at: new Date().toISOString()
-    });
-    salvarDadosLocalStorage(regs);
-    toast('⚠️ Salvo localmente (sem conexão com Supabase)');
-    await cCarregar();
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Salvar Registro';
-  }
+    try {
+        // SALVAR DIRETAMENTE NO SUPABASE
+        const { data, error } = await supabase
+            .from('extratifica')
+            .insert([dados])
+            .select();
+        
+        if (error) {
+            console.error('Erro Supabase:', error);
+            throw error;
+        }
+        
+        toast('✅ Registro salvo no Supabase!');
+        console.log('Registro inserido:', data);
+        await cCarregar();
+        cNova();
+        
+    } catch (err) {
+        console.error('Erro detalhado:', err);
+        toast('Erro: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Salvar Registro';
+    }
 }
-
 function carregarDadosLocalStorage() {
   if (SESSAO && SESSAO.isGestor) {
     var todos = [];
@@ -1467,34 +1449,38 @@ async function cBuscar() {
 }
 
 async function _carregarRegistros(busca, equipe) {
-  var tbody = document.getElementById('c-tbody');
-  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
-  
-  try {
-    let query = supabase.from('extratifica').select('*');
+    var tbody = document.getElementById('c-tbody');
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
     
-    if (SESSAO && SESSAO.ubsId && !SESSAO.isGestor) {
-      query = query.eq('ubs_id', SESSAO.ubsId);
+    try {
+        let query = supabase.from('extratifica').select('*');
+        
+        if (SESSAO && SESSAO.ubsId && !SESSAO.isGestor) {
+            query = query.eq('ubs_id', SESSAO.ubsId);
+        }
+        
+        if (busca) {
+            query = query.ilike('crianca', `%${busca}%`);
+        }
+        
+        if (equipe) {
+            query = query.eq('equipe', equipe);
+        }
+        
+        const { data, error } = await query.order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+            cRenderTabela(data);
+        } else {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1.5rem">📭 Nenhum registro encontrado. 📭</td></tr>';
+        }
+    } catch (err) {
+        console.error('Erro ao carregar:', err);
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:red;padding:1.5rem">❌ Erro ao carregar dados do Supabase</td></tr>';
     }
-    
-    if (busca) {
-      query = query.ilike('crianca', `%${busca}%`);
-    }
-    
-    if (equipe) {
-      query = query.eq('equipe', equipe);
-    }
-    
-    var { data, error } = await query.order('created_at', { ascending: false });
-    
-    if (error) throw error;
-    if (data && data.length > 0) {
-      cRenderTabela(data);
-      return;
-    }
-  } catch (err) {
-    console.warn('Erro ao carregar do Supabase, usando localStorage:', err);
-  }
+}
   
   // Fallback localStorage
   var regs = carregarDadosLocalStorage();
@@ -1508,7 +1494,6 @@ async function _carregarRegistros(busca, equipe) {
     regs = regs.filter(function(r) { return (r.equipe||'') === equipe; });
   }
   cRenderTabela(regs);
-}
 
 function cRenderTabela(regs) {
   var tbody = document.getElementById('c-tbody');
