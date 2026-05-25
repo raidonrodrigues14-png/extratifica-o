@@ -1349,7 +1349,6 @@ function cAtualizarWpp(dd, mm, yy) {
 // ============================================================
 // MODULO CRIANCA - SUPABASE (e fallback localStorage)
 // ============================================================
-
 async function cSalvar() {
   cCalcular();
   var nomeCrianca = document.getElementById('c-nome').value.trim();
@@ -1375,24 +1374,39 @@ async function cSalvar() {
     data_retorno: dataRetorno || null,
     wpp_status: 'PENDENTE',
     equipe: equipe,
-    ubs_id: SESSAO ? SESSAO.ubsId : null,
-    ubs_nome: SESSAO ? SESSAO.ubsNome : null
+    ubs_id: SESSAO ? SESSAO.ubsId : 'local',
+    ubs_nome: SESSAO ? SESSAO.ubsNome : 'Teste UBS'
   };
   
   try {
-    var { data, error } = await supabase.from('extratifica').insert([dados]).select();
-    if (error) throw error;
+    // Inserir diretamente no Supabase
+    const { data, error } = await supabase.from('extratifica').insert([dados]).select();
+    
+    if (error) {
+      console.error('Erro Supabase:', error);
+      throw error;
+    }
+    
     toast('✅ Registro salvo no Supabase!');
+    console.log('Registro inserido:', data);
     await cCarregar();
     cNova();
+    
   } catch (err) {
-    console.warn('Erro Supabase, salvando localmente:', err);
+    console.error('Erro detalhado:', err);
+    toast('Erro ao salvar no Supabase: ' + err.message);
+    
     // Fallback: salvar no localStorage
     var regs = carregarDadosLocalStorage();
     var novoId = Date.now();
     regs.push({
-      id: novoId, crianca: nomeCrianca, mae: nomeMae, telefone: celular,
-      risco: cRisco, data_retorno: dataRetorno || null, wpp: 'PENDENTE',
+      id: novoId, 
+      crianca: nomeCrianca, 
+      mae: nomeMae, 
+      telefone: celular,
+      risco: cRisco, 
+      data_retorno: dataRetorno || null, 
+      wpp: 'PENDENTE',
       equipe: equipe,
       ubsId: SESSAO ? SESSAO.ubsId : 'local',
       ubsNome: SESSAO ? SESSAO.ubsNome : 'Local',
