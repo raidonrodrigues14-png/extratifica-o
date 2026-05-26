@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal APS — SES Maranhão</title>
+<!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * {
@@ -65,13 +66,11 @@ body {
   border-radius: 12px;
   font-size: 14px;
   margin-bottom: 16px;
-  transition: all 0.2s;
 }
 
 .login-input:focus {
   outline: none;
   border-color: #1a6b40;
-  box-shadow: 0 0 0 3px rgba(26,107,64,0.1);
 }
 
 .btn-login {
@@ -84,12 +83,10 @@ body {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .btn-login:hover {
   background: #0d3d25;
-  transform: translateY(-1px);
 }
 
 .error-msg {
@@ -234,9 +231,6 @@ body {
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 2px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .form-grid {
@@ -256,7 +250,6 @@ body {
   font-weight: 600;
   color: #6b7280;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .form-group input, .form-group select {
@@ -264,12 +257,6 @@ body {
   border: 2px solid #e5e7eb;
   border-radius: 10px;
   font-size: 14px;
-  font-family: inherit;
-}
-
-.form-group input:focus, .form-group select:focus {
-  outline: none;
-  border-color: #1a6b40;
 }
 
 .checklist {
@@ -286,7 +273,6 @@ body {
   border: 2px solid #e5e7eb;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .check-item:hover {
@@ -312,8 +298,6 @@ body {
   font-weight: 600;
   cursor: pointer;
   border: none;
-  font-family: inherit;
-  transition: all 0.2s;
 }
 
 .btn-primary {
@@ -350,7 +334,6 @@ body {
   font-size: 12px;
 }
 
-/* Tabela */
 .table-container {
   overflow-x: auto;
   margin-top: 16px;
@@ -390,7 +373,6 @@ tr:hover {
   font-weight: 600;
 }
 
-/* Busca */
 .search-bar {
   display: flex;
   gap: 12px;
@@ -406,7 +388,6 @@ tr:hover {
   font-size: 14px;
 }
 
-/* Toast */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -417,12 +398,6 @@ tr:hover {
   border-radius: 12px;
   display: none;
   z-index: 1000;
-  animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
 }
 
 @media (max-width: 768px) {
@@ -431,9 +406,6 @@ tr:hover {
   }
   .form-grid {
     grid-template-columns: 1fr;
-  }
-  .search-bar {
-    flex-direction: column;
   }
 }
 </style>
@@ -449,9 +421,9 @@ tr:hover {
       <p>Secretaria de Saúde do Maranhão</p>
     </div>
     <div id="loginError" class="error-msg"></div>
-    <input type="text" id="username" class="login-input" placeholder="Usuário" autocomplete="off">
+    <input type="text" id="username" class="login-input" placeholder="Usuário">
     <input type="password" id="password" class="login-input" placeholder="Senha">
-    <button class="btn-login" onclick="fazerLogin()">Entrar no Sistema →</button>
+    <button class="btn-login" id="btnLogin">Entrar no Sistema →</button>
   </div>
 </div>
 
@@ -462,7 +434,7 @@ tr:hover {
     <p>Atenção Primária à Saúde · SES Maranhão</p>
   </div>
   <div class="cards-container">
-    <div class="card" onclick="abrirModulo('gestante')">
+    <div class="card" id="cardGestante">
       <div class="card-icon">🤰</div>
       <h3>Estratificação da Gestante</h3>
       <p>Avaliação de risco obstétrico com classificação em 4 níveis</p>
@@ -473,7 +445,7 @@ tr:hover {
         <span class="risco vermelho">Maternidade</span>
       </div>
     </div>
-    <div class="card" onclick="abrirModulo('crianca')">
+    <div class="card" id="cardCrianca">
       <div class="card-icon">👶</div>
       <h3>Estratificação da Criança</h3>
       <p>Avaliação de risco para crianças de 0 a 5 anos</p>
@@ -490,34 +462,30 @@ tr:hover {
 <div id="gestanteModule" class="module">
   <div class="module-header">
     <div>🤰 <strong>Estratificação da Gestante</strong></div>
-    <button class="btn-back" onclick="voltarPortal()">← Voltar ao Portal</button>
+    <button class="btn-back" id="backGestante">← Voltar ao Portal</button>
   </div>
   <div class="module-content">
     <div class="section">
       <div class="section-title">📋 Identificação da Gestante</div>
       <div class="form-grid">
         <div class="form-group"><label>Nome Completo *</label><input type="text" id="g_nome" placeholder="Nome da gestante"></div>
-        <div class="form-group"><label>CNS</label><input type="text" id="g_cns" placeholder="Cartão Nacional de Saúde"></div>
+        <div class="form-group"><label>CNS</label><input type="text" id="g_cns" placeholder="CNS"></div>
         <div class="form-group"><label>CPF</label><input type="text" id="g_cpf" placeholder="CPF"></div>
-        <div class="form-group"><label>Idade</label><input type="number" id="g_idade" placeholder="Idade em anos"></div>
-        <div class="form-group"><label>UBS</label><input type="text" id="g_ubs" placeholder="Unidade de Saúde"></div>
+        <div class="form-group"><label>Idade</label><input type="number" id="g_idade" placeholder="Idade"></div>
+        <div class="form-group"><label>UBS</label><input type="text" id="g_ubs" placeholder="UBS"></div>
         <div class="form-group"><label>Data Nascimento</label><input type="date" id="g_data_nasc"></div>
-        <div class="form-group"><label>DUM</label><input type="date" id="g_dum"></div>
-        <div class="form-group"><label>DPP</label><input type="date" id="g_dpp"></div>
       </div>
     </div>
 
     <div class="section">
       <div class="section-title">🩺 Fatores de Risco</div>
       <div class="checklist" id="gestanteRiscos">
-        <label class="check-item"><input type="checkbox" value="Idade extrema (&lt;15 ou &gt;40 anos)"><span>Idade extrema (&lt;15 ou &gt;40 anos)</span></label>
-        <label class="check-item"><input type="checkbox" value="Hipertensão Arterial"><span>Hipertensão Arterial</span></label>
-        <label class="check-item"><input type="checkbox" value="Diabetes Mellitus"><span>Diabetes Mellitus</span></label>
-        <label class="check-item"><input type="checkbox" value="Pré-eclâmpsia anterior"><span>Pré-eclâmpsia anterior</span></label>
+        <label class="check-item"><input type="checkbox" value="Idade extrema"><span>Idade extrema (&lt;15 ou &gt;40 anos)</span></label>
+        <label class="check-item"><input type="checkbox" value="Hipertensão"><span>Hipertensão Arterial</span></label>
+        <label class="check-item"><input type="checkbox" value="Diabetes"><span>Diabetes Mellitus</span></label>
+        <label class="check-item"><input type="checkbox" value="Pré-eclâmpsia"><span>Pré-eclâmpsia anterior</span></label>
         <label class="check-item"><input type="checkbox" value="Cardiopatia"><span>Cardiopatia</span></label>
-        <label class="check-item"><input type="checkbox" value="Gestação múltipla"><span>Gest ação múltipla</span></label>
-        <label class="check-item"><input type="checkbox" value="Obesidade grave"><span>Obesidade grave (IMC &gt;40)</span></label>
-        <label class="check-item"><input type="checkbox" value="Baixa escolaridade / Vulnerabilidade social"><span>Baixa escolaridade / Vulnerabilidade social</span></label>
+        <label class="check-item"><input type="checkbox" value="Gestação múltipla"><span>Gestação múltipla</span></label>
       </div>
     </div>
 
@@ -534,8 +502,8 @@ tr:hover {
         </div>
       </div>
       <div class="btn-group">
-        <button class="btn btn-primary" onclick="salvarGestante()">💾 Salvar Registro</button>
-        <button class="btn btn-secondary" onclick="limparFormGestante()">↺ Novo</button>
+        <button class="btn btn-primary" id="btnSalvarGestante">💾 Salvar Registro</button>
+        <button class="btn btn-secondary" id="btnLimparGestante">↺ Novo</button>
       </div>
     </div>
 
@@ -543,8 +511,8 @@ tr:hover {
       <div class="section-title">📋 Gestantes Cadastradas</div>
       <div class="search-bar">
         <input type="text" id="buscaGestante" placeholder="🔍 Buscar por nome...">
-        <button class="btn btn-secondary" onclick="buscarGestantes()">Buscar</button>
-        <button class="btn btn-secondary" onclick="carregarGestantes()">Limpar</button>
+        <button class="btn btn-secondary" id="btnBuscarGestante">Buscar</button>
+        <button class="btn btn-secondary" id="btnLimparBuscaGestante">Limpar</button>
       </div>
       <div class="table-container">
         <table>
@@ -562,7 +530,7 @@ tr:hover {
 <div id="criancaModule" class="module">
   <div class="module-header">
     <div>👶 <strong>Estratificação da Criança (0-5 anos)</strong></div>
-    <button class="btn-back" onclick="voltarPortal()">← Voltar ao Portal</button>
+    <button class="btn-back" id="backCrianca">← Voltar ao Portal</button>
   </div>
   <div class="module-content">
     <div class="section">
@@ -571,8 +539,8 @@ tr:hover {
         <div class="form-group"><label>Nome da Criança *</label><input type="text" id="c_nome" placeholder="Nome completo"></div>
         <div class="form-group"><label>Nome da Mãe *</label><input type="text" id="c_mae" placeholder="Nome da mãe"></div>
         <div class="form-group"><label>Telefone (WhatsApp)</label><input type="tel" id="c_telefone" placeholder="(98) 99123-4567"></div>
-        <div class="form-group"><label>CNS</label><input type="text" id="c_cns" placeholder="Cartão Nacional"></div>
-        <div class="form-group"><label>UBS</label><input type="text" id="c_ubs" placeholder="Unidade de Saúde"></div>
+        <div class="form-group"><label>CNS</label><input type="text" id="c_cns" placeholder="CNS"></div>
+        <div class="form-group"><label>UBS</label><input type="text" id="c_ubs" placeholder="UBS"></div>
         <div class="form-group"><label>Data Nascimento</label><input type="date" id="c_nasc"></div>
         <div class="form-group"><label>Data da Consulta</label><input type="date" id="c_data_consulta"></div>
         <div class="form-group"><label>Data do Retorno</label><input type="date" id="c_retorno" readonly></div>
@@ -583,18 +551,18 @@ tr:hover {
       <div class="section-title">🩺 Fatores de Risco</div>
       <div class="form-grid">
         <div class="checklist">
-          <div class="section-title" style="font-size:14px">🔴 Fatores de ALTO Risco</div>
-          <label class="check-item"><input type="checkbox" class="fator-alto" value="Baixo peso ao nascer (&lt;2500g)"><span>Baixo peso ao nascer (&lt;2500g)</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-alto" value="Prematuridade (&lt;37 semanas)"><span>Prematuridade (&lt;37 semanas)</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-alto" value="Desnutrição grave"><span>Desnutrição grave</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-alto" value="Internação nos últimos 12 meses"><span>Internação nos últimos 12 meses</span></label>
+          <div class="section-title" style="font-size:14px">🔴 ALTO Risco</div>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Baixo peso"><span>Baixo peso ao nascer</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Prematuridade"><span>Prematuridade</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Desnutrição"><span>Desnutrição grave</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Internação"><span>Internação recente</span></label>
         </div>
         <div class="checklist">
-          <div class="section-title" style="font-size:14px">🟡 Fatores de Risco INTERMEDIÁRIO</div>
-          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vacinação atrasada"><span>Vacinação atrasada</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-inter" value="Desmame precoce (&lt;6 meses)"><span>Desmame precoce (&lt;6 meses)</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-inter" value="Pré-natal inadequado"><span>Pré-natal inadequado</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vulnerabilidade social"><span>Vulnerabilidade social</span></label>
+          <div class="section-title" style="font-size:14px">🟡 INTERMEDIÁRIO</div>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vacinação"><span>Vacinação atrasada</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Desmame"><span>Desmame precoce</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Pré-natal"><span>Pré-natal inadequado</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vulnerabilidade"><span>Vulnerabilidade social</span></label>
         </div>
       </div>
     </div>
@@ -603,7 +571,7 @@ tr:hover {
       <div class="section-title">⚙️ Classificação e Retorno</div>
       <div class="form-grid">
         <div class="form-group"><label>Classificação Automática</label>
-          <select id="c_classificacao" onchange="calcularRetorno()">
+          <select id="c_classificacao">
             <option value="HABITUAL">🟢 Risco Habitual</option>
             <option value="INTERMEDIARIO">🟡 Risco Intermediário</option>
             <option value="ALTO">🔴 Alto Risco</option>
@@ -611,9 +579,9 @@ tr:hover {
         </div>
       </div>
       <div class="btn-group">
-        <button class="btn btn-primary" onclick="salvarCrianca()">💾 Salvar Registro</button>
-        <button class="btn btn-wpp" onclick="enviarWhatsApp()">📱 WhatsApp</button>
-        <button class="btn btn-secondary" onclick="limparFormCrianca()">↺ Nova Ficha</button>
+        <button class="btn btn-primary" id="btnSalvarCrianca">💾 Salvar Registro</button>
+        <button class="btn btn-wpp" id="btnWhatsApp">📱 WhatsApp</button>
+        <button class="btn btn-secondary" id="btnLimparCrianca">↺ Nova Ficha</button>
       </div>
     </div>
 
@@ -621,8 +589,8 @@ tr:hover {
       <div class="section-title">📋 Crianças Cadastradas</div>
       <div class="search-bar">
         <input type="text" id="buscaCrianca" placeholder="🔍 Buscar por nome...">
-        <button class="btn btn-secondary" onclick="buscarCriancas()">Buscar</button>
-        <button class="btn btn-secondary" onclick="carregarCriancas()">Limpar</button>
+        <button class="btn btn-secondary" id="btnBuscarCrianca">Buscar</button>
+        <button class="btn btn-secondary" id="btnLimparBuscaCrianca">Limpar</button>
       </div>
       <div class="table-container">
         <table>
@@ -640,11 +608,11 @@ tr:hover {
 
 <script>
 // ============================================================
-// CONFIGURAÇÃO SUPABASE
+// SUPABASE
 // ============================================================
 const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================================
 // CREDENCIAIS
@@ -653,6 +621,24 @@ const USUARIOS = {
   "enfermeira": "123",
   "admin": "admin123"
 };
+
+// ============================================================
+// VARIÁVEIS GLOBAIS
+// ============================================================
+let usuarioLogado = false;
+
+// ============================================================
+// FUNÇÕES DE TOAST
+// ============================================================
+function showToast(msg, isError = false) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.background = isError ? '#b91c1c' : '#1a6b40';
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 3000);
+}
 
 // ============================================================
 // LOGIN
@@ -669,12 +655,18 @@ function fazerLogin() {
   }
 
   if (USUARIOS[user] && USUARIOS[user] === pass) {
+    usuarioLogado = true;
     errorDiv.style.display = 'none';
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('portalScreen').style.display = 'block';
+    
+    // Inicializar datas
+    document.getElementById('c_data_consulta').valueAsDate = new Date();
+    calcularRetorno();
+    
+    // Carregar dados
     carregarGestantes();
     carregarCriancas();
-    document.getElementById('c_data_consulta').valueAsDate = new Date();
   } else {
     errorDiv.textContent = 'Usuário ou senha incorretos';
     errorDiv.style.display = 'block';
@@ -682,46 +674,38 @@ function fazerLogin() {
   }
 }
 
-document.getElementById('username')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
-document.getElementById('password')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
-
 // ============================================================
-// FUNÇÕES GERAIS
+// NAVEGAÇÃO
 // ============================================================
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(() => { t.style.display = 'none'; }, 3000);
-}
-
 function voltarPortal() {
   document.getElementById('gestanteModule').style.display = 'none';
   document.getElementById('criancaModule').style.display = 'none';
   document.getElementById('portalScreen').style.display = 'block';
+}
+
+function abrirModuloGestante() {
+  document.getElementById('portalScreen').style.display = 'none';
+  document.getElementById('gestanteModule').style.display = 'block';
+  document.getElementById('criancaModule').style.display = 'none';
   carregarGestantes();
+}
+
+function abrirModuloCrianca() {
+  document.getElementById('portalScreen').style.display = 'none';
+  document.getElementById('gestanteModule').style.display = 'none';
+  document.getElementById('criancaModule').style.display = 'block';
   carregarCriancas();
 }
 
-function abrirModulo(tipo) {
-  document.getElementById('portalScreen').style.display = 'none';
-  if (tipo === 'gestante') {
-    document.getElementById('gestanteModule').style.display = 'block';
-    document.getElementById('criancaModule').style.display = 'none';
-    carregarGestantes();
-  } else {
-    document.getElementById('gestanteModule').style.display = 'none';
-    document.getElementById('criancaModule').style.display = 'block';
-    carregarCriancas();
-  }
-}
-
 // ============================================================
-// GESTANTES - CRUD
+// GESTANTES
 // ============================================================
 async function salvarGestante() {
   const nome = document.getElementById('g_nome').value.trim();
-  if (!nome) { toast('⚠️ Informe o nome da gestante!'); return; }
+  if (!nome) {
+    showToast('⚠️ Informe o nome da gestante!', true);
+    return;
+  }
 
   const fatores = Array.from(document.querySelectorAll('#gestanteRiscos input:checked')).map(cb => cb.value);
 
@@ -732,42 +716,32 @@ async function salvarGestante() {
     idade: parseInt(document.getElementById('g_idade').value) || null,
     ubs: document.getElementById('g_ubs').value || null,
     data_nasc: document.getElementById('g_data_nasc').value || null,
-    dum: document.getElementById('g_dum').value || null,
-    dpp: document.getElementById('g_dpp').value || null,
     risco_classificacao: document.getElementById('g_classificacao').value,
     fatores_risco: fatores
   };
 
   try {
-    const { error } = await supabase.from('gestantes').insert([data]);
+    const { error } = await supabaseClient.from('gestantes').insert([data]);
     if (error) throw error;
-    toast('✅ Gestante salva com sucesso!');
+    showToast('✅ Gestante salva com sucesso!');
     limparFormGestante();
     carregarGestantes();
   } catch (err) {
-    toast('❌ Erro: ' + err.message);
+    showToast('❌ Erro: ' + err.message, true);
     console.error(err);
   }
 }
 
 async function carregarGestantes() {
-  document.getElementById('buscaGestante').value = '';
-  await carregarGestantesLista('');
-}
-
-async function buscarGestantes() {
-  const termo = document.getElementById('buscaGestante').value.trim();
-  await carregarGestantesLista(termo);
-}
-
-async function carregarGestantesLista(termo) {
   const tbody = document.getElementById('gestantesList');
   tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
 
   try {
-    let query = supabase.from('gestantes').select('*').order('created_at', { ascending: false });
-    if (termo) query = query.ilike('nome', `%${termo}%`);
-    const { data, error } = await query;
+    const { data, error } = await supabaseClient
+      .from('gestantes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
     if (error) throw error;
 
     if (!data || data.length === 0) {
@@ -794,18 +768,66 @@ async function carregarGestantesLista(termo) {
     `).join('');
   } catch (err) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';
+    showToast('❌ Erro ao carregar gestantes', true);
+  }
+}
+
+async function buscarGestantes() {
+  const termo = document.getElementById('buscaGestante').value.trim();
+  const tbody = document.getElementById('gestantesList');
+  
+  if (!termo) {
+    carregarGestantes();
+    return;
+  }
+
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('gestantes')
+      .select('*')
+      .ilike('nome', `%${termo}%`)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma gestante encontrada</td></tr>';
+      return;
+    }
+
+    const classMap = {
+      habitual: '<span class="badge verde">Habitual</span>',
+      vigilancia: '<span class="badge amarelo">Vigilância</span>',
+      compartilhado: '<span class="badge laranja">Compartilhado</span>',
+      maternidade: '<span class="badge vermelho">Maternidade</span>'
+    };
+
+    tbody.innerHTML = data.map(g => `
+      <tr>
+        <td><strong>${g.nome || '-'}</strong></td>
+        <td>${g.cns || '-'}</td>
+        <td>${g.ubs || '-'}</td>
+        <td>${classMap[g.risco_classificacao] || g.risco_classificacao}</td>
+        <td>${g.created_at ? new Date(g.created_at).toLocaleDateString() : '-'}</td>
+        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    showToast('❌ Erro na busca', true);
   }
 }
 
 async function excluirGestante(id) {
   if (!confirm('Excluir este registro permanentemente?')) return;
   try {
-    const { error } = await supabase.from('gestantes').delete().eq('id', id);
+    const { error } = await supabaseClient.from('gestantes').delete().eq('id', id);
     if (error) throw error;
-    toast('🗑️ Registro excluído');
+    showToast('🗑️ Registro excluído');
     carregarGestantes();
   } catch (err) {
-    toast('❌ Erro: ' + err.message);
+    showToast('❌ Erro ao excluir', true);
   }
 }
 
@@ -816,14 +838,12 @@ function limparFormGestante() {
   document.getElementById('g_idade').value = '';
   document.getElementById('g_ubs').value = '';
   document.getElementById('g_data_nasc').value = '';
-  document.getElementById('g_dum').value = '';
-  document.getElementById('g_dpp').value = '';
   document.getElementById('g_classificacao').value = 'habitual';
   document.querySelectorAll('#gestanteRiscos input').forEach(cb => cb.checked = false);
 }
 
 // ============================================================
-// CRIANÇAS - CRUD
+// CRIANÇAS
 // ============================================================
 function calcularRetorno() {
   const classificacao = document.getElementById('c_classificacao').value;
@@ -845,7 +865,10 @@ async function salvarCrianca() {
   const nome = document.getElementById('c_nome').value.trim();
   const mae = document.getElementById('c_mae').value.trim();
 
-  if (!nome || !mae) { toast('⚠️ Informe o nome da criança e da mãe!'); return; }
+  if (!nome || !mae) {
+    showToast('⚠️ Informe o nome da criança e da mãe!', true);
+    return;
+  }
 
   const fatoresAlto = Array.from(document.querySelectorAll('.fator-alto:checked')).map(cb => cb.value);
   const fatoresInter = Array.from(document.querySelectorAll('.fator-inter:checked')).map(cb => cb.value);
@@ -865,35 +888,27 @@ async function salvarCrianca() {
   };
 
   try {
-    const { error } = await supabase.from('extratifica').insert([data]);
+    const { error } = await supabaseClient.from('extratifica').insert([data]);
     if (error) throw error;
-    toast('✅ Criança salva com sucesso!');
+    showToast('✅ Criança salva com sucesso!');
     limparFormCrianca();
     carregarCriancas();
   } catch (err) {
-    toast('❌ Erro: ' + err.message);
+    showToast('❌ Erro: ' + err.message, true);
     console.error(err);
   }
 }
 
 async function carregarCriancas() {
-  document.getElementById('buscaCrianca').value = '';
-  await carregarCriancasLista('');
-}
-
-async function buscarCriancas() {
-  const termo = document.getElementById('buscaCrianca').value.trim();
-  await carregarCriancasLista(termo);
-}
-
-async function carregarCriancasLista(termo) {
   const tbody = document.getElementById('criancasList');
   tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
 
   try {
-    let query = supabase.from('extratifica').select('*').order('created_at', { ascending: false });
-    if (termo) query = query.ilike('crianca', `%${termo}%`);
-    const { data, error } = await query;
+    const { data, error } = await supabaseClient
+      .from('extratifica')
+      .select('*')
+      .order('created_at', { ascending: false });
+
     if (error) throw error;
 
     if (!data || data.length === 0) {
@@ -919,18 +934,65 @@ async function carregarCriancasLista(termo) {
     `).join('');
   } catch (err) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';
+    showToast('❌ Erro ao carregar crianças', true);
+  }
+}
+
+async function buscarCriancas() {
+  const termo = document.getElementById('buscaCrianca').value.trim();
+  const tbody = document.getElementById('criancasList');
+
+  if (!termo) {
+    carregarCriancas();
+    return;
+  }
+
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('extratifica')
+      .select('*')
+      .ilike('crianca', `%${termo}%`)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma criança encontrada</td></tr>';
+      return;
+    }
+
+    const classMap = {
+      HABITUAL: '<span class="badge verde">Habitual</span>',
+      INTERMEDIARIO: '<span class="badge amarelo">Intermediário</span>',
+      ALTO: '<span class="badge vermelho">Alto Risco</span>'
+    };
+
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td><strong>${c.crianca || '-'}</strong></td>
+        <td>${c.mae || '-'}</td>
+        <td>${c.telefone || '-'}</td>
+        <td>${classMap[c.risco] || c.risco}</td>
+        <td>${c.data_retorno ? c.data_retorno.split('-').reverse().join('/') : '-'}</td>
+        <td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    showToast('❌ Erro na busca', true);
   }
 }
 
 async function excluirCrianca(id) {
   if (!confirm('Excluir este registro permanentemente?')) return;
   try {
-    const { error } = await supabase.from('extratifica').delete().eq('id', id);
+    const { error } = await supabaseClient.from('extratifica').delete().eq('id', id);
     if (error) throw error;
-    toast('🗑️ Registro excluído');
+    showToast('🗑️ Registro excluído');
     carregarCriancas();
   } catch (err) {
-    toast('❌ Erro: ' + err.message);
+    showToast('❌ Erro ao excluir', true);
   }
 }
 
@@ -949,24 +1011,55 @@ function limparFormCrianca() {
 
 function enviarWhatsApp() {
   const telefone = document.getElementById('c_telefone').value.replace(/\D/g, '');
-  if (!telefone) { toast('⚠️ Informe o telefone da mãe!'); return; }
-  
+  if (!telefone) {
+    showToast('⚠️ Informe o telefone da mãe!', true);
+    return;
+  }
+
   const nome = document.getElementById('c_nome').value.trim() || 'criança';
   const mae = document.getElementById('c_mae').value.trim() || 'mãe';
   const risco = document.getElementById('c_classificacao').value;
   const retorno = document.getElementById('c_retorno').value;
-  
+
   const riscoTexto = risco === 'ALTO' ? 'ALTO RISCO' : (risco === 'INTERMEDIARIO' ? 'INTERMEDIÁRIO' : 'HABITUAL');
   const dataRetorno = retorno ? retorno.split('-').reverse().join('/') : 'não definida';
-  
+
   const msg = `Olá Sra. ${mae}! 👋\n\nA avaliação do(a) ${nome} foi concluída.\n📋 Classificação: ${riscoTexto}\n📅 Próximo retorno: ${dataRetorno}\n\n👶💚 Cuidando juntos da saúde da criança!`;
-  
+
   window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-// Inicialização
-document.getElementById('c_data_consulta').valueAsDate = new Date();
-calcularRetorno();
+// ============================================================
+// EVENTOS
+// ============================================================
+document.getElementById('btnLogin').addEventListener('click', fazerLogin);
+document.getElementById('username').addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
+document.getElementById('password').addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
+
+document.getElementById('cardGestante').addEventListener('click', abrirModuloGestante);
+document.getElementById('cardCrianca').addEventListener('click', abrirModuloCrianca);
+document.getElementById('backGestante').addEventListener('click', voltarPortal);
+document.getElementById('backCrianca').addEventListener('click', voltarPortal);
+
+document.getElementById('btnSalvarGestante').addEventListener('click', salvarGestante);
+document.getElementById('btnLimparGestante').addEventListener('click', limparFormGestante);
+document.getElementById('btnBuscarGestante').addEventListener('click', buscarGestantes);
+document.getElementById('btnLimparBuscaGestante').addEventListener('click', carregarGestantes);
+document.getElementById('buscaGestante').addEventListener('keypress', (e) => { if (e.key === 'Enter') buscarGestantes(); });
+
+document.getElementById('btnSalvarCrianca').addEventListener('click', salvarCrianca);
+document.getElementById('btnLimparCrianca').addEventListener('click', limparFormCrianca);
+document.getElementById('btnWhatsApp').addEventListener('click', enviarWhatsApp);
+document.getElementById('btnBuscarCrianca').addEventListener('click', buscarCriancas);
+document.getElementById('btnLimparBuscaCrianca').addEventListener('click', carregarCriancas);
+document.getElementById('buscaCrianca').addEventListener('keypress', (e) => { if (e.key === 'Enter') buscarCriancas(); });
+document.getElementById('c_classificacao').addEventListener('change', calcularRetorno);
+document.getElementById('c_data_consulta').addEventListener('change', calcularRetorno);
+
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
+console.log('Sistema inicializado!');
 </script>
 </body>
 </html>
