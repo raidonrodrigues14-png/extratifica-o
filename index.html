@@ -998,7 +998,6 @@ async function carregarGestantesLista(busca, equipe) {
     let query = supabaseClient.from('gestantes').select('*').order('created_at', { ascending: false });
     if (busca) query = query.ilike('nome', '%' + busca + '%');
     if (equipe) query = query.eq('equipe_esf', equipe);
-    if (!SESSAO.isGestor) query = query.eq('ubs', SESSAO.ubsNome);
     
     const { data, error } = await query;
     if (error) throw error;
@@ -1028,8 +1027,8 @@ async function carregarGestantesLista(busca, equipe) {
           <button class="btn-editar" onclick="abrirEditarGestante(${g.id}, '${(g.nome||'').replace(/'/g,"\\'")}', '${(g.cns||'').replace(/'/g,"\\'")}', '${(g.risco_classificacao||'').replace(/'/g,"\\'")}', '${g.dpp || ''}', '${(g.equipe_esf||'').replace(/'/g,"\\'")}')">Editar</button>
           <button class="btn-excluir" onclick="excluirGestante(${g.id})">Excluir</button>
           <button class="btn-editar" style="background:#7c3aed" onclick="verHistoricoGestante(${g.id})">Historico</button>
-         </td>
-       </tr>
+        </td>
+      </tr>
     `).join('');
   } catch (err) {
     tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:red">Erro: ${err.message}</td></tr>`;
@@ -1098,7 +1097,7 @@ async function verHistoricoGestante(id) {
     const { data, error } = await supabaseClient.from('gestantes').select('*').eq('id', id).single();
     if (error) throw error;
     
-    const fatores = Array.isArray(data.fatores_risco) ? data.fatores_risco.map(f => '<li>' + f.label + '</li>').join('') : '<li>Nenhum</li>';
+    const fatores = Array.isArray(data.fatores_risco) ? data.fatores_risco.map(f => '<li>' + (f.label || f) + '</li>').join('') : '<li>Nenhum</li>';
     document.getElementById('historico-conteudo').innerHTML = `
       <div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">
         <p><strong>Gestante:</strong> ${data.nome || '-'}</p>
@@ -1266,19 +1265,18 @@ async function buscarCriancaSupabase() {
 
 async function carregarCriancasLista(busca, equipe) {
   const tbody = document.getElementById('c-tbody');
-  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
+  tbody.innerHTML = '<td><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
   
   try {
     let query = supabaseClient.from('extratifica').select('*').order('created_at', { ascending: false });
     if (busca) query = query.or('crianca.ilike.%' + busca + '%,mae.ilike.%' + busca + '%');
     if (equipe) query = query.eq('equipe_esf', equipe);
-    if (!SESSAO.isGestor) query = query.eq('ubs', SESSAO.ubsNome);
     
     const { data, error } = await query;
     if (error) throw error;
     
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<table><td colspan="8" style="text-align:center">Nenhuma crianca cadastrada</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center">Nenhuma crianca cadastrada</td></tr>';
       return;
     }
     
@@ -1309,7 +1307,7 @@ async function carregarCriancasLista(busca, equipe) {
       `;
     }).join('');
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:red">Erro: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<table><td colspan="8" style="text-align:center;color:red">Erro: ${err.message}</td></tr>`;
   }
 }
 
