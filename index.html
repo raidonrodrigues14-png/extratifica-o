@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal APS — Secretaria de Saúde - MA</title>
+<title>Portal APS — SES Maranhão</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 * {
@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   background: #f0f4f0;
   min-height: 100vh;
 }
@@ -291,7 +291,6 @@ body {
 
 .check-item:hover {
   background: #f9fafb;
-  border-color: #d1d5db;
 }
 
 .check-item input {
@@ -342,16 +341,6 @@ body {
 
 .btn-wpp:hover {
   background: #1da15a;
-}
-
-.btn-excel {
-  background: #16a34a;
-  color: white;
-}
-
-.btn-pdf {
-  background: #dc2626;
-  color: white;
 }
 
 .btn-excluir {
@@ -406,6 +395,7 @@ tr:hover {
   display: flex;
   gap: 12px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .search-bar input {
@@ -441,6 +431,9 @@ tr:hover {
   }
   .form-grid {
     grid-template-columns: 1fr;
+  }
+  .search-bar {
+    flex-direction: column;
   }
 }
 </style>
@@ -500,7 +493,6 @@ tr:hover {
     <button class="btn-back" onclick="voltarPortal()">← Voltar ao Portal</button>
   </div>
   <div class="module-content">
-    <!-- Formulário -->
     <div class="section">
       <div class="section-title">📋 Identificação da Gestante</div>
       <div class="form-grid">
@@ -510,6 +502,8 @@ tr:hover {
         <div class="form-group"><label>Idade</label><input type="number" id="g_idade" placeholder="Idade em anos"></div>
         <div class="form-group"><label>UBS</label><input type="text" id="g_ubs" placeholder="Unidade de Saúde"></div>
         <div class="form-group"><label>Data Nascimento</label><input type="date" id="g_data_nasc"></div>
+        <div class="form-group"><label>DUM</label><input type="date" id="g_dum"></div>
+        <div class="form-group"><label>DPP</label><input type="date" id="g_dpp"></div>
       </div>
     </div>
 
@@ -545,7 +539,6 @@ tr:hover {
       </div>
     </div>
 
-    <!-- Listagem -->
     <div class="section">
       <div class="section-title">📋 Gestantes Cadastradas</div>
       <div class="search-bar">
@@ -554,8 +547,10 @@ tr:hover {
         <button class="btn btn-secondary" onclick="carregarGestantes()">Limpar</button>
       </div>
       <div class="table-container">
-        <table id="tabelaGestantes">
-          <thead><tr><th>Nome</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr></thead>
+        <table>
+          <thead>
+            <tr><th>Nome</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr>
+          </thead>
           <tbody id="gestantesList"></tbody>
         </table>
       </div>
@@ -579,6 +574,8 @@ tr:hover {
         <div class="form-group"><label>CNS</label><input type="text" id="c_cns" placeholder="Cartão Nacional"></div>
         <div class="form-group"><label>UBS</label><input type="text" id="c_ubs" placeholder="Unidade de Saúde"></div>
         <div class="form-group"><label>Data Nascimento</label><input type="date" id="c_nasc"></div>
+        <div class="form-group"><label>Data da Consulta</label><input type="date" id="c_data_consulta"></div>
+        <div class="form-group"><label>Data do Retorno</label><input type="date" id="c_retorno" readonly></div>
       </div>
     </div>
 
@@ -591,7 +588,6 @@ tr:hover {
           <label class="check-item"><input type="checkbox" class="fator-alto" value="Prematuridade (&lt;37 semanas)"><span>Prematuridade (&lt;37 semanas)</span></label>
           <label class="check-item"><input type="checkbox" class="fator-alto" value="Desnutrição grave"><span>Desnutrição grave</span></label>
           <label class="check-item"><input type="checkbox" class="fator-alto" value="Internação nos últimos 12 meses"><span>Internação nos últimos 12 meses</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-alto" value="Malformação congênita"><span>Malformação congênita</span></label>
         </div>
         <div class="checklist">
           <div class="section-title" style="font-size:14px">🟡 Fatores de Risco INTERMEDIÁRIO</div>
@@ -599,7 +595,6 @@ tr:hover {
           <label class="check-item"><input type="checkbox" class="fator-inter" value="Desmame precoce (&lt;6 meses)"><span>Desmame precoce (&lt;6 meses)</span></label>
           <label class="check-item"><input type="checkbox" class="fator-inter" value="Pré-natal inadequado"><span>Pré-natal inadequado</span></label>
           <label class="check-item"><input type="checkbox" class="fator-inter" value="Vulnerabilidade social"><span>Vulnerabilidade social</span></label>
-          <label class="check-item"><input type="checkbox" class="fator-inter" value="Sobrepeso ou obesidade infantil"><span>Sobrepeso ou obesidade infantil</span></label>
         </div>
       </div>
     </div>
@@ -607,8 +602,6 @@ tr:hover {
     <div class="section">
       <div class="section-title">⚙️ Classificação e Retorno</div>
       <div class="form-grid">
-        <div class="form-group"><label>Data da Consulta</label><input type="date" id="c_data_consulta" onchange="calcularRetorno()"></div>
-        <div class="form-group"><label>Data do Retorno</label><input type="date" id="c_retorno" readonly style="background:#f0fdf4"></div>
         <div class="form-group"><label>Classificação Automática</label>
           <select id="c_classificacao" onchange="calcularRetorno()">
             <option value="HABITUAL">🟢 Risco Habitual</option>
@@ -617,15 +610,9 @@ tr:hover {
           </select>
         </div>
       </div>
-      
-      <div style="background:#e5ddd5; border-radius:12px; padding:16px; margin-top:16px">
-        <div style="font-weight:600; margin-bottom:8px; color:#075e54">📱 Prévia da mensagem WhatsApp</div>
-        <div id="wppPreview" style="background:white; padding:12px; border-radius:12px; font-size:13px; line-height:1.5"></div>
-      </div>
-
       <div class="btn-group">
         <button class="btn btn-primary" onclick="salvarCrianca()">💾 Salvar Registro</button>
-        <button class="btn btn-wpp" onclick="enviarWhatsApp()">📱 Enviar WhatsApp</button>
+        <button class="btn btn-wpp" onclick="enviarWhatsApp()">📱 WhatsApp</button>
         <button class="btn btn-secondary" onclick="limparFormCrianca()">↺ Nova Ficha</button>
       </div>
     </div>
@@ -638,8 +625,10 @@ tr:hover {
         <button class="btn btn-secondary" onclick="carregarCriancas()">Limpar</button>
       </div>
       <div class="table-container">
-        <table id="tabelaCriancas">
-          <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Classificação</th><th>Retorno</th><th>Ações</th></tr></thead>
+        <table>
+          <thead>
+            <tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Classificação</th><th>Retorno</th><th>Ações</th></tr>
+          </thead>
           <tbody id="criancasList"></tbody>
         </table>
       </div>
@@ -658,27 +647,34 @@ const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================================
+// CREDENCIAIS
+// ============================================================
+const USUARIOS = {
+  "enfermeira": "123",
+  "admin": "admin123"
+};
+
+// ============================================================
 // LOGIN
 // ============================================================
-const CREDENCIAIS = { "enfermeira": "123", "admin": "admin123" };
-
 function fazerLogin() {
   const user = document.getElementById('username').value.trim();
   const pass = document.getElementById('password').value;
   const errorDiv = document.getElementById('loginError');
-  
+
   if (!user || !pass) {
     errorDiv.textContent = 'Preencha usuário e senha';
     errorDiv.style.display = 'block';
     return;
   }
-  
-  if (CREDENCIAIS[user] && CREDENCIAIS[user] === pass) {
+
+  if (USUARIOS[user] && USUARIOS[user] === pass) {
     errorDiv.style.display = 'none';
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('portalScreen').style.display = 'block';
     carregarGestantes();
     carregarCriancas();
+    document.getElementById('c_data_consulta').valueAsDate = new Date();
   } else {
     errorDiv.textContent = 'Usuário ou senha incorretos';
     errorDiv.style.display = 'block';
@@ -686,8 +682,8 @@ function fazerLogin() {
   }
 }
 
-document.getElementById('username')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') fazerLogin(); });
-document.getElementById('password')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') fazerLogin(); });
+document.getElementById('username')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
+document.getElementById('password')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
 
 // ============================================================
 // FUNÇÕES GERAIS
@@ -703,6 +699,8 @@ function voltarPortal() {
   document.getElementById('gestanteModule').style.display = 'none';
   document.getElementById('criancaModule').style.display = 'none';
   document.getElementById('portalScreen').style.display = 'block';
+  carregarGestantes();
+  carregarCriancas();
 }
 
 function abrirModulo(tipo) {
@@ -715,8 +713,6 @@ function abrirModulo(tipo) {
     document.getElementById('gestanteModule').style.display = 'none';
     document.getElementById('criancaModule').style.display = 'block';
     carregarCriancas();
-    document.getElementById('c_data_consulta').valueAsDate = new Date();
-    calcularRetorno();
   }
 }
 
@@ -726,9 +722,9 @@ function abrirModulo(tipo) {
 async function salvarGestante() {
   const nome = document.getElementById('g_nome').value.trim();
   if (!nome) { toast('⚠️ Informe o nome da gestante!'); return; }
-  
+
   const fatores = Array.from(document.querySelectorAll('#gestanteRiscos input:checked')).map(cb => cb.value);
-  
+
   const data = {
     nome: nome,
     cns: document.getElementById('g_cns').value || null,
@@ -736,10 +732,12 @@ async function salvarGestante() {
     idade: parseInt(document.getElementById('g_idade').value) || null,
     ubs: document.getElementById('g_ubs').value || null,
     data_nasc: document.getElementById('g_data_nasc').value || null,
+    dum: document.getElementById('g_dum').value || null,
+    dpp: document.getElementById('g_dpp').value || null,
     risco_classificacao: document.getElementById('g_classificacao').value,
     fatores_risco: fatores
   };
-  
+
   try {
     const { error } = await supabase.from('gestantes').insert([data]);
     if (error) throw error;
@@ -765,25 +763,25 @@ async function buscarGestantes() {
 async function carregarGestantesLista(termo) {
   const tbody = document.getElementById('gestantesList');
   tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
-  
+
   try {
     let query = supabase.from('gestantes').select('*').order('created_at', { ascending: false });
     if (termo) query = query.ilike('nome', `%${termo}%`);
     const { data, error } = await query;
     if (error) throw error;
-    
+
     if (!data || data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma gestante cadastrada</td></tr>';
       return;
     }
-    
+
     const classMap = {
       habitual: '<span class="badge verde">Habitual</span>',
       vigilancia: '<span class="badge amarelo">Vigilância</span>',
       compartilhado: '<span class="badge laranja">Compartilhado</span>',
       maternidade: '<span class="badge vermelho">Maternidade</span>'
     };
-    
+
     tbody.innerHTML = data.map(g => `
       <tr>
         <td><strong>${g.nome || '-'}</strong></td>
@@ -818,6 +816,8 @@ function limparFormGestante() {
   document.getElementById('g_idade').value = '';
   document.getElementById('g_ubs').value = '';
   document.getElementById('g_data_nasc').value = '';
+  document.getElementById('g_dum').value = '';
+  document.getElementById('g_dpp').value = '';
   document.getElementById('g_classificacao').value = 'habitual';
   document.querySelectorAll('#gestanteRiscos input').forEach(cb => cb.checked = false);
 }
@@ -828,37 +828,28 @@ function limparFormGestante() {
 function calcularRetorno() {
   const classificacao = document.getElementById('c_classificacao').value;
   const dataConsulta = document.getElementById('c_data_consulta').value;
-  
+
   if (!dataConsulta) return;
-  
+
   let dias = 30;
   if (classificacao === 'ALTO') dias = 7;
   else if (classificacao === 'INTERMEDIARIO') dias = 15;
-  
+
   const data = new Date(dataConsulta);
   data.setDate(data.getDate() + dias);
   const retorno = data.toISOString().split('T')[0];
   document.getElementById('c_retorno').value = retorno;
-  
-  // Atualizar preview do WhatsApp
-  const nomeCrianca = document.getElementById('c_nome').value.trim() || '[Criança]';
-  const nomeMae = document.getElementById('c_mae').value.trim() || '[Mãe]';
-  const riscoTexto = classificacao === 'ALTO' ? 'ALTO RISCO' : (classificacao === 'INTERMEDIARIO' ? 'INTERMEDIÁRIO' : 'HABITUAL');
-  const dataRetorno = retorno.split('-').reverse().join('/');
-  
-  const msg = `Olá Sra. ${nomeMae}! 👋\n\nA avaliação do(a) ${nomeCrianca} foi concluída.\n📋 Classificação: ${riscoTexto}\n📅 Próximo retorno: ${dataRetorno}\n\n👶💚 Cuidando juntos da saúde da criança!`;
-  document.getElementById('wppPreview').innerHTML = msg.replace(/\n/g,'<br>');
 }
 
 async function salvarCrianca() {
   const nome = document.getElementById('c_nome').value.trim();
   const mae = document.getElementById('c_mae').value.trim();
-  
+
   if (!nome || !mae) { toast('⚠️ Informe o nome da criança e da mãe!'); return; }
-  
+
   const fatoresAlto = Array.from(document.querySelectorAll('.fator-alto:checked')).map(cb => cb.value);
   const fatoresInter = Array.from(document.querySelectorAll('.fator-inter:checked')).map(cb => cb.value);
-  
+
   const data = {
     crianca: nome,
     mae: mae,
@@ -872,7 +863,7 @@ async function salvarCrianca() {
     fatores_inter: fatoresInter,
     wpp: 'PENDENTE'
   };
-  
+
   try {
     const { error } = await supabase.from('extratifica').insert([data]);
     if (error) throw error;
@@ -898,24 +889,24 @@ async function buscarCriancas() {
 async function carregarCriancasLista(termo) {
   const tbody = document.getElementById('criancasList');
   tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
-  
+
   try {
     let query = supabase.from('extratifica').select('*').order('created_at', { ascending: false });
     if (termo) query = query.ilike('crianca', `%${termo}%`);
     const { data, error } = await query;
     if (error) throw error;
-    
+
     if (!data || data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma criança cadastrada</td></tr>';
       return;
     }
-    
+
     const classMap = {
       HABITUAL: '<span class="badge verde">Habitual</span>',
       INTERMEDIARIO: '<span class="badge amarelo">Intermediário</span>',
       ALTO: '<span class="badge vermelho">Alto Risco</span>'
     };
-    
+
     tbody.innerHTML = data.map(c => `
       <tr>
         <td><strong>${c.crianca || '-'}</strong></td>
@@ -959,16 +950,23 @@ function limparFormCrianca() {
 function enviarWhatsApp() {
   const telefone = document.getElementById('c_telefone').value.replace(/\D/g, '');
   if (!telefone) { toast('⚠️ Informe o telefone da mãe!'); return; }
-  const msg = document.getElementById('wppPreview').innerText;
+  
+  const nome = document.getElementById('c_nome').value.trim() || 'criança';
+  const mae = document.getElementById('c_mae').value.trim() || 'mãe';
+  const risco = document.getElementById('c_classificacao').value;
+  const retorno = document.getElementById('c_retorno').value;
+  
+  const riscoTexto = risco === 'ALTO' ? 'ALTO RISCO' : (risco === 'INTERMEDIARIO' ? 'INTERMEDIÁRIO' : 'HABITUAL');
+  const dataRetorno = retorno ? retorno.split('-').reverse().join('/') : 'não definida';
+  
+  const msg = `Olá Sra. ${mae}! 👋\n\nA avaliação do(a) ${nome} foi concluída.\n📋 Classificação: ${riscoTexto}\n📅 Próximo retorno: ${dataRetorno}\n\n👶💚 Cuidando juntos da saúde da criança!`;
+  
   window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // Inicialização
 document.getElementById('c_data_consulta').valueAsDate = new Date();
 calcularRetorno();
-
-document.getElementById('c_nome').addEventListener('input', calcularRetorno);
-document.getElementById('c_mae').addEventListener('input', calcularRetorno);
 </script>
 </body>
 </html>
