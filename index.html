@@ -561,7 +561,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             <thead>
               <tr><th>Gestante</th><th>CNS</th><th>Equipe</th><th>Idade</th><th>Classificacao</th><th>DPP</th><th>Data</th><th>Acoes</th></tr>
             </thead>
-            <tbody id="g-tbody"><tr><td colspan="8" style="text-align:center;padding:1.5rem">Nenhum registro.</td></tr></tbody>
+            <tbody id="g-tbody"><tr><td colspan="8" style="text-align:center;padding:1.5rem">Nenhum registro.
+            </tbody>
           </table>
         </div>
       </div>
@@ -640,6 +641,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
               <option value="AIG">Adequado para IG (AIG)</option>
               <option value="PIG">Pequeno para IG (PIG)</option>
               <option value="GIG">Grande para IG (GIG)</option>
+              <option value="Crescimento simetrico">Crescimento simetrico</option>
+              <option value="Crescimento assimetrico">Crescimento assimetrico</option>
             </select>
           </div>
         </div>
@@ -992,7 +995,7 @@ async function buscarGestanteSupabase() {
 
 async function carregarGestantesLista(busca, equipe) {
   const tbody = document.getElementById('g-tbody');
-  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
+  tbody.innerHTML = '<td><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
   
   try {
     let query = supabaseClient.from('gestantes').select('*').order('created_at', { ascending: false });
@@ -1265,7 +1268,7 @@ async function buscarCriancaSupabase() {
 
 async function carregarCriancasLista(busca, equipe) {
   const tbody = document.getElementById('c-tbody');
-  tbody.innerHTML = '<td><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:1rem">Carregando...</td></tr>';
   
   try {
     let query = supabaseClient.from('extratifica').select('*').order('created_at', { ascending: false });
@@ -1307,7 +1310,7 @@ async function carregarCriancasLista(busca, equipe) {
       `;
     }).join('');
   } catch (err) {
-    tbody.innerHTML = `<table><td colspan="8" style="text-align:center;color:red">Erro: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:red">Erro: ${err.message}</td></tr>`;
   }
 }
 
@@ -1404,6 +1407,7 @@ async function verHistoricoCrianca(id) {
         <p><strong>Retorno:</strong> ${retorno}</p>
         <p><strong>Peso ao Nascer:</strong> ${data.peso_nascer || '-'}</p>
         <p><strong>Idade Gestacional:</strong> ${data.idade_gestacional || '-'}</p>
+        <p><strong>Proporcionalidade:</strong> ${data.proporcionalidade || '-'}</p>
         <p><strong>Fatores Alto Risco:</strong><br>${fatoresAlto}</p>
         <p><strong>Fatores Intermediario:</strong><br>${fatoresInter}</p>
         <p><strong>WhatsApp:</strong> ${data.wpp || '-'}</p>
@@ -1429,6 +1433,7 @@ function reiniciarCrianca() {
   document.getElementById('c-data').valueAsDate = new Date();
   document.getElementById('c-peso').value = 'adequado';
   document.getElementById('c-ig').value = 'termo_completo';
+  document.getElementById('c-prop').value = 'AIG';
   document.getElementById('c-ubs').value = SESSAO ? SESSAO.ubsNome : '';
   cCalcular();
   window.scrollTo(0, 0);
