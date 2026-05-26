@@ -3,973 +3,799 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal APS — SECRETARIA DE SAÚDE - ALTO ALEGRE DO Maranhão</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<!-- Supabase JS SDK -->
+<title>Portal APS — Secretaria de Saúde - MA</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
-:root {
-  --verde:#1a6b40;--verde-mid:#22a05a;--verde-claro:#e6f4ed;--verde-escuro:#0d3d25;
-  --amarelo:#d97706;--amarelo-cl:#fef3c7;--laranja:#c2410c;--laranja-cl:#fff0e8;
-  --vermelho:#b91c1c;--vermelho-cl:#fee2e2;--azul:#1e40af;--azul-cl:#eff6ff;
-  --cinza-100:#f3f4f6;--cinza-200:#e5e7eb;--cinza-500:#6b7280;--cinza-700:#374151;
-  --cinza-900:#111827;--borda:#e5e7eb;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);font-size:14px;min-height:100vh}
 
-/* LOGIN */
-#tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 55%,#2d8f56 100%)}
-#tela-login::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.08) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
-.login-card{background:white;border-radius:24px;padding:2.75rem 2.25rem 2.25rem;width:100%;max-width:410px;box-shadow:0 32px 80px rgba(0,0,0,0.28);position:relative;z-index:1;animation:card-up 0.5s cubic-bezier(0.34,1.56,0.64,1) both}
-@keyframes card-up{from{transform:translateY(32px) scale(0.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.login-top{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
-.login-icon-wrap{width:54px;height:54px;flex-shrink:0;background:linear-gradient(135deg,var(--verde-escuro),var(--verde));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 8px 20px rgba(26,107,64,0.4)}
-.login-title-block strong{display:block;font-size:1rem;font-weight:800;color:var(--cinza-900);line-height:1.2}
-.login-title-block span{font-size:0.72rem;color:var(--cinza-500);font-weight:400}
-.login-divider{height:1px;background:var(--borda);margin-bottom:1.5rem}
-.login-campo{margin-bottom:1rem}
-.login-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.6px}
-.login-campo input{width:100%;border:2px solid var(--borda);border-radius:10px;padding:0.7rem 0.95rem;font-family:'Sora',sans-serif;font-size:0.92rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s,box-shadow 0.2s;background:white}
-.login-campo input:focus{border-color:var(--verde);box-shadow:0 0 0 4px rgba(26,107,64,0.12)}
-.login-erro{background:var(--vermelho-cl);color:var(--vermelho);border:1px solid #fca5a5;border-left:3px solid var(--vermelho);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.82rem;font-weight:600;margin-bottom:1rem;display:none}
-.btn-login-submit{width:100%;background:linear-gradient(135deg,var(--verde-escuro),var(--verde));color:white;border:none;padding:0.85rem;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 6px 20px rgba(26,107,64,0.38);transition:transform 0.15s,box-shadow 0.2s;margin-top:0.25rem}
-.btn-login-submit:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(26,107,64,0.45)}
-.btn-login-submit.loading{opacity:0.75;pointer-events:none}
-.login-tentativas{text-align:center;margin-top:1.1rem;font-size:0.72rem;color:var(--cinza-500)}
-
-/* PORTAL */
-#tela-portal{min-height:100vh;display:flex;flex-direction:column;background:var(--cinza-100)}
-.portal-hero{background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 60%,#2d8f56 100%);padding:3rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
-.portal-hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;background:var(--cinza-100);clip-path:ellipse(55% 100% at 50% 100%)}
-.portal-logo-box{display:inline-flex;align-items:center;gap:1rem;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:16px;padding:0.75rem 1.5rem;margin-bottom:2rem;backdrop-filter:blur(6px);position:relative;z-index:1}
-.portal-logo-icon{width:44px;height:44px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-.portal-logo-text{text-align:left;color:white}
-.portal-logo-text strong{display:block;font-size:0.95rem;font-weight:700}
-.portal-logo-text span{font-size:0.72rem;opacity:0.8;font-weight:400}
-.portal-hero h1{font-size:2.4rem;font-weight:800;color:white;line-height:1.15;margin-bottom:0.6rem;letter-spacing:-0.5px;position:relative;z-index:1}
-.portal-hero h1 em{font-style:normal;color:#86efac}
-.portal-hero p{color:rgba(255,255,255,0.8);font-size:1rem;font-weight:300;position:relative;z-index:1}
-.portal-cards-wrap{padding:2.5rem 1.5rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
-.portal-cards-label{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cinza-500);display:flex;align-items:center;gap:0.75rem}
-.portal-cards-label::before,.portal-cards-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--cinza-200)}
-.portal-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;width:100%;max-width:760px}
-.portal-card{background:white;border-radius:20px;padding:2rem 1.75rem;border:2px solid var(--borda);box-shadow:0 4px 20px rgba(0,0,0,0.06);cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
-.portal-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.12)}
-.portal-card.gestante:hover{border-color:#a78bfa}
-.portal-card.crianca:hover{border-color:#5eead4}
-.card-emoji-wrap{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem}
-.gestante .card-emoji-wrap{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #ddd6fe}
-.crianca .card-emoji-wrap{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #99f6e4}
-.portal-card h2{font-size:1.15rem;font-weight:800;line-height:1.2;color:var(--cinza-900)}
-.portal-card p{font-size:0.82rem;color:var(--cinza-500);line-height:1.6;font-weight:400}
-.card-riscos{display:flex;flex-wrap:wrap;gap:0.35rem}
-.risco-pill{font-size:0.65rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:20px;letter-spacing:0.3px}
-.risco-pill.verde{background:#dcfce7;color:#166534}
-.risco-pill.amarelo{background:#fef9c3;color:#854d0e}
-.risco-pill.laranja{background:#ffedd5;color:#9a3412}
-.risco-pill.vermelho{background:#fee2e2;color:#991b1b}
-.card-arrow{margin-top:auto;display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:700;transition:gap 0.2s}
-.gestante .card-arrow{color:#7c3aed}
-.crianca .card-arrow{color:#0d9488}
-.portal-card:hover .card-arrow{gap:0.7rem}
-.portal-footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--cinza-500);border-top:1px solid var(--borda);background:white;margin-top:auto}
-
-/* HEADER */
-.app-header{background:linear-gradient(135deg,var(--verde-escuro),var(--verde));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:58px;position:sticky;top:0;z-index:200;box-shadow:0 3px 16px rgba(0,0,0,0.25)}
-.app-header-brand{display:flex;align-items:center;gap:0.75rem}
-.app-header-icon{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(255,255,255,0.2)}
-.app-header-text strong{display:block;font-size:0.88rem;font-weight:700}
-.app-header-text span{font-size:0.68rem;opacity:0.75}
-.btn-portal-voltar{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:white;padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-family:'Sora',sans-serif;font-size:0.78rem;font-weight:600;transition:background 0.2s;display:flex;align-items:center;gap:0.4rem}
-.btn-portal-voltar:hover{background:rgba(255,255,255,0.22)}
-
-/* GESTANTE */
-#modulo-gestante{display:none}
-.gest-progress{background:white;border-bottom:1px solid var(--borda);padding:0.65rem 1.5rem;display:flex;align-items:center;gap:1rem}
-.gest-steps{display:flex;gap:0.5rem;flex:1}
-.gest-step{flex:1;height:5px;border-radius:4px;background:var(--borda);transition:background 0.3s}
-.gest-step.ativo{background:#7c3aed}
-.gest-step.concluido{background:#7c3aed;opacity:0.35}
-.gest-step-label{font-size:0.75rem;font-weight:600;color:var(--cinza-500);white-space:nowrap}
-.gest-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 8rem}
-.g-secao{background:white;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.g-secao-titulo{padding:0.8rem 1.2rem;font-weight:700;font-size:0.88rem;display:flex;align-items:center;gap:0.5rem;letter-spacing:0.2px}
-.g-secao-titulo.t-id{background:var(--azul);color:white}
-.g-secao-titulo.t-habitual{background:#16a34a;color:white}
-.g-secao-titulo.t-vigilancia{background:var(--amarelo);color:white}
-.g-secao-titulo.t-compartilhado{background:var(--laranja);color:white}
-.g-secao-titulo.t-maternidade{background:var(--vermelho);color:white}
-.g-secao-corpo{padding:1.25rem}
-.g-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.g-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
-.g-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
-.g-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
-.g-campo input,.g-campo select{width:100%;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s}
-.g-campo input:focus,.g-campo select:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,0.1)}
-.g-raca{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.35rem}
-.g-raca label{display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.9rem;border:2px solid var(--borda);border-radius:20px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:all 0.15s}
-.g-raca input[type=radio]{accent-color:#7c3aed;width:14px;height:14px}
-.g-duas-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.g-sub{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--cinza-700);margin:0.9rem 0 0.6rem;padding-bottom:0.3rem;border-bottom:2px solid var(--cinza-100)}
-.g-checklist{display:flex;flex-direction:column;gap:0.45rem}
-.g-check{display:flex;align-items:flex-start;gap:0.6rem;padding:0.55rem 0.85rem;border-radius:9px;cursor:pointer;border:2px solid var(--borda);background:white;transition:all 0.15s;user-select:none}
-.g-check:hover{background:var(--cinza-100);border-color:#d1d5db}
-.g-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:#7c3aed}
-.g-check span{font-size:0.855rem;line-height:1.45;font-weight:500}
-.g-check.m-verde{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
-.g-check.m-amarelo{background:var(--amarelo-cl);border-color:#fde68a;color:#92400e}
-.g-check.m-laranja{background:var(--laranja-cl);border-color:#fed7aa;color:#9a3412}
-.g-check.m-vermelho{background:var(--vermelho-cl);border-color:#fecaca;color:#991b1b}
-.g-resultado-header{min-height:28vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem;text-align:center;color:white}
-.g-resultado-header.rh-habitual{background:linear-gradient(135deg,#15803d,#166534)}
-.g-resultado-header.rh-vigilancia{background:linear-gradient(135deg,#d97706,#b45309)}
-.g-resultado-header.rh-compartilhado{background:linear-gradient(135deg,#ea580c,#c2410c)}
-.g-resultado-header.rh-maternidade{background:linear-gradient(135deg,#dc2626,#991b1b)}
-.g-resultado-header .badge{font-size:3.5rem;margin-bottom:0.5rem}
-.g-resultado-header h2{font-size:1.8rem;font-weight:800;margin-bottom:0.4rem}
-.g-resultado-header p{font-size:0.95rem;opacity:0.9}
-.g-resultado-body{max-width:800px;margin:0 auto;padding:1.5rem 1rem 3rem}
-.g-res-card{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.g-res-card h3{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--cinza-500);margin-bottom:0.9rem;border-bottom:1px solid var(--cinza-100);padding-bottom:0.5rem}
-.g-item-alerta{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.88rem;padding:0.45rem 0;border-bottom:1px solid var(--cinza-100);color:var(--cinza-900)}
-.g-item-alerta:last-child{border-bottom:none}
-.g-item-alerta::before{content:'▸';color:#9ca3af;flex-shrink:0;margin-top:2px}
-
-/* CRIANÇA */
-#modulo-crianca{display:none}
-.cri-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
-.c-secao{background:white;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.c-secao-titulo{padding:0.8rem 1.2rem;font-weight:700;font-size:0.88rem;display:flex;align-items:center;gap:0.5rem}
-.c-secao-titulo.t-id{background:var(--azul);color:white}
-.c-secao-titulo.t-natal{background:#334155;color:white}
-.c-secao-titulo.t-alto{background:var(--vermelho);color:white}
-.c-secao-titulo.t-inter{background:var(--amarelo);color:white}
-.c-secao-titulo.t-auto{background:#7c3aed;color:white}
-.c-secao-corpo{padding:1.25rem}
-.c-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-.c-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
-.c-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
-.c-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
-.c-campo input,.c-campo select{width:100%;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s}
-.c-campo input:focus,.c-campo select:focus{border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
-.c-checklist{display:flex;flex-direction:column;gap:0.45rem}
-.c-check{display:flex;align-items:flex-start;gap:0.6rem;padding:0.55rem 0.85rem;border-radius:9px;cursor:pointer;border:2px solid var(--borda);background:white;transition:all 0.15s;user-select:none}
-.c-check:hover{background:var(--cinza-100)}
-.c-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:#0d9488}
-.c-check span{font-size:0.855rem;line-height:1.45;font-weight:500}
-.c-check.m-alto{background:var(--vermelho-cl);border-color:#fca5a5;color:#991b1b}
-.c-check.m-inter{background:var(--amarelo-cl);border-color:#fde68a;color:#92400e}
-.c-painel{border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;font-weight:700;font-size:1rem;margin-bottom:1rem}
-.c-painel .p-icon{font-size:1.8rem;flex-shrink:0}
-.c-painel .p-text small{display:block;font-size:0.75rem;font-weight:500;opacity:0.75;margin-top:0.15rem}
-.c-habitual{background:var(--verde-claro);color:var(--verde)}
-.c-intermediario{background:var(--amarelo-cl);color:#92400e}
-.c-alto{background:var(--vermelho-cl);color:#991b1b}
-.wpp-wrap{background:#e5ddd5;border-radius:12px;padding:1.1rem;border:1px solid #c8c0b8;margin-top:1rem}
-.wpp-head{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:700;color:#075e54;margin-bottom:0.75rem}
-.wpp-balao{background:white;padding:0.8rem 1rem;border-radius:0 12px 12px 12px;max-width:88%;box-shadow:0 1px 4px rgba(0,0,0,0.1);font-size:0.82rem;line-height:1.6;white-space:pre-wrap;position:relative}
-.wpp-balao::before{content:'';position:absolute;top:0;left:-8px;border:7px solid transparent;border-right-color:white;border-top:0;border-left:0}
-.wpp-time{display:block;text-align:right;font-size:0.65rem;color:#8696a0;margin-top:0.35rem}
-
-/* BOTÕES */
-.btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.6rem 1.3rem;border-radius:9px;border:none;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.18s}
-.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none!important}
-.btn-prev{background:white;color:var(--cinza-700);border:2px solid var(--borda)}
-.btn-prev:hover{background:var(--cinza-100)}
-.btn-next-g{background:#7c3aed;color:white;box-shadow:0 4px 14px rgba(124,58,237,0.3)}
-.btn-next-g:hover{background:#6d28d9;transform:translateY(-1px)}
-.btn-calc-g{background:#7c3aed;color:white;box-shadow:0 4px 14px rgba(124,58,237,0.3)}
-.btn-calc-g:hover{background:#6d28d9}
-.btn-salvar{background:var(--verde);color:white;box-shadow:0 4px 14px rgba(26,107,64,0.3)}
-.btn-salvar:hover{background:var(--verde-escuro);transform:translateY(-1px)}
-.btn-wpp{background:#25d366;color:white;box-shadow:0 4px 14px rgba(37,211,102,0.3)}
-.btn-wpp:hover{background:#1fb855}
-.btn-pdf{background:#dc2626;color:white}
-.btn-pdf:hover{background:#b91c1c}
-.btn-excel{background:#16a34a;color:white}
-.btn-excel:hover{background:#15803d}
-.btn-nova{background:white;color:var(--cinza-700);border:2px solid var(--borda)}
-.btn-nova:hover{background:var(--cinza-100)}
-.btn-editar{background:#1e40af;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
-.btn-excluir{background:#dc2626;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
-.btn-wpp-ok{background:#25d366;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
-
-/* NAV */
-.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--borda);padding:0.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 16px rgba(0,0,0,0.07);z-index:150}
-.nav-bottom.hidden{display:none}
-
-/* TOAST */
-.toast{position:fixed;bottom:5rem;right:1.5rem;background:#1a6b40;color:white;padding:0.75rem 1.2rem;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:9999;display:none;animation:tin 0.3s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes tin{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* TABELA */
-.tabela-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--borda)}
-.tbl{width:100%;border-collapse:collapse;font-size:0.8rem}
-.tbl th{background:var(--cinza-100);padding:0.55rem 0.85rem;font-weight:700;text-transform:uppercase;font-size:0.65rem;letter-spacing:0.5px;color:var(--cinza-500);border-bottom:1px solid var(--borda);text-align:left}
-.tbl td{padding:0.55rem 0.85rem;border-bottom:1px solid var(--borda);vertical-align:middle}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(--cinza-100)}
-.badge-pill{display:inline-block;padding:0.12rem 0.55rem;border-radius:20px;font-size:0.67rem;font-weight:700}
-.bp-verde{background:var(--verde-claro);color:var(--verde)}
-.bp-amarelo{background:var(--amarelo-cl);color:#92400e}
-.bp-vermelho{background:var(--vermelho-cl);color:#991b1b}
-.bp-pendente{background:#fef9c3;color:#854d0e}
-.bp-enviado{background:#dcfce7;color:#166534}
-
-/* BUSCA */
-.busca-wrap{display:flex;gap:0.5rem;margin-bottom:0.75rem;align-items:center}
-.busca-input{flex:1;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s}
-.busca-input:focus{border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
-.busca-btn{background:#0d9488;color:white;border:none;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.aberto{display:flex}
-.modal{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:tin 0.25s ease}
-.modal h3{font-size:1rem;font-weight:800;margin-bottom:1.25rem;color:var(--cinza-900)}
-.modal-campo{margin-bottom:0.75rem}
-.modal-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
-.modal-campo input,.modal-campo select{width:100%;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s}
-.modal-campo input:focus,.modal-campo select:focus{border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
-.modal-btns{display:flex;gap:0.75rem;margin-top:1.25rem;justify-content:flex-end}
-
-/* HISTÓRICO */
-.historico-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
-.historico-overlay.aberto{display:flex}
-.historico-box{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.historico-box h3{font-size:1rem;font-weight:800;margin-bottom:1rem;color:var(--cinza-900)}
-
-@media(max-width:640px){
-  .portal-cards{grid-template-columns:1fr}
-  .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3,.c-grid-4,.g-duas-col{grid-template-columns:1fr}
-  .portal-hero h1{font-size:1.6rem}
-  .nav-bottom{padding:0.7rem 1rem}
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: #f0f4f0;
+  min-height: 100vh;
 }
-@media print{
-  .app-header,.nav-bottom,.wpp-wrap,.tabela-wrap,[data-noprint],.btn,.portal-hero,#tela-portal{display:none!important}
-  body{background:white}
-  .c-secao,.g-secao{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+
+/* Login */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d3d25, #1a6b40, #2d8f56);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 32px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.login-header h1 {
+  font-size: 24px;
+  color: #1a6b40;
+}
+
+.login-header p {
+  color: #666;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #1a6b40;
+  box-shadow: 0 0 0 3px rgba(26,107,64,0.1);
+}
+
+.btn-login {
+  width: 100%;
+  background: #1a6b40;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-login:hover {
+  background: #0d3d25;
+  transform: translateY(-1px);
+}
+
+.error-msg {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: none;
+  font-size: 14px;
+}
+
+/* Portal */
+.portal {
+  display: none;
+  min-height: 100vh;
+  background: #f3f4f6;
+}
+
+.portal-header {
+  background: linear-gradient(135deg, #0d3d25, #1a6b40);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.portal-header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.portal-header h1 span {
+  color: #86efac;
+}
+
+.portal-header p {
+  opacity: 0.9;
+}
+
+.cards-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid #e5e7eb;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.riscos {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.risco {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.verde { background: #dcfce7; color: #166534; }
+.amarelo { background: #fef9c3; color: #854d0e; }
+.laranja { background: #ffedd5; color: #9a3412; }
+.vermelho { background: #fee2e2; color: #991b1b; }
+
+/* Módulos */
+.module {
+  display: none;
+}
+
+.module-header {
+  background: linear-gradient(135deg, #0d3d25, #1a6b40);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.btn-back {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.module-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input, .form-group select {
+  padding: 10px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: #1a6b40;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.check-item:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.check-item input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.btn-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #1a6b40;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0d3d25;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+.btn-wpp {
+  background: #25d366;
+  color: white;
+}
+
+.btn-wpp:hover {
+  background: #1da15a;
+}
+
+.btn-excel {
+  background: #16a34a;
+  color: white;
+}
+
+.btn-pdf {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-excluir {
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Tabela */
+.table-container {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background: #f9fafb;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+tr:hover {
+  background: #f9fafb;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Busca */
+.search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #1a6b40;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  display: none;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 <body>
-<div class="toast" id="toast"></div>
 
-<!-- MODAL EDITAR CRIANÇA -->
-<div class="modal-overlay" id="modal-editar">
-  <div class="modal">
-    <h3>✏️ Editar Registro (Criança)</h3>
-    <input type="hidden" id="edit-id">
-    <div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div>
-    <div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div>
-    <div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div>
-    <div class="modal-campo">
-      <label>Risco</label>
-      <select id="edit-risco">
-        <option value="HABITUAL">🟢 Habitual</option>
-        <option value="INTERMEDIÁRIO">🟡 Intermediário</option>
-        <option value="ALTO">🔴 Alto</option>
-      </select>
-    </div>
-    <div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div>
-    <div class="modal-btns">
-      <button class="btn btn-nova" onclick="fecharModal()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">💾 Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL EDITAR GESTANTE -->
-<div class="modal-overlay" id="modal-editar-gestante">
-  <div class="modal">
-    <h3>✏️ Editar Registro (Gestante)</h3>
-    <input type="hidden" id="edit-gestante-id">
-    <div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="edit-gestante-nome"></div>
-    <div class="modal-campo"><label>CNS</label><input type="text" id="edit-gestante-cns"></div>
-    <div class="modal-campo"><label>UBS</label><input type="text" id="edit-gestante-ubs"></div>
-    <div class="modal-campo">
-      <label>Classificação de Risco</label>
-      <select id="edit-gestante-risco">
-        <option value="habitual">🟢 Habitual</option>
-        <option value="vigilancia">🟡 Vigilância</option>
-        <option value="compartilhado">🟠 Compartilhado</option>
-        <option value="maternidade">🔴 Maternidade</option>
-      </select>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-nova" onclick="fecharModalGestante()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicaoGestante()">💾 Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL HISTÓRICO CRIANÇA -->
-<div class="historico-overlay" id="modal-historico">
-  <div class="historico-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <h3 id="historico-titulo">📋 Histórico</h3>
-      <button class="btn btn-nova" onclick="fecharHistorico()" style="padding:0.3rem 0.75rem;font-size:0.78rem">✕ Fechar</button>
-    </div>
-    <div id="historico-conteudo"></div>
-  </div>
-</div>
-
-<!-- LOGIN -->
-<div id="tela-login">
+<!-- TELA DE LOGIN -->
+<div id="loginScreen" class="login-container">
   <div class="login-card">
-    <div class="login-top">
-      <div class="login-icon-wrap">🏥</div>
-      <div class="login-title-block">
-        <strong>Portal APS — SES Maranhão</strong>
-        <span>Estratificação de Risco · Acesso Seguro</span>
-      </div>
+    <div class="login-header">
+      <div class="login-icon">🏥</div>
+      <h1>Portal APS</h1>
+      <p>Secretaria de Saúde do Maranhão</p>
     </div>
-    <div class="login-divider"></div>
-    <div class="login-erro" id="login-erro">Usuário ou senha incorretos.</div>
-    <div class="login-campo">
-      <label>Usuário</label>
-      <input type="text" id="login-user" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite seu usuário" onkeydown="if(event.key=='Enter') fazerLogin()">
-    </div>
-    <div class="login-campo">
-      <label>Senha</label>
-      <input type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha" onkeydown="if(event.key=='Enter') fazerLogin()">
-    </div>
-    <button class="btn-login-submit" id="btn-login" onclick="fazerLogin()">Entrar no Sistema →</button>
-    <p class="login-tentativas">Acesso restrito à equipe de saúde autorizada</p>
+    <div id="loginError" class="error-msg"></div>
+    <input type="text" id="username" class="login-input" placeholder="Usuário" autocomplete="off">
+    <input type="password" id="password" class="login-input" placeholder="Senha">
+    <button class="btn-login" onclick="fazerLogin()">Entrar no Sistema →</button>
   </div>
 </div>
 
-<!-- PORTAL -->
-<div id="tela-portal" style="display:none">
-  <div class="portal-hero">
-    <div class="portal-logo-box">
-      <div class="portal-logo-icon">🏥</div>
-      <div class="portal-logo-text">
-        <strong>Sistema APS — SES Maranhão</strong>
-        <span>Atenção Primária à Saúde · Estratificação de Risco</span>
+<!-- PORTAL PRINCIPAL -->
+<div id="portalScreen" class="portal">
+  <div class="portal-header">
+    <h1>Portal de <span>Estratificação</span> de Risco</h1>
+    <p>Atenção Primária à Saúde · SES Maranhão</p>
+  </div>
+  <div class="cards-container">
+    <div class="card" onclick="abrirModulo('gestante')">
+      <div class="card-icon">🤰</div>
+      <h3>Estratificação da Gestante</h3>
+      <p>Avaliação de risco obstétrico com classificação em 4 níveis</p>
+      <div class="riscos">
+        <span class="risco verde">Habitual</span>
+        <span class="risco amarelo">Vigilância</span>
+        <span class="risco laranja">Compartilhado</span>
+        <span class="risco vermelho">Maternidade</span>
       </div>
     </div>
-    <h1>Portal de <em>Estratificação</em><br>de Risco APS</h1>
-    <p>Selecione o módulo de atendimento para iniciar</p>
-  </div>
-  <div class="portal-cards-wrap">
-    <div class="portal-cards-label">Módulos disponíveis</div>
-    <div class="portal-cards">
-      <div class="portal-card gestante" onclick="abrirModulo('gestante')">
-        <div class="card-emoji-wrap">🤰</div>
-        <h2>Estratificação da Gestante</h2>
-        <p>Ficha de monitoramento e estratificação de risco obstétrico com 3 etapas de avaliação clínica.</p>
-        <div class="card-riscos">
-          <span class="risco-pill verde">🟢 Habitual</span>
-          <span class="risco-pill amarelo">🟡 Vigilância</span>
-          <span class="risco-pill laranja">🟠 Compartilhado</span>
-          <span class="risco-pill vermelho">🔴 Maternidade</span>
-        </div>
-        <div class="card-arrow">Iniciar ficha <span>→</span></div>
-      </div>
-      <div class="portal-card crianca" onclick="abrirModulo('crianca')">
-        <div class="card-emoji-wrap">👶</div>
-        <h2>Estratificação da Criança</h2>
-        <p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p>
-        <div class="card-riscos">
-          <span class="risco-pill verde">🟢 Habitual</span>
-          <span class="risco-pill amarelo">🟡 Intermediário</span>
-          <span class="risco-pill vermelho">🔴 Alto Risco</span>
-        </div>
-        <div class="card-arrow">Iniciar ficha <span>→</span></div>
+    <div class="card" onclick="abrirModulo('crianca')">
+      <div class="card-icon">👶</div>
+      <h3>Estratificação da Criança</h3>
+      <p>Avaliação de risco para crianças de 0 a 5 anos</p>
+      <div class="riscos">
+        <span class="risco verde">Habitual</span>
+        <span class="risco amarelo">Intermediário</span>
+        <span class="risco vermelho">Alto Risco</span>
       </div>
     </div>
   </div>
-  <div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Estado da Saúde do Maranhão · Uso exclusivo da equipe de saúde</div>
 </div>
 
 <!-- MÓDULO GESTANTE -->
-<div id="modulo-gestante">
-  <div class="app-header">
-    <div class="app-header-brand">
-      <div class="app-header-icon">🤰</div>
-      <div class="app-header-text">
-        <strong>Estratificação da Gestante</strong>
-        <span>Ficha de Monitoramento e Risco Obstétrico</span>
-      </div>
-    </div>
-    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+<div id="gestanteModule" class="module">
+  <div class="module-header">
+    <div>🤰 <strong>Estratificação da Gestante</strong></div>
+    <button class="btn-back" onclick="voltarPortal()">← Voltar ao Portal</button>
   </div>
-  <div class="gest-progress">
-    <div class="gest-steps">
-      <div class="gest-step ativo" id="gs-1"></div>
-      <div class="gest-step" id="gs-2"></div>
-      <div class="gest-step" id="gs-3"></div>
-    </div>
-    <span class="gest-step-label" id="gs-label">Passo 1 de 3</span>
-  </div>
-  <div class="gest-content" id="gpag-1">
-    <div class="g-secao">
-      <div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div>
-      <div class="g-secao-corpo">
-        <div class="g-campo" style="margin-bottom:0.75rem"><label>Nome completo da gestante</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div>
-        <div class="g-grid-4" style="margin-bottom:0.75rem">
-          <div class="g-campo"><label>CNS</label><input type="text" id="g-cns" placeholder="000.0000.0000.0000" autocomplete="off"></div>
-          <div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" placeholder="000.000.000-00" autocomplete="off"></div>
-          <div class="g-campo"><label>Idade</label><input type="number" id="g-idade" placeholder="Anos"></div>
-          <div class="g-campo"><label>Data de Nascimento</label><input type="date" id="g-data_nasc"></div>
-        </div>
-        <div class="g-grid-3" style="margin-bottom:0.75rem">
-          <div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div>
-          <div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div>
-          <div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div>
-        </div>
-        <div style="margin-bottom:0.75rem">
-          <label style="font-size:0.68rem;font-weight:700;color:var(--cinza-500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.4rem">Autodeclaração de Raça/Cor</label>
-          <div class="g-raca">
-            <label><input type="radio" name="graca" value="Branca"> Branca</label>
-            <label><input type="radio" name="graca" value="Preta"> Preta</label>
-            <label><input type="radio" name="graca" value="Parda"> Parda</label>
-            <label><input type="radio" name="graca" value="Amarela"> Amarela</label>
-            <label><input type="radio" name="graca" value="Indígena"> Indígena</label>
-          </div>
-        </div>
-        <div class="g-grid-4" style="margin-bottom:0.75rem">
-          <div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="0"></div>
-          <div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div>
-          <div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div>
-          <div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div>
-        </div>
-        <div class="g-grid-3">
-          <div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" autocomplete="off" placeholder="Nome da Unidade"></div>
-          <div class="g-campo"><label>Equipe ESF</label><input type="text" id="g-equipe" autocomplete="off"></div>
-          <div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div>
-        </div>
+  <div class="module-content">
+    <!-- Formulário -->
+    <div class="section">
+      <div class="section-title">📋 Identificação da Gestante</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nome Completo *</label><input type="text" id="g_nome" placeholder="Nome da gestante"></div>
+        <div class="form-group"><label>CNS</label><input type="text" id="g_cns" placeholder="Cartão Nacional de Saúde"></div>
+        <div class="form-group"><label>CPF</label><input type="text" id="g_cpf" placeholder="CPF"></div>
+        <div class="form-group"><label>Idade</label><input type="number" id="g_idade" placeholder="Idade em anos"></div>
+        <div class="form-group"><label>UBS</label><input type="text" id="g_ubs" placeholder="Unidade de Saúde"></div>
+        <div class="form-group"><label>Data Nascimento</label><input type="date" id="g_data_nasc"></div>
       </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:1rem">
-      <button class="btn btn-salvar" onclick="salvarGestante()">💾 Salvar Rascunho</button>
+
+    <div class="section">
+      <div class="section-title">🩺 Fatores de Risco</div>
+      <div class="checklist" id="gestanteRiscos">
+        <label class="check-item"><input type="checkbox" value="Idade extrema (&lt;15 ou &gt;40 anos)"><span>Idade extrema (&lt;15 ou &gt;40 anos)</span></label>
+        <label class="check-item"><input type="checkbox" value="Hipertensão Arterial"><span>Hipertensão Arterial</span></label>
+        <label class="check-item"><input type="checkbox" value="Diabetes Mellitus"><span>Diabetes Mellitus</span></label>
+        <label class="check-item"><input type="checkbox" value="Pré-eclâmpsia anterior"><span>Pré-eclâmpsia anterior</span></label>
+        <label class="check-item"><input type="checkbox" value="Cardiopatia"><span>Cardiopatia</span></label>
+        <label class="check-item"><input type="checkbox" value="Gestação múltipla"><span>Gest ação múltipla</span></label>
+        <label class="check-item"><input type="checkbox" value="Obesidade grave"><span>Obesidade grave (IMC &gt;40)</span></label>
+        <label class="check-item"><input type="checkbox" value="Baixa escolaridade / Vulnerabilidade social"><span>Baixa escolaridade / Vulnerabilidade social</span></label>
+      </div>
     </div>
-  </div>
-  <div class="gest-content" id="gpag-2" style="display:none">
-    <div class="g-secao">
-      <div class="g-secao-titulo t-habitual">🟢 Critérios de Risco Habitual</div>
-      <div class="g-secao-corpo">
-        <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Idade adequada (entre 15 e 39 anos)"><span>Idade adequada (entre 15 e 39 anos)</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Ausência de comorbidades ou antecedentes reprodutivos graves</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Evolução gestacional totalmente fisiológica"><span>Evolução gestacional totalmente fisiológica</span></label>
+
+    <div class="section">
+      <div class="section-title">🏷️ Classificação Final</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Classificação de Risco</label>
+          <select id="g_classificacao">
+            <option value="habitual">🟢 Risco Habitual</option>
+            <option value="vigilancia">🟡 Maior Vigilância</option>
+            <option value="compartilhado">🟠 Alto Risco Compartilhado</option>
+            <option value="maternidade">🔴 Maternidade</option>
+          </select>
         </div>
       </div>
-    </div>
-    <div class="g-secao">
-      <div class="g-secao-titulo t-vigilancia">🟡 Fatores de Maior Vigilância</div>
-      <div class="g-secao-corpo">
-        <div class="g-duas-col">
-          <div>
-            <div class="g-sub">Socioeconômicos / Individuais</div>
-            <div class="g-checklist">
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixa escolaridade ou extrema vulnerabilidade"><span>Baixa escolaridade ou extrema vulnerabilidade</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Idade nos extremos reprodutivos"><span>Idade nos extremos reprodutivos (&lt;15 ou &gt;40)</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Falta de apoio social ou familiar"><span>Falta de apoio social ou familiar</span></label>
-            </div>
-          </div>
-          <div>
-            <div class="g-sub">Histórico ou Clínico Atual</div>
-            <div class="g-checklist">
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Ganho de peso inadequado"><span>Ganho de peso inadequado ou IMC inadequado</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Infecção urinária baixa recorrente"><span>Infecção urinária baixa recorrente</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de tabaco ou dependências leves"><span>Uso de tabaco ou dependências leves</span></label>
-            </div>
-          </div>
-        </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="salvarGestante()">💾 Salvar Registro</button>
+        <button class="btn btn-secondary" onclick="limparFormGestante()">↺ Novo</button>
       </div>
     </div>
-  </div>
-  <div class="gest-content" id="gpag-3" style="display:none">
-    <div class="g-secao">
-      <div class="g-secao-titulo t-compartilhado">🟠 Alto Risco — Acompanhamento Compartilhado</div>
-      <div class="g-secao-corpo">
-        <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Diabetes Mellitus Gestacional controlado"><span>Diabetes Mellitus Gestacional (DMG) controlado</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Hipertensão Arterial Crônica controlada"><span>Hipertensão Arterial Crônica controlada</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Anemia grave refratária"><span>Anemia grave refratária ao tratamento primário</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatrizes uterinas múltiplas (2+ cesáreas)"><span>Cicatrizes uterinas múltiplas (2 ou mais cesáreas)</span></label>
-        </div>
+
+    <!-- Listagem -->
+    <div class="section">
+      <div class="section-title">📋 Gestantes Cadastradas</div>
+      <div class="search-bar">
+        <input type="text" id="buscaGestante" placeholder="🔍 Buscar por nome...">
+        <button class="btn btn-secondary" onclick="buscarGestantes()">Buscar</button>
+        <button class="btn btn-secondary" onclick="carregarGestantes()">Limpar</button>
       </div>
-    </div>
-    <div class="g-secao">
-      <div class="g-secao-titulo t-maternidade">🔴 Alto Risco Gravíssimo — Maternidade</div>
-      <div class="g-secao-corpo">
-        <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Pré-eclâmpsia ou Eclâmpsia"><span>Pré-eclâmpsia sobreposta ou Sinais de Eclâmpsia</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes Insulino-dependente descompensado"><span>Diabetes Insulino-dependente prévio descompensado</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Cardiopatias maternas limitantes"><span>Cardiopatias maternas limitantes estruturais</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias ativas persistentes"><span>Hemorragias ativas persistentes na gestação</span></label>
-        </div>
+      <div class="table-container">
+        <table id="tabelaGestantes">
+          <thead><tr><th>Nome</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr></thead>
+          <tbody id="gestantesList"></tbody>
+        </table>
       </div>
-    </div>
-  </div>
-  <div id="gpag-resultado" style="display:none">
-    <div class="g-resultado-header" id="g-res-header">
-      <div class="badge" id="g-res-icone">🟢</div>
-      <h2 id="g-res-titulo">Risco Habitual</h2>
-      <p id="g-res-sub">Direcionamento: Linha de Cuidado Primário na UBS</p>
-    </div>
-    <div class="g-resultado-body">
-      <div class="g-res-card">
-        <h3>Identificação da Gestante</h3>
-        <div class="g-grid-2" style="gap:0.5rem">
-          <p><strong>Gestante:</strong> <span id="go-nome">—</span></p>
-          <p><strong>CNS:</strong> <span id="go-cns">—</span></p>
-          <p><strong>Idade:</strong> <span id="go-idade">—</span> anos</p>
-          <p><strong>UBS:</strong> <span id="go-ubs">—</span></p>
-        </div>
-      </div>
-      <div class="g-res-card">
-        <h3>Fatores de Risco Identificados</h3>
-        <div id="go-alertas"></div>
-      </div>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
-        <button class="btn btn-salvar" onclick="finalizarGestante()">💾 Salvar e Finalizar</button>
-        <button class="btn btn-excel" onclick="exportarExcelGestante()">📊 Excel</button>
-        <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
-        <button class="btn btn-nova" onclick="reiniciarGestante()">↺ Nova Consulta</button>
-        <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
-      </div>
-    </div>
-  </div>
-  <div class="nav-bottom" id="gnav">
-    <button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>← Anterior</button>
-    <button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">Próximo →</button>
-    <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button>
-  </div>
-  <div style="margin-top:2rem;padding:0 1rem 2rem">
-    <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
-      📋 Gestantes Cadastradas
-      <button onclick="carregarGestantes()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">↻</button>
-    </div>
-    <div class="busca-wrap">
-      <input type="text" class="busca-input" id="busca-gestante-input" placeholder="🔍 Buscar por nome ou CNS...">
-      <button class="busca-btn" onclick="buscarGestantes()">Buscar</button>
-      <button class="busca-btn" onclick="carregarGestantes()" style="background:var(--cinza-500)">Limpar</button>
-    </div>
-    <div class="tabela-wrap">
-      <table class="tbl">
-        <thead><tr><th>Nome</th><th>CNS</th><th>UBS</th><th>Risco</th><th>Ações</th></tr></thead>
-        <tbody id="g-tbody"><tr><td colspan="5" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhuma gestante cadastrada.</td></tr></tbody>
-      </table>
     </div>
   </div>
 </div>
 
 <!-- MÓDULO CRIANÇA -->
-<div id="modulo-crianca">
-  <div class="app-header">
-    <div class="app-header-brand">
-      <div class="app-header-icon">👶</div>
-      <div class="app-header-text">
-        <strong>Estratificação da Criança (0–5 anos)</strong>
-        <span>Monitoramento de Risco e Retorno APS</span>
-      </div>
-    </div>
-    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+<div id="criancaModule" class="module">
+  <div class="module-header">
+    <div>👶 <strong>Estratificação da Criança (0-5 anos)</strong></div>
+    <button class="btn-back" onclick="voltarPortal()">← Voltar ao Portal</button>
   </div>
-  <div class="cri-content">
-    <div class="c-secao">
-      <div class="c-secao-titulo t-id">👤 Identificação</div>
-      <div class="c-secao-corpo">
-        <div class="c-grid-2" style="margin-bottom:0.75rem">
-          <div class="c-campo"><label>Nome da Criança</label><input type="text" id="c-nome" autocomplete="off" placeholder="Nome completo"></div>
-          <div class="c-campo"><label>Nome da Mãe</label><input type="text" id="c-mae" autocomplete="off" placeholder="Nome completo da mãe"></div>
-        </div>
-        <div class="c-grid-4" style="margin-bottom:0.75rem">
-          <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" autocomplete="off"></div>
-          <div class="c-campo"><label>Prontuário</label><input type="text" id="c-pront" autocomplete="off"></div>
-          <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="c-nasc" onchange="cCalcular()"></div>
-          <div class="c-campo"><label>WhatsApp da Mãe</label><input type="tel" id="c-cel" autocomplete="off" placeholder="98991234567"></div>
-        </div>
-        <div class="c-grid-3">
-          <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" autocomplete="off" placeholder="Nome da UBS"></div>
-          <div class="c-campo"><label>Microárea</label><input type="text" id="c-micro" autocomplete="off"></div>
-          <div class="c-campo"><label>Responsável</label><input type="text" id="c-enf" autocomplete="off"></div>
-        </div>
+  <div class="module-content">
+    <div class="section">
+      <div class="section-title">📋 Identificação</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Nome da Criança *</label><input type="text" id="c_nome" placeholder="Nome completo"></div>
+        <div class="form-group"><label>Nome da Mãe *</label><input type="text" id="c_mae" placeholder="Nome da mãe"></div>
+        <div class="form-group"><label>Telefone (WhatsApp)</label><input type="tel" id="c_telefone" placeholder="(98) 99123-4567"></div>
+        <div class="form-group"><label>CNS</label><input type="text" id="c_cns" placeholder="Cartão Nacional"></div>
+        <div class="form-group"><label>UBS</label><input type="text" id="c_ubs" placeholder="Unidade de Saúde"></div>
+        <div class="form-group"><label>Data Nascimento</label><input type="date" id="c_nasc"></div>
       </div>
     </div>
-    <div class="c-secao">
-      <div class="c-secao-titulo t-natal">👶 Classificação ao Nascer</div>
-      <div class="c-secao-corpo">
-        <div class="c-grid-3">
-          <div class="c-campo"><label>Peso ao Nascer</label>
-            <select id="c-peso" onchange="cCalcular()">
-              <option value="adequado">Adequado (2500g–4500g)</option>
-              <option value="baixo">Baixo peso (&lt;2500g)</option>
-              <option value="muito_baixo">Muito baixo (&lt;1500g)</option>
-              <option value="extremo_baixo">Extremo baixo (&lt;1000g)</option>
-              <option value="excessivo">Excessivo (&gt;4500g)</option>
-            </select>
-          </div>
-          <div class="c-campo"><label>Idade Gestacional</label>
-            <select id="c-ig" onchange="cCalcular()">
-              <option value="termo_completo">Termo completo (39–41 sem)</option>
-              <option value="termo_precoce">Termo precoce (37–38 sem)</option>
-              <option value="pre_termo_tardio">Pré-termo tardio (34–36 sem)</option>
-              <option value="pre_termo_mod">Pré-termo moderado (32–33 sem)</option>
-              <option value="muito_prematuro">Muito prematuro (28–31 sem)</option>
-              <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
-              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
-            </select>
-          </div>
-          <div class="c-campo"><label>Proporcionalidade</label>
-            <select id="c-prop">
-              <option value="AIG">Adequado para IG (AIG)</option>
-              <option value="PIG">Pequeno para IG (PIG)</option>
-              <option value="GIG">Grande para IG (GIG)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="c-secao">
-      <div class="c-secao-titulo t-alto">🔴 Fatores de Risco ALTO</div>
-      <div class="c-secao-corpo">
-        <div class="c-checklist">
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Crescimento fora dos limites / Desenvolvimento insatisfatório</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Sinais de violência física, sexual ou psicológica</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Apgar ≤ 6 no quinto minuto</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Asfixia perinatal ou malformações congênitas graves</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Infecções crônicas (Grupo ZTORCHS)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto" onchange="cMarca(this,'m-alto')"><span>Internação hospitalar nos últimos 12 meses</span></label>
-        </div>
-      </div>
-    </div>
-    <div class="c-secao">
-      <div class="c-secao-titulo t-inter">🟡 Fatores de Risco INTERMEDIÁRIO</div>
-      <div class="c-secao-corpo">
-        <div class="c-checklist">
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe com pré-natal incompleto (&lt;6 consultas)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Desmame precoce (aleitamento &lt;6 meses)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Criança não vacinada ou esquema atrasado</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Não comparecimento à agenda</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Mãe adolescente ou baixa escolaridade</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter" onchange="cMarca(this,'m-inter')"><span>Vulnerabilidade socioeconômica</span></label>
-        </div>
-      </div>
-    </div>
-    <div class="c-secao">
-      <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
-      <div class="c-secao-corpo">
-        <div id="c-painel" class="c-painel c-habitual">
-          <div class="p-icon">🟢</div>
-          <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
-        </div>
-        <div class="c-grid-2" style="margin-bottom:1rem">
-          <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
-          <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534;border-color:#86efac"></div>
-        </div>
-        <div class="wpp-wrap">
-          <div class="wpp-head">
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="#075e54"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg>
-            Prévia da mensagem WhatsApp
-          </div>
-          <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado. Contamos com sua presença! 👶💚<span class="wpp-time">09:41 ✓✓</span></div>
-        </div>
-        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
-          <button class="btn btn-salvar" id="btn-salvar" onclick="cSalvar()">💾 Salvar Registro</button>
-          <button class="btn btn-wpp" onclick="cEnviarWpp()">
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="white"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg>
-            Enviar WhatsApp
-          </button>
-          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
-          <button class="btn btn-nova" onclick="cNova()">↺ Nova Ficha</button>
-          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
-        </div>
 
-        <div style="margin-top:1.75rem">
-          <div style="font-size:0.8rem;font-weight:700;color:var(--cinza-700);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
-            📋 Registros Salvos
-            <button onclick="cCarregar()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700;font-family:'Sora',sans-serif">↻</button>
-          </div>
-          <div class="busca-wrap">
-            <input type="text" class="busca-input" id="busca-input" placeholder="🔍 Buscar pelo nome da criança..." onkeydown="if(event.key=='Enter') cBuscar()">
-            <button class="busca-btn" onclick="cBuscar()">Buscar</button>
-            <button class="busca-btn" onclick="cCarregar()" style="background:var(--cinza-500)">Limpar</button>
-          </div>
-          <div class="tabela-wrap">
-            <table class="tbl">
-              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>WhatsApp</th><th>Ações</th></tr></thead>
-              <tbody id="c-tbody"><tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro.</td></tr></tbody>
-            </table>
-          </div>
+    <div class="section">
+      <div class="section-title">🩺 Fatores de Risco</div>
+      <div class="form-grid">
+        <div class="checklist">
+          <div class="section-title" style="font-size:14px">🔴 Fatores de ALTO Risco</div>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Baixo peso ao nascer (&lt;2500g)"><span>Baixo peso ao nascer (&lt;2500g)</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Prematuridade (&lt;37 semanas)"><span>Prematuridade (&lt;37 semanas)</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Desnutrição grave"><span>Desnutrição grave</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Internação nos últimos 12 meses"><span>Internação nos últimos 12 meses</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-alto" value="Malformação congênita"><span>Malformação congênita</span></label>
         </div>
+        <div class="checklist">
+          <div class="section-title" style="font-size:14px">🟡 Fatores de Risco INTERMEDIÁRIO</div>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vacinação atrasada"><span>Vacinação atrasada</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Desmame precoce (&lt;6 meses)"><span>Desmame precoce (&lt;6 meses)</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Pré-natal inadequado"><span>Pré-natal inadequado</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Vulnerabilidade social"><span>Vulnerabilidade social</span></label>
+          <label class="check-item"><input type="checkbox" class="fator-inter" value="Sobrepeso ou obesidade infantil"><span>Sobrepeso ou obesidade infantil</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">⚙️ Classificação e Retorno</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Data da Consulta</label><input type="date" id="c_data_consulta" onchange="calcularRetorno()"></div>
+        <div class="form-group"><label>Data do Retorno</label><input type="date" id="c_retorno" readonly style="background:#f0fdf4"></div>
+        <div class="form-group"><label>Classificação Automática</label>
+          <select id="c_classificacao" onchange="calcularRetorno()">
+            <option value="HABITUAL">🟢 Risco Habitual</option>
+            <option value="INTERMEDIARIO">🟡 Risco Intermediário</option>
+            <option value="ALTO">🔴 Alto Risco</option>
+          </select>
+        </div>
+      </div>
+      
+      <div style="background:#e5ddd5; border-radius:12px; padding:16px; margin-top:16px">
+        <div style="font-weight:600; margin-bottom:8px; color:#075e54">📱 Prévia da mensagem WhatsApp</div>
+        <div id="wppPreview" style="background:white; padding:12px; border-radius:12px; font-size:13px; line-height:1.5"></div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="salvarCrianca()">💾 Salvar Registro</button>
+        <button class="btn btn-wpp" onclick="enviarWhatsApp()">📱 Enviar WhatsApp</button>
+        <button class="btn btn-secondary" onclick="limparFormCrianca()">↺ Nova Ficha</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📋 Crianças Cadastradas</div>
+      <div class="search-bar">
+        <input type="text" id="buscaCrianca" placeholder="🔍 Buscar por nome...">
+        <button class="btn btn-secondary" onclick="buscarCriancas()">Buscar</button>
+        <button class="btn btn-secondary" onclick="carregarCriancas()">Limpar</button>
+      </div>
+      <div class="table-container">
+        <table id="tabelaCriancas">
+          <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Classificação</th><th>Retorno</th><th>Ações</th></tr></thead>
+          <tbody id="criancasList"></tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
+<div id="toast" class="toast"></div>
+
 <script>
 // ============================================================
-// SUPABASE CONFIGURAÇÃO
+// CONFIGURAÇÃO SUPABASE
 // ============================================================
 const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================================
-// VARIÁVEIS GLOBAIS
+// LOGIN
 // ============================================================
-let gPagAtual = 1;
-const G_TOTAL = 3;
-let gMarcados = [];
+const CREDENCIAIS = { "enfermeira": "123", "admin": "admin123" };
 
-// ============================================================
-// PORTAL
-// ============================================================
-function abrirModulo(mod) {
-  document.getElementById('tela-portal').style.display = 'none';
-  if (mod === 'gestante') {
-    document.getElementById('modulo-gestante').style.display = 'block';
-    document.getElementById('gnav').classList.remove('hidden');
-    gPagAtual = 1; 
-    gRenderPag();
-    carregarGestantes();
-  } else {
-    document.getElementById('modulo-crianca').style.display = 'block';
-    document.getElementById('c-data').valueAsDate = new Date();
-    cCalcular(); 
-    cCarregar();
+function fazerLogin() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+  const errorDiv = document.getElementById('loginError');
+  
+  if (!user || !pass) {
+    errorDiv.textContent = 'Preencha usuário e senha';
+    errorDiv.style.display = 'block';
+    return;
   }
+  
+  if (CREDENCIAIS[user] && CREDENCIAIS[user] === pass) {
+    errorDiv.style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('portalScreen').style.display = 'block';
+    carregarGestantes();
+    carregarCriancas();
+  } else {
+    errorDiv.textContent = 'Usuário ou senha incorretos';
+    errorDiv.style.display = 'block';
+    document.getElementById('password').value = '';
+  }
+}
+
+document.getElementById('username')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') fazerLogin(); });
+document.getElementById('password')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') fazerLogin(); });
+
+// ============================================================
+// FUNÇÕES GERAIS
+// ============================================================
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3000);
 }
 
 function voltarPortal() {
-  if (!confirm('Voltar ao portal? Dados não salvos serão perdidos.')) return;
-  document.getElementById('tela-portal').style.display = 'flex';
-  document.getElementById('tela-portal').style.flexDirection = 'column';
-  document.getElementById('modulo-gestante').style.display = 'none';
-  document.getElementById('modulo-crianca').style.display = 'none';
-  document.getElementById('gnav').classList.add('hidden');
+  document.getElementById('gestanteModule').style.display = 'none';
+  document.getElementById('criancaModule').style.display = 'none';
+  document.getElementById('portalScreen').style.display = 'block';
 }
 
-// ============================================================
-// GESTANTE - NAVEGAÇÃO
-// ============================================================
-function gRenderPag() {
-  for (let i = 1; i <= G_TOTAL; i++) {
-    const p = document.getElementById('gpag-' + i);
-    if (p) p.style.display = (i === gPagAtual) ? 'block' : 'none';
+function abrirModulo(tipo) {
+  document.getElementById('portalScreen').style.display = 'none';
+  if (tipo === 'gestante') {
+    document.getElementById('gestanteModule').style.display = 'block';
+    document.getElementById('criancaModule').style.display = 'none';
+    carregarGestantes();
+  } else {
+    document.getElementById('gestanteModule').style.display = 'none';
+    document.getElementById('criancaModule').style.display = 'block';
+    carregarCriancas();
+    document.getElementById('c_data_consulta').valueAsDate = new Date();
+    calcularRetorno();
   }
-  document.getElementById('gpag-resultado').style.display = 'none';
-  for (let i = 1; i <= G_TOTAL; i++) {
-    const s = document.getElementById('gs-' + i);
-    s.className = 'gest-step';
-    if (i === gPagAtual) s.classList.add('ativo');
-    else if (i < gPagAtual) s.classList.add('concluido');
-  }
-  document.getElementById('gs-label').textContent = `Passo ${gPagAtual} de ${G_TOTAL}`;
-  const prev = document.getElementById('g-btn-prev');
-  const next = document.getElementById('g-btn-next');
-  const calc = document.getElementById('g-btn-calc');
-  prev.disabled = (gPagAtual === 1);
-  if (gPagAtual === G_TOTAL) { 
-    next.style.display = 'none'; 
-    calc.style.display = 'inline-flex'; 
-  } else { 
-    next.style.display = 'inline-flex'; 
-    calc.style.display = 'none'; 
-  }
-  document.getElementById('gnav').classList.remove('hidden');
-}
-
-function gMudarPag(dir) {
-  gPagAtual = Math.max(1, Math.min(G_TOTAL, gPagAtual + dir));
-  gRenderPag(); 
-  window.scrollTo(0, 0);
-}
-
-function gToggle(el, classe) {
-  const cb = el.querySelector('input[type=checkbox]');
-  if (event.target.type !== 'checkbox') cb.checked = !cb.checked;
-  el.className = 'g-check';
-  if (cb.checked) el.classList.add(classe);
 }
 
 // ============================================================
-// GESTANTE - PROCESSAMENTO
-// ============================================================
-function processarGestante() {
-  const sels = document.querySelectorAll('#modulo-gestante input[type=checkbox]:checked');
-  gMarcados = []; 
-  let maiorRisco = 'habitual';
-  
-  sels.forEach(c => {
-    const g = c.getAttribute('data-grupo');
-    const l = c.getAttribute('data-label');
-    if (l) gMarcados.push({grupo: g, label: l});
-    if (g === 'alto_risco_maternidade') maiorRisco = 'maternidade';
-    else if (g === 'alto_risco' && maiorRisco !== 'maternidade') maiorRisco = 'compartilhado';
-    else if (g === 'vigilancia' && !['maternidade','compartilhado'].includes(maiorRisco)) maiorRisco = 'vigilancia';
-  });
-  
-  const cfgs = {
-    habitual:      { cls:'rh-habitual',      icon:'🟢', titulo:'Risco Habitual',                    sub:'Direcionamento: Linha de Cuidado Primário na UBS' },
-    vigilancia:    { cls:'rh-vigilancia',    icon:'🟡', titulo:'Risco Habitual com Maior Vigilância', sub:'Acompanhamento reforçado na Atenção Primária' },
-    compartilhado: { cls:'rh-compartilhado', icon:'🟠', titulo:'Alto Risco Compartilhado',            sub:'Encaminhar para Policlínica / Especialista' },
-    maternidade:   { cls:'rh-maternidade',   icon:'🔴', titulo:'Alto Risco — Maternidade',            sub:'Vinculação imediata à Maternidade de Alta Complexidade' }
-  };
-  
-  const cfg = cfgs[maiorRisco];
-  const h = document.getElementById('g-res-header');
-  h.className = 'g-resultado-header ' + cfg.cls;
-  document.getElementById('g-res-icone').textContent = cfg.icon;
-  document.getElementById('g-res-titulo').textContent = cfg.titulo;
-  document.getElementById('g-res-sub').textContent = cfg.sub;
-  document.getElementById('go-nome').textContent  = document.getElementById('g-nome').value  || '—';
-  document.getElementById('go-cns').textContent   = document.getElementById('g-cns').value   || '—';
-  document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || '—';
-  document.getElementById('go-ubs').textContent   = document.getElementById('g-ubs').value   || '—';
-  
-  const box = document.getElementById('go-alertas');
-  box.innerHTML = gMarcados.length === 0
-    ? '<div class="g-item-alerta">Nenhum fator de risco. Gestação fisiológica.</div>'
-    : gMarcados.map(m => `<div class="g-item-alerta"><strong>[${m.grupo.replace(/_/g,' ').toUpperCase()}]</strong> ${m.label}</div>`).join('');
-  
-  for (let i = 1; i <= G_TOTAL; i++) document.getElementById('gpag-' + i).style.display = 'none';
-  document.getElementById('gpag-resultado').style.display = 'block';
-  document.getElementById('gnav').classList.add('hidden');
-  window.scrollTo(0, 0);
-}
-
-// ============================================================
-// GESTANTE - SUPABASE CRUD
+// GESTANTES - CRUD
 // ============================================================
 async function salvarGestante() {
-  const nome = document.getElementById('g-nome').value.trim();
-  if (!nome) { toast('⚠️ Informe o nome da gestante!', 'warn'); return; }
+  const nome = document.getElementById('g_nome').value.trim();
+  if (!nome) { toast('⚠️ Informe o nome da gestante!'); return; }
   
-  const raca_cor = document.querySelector('input[name="graca"]:checked');
+  const fatores = Array.from(document.querySelectorAll('#gestanteRiscos input:checked')).map(cb => cb.value);
   
-  const dados = {
+  const data = {
     nome: nome,
-    cns: document.getElementById('g-cns').value || null,
-    cpf: document.getElementById('g-cpf').value || null,
-    idade: parseInt(document.getElementById('g-idade').value) || null,
-    data_nasc: document.getElementById('g-data_nasc').value || null,
-    estado_civil: document.getElementById('g-estado_civil').value || null,
-    raca_cor: raca_cor ? raca_cor.value : null,
-    dum: document.getElementById('g-dum').value || null,
-    dpp: document.getElementById('g-dpp').value || null,
-    gestacoes: parseInt(document.getElementById('g-gest').value) || 0,
-    abortos: parseInt(document.getElementById('g-abort').value) || 0,
-    partos_normais: parseInt(document.getElementById('g-pn').value) || 0,
-    partos_cesareos: parseInt(document.getElementById('g-pc').value) || 0,
-    ubs: document.getElementById('g-ubs').value || null,
-    equipe_esf: document.getElementById('g-equipe').value || null,
-    acs: document.getElementById('g-acs').value || null,
-    fatores_risco: gMarcados,
-    risco_classificacao: document.getElementById('g-res-titulo') ? 
-      document.getElementById('g-res-titulo').textContent.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z_]/g,'') : 'habitual'
+    cns: document.getElementById('g_cns').value || null,
+    cpf: document.getElementById('g_cpf').value || null,
+    idade: parseInt(document.getElementById('g_idade').value) || null,
+    ubs: document.getElementById('g_ubs').value || null,
+    data_nasc: document.getElementById('g_data_nasc').value || null,
+    risco_classificacao: document.getElementById('g_classificacao').value,
+    fatores_risco: fatores
   };
   
   try {
-    const { data, error } = await supabase
-      .from('gestantes')
-      .insert([dados]);
-    
+    const { error } = await supabase.from('gestantes').insert([data]);
     if (error) throw error;
     toast('✅ Gestante salva com sucesso!');
+    limparFormGestante();
     carregarGestantes();
   } catch (err) {
+    toast('❌ Erro: ' + err.message);
     console.error(err);
-    toast('❌ Erro ao salvar: ' + err.message, 'warn');
   }
-}
-
-async function finalizarGestante() {
-  await salvarGestante();
-  reiniciarGestante();
 }
 
 async function carregarGestantes() {
-  document.getElementById('busca-gestante-input').value = '';
-  await carregarGestantesUrl();
+  document.getElementById('buscaGestante').value = '';
+  await carregarGestantesLista('');
 }
 
 async function buscarGestantes() {
-  const termo = document.getElementById('busca-gestante-input').value.trim();
-  await carregarGestantesUrl(termo);
+  const termo = document.getElementById('buscaGestante').value.trim();
+  await carregarGestantesLista(termo);
 }
 
-async function carregarGestantesUrl(termo = '') {
-  const tbody = document.getElementById('g-tbody');
-  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+async function carregarGestantesLista(termo) {
+  const tbody = document.getElementById('gestantesList');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
   
   try {
     let query = supabase.from('gestantes').select('*').order('created_at', { ascending: false });
-    if (termo) {
-      query = query.or(`nome.ilike.%${termo}%,cns.ilike.%${termo}%`);
-    }
+    if (termo) query = query.ilike('nome', `%${termo}%`);
     const { data, error } = await query;
-    
     if (error) throw error;
     
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhuma gestante cadastrada.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma gestante cadastrada</td></tr>';
       return;
     }
     
-    const riscosMap = {
-      habitual: 'bp-verde', vigilancia: 'bp-amarelo', compartilhado: 'bp-amarelo', maternidade: 'bp-vermelho'
+    const classMap = {
+      habitual: '<span class="badge verde">Habitual</span>',
+      vigilancia: '<span class="badge amarelo">Vigilância</span>',
+      compartilhado: '<span class="badge laranja">Compartilhado</span>',
+      maternidade: '<span class="badge vermelho">Maternidade</span>'
     };
     
     tbody.innerHTML = data.map(g => `
       <tr>
-        <td><strong>${g.nome || '—'}</strong></td>
-        <td>${g.cns || '—'}</td>
-        <td>${g.ubs || '—'}</td>
-        <td><span class="badge-pill ${riscosMap[g.risco_classificacao] || 'bp-verde'}">${g.risco_classificacao || 'habitual'}</span></td>
-        <td style="display:flex;gap:0.35rem">
-          <button class="btn-editar" onclick="abrirEditarGestante(${g.id}, '${(g.nome||'').replace(/'/g,"\\'")}', '${(g.cns||'').replace(/'/g,"\\'")}', '${(g.ubs||'').replace(/'/g,"\\'")}', '${g.risco_classificacao||'habitual'}')">✏️</button>
-          <button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️</button>
-        </td>
-      甚
+        <td><strong>${g.nome || '-'}</strong></td>
+        <td>${g.cns || '-'}</td>
+        <td>${g.ubs || '-'}</td>
+        <td>${classMap[g.risco_classificacao] || g.risco_classificacao}</td>
+        <td>${g.created_at ? new Date(g.created_at).toLocaleDateString() : '-'}</td>
+        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td>
+      </tr>
     `).join('');
   } catch (err) {
-    console.error(err);
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--vermelho);padding:1.5rem">Erro ao carregar.</td></tr>';
-  }
-}
-
-function abrirEditarGestante(id, nome, cns, ubs, risco) {
-  document.getElementById('edit-gestante-id').value = id;
-  document.getElementById('edit-gestante-nome').value = nome;
-  document.getElementById('edit-gestante-cns').value = cns;
-  document.getElementById('edit-gestante-ubs').value = ubs;
-  document.getElementById('edit-gestante-risco').value = risco;
-  document.getElementById('modal-editar-gestante').classList.add('aberto');
-}
-
-function fecharModalGestante() {
-  document.getElementById('modal-editar-gestante').classList.remove('aberto');
-}
-
-async function salvarEdicaoGestante() {
-  const id = document.getElementById('edit-gestante-id').value;
-  const nome = document.getElementById('edit-gestante-nome').value.trim();
-  const cns = document.getElementById('edit-gestante-cns').value.trim();
-  const ubs = document.getElementById('edit-gestante-ubs').value.trim();
-  const risco = document.getElementById('edit-gestante-risco').value;
-  
-  if (!nome) { toast('⚠️ Nome obrigatório!', 'warn'); return; }
-  
-  try {
-    const { error } = await supabase
-      .from('gestantes')
-      .update({ nome, cns, ubs, risco_classificacao: risco })
-      .eq('id', id);
-    
-    if (error) throw error;
-    toast('✅ Gestante atualizada!');
-    fecharModalGestante();
-    carregarGestantes();
-  } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';
   }
 }
 
@@ -981,258 +807,127 @@ async function excluirGestante(id) {
     toast('🗑️ Registro excluído');
     carregarGestantes();
   } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
+    toast('❌ Erro: ' + err.message);
   }
 }
 
-function reiniciarGestante() {
-  if (!confirm('Limpar dados?')) return;
-  document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date]').forEach(i => i.value = '');
-  document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.g-check').className = 'g-check'; });
-  document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r => r.checked = false);
-  gPagAtual = 1; gMarcados = [];
-  document.getElementById('gpag-resultado').style.display = 'none';
-  gRenderPag(); window.scrollTo(0, 0);
-}
-
-function exportarExcelGestante() {
-  toast('📊 Exportação em desenvolvimento', 'warn');
+function limparFormGestante() {
+  document.getElementById('g_nome').value = '';
+  document.getElementById('g_cns').value = '';
+  document.getElementById('g_cpf').value = '';
+  document.getElementById('g_idade').value = '';
+  document.getElementById('g_ubs').value = '';
+  document.getElementById('g_data_nasc').value = '';
+  document.getElementById('g_classificacao').value = 'habitual';
+  document.querySelectorAll('#gestanteRiscos input').forEach(cb => cb.checked = false);
 }
 
 // ============================================================
-// CRIANÇA
+// CRIANÇAS - CRUD
 // ============================================================
-let cRisco = 'HABITUAL';
-
-function cMarca(cb, cls) {
-  const label = cb.closest('.c-check');
-  label.className = 'c-check';
-  if (cb.checked) label.classList.add(cls);
-  cCalcular();
-}
-
-function cCalcular() {
-  const peso = document.getElementById('c-peso').value;
-  const ig   = document.getElementById('c-ig').value;
-  const alto = document.querySelectorAll('#modulo-crianca .chk-alto:checked').length > 0;
-  const inter = document.querySelectorAll('#modulo-crianca .chk-inter:checked').length > 0;
+function calcularRetorno() {
+  const classificacao = document.getElementById('c_classificacao').value;
+  const dataConsulta = document.getElementById('c_data_consulta').value;
+  
+  if (!dataConsulta) return;
+  
   let dias = 30;
+  if (classificacao === 'ALTO') dias = 7;
+  else if (classificacao === 'INTERMEDIARIO') dias = 15;
   
-  if (alto || ['muito_baixo','extremo_baixo'].includes(peso) || ['extremo_prematuro','muito_prematuro','pre_termo_mod'].includes(ig)) {
-    cRisco = 'ALTO'; dias = 7;
-  } else if (inter || ['baixo','excessivo'].includes(peso) || ['termo_precoce','pre_termo_tardio','pos_termo'].includes(ig)) {
-    cRisco = 'INTERMEDIÁRIO'; dias = 15;
-  } else {
-    cRisco = 'HABITUAL'; dias = 30;
-  }
+  const data = new Date(dataConsulta);
+  data.setDate(data.getDate() + dias);
+  const retorno = data.toISOString().split('T')[0];
+  document.getElementById('c_retorno').value = retorno;
   
-  const cfgs = {
-    HABITUAL:       { cls:'c-habitual',      icon:'🟢', txt:'Classificação: RISCO HABITUAL',      sub:'Rotina padrão de crescimento e desenvolvimento' },
-    'INTERMEDIÁRIO':{ cls:'c-intermediario', icon:'🟡', txt:'Classificação: RISCO INTERMEDIÁRIO', sub:'Acompanhamento estratégico (retorno em 15 dias)' },
-    ALTO:           { cls:'c-alto',           icon:'🔴', txt:'Classificação: ALTO RISCO',          sub:'Encaminhar ao especialista (retorno em 7 dias)' }
-  };
-  const cfg = cfgs[cRisco];
-  const painel = document.getElementById('c-painel');
-  painel.className = 'c-painel ' + cfg.cls;
-  painel.innerHTML = `<div class="p-icon">${cfg.icon}</div><div class="p-text"><span>${cfg.txt}</span><small>${cfg.sub}</small></div>`;
+  // Atualizar preview do WhatsApp
+  const nomeCrianca = document.getElementById('c_nome').value.trim() || '[Criança]';
+  const nomeMae = document.getElementById('c_mae').value.trim() || '[Mãe]';
+  const riscoTexto = classificacao === 'ALTO' ? 'ALTO RISCO' : (classificacao === 'INTERMEDIARIO' ? 'INTERMEDIÁRIO' : 'HABITUAL');
+  const dataRetorno = retorno.split('-').reverse().join('/');
   
-  const dataStr = document.getElementById('c-data').value;
-  if (dataStr) {
-    const d = new Date(dataStr + 'T12:00:00');
-    d.setDate(d.getDate() + dias);
-    const dd = String(d.getDate()).padStart(2,'0');
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const yy = d.getFullYear();
-    document.getElementById('c-retorno').value = `${yy}-${mm}-${dd}`;
-    cAtualizarWpp(dd, mm, yy);
-  }
+  const msg = `Olá Sra. ${nomeMae}! 👋\n\nA avaliação do(a) ${nomeCrianca} foi concluída.\n📋 Classificação: ${riscoTexto}\n📅 Próximo retorno: ${dataRetorno}\n\n👶💚 Cuidando juntos da saúde da criança!`;
+  document.getElementById('wppPreview').innerHTML = msg.replace(/\n/g,'<br>');
 }
 
-function cAtualizarWpp(dd, mm, yy) {
-  const mae     = document.getElementById('c-mae').value     || '[Mãe]';
-  const crianca = document.getElementById('c-nome').value    || '[Criança]';
-  const ubs     = document.getElementById('c-ubs').value     || '[UBS]';
-  const data    = `${dd}/${mm}/${yy}`;
-  const extras  = {
-    ALTO: '*⚠️ Atenção:* Criança em ALTO RISCO. Retorno em 7 dias é fundamental.',
-    'INTERMEDIÁRIO': '*📌 Nota:* Acompanhamento preventivo importante.',
-    HABITUAL: ''
+async function salvarCrianca() {
+  const nome = document.getElementById('c_nome').value.trim();
+  const mae = document.getElementById('c_mae').value.trim();
+  
+  if (!nome || !mae) { toast('⚠️ Informe o nome da criança e da mãe!'); return; }
+  
+  const fatoresAlto = Array.from(document.querySelectorAll('.fator-alto:checked')).map(cb => cb.value);
+  const fatoresInter = Array.from(document.querySelectorAll('.fator-inter:checked')).map(cb => cb.value);
+  
+  const data = {
+    crianca: nome,
+    mae: mae,
+    telefone: document.getElementById('c_telefone').value || null,
+    cns: document.getElementById('c_cns').value || null,
+    ubs: document.getElementById('c_ubs').value || null,
+    nascimento: document.getElementById('c_nasc').value || null,
+    risco: document.getElementById('c_classificacao').value,
+    data_retorno: document.getElementById('c_retorno').value,
+    fatores_alto: fatoresAlto,
+    fatores_inter: fatoresInter,
+    wpp: 'PENDENTE'
   };
-  const msg =
-`Olá, Sra. *${mae}*! 👋
-Aqui é o assistente da *${ubs}*.
-
-A avaliação do(a) *${crianca}* foi concluída! ✅
-
-📅 *Próximo retorno:* ${data}
-⏰ Turno matutino — por ordem de chegada
-
-${extras[cRisco]}
-
-Traga a *Caderneta de Vacinação*! 💉
-👶💚 Cuidando juntos da saúde da criança!`;
-  const hora = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('c-wpp').innerHTML =
-    msg.replace(/\*(.*?)\*/g,'<strong>$1</strong>') +
-    `<span class="wpp-time">${hora} ✓✓</span>`;
-}
-
-// ============================================================
-// CRIANÇA - SUPABASE CRUD
-// ============================================================
-async function cSalvar() {
-  cCalcular();
-  const nomeCrianca = document.getElementById('c-nome').value.trim();
-  const nomeMae     = document.getElementById('c-mae').value.trim();
-  const celular     = document.getElementById('c-cel').value.trim();
-  const dataRetorno = document.getElementById('c-retorno').value;
-  const dataNasc    = document.getElementById('c-nasc').value;
-  const cns         = document.getElementById('c-cns').value;
-  const prontuario  = document.getElementById('c-pront').value;
-  const ubs         = document.getElementById('c-ubs').value;
-  const microarea   = document.getElementById('c-micro').value;
-  const responsavel = document.getElementById('c-enf').value;
-  const pesoNascer  = document.getElementById('c-peso').value;
-  const idadeGestacional = document.getElementById('c-ig').value;
-  const proporcionalidade = document.getElementById('c-prop').value;
-  
-  const fatoresAlto = Array.from(document.querySelectorAll('#modulo-crianca .chk-alto:checked'))
-    .map(cb => cb.closest('.c-check')?.querySelector('span')?.innerText || 'Fator de alto risco');
-  const fatoresInter = Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked'))
-    .map(cb => cb.closest('.c-check')?.querySelector('span')?.innerText || 'Fator intermediário');
-  
-  if (!nomeCrianca || !nomeMae) { toast('⚠️ Informe o nome da criança e da mãe!', 'warn'); return; }
-  
-  const btn = document.getElementById('btn-salvar');
-  btn.disabled = true; btn.textContent = '⏳ Salvando...';
   
   try {
-    const { data, error } = await supabase
-      .from('extratifica')
-      .insert([{
-        crianca: nomeCrianca,
-        mae: nomeMae,
-        telefone: celular,
-        risco: cRisco,
-        data_retorno: dataRetorno || null,
-        wpp: 'PENDENTE',
-        cns: cns || null,
-        prontuario: prontuario || null,
-        nascimento: dataNasc || null,
-        ubs: ubs || null,
-        microarea: microarea || null,
-        responsavel: responsavel || null,
-        peso_nascer: pesoNascer,
-        idade_gestacional: idadeGestacional,
-        proporcionalidade: proporcionalidade,
-        fatores_alto: fatoresAlto,
-        fatores_inter: fatoresInter
-      }]);
-    
+    const { error } = await supabase.from('extratifica').insert([data]);
     if (error) throw error;
-    toast('💾 Registro salvo no banco de dados!');
-    await cCarregar();
+    toast('✅ Criança salva com sucesso!');
+    limparFormCrianca();
+    carregarCriancas();
   } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
+    toast('❌ Erro: ' + err.message);
     console.error(err);
-  } finally {
-    btn.disabled = false; btn.innerHTML = '💾 Salvar Registro';
   }
 }
 
-async function cCarregar() {
-  document.getElementById('busca-input').value = '';
-  await cCarregarUrl();
+async function carregarCriancas() {
+  document.getElementById('buscaCrianca').value = '';
+  await carregarCriancasLista('');
 }
 
-async function cBuscar() {
-  const termo = document.getElementById('busca-input').value.trim();
-  await cCarregarUrl(termo);
+async function buscarCriancas() {
+  const termo = document.getElementById('buscaCrianca').value.trim();
+  await carregarCriancasLista(termo);
 }
 
-async function cCarregarUrl(termo = '') {
-  const tbody = document.getElementById('c-tbody');
-  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+async function carregarCriancasLista(termo) {
+  const tbody = document.getElementById('criancasList');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
   
   try {
     let query = supabase.from('extratifica').select('*').order('created_at', { ascending: false });
-    if (termo) {
-      query = query.or(`crianca.ilike.%${termo}%,mae.ilike.%${termo}%`);
-    }
+    if (termo) query = query.ilike('crianca', `%${termo}%`);
     const { data, error } = await query;
-    
     if (error) throw error;
     
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--cinza-500);padding:1.5rem">Nenhum registro encontrado.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma criança cadastrada</td></tr>';
       return;
     }
     
-    const hoje = new Date().toISOString().split('T')[0];
-    const map  = { ALTO:'bp-vermelho', 'INTERMEDIÁRIO':'bp-amarelo', HABITUAL:'bp-verde' };
+    const classMap = {
+      HABITUAL: '<span class="badge verde">Habitual</span>',
+      INTERMEDIARIO: '<span class="badge amarelo">Intermediário</span>',
+      ALTO: '<span class="badge vermelho">Alto Risco</span>'
+    };
     
-    tbody.innerHTML = data.map(r => {
-      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
-      const ehHoje = r.data_retorno && r.data_retorno.startsWith(hoje);
-      const wppStatus = r.wpp === 'ENVIADO'
-        ? '<span class="badge-pill bp-enviado">✓ Enviado</span>'
-        : `<button class="btn-wpp-ok" onclick="marcarWpp(${r.id})">📤 Marcar</button>`;
-      return `<tr>
-        <td><strong>${r.crianca||'—'}</strong></td>
-        <td>${r.mae||'—'}</td>
-        <td><a href="https://wa.me/55${(r.telefone||'').replace(/\D/g,'')}" target="_blank" style="color:#075e54">${r.telefone||'—'}</a></td>
-        <td><span class="badge-pill ${map[r.risco]||'bp-verde'}">${r.risco||'—'}</span></td>
-        <td style="${ehHoje?'font-weight:800;color:var(--verde)':''}">${dt}</td>
-        <td>${wppStatus}</td>
-        <td style="display:flex;gap:0.35rem;flex-wrap:wrap">
-          <button class="btn-editar" onclick="abrirEditarCrianca(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}','${(r.mae||'').replace(/'/g,"\\'")}','${(r.telefone||'').replace(/'/g,"\\'")}','${r.risco||''}','${r.data_retorno?r.data_retorno.split('T')[0]:''}')">✏️</button>
-          <button class="btn-excluir" onclick="excluirCrianca(${r.id})">🗑️</button>
-          <button class="btn-editar" style="background:#7c3aed" onclick="verHistoricoCrianca(${r.id},'${(r.crianca||'').replace(/'/g,"\\'")}')">📋</button>
-        </td>
-      </tr>`;
-    }).join('');
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td><strong>${c.crianca || '-'}</strong></td>
+        <td>${c.mae || '-'}</td>
+        <td>${c.telefone || '-'}</td>
+        <td>${classMap[c.risco] || c.risco}</td>
+        <td>${c.data_retorno ? c.data_retorno.split('-').reverse().join('/') : '-'}</td>
+        <td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td>
+      </tr>
+    `).join('');
   } catch (err) {
-    console.error(err);
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--vermelho);padding:1.5rem">Erro ao carregar.</td></tr>';
-  }
-}
-
-function abrirEditarCrianca(id, crianca, mae, telefone, risco, retorno) {
-  document.getElementById('edit-id').value       = id;
-  document.getElementById('edit-crianca').value  = crianca;
-  document.getElementById('edit-mae').value      = mae;
-  document.getElementById('edit-telefone').value = telefone;
-  document.getElementById('edit-risco').value    = risco || 'HABITUAL';
-  document.getElementById('edit-retorno').value  = retorno || '';
-  document.getElementById('modal-editar').classList.add('aberto');
-}
-
-function fecharModal() {
-  document.getElementById('modal-editar').classList.remove('aberto');
-}
-
-async function salvarEdicaoCrianca() {
-  const id       = document.getElementById('edit-id').value;
-  const crianca  = document.getElementById('edit-crianca').value.trim();
-  const mae      = document.getElementById('edit-mae').value.trim();
-  const telefone = document.getElementById('edit-telefone').value.trim();
-  const risco    = document.getElementById('edit-risco').value;
-  const retorno  = document.getElementById('edit-retorno').value;
-  
-  if (!crianca || !mae) { toast('⚠️ Nome obrigatório!', 'warn'); return; }
-  
-  try {
-    const { error } = await supabase
-      .from('extratifica')
-      .update({ crianca, mae, telefone, risco, data_retorno: retorno || null })
-      .eq('id', id);
-    
-    if (error) throw error;
-    toast('✅ Registro atualizado!');
-    fecharModal();
-    await cCarregar();
-  } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';
   }
 }
 
@@ -1242,154 +937,38 @@ async function excluirCrianca(id) {
     const { error } = await supabase.from('extratifica').delete().eq('id', id);
     if (error) throw error;
     toast('🗑️ Registro excluído');
-    await cCarregar();
+    carregarCriancas();
   } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
+    toast('❌ Erro: ' + err.message);
   }
 }
 
-async function marcarWpp(id) {
-  try {
-    const { error } = await supabase
-      .from('extratifica')
-      .update({ wpp: 'ENVIADO' })
-      .eq('id', id);
-    
-    if (error) throw error;
-    toast('✅ WhatsApp marcado como enviado!');
-    await cCarregar();
-  } catch (err) {
-    toast('❌ Erro: ' + err.message, 'warn');
-  }
+function limparFormCrianca() {
+  document.getElementById('c_nome').value = '';
+  document.getElementById('c_mae').value = '';
+  document.getElementById('c_telefone').value = '';
+  document.getElementById('c_cns').value = '';
+  document.getElementById('c_ubs').value = '';
+  document.getElementById('c_nasc').value = '';
+  document.getElementById('c_classificacao').value = 'HABITUAL';
+  document.querySelectorAll('.fator-alto, .fator-inter').forEach(cb => cb.checked = false);
+  document.getElementById('c_data_consulta').valueAsDate = new Date();
+  calcularRetorno();
 }
 
-async function verHistoricoCrianca(id, nome) {
-  document.getElementById('historico-titulo').textContent = `📋 Histórico: ${nome}`;
-  document.getElementById('historico-conteudo').innerHTML = '<p>Carregando...</p>';
-  document.getElementById('modal-historico').classList.add('aberto');
-  
-  try {
-    const { data, error } = await supabase
-      .from('extratifica')
-      .select('*')
-      .eq('id', id);
-    
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      const r = data[0];
-      const dt = r.data_retorno ? r.data_retorno.split('T')[0].split('-').reverse().join('/') : '—';
-      const criado = r.created_at ? new Date(r.created_at).toLocaleString('pt-BR') : '—';
-      const fatoresAlto = r.fatores_alto && r.fatores_alto.length ? r.fatores_alto.join(', ') : 'Nenhum';
-      const fatoresInter = r.fatores_inter && r.fatores_inter.length ? r.fatores_inter.join(', ') : 'Nenhum';
-      
-      document.getElementById('historico-conteudo').innerHTML = `
-        <div style="background:var(--cinza-100);border-radius:10px;padding:1rem;display:grid;gap:0.5rem">
-          <p><strong>Criança:</strong> ${r.crianca||'—'}</p>
-          <p><strong>Mãe:</strong> ${r.mae||'—'}</p>
-          <p><strong>Telefone:</strong> ${r.telefone||'—'}</p>
-          <p><strong>CNS:</strong> ${r.cns||'—'}</p>
-          <p><strong>UBS:</strong> ${r.ubs||'—'}</p>
-          <p><strong>Risco:</strong> ${r.risco||'—'}</p>
-          <p><strong>Retorno:</strong> ${dt}</p>
-          <p><strong>WhatsApp:</strong> ${r.wpp||'—'}</p>
-          <p><strong>Peso ao Nascer:</strong> ${r.peso_nascer||'—'}</p>
-          <p><strong>Idade Gestacional:</strong> ${r.idade_gestacional||'—'}</p>
-          <p><strong>Fatores Alto Risco:</strong> ${fatoresAlto}</p>
-          <p><strong>Fatores Intermediário:</strong> ${fatoresInter}</p>
-          <p><strong>Cadastrado em:</strong> ${criado}</p>
-        </div>`;
-    } else {
-      document.getElementById('historico-conteudo').innerHTML = '<p>Nenhum histórico encontrado.</p>';
-    }
-  } catch (err) {
-    document.getElementById('historico-conteudo').innerHTML = '<p style="color:var(--vermelho)">Erro ao carregar.</p>';
-  }
+function enviarWhatsApp() {
+  const telefone = document.getElementById('c_telefone').value.replace(/\D/g, '');
+  if (!telefone) { toast('⚠️ Informe o telefone da mãe!'); return; }
+  const msg = document.getElementById('wppPreview').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-function fecharHistorico() {
-  document.getElementById('modal-historico').classList.remove('aberto');
-}
+// Inicialização
+document.getElementById('c_data_consulta').valueAsDate = new Date();
+calcularRetorno();
 
-function cEnviarWpp() {
-  const fone = (document.getElementById('c-cel').value || '').replace(/\D/g,'');
-  if (!fone) { toast('⚠️ Informe o WhatsApp da mãe!', 'warn'); return; }
-  const texto = document.getElementById('c-wpp').innerText;
-  window.open(`https://api.whatsapp.com/send?phone=55${fone}&text=${encodeURIComponent(texto)}`, '_blank');
-}
-
-function cNova() {
-  if (!confirm('Limpar formulário?')) return;
-  document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date]').forEach(i => i.value = '');
-  document.querySelectorAll('#modulo-crianca input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.c-check').className = 'c-check'; });
-  document.getElementById('c-data').valueAsDate = new Date();
-  document.getElementById('c-peso').value = 'adequado';
-  document.getElementById('c-ig').value = 'termo_completo';
-  cCalcular(); window.scrollTo(0, 0);
-}
-
-// ============================================================
-// UTILITÁRIOS
-// ============================================================
-function toast(msg, tipo) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = tipo === 'warn' ? '#b45309' : '#1a6b40';
-  t.style.display = 'block';
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.style.display = 'none', 3800);
-}
-
-const USUARIOS_APS = { "enfermeira": "123" };
-let _tentativas = 0, _bloqueadoAte = 0;
-
-function fazerLogin() {
-  const agora = Date.now();
-  if (agora < _bloqueadoAte) { mostrarErroLogin('Bloqueado. Aguarde ' + Math.ceil((_bloqueadoAte-agora)/1000) + 's.'); return; }
-  const user  = (document.getElementById('login-user').value  || '').trim();
-  const senha = (document.getElementById('login-senha').value || '');
-  if (!user || !senha) { mostrarErroLogin('Preencha usuário e senha.'); return; }
-  const btn = document.getElementById('btn-login');
-  btn.classList.add('loading'); btn.textContent = 'Verificando...';
-  setTimeout(() => {
-    btn.classList.remove('loading'); btn.textContent = 'Entrar no Sistema →';
-    if (USUARIOS_APS[user] && USUARIOS_APS[user] === senha) {
-      _tentativas = 0;
-      document.getElementById('login-user').value = '';
-      document.getElementById('login-senha').value = '';
-      document.getElementById('login-erro').style.display = 'none';
-      const card = document.querySelector('.login-card');
-      card.style.transition = 'transform 0.3s ease,opacity 0.3s ease';
-      card.style.transform = 'scale(0.95) translateY(-10px)';
-      card.style.opacity = '0';
-      setTimeout(() => {
-        document.getElementById('tela-login').style.display = 'none';
-        document.getElementById('tela-portal').style.display = 'flex';
-        document.getElementById('tela-portal').style.flexDirection = 'column';
-      }, 320);
-    } else {
-      _tentativas++;
-      document.getElementById('login-senha').value = '';
-      document.getElementById('login-senha').focus();
-      if (_tentativas >= 5) { _bloqueadoAte = Date.now() + 30000; _tentativas = 0; mostrarErroLogin('Bloqueado por 30 segundos.'); }
-      else mostrarErroLogin('Incorretos. (' + (5-_tentativas) + ' tentativas restantes)');
-    }
-  }, 500);
-}
-
-function mostrarErroLogin(msg) {
-  const el = document.getElementById('login-erro');
-  el.textContent = msg; el.style.display = 'block';
-  clearTimeout(el._t); el._t = setTimeout(() => el.style.display = 'none', 4500);
-}
-
-window.addEventListener('load', () => {
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-senha').value = '';
-  document.getElementById('login-user').focus();
-  const c = document.getElementById('c-data');
-  if (c) c.valueAsDate = new Date();
-});
+document.getElementById('c_nome').addEventListener('input', calcularRetorno);
+document.getElementById('c_mae').addEventListener('input', calcularRetorno);
 </script>
 </body>
 </html>
