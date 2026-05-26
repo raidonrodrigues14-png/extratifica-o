@@ -635,8 +635,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             <input type="number" id="c-peso-atual" placeholder="ex: 12.5" step="0.1" min="0" oninput="calcIMC()">
           </div>
           <div class="c-campo">
-            <label>Altura (m)</label>
-            <input type="number" id="c-altura" placeholder="ex: 0.90" step="0.01" min="0.3" max="2.5" oninput="calcIMC()">
+            <label>Altura (cm)</label>
+            <input type="number" id="c-altura" placeholder="ex: 90" step="1" min="30" max="250" oninput="calcIMC()">
           </div>
           <div class="c-campo">
             <label>IMC Calculado</label>
@@ -1318,7 +1318,8 @@ function calcIMC() {
     return;
   }
 
-  const imc = peso / (altura * altura);
+  const alturaM = altura / 100;
+  const imc = peso / (alturaM * alturaM);
   imcInput.value = imc.toFixed(2) + ' kg/m²';
 
   // Classificação por faixa etária pediátrica (referência WHO/MS)
