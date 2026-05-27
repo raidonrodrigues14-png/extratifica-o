@@ -163,11 +163,29 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .c-habitual{background:var(--verde-claro);color:var(--verde)}
 .c-intermediario{background:var(--amarelo-cl);color:#92400e}
 .c-alto{background:var(--vermelho-cl);color:#991b1b}
-.wpp-wrap{background:#e5ddd5;border-radius:12px;padding:1.1rem;border:1px solid #c8c0b8;margin-top:1rem}
+
+/* ===== WPP WRAP DUPLO ===== */
+.wpp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.wpp-wrap{background:#e5ddd5;border-radius:12px;padding:1.1rem;border:1px solid #c8c0b8}
+.wpp-wrap.wpp-mae{border-top:3px solid #25d366}
+.wpp-wrap.wpp-acs{border-top:3px solid #0f766e}
 .wpp-head{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:700;color:#075e54;margin-bottom:0.75rem}
-.wpp-balao{background:white;padding:0.8rem 1rem;border-radius:0 12px 12px 12px;max-width:88%;box-shadow:0 1px 4px rgba(0,0,0,0.1);font-size:0.82rem;line-height:1.6;white-space:pre-wrap;position:relative}
+.wpp-head.wpp-head-acs{color:#0f766e}
+.wpp-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:0.2rem 0.6rem;border-radius:20px;margin-bottom:0.6rem;display:inline-block}
+.wpp-label.label-mae{background:#dcfce7;color:#166534}
+.wpp-label.label-acs{background:#ccfbf1;color:#0f766e}
+.wpp-balao{background:white;padding:0.8rem 1rem;border-radius:0 12px 12px 12px;max-width:100%;box-shadow:0 1px 4px rgba(0,0,0,0.1);font-size:0.82rem;line-height:1.6;white-space:pre-wrap;position:relative}
 .wpp-balao::before{content:'';position:absolute;top:0;left:-8px;border:7px solid transparent;border-right-color:white;border-top:0;border-left:0}
 .wpp-time{display:block;text-align:right;font-size:0.65rem;color:#8696a0;margin-top:0.35rem}
+.wpp-btn-enviar{width:100%;margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.55rem;border-radius:8px;border:none;font-family:'Sora',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.18s}
+.wpp-btn-mae{background:#25d366;color:white}
+.wpp-btn-mae:hover{background:#22c55e}
+.wpp-btn-acs{background:#0f766e;color:white}
+.wpp-btn-acs:hover{background:#0d9488}
+
+@media(max-width:700px){
+  .wpp-grid{grid-template-columns:1fr}
+}
 
 /* ===== BUTTONS ===== */
 .btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.6rem 1.3rem;border-radius:9px;border:none;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.18s}
@@ -581,13 +599,13 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         <div class="c-grid-2">
           <div class="c-campo"><label>Nome da Criança</label><input type="text" id="c-nome" placeholder="Nome completo"></div>
           <div class="c-campo"><label>Nome da Mãe</label><input type="text" id="c-mae" placeholder="Nome da mãe"></div>
-          <div class="c-campo"><label>Telefone da mãe (WhatsApp)</label><input type="tel" id="c-cel" placeholder="98991234567"></div>
+          <div class="c-campo"><label>Telefone da mãe (WhatsApp)</label><input type="tel" id="c-cel-mae" placeholder="98991234567"></div>
           <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" placeholder="CNS"></div>
           <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" placeholder="UBS"></div>
           <div class="c-campo"><label>Data Nascimento</label><input type="date" id="c-nasc"></div>
           <div class="c-campo"><label>Microárea</label><input type="text" id="c-microarea" placeholder="Microárea"></div>
           <div class="c-campo"><label>ACS Responsável</label><input type="text" id="c-acs" placeholder="ACS Responsável"></div>
-          <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="c-cel" placeholder="98991234567"></div>
+          <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="c-cel-acs" placeholder="98991234567"></div>
         </div>
       </div>
     </div>
@@ -687,8 +705,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="c-checklist">
             <label class="c-check"><input type="checkbox" class="chk-alto"><span>Mãe e/ou pai com dependência de álcool e outras drogas</span></label>
             <label class="c-check"><input type="checkbox" class="chk-alto"><span>Depressão materna</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças maternas graves e/ou controladas</span></label>    
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças maternas graves e/ou controladas</span></label>
           </div>
+        </div>
         <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
           <strong>Fatores evolutivos:</strong>
           <div class="c-checklist">
@@ -798,6 +817,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="p-icon">🟢</div>
           <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
         </div>
+
         <!-- AGENDA DE ROTINA MS -->
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
           <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#166534;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
@@ -819,17 +839,40 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             <div id="c-proxima-label"></div>
           </div>
         </div>
+
         <div class="c-grid-2" style="margin-bottom:1rem">
           <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
           <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534"></div>
         </div>
-        <div class="wpp-wrap">
-          <div class="wpp-head">📱 Prévia da mensagem WhatsApp</div>
-          <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado!<span class="wpp-time">09:41 ✓✓</span></div>
+
+        <!-- ===== PRÉVIAS WHATSAPP — MÃE E ACS LADO A LADO ===== -->
+        <div class="wpp-grid">
+
+          <!-- PRÉVIA MÃE -->
+          <div class="wpp-wrap wpp-mae">
+            <div class="wpp-head">📱 Mensagem para a Mãe</div>
+            <span class="wpp-label label-mae">👩 Para: Mãe / Responsável</span>
+            <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado!<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsApp()">
+              📱 Enviar para a Mãe
+            </button>
+          </div>
+
+          <!-- PRÉVIA ACS -->
+          <div class="wpp-wrap wpp-acs">
+            <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
+            <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
+            <div class="wpp-balao" id="c-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppACS()">
+              📱 Enviar para o ACS
+            </button>
+          </div>
+
         </div>
+        <!-- FIM PRÉVIAS WHATSAPP -->
+
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
           <button class="btn btn-salvar" id="btn-salvar-crianca" onclick="salvarCrianca()">💾 Salvar Registro</button>
-          <button class="btn btn-wpp" onclick="enviarWhatsApp()">📱 WhatsApp</button>
           <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
           <button class="btn btn-nova" onclick="reiniciarCrianca()">↺ Nova Ficha</button>
           <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
@@ -1224,6 +1267,9 @@ function cCalcular() {
   }
 }
 
+// ============================================================
+// MENSAGEM WPP — MÃE
+// ============================================================
 function atualizarPreviewWpp(dd, mm, yy) {
   const mae = document.getElementById('c-mae').value || '[Mãe]';
   const crianca = document.getElementById('c-nome').value || '[Criança]';
@@ -1234,9 +1280,62 @@ function atualizarPreviewWpp(dd, mm, yy) {
     INTERMEDIARIO: '📌 Acompanhamento preventivo importante.',
     HABITUAL: ''
   };
-  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰ Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00 .\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
+  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰ Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00.\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
   const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   document.getElementById('c-wpp').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
+
+  // Atualiza também a prévia do ACS sempre que a da mãe atualizar
+  atualizarPreviewWppACS(dd, mm, yy);
+}
+
+// ============================================================
+// MENSAGEM WPP — ACS  ← NOVA FUNÇÃO
+// ============================================================
+function atualizarPreviewWppACS(dd, mm, yy) {
+  const acs = document.getElementById('c-acs').value || '[ACS]';
+  const crianca = document.getElementById('c-nome').value || '[Criança]';
+  const mae = document.getElementById('c-mae').value || '[Mãe]';
+  const ubs = document.getElementById('c-ubs').value || '[UBS]';
+  const microarea = document.getElementById('c-microarea').value || '[Microárea]';
+  const data = `${dd}/${mm}/${yy}`;
+
+  const riscoLabel = {
+    HABITUAL: '🟢 RISCO HABITUAL',
+    INTERMEDIARIO: '🟡 RISCO INTERMEDIÁRIO',
+    ALTO: '🔴 ALTO RISCO'
+  };
+  const orientacoes = {
+    HABITUAL: 'Rotina de acompanhamento normal. Verificar comparecimento na data prevista.',
+    INTERMEDIARIO: 'Atenção redobrada! Realizar visita domiciliar próxima à data de retorno para garantir comparecimento.',
+    ALTO: '🚨 ATENÇÃO PRIORITÁRIA! Criança em ALTO RISCO. Realizar visita domiciliar antes da data de retorno e confirmar presença na consulta.'
+  };
+
+  const msg = `📋 *NOTIFICAÇÃO APS — ${ubs}*\n\nOlá, ACS ${acs}! 👋\n\nUma nova estratificação foi registrada em sua microárea.\n\n*👶 Criança:* ${crianca}\n*👩 Responsável:* ${mae}\n*📍 Microárea:* ${microarea}\n\n*🏷️ Classificação:* ${riscoLabel[cRiscoAtual]}\n*📅 Data de Retorno:* ${data}\n\n*📌 Orientação:*\n${orientacoes[cRiscoAtual]}\n\nPor favor, acompanhe e confirme o retorno desta família! 🤝`;
+
+  const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('c-wpp-acs').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
+}
+
+// ============================================================
+// ENVIAR WHATSAPP — MÃE
+// ============================================================
+function enviarWhatsApp() {
+  const telefone = document.getElementById('c-cel-mae').value.replace(/\D/g, '');
+  if (!telefone) { showToast('⚠️ Informe o telefone da mãe!', true); return; }
+  const msg = document.getElementById('c-wpp').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ============================================================
+// ENVIAR WHATSAPP — ACS  ← NOVA FUNÇÃO
+// ============================================================
+function enviarWhatsAppACS() {
+  const telefone = document.getElementById('c-cel-acs').value.replace(/\D/g, '');
+  if (!telefone) { showToast('⚠️ Informe o telefone do ACS!', true); return; }
+  const crianca = document.getElementById('c-nome').value.trim();
+  if (!crianca) { showToast('⚠️ Informe o nome da criança antes de enviar!', true); return; }
+  const msg = document.getElementById('c-wpp-acs').innerText;
+  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ============================================================
@@ -1252,7 +1351,8 @@ async function salvarCrianca() {
   const fatoresInter = Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked')).map(cb => cb.closest('.c-check').querySelector('span').textContent);
 
   const data = {
-    crianca: nome, mae, telefone: document.getElementById('c-cel').value || null,
+    crianca: nome, mae,
+    telefone: document.getElementById('c-cel-mae').value || null,
     cns: document.getElementById('c-cns').value || null,
     ubs: document.getElementById('c-ubs').value || null,
     nascimento: document.getElementById('c-nasc').value || null,
@@ -1360,7 +1460,6 @@ function calcIMC() {
   const imc = peso / (alturaM * alturaM);
   imcInput.value = imc.toFixed(2) + ' kg/m²';
 
-  // Classificação por faixa etária pediátrica (referência WHO/MS)
   let texto = '';
   let bg = '';
   let cor = '';
@@ -1396,13 +1495,8 @@ function calcIMC() {
 }
 
 // ============================================================
-// AGENDA DE ROTINA MS — CADERNETA DA CRIANÇA
+// AGENDA DE ROTINA MS
 // ============================================================
-// Regra da Caderneta do MS:
-//   Consultas até 24m: semana 1, 1m, 2m, 4m, 6m, 9m, 12m, 18m, 24m
-//   A partir de 2 anos (24m, 36m): 1 vez ao ano
-//   Seleciona a consulta ATUAL → retorno = PRÓXIMA da caderneta
-
 const CONSULTAS_ROTINA = [
   { label: '1ª semana', meses: null, semanas: 1  },
   { label: '1 mês',     meses: 1,    semanas: null },
@@ -1434,14 +1528,12 @@ function formatarDataBR(d) {
 }
 
 function selecionarIdade(btn, idxAtual) {
-  // Destaca pill ativa
   document.querySelectorAll('.agenda-pill').forEach(p => p.classList.remove('ativa'));
   btn.classList.add('ativa');
 
   const painelEl = document.getElementById('c-proxima-consulta');
   const labelEl  = document.getElementById('c-proxima-label');
 
-  // Reset estilo
   painelEl.style.background  = 'white';
   painelEl.style.color       = '#166534';
   painelEl.style.borderColor = '#bbf7d0';
@@ -1460,23 +1552,13 @@ function selecionarIdade(btn, idxAtual) {
 
   const dtNasc = new Date(nascimento + 'T12:00:00');
 
-  // ─────────────────────────────────────────────────────────
-  // REGRA: o retorno é sempre nascimento + offset da PRÓXIMA
-  // consulta prevista na caderneta do MS.
-  //
-  // Índices 0-7  → próxima da lista (semana 1 … 18 meses)
-  // Índices 8-9  → a partir de 2 anos: retorno anual
-  // ─────────────────────────────────────────────────────────
-
   let dtRetorno, labelRetorno;
 
   if (idxAtual <= 7) {
-    // Próxima consulta da caderneta
     const proxima = CONSULTAS_ROTINA[idxAtual + 1];
     dtRetorno    = calcDataConsulta(dtNasc, proxima);
     labelRetorno = proxima.label;
   } else {
-    // 24m ou 36m → retorno em +1 ano a partir do nascimento + meses atuais
     const atual  = CONSULTAS_ROTINA[idxAtual];
     const dtBase = calcDataConsulta(dtNasc, atual);
     dtRetorno    = new Date(dtBase);
@@ -1488,7 +1570,6 @@ function selecionarIdade(btn, idxAtual) {
   document.getElementById('c-retorno').value = iso;
   atualizarPreviewWpp(dd, mm, yy);
 
-  // Monta painel com todas as datas da caderneta
   const linhas = CONSULTAS_ROTINA.map((c, i) => {
     const dtC = calcDataConsulta(dtNasc, c);
     const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtC);
@@ -1505,7 +1586,6 @@ function selecionarIdade(btn, idxAtual) {
     </div>`;
   });
 
-  // Adiciona linha de retorno anual se >= 24m
   if (idxAtual >= 8) {
     const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtRetorno);
     linhas.push(`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:#f5f3ff;color:#7c3aed;font-weight:700;font-size:0.8rem;">
@@ -1521,12 +1601,6 @@ function selecionarIdade(btn, idxAtual) {
     <div style="margin-top:0.6rem;padding:0.5rem 0.6rem;background:#7c3aed;color:white;border-radius:7px;font-size:0.82rem;font-weight:700;text-align:center;">
       ⏭️ Retorno agendado: ${labelRetorno} → ${dd}/${mm}/${yy}
     </div>`;
-}
-function enviarWhatsApp() {
-  const telefone = document.getElementById('c-cel').value.replace(/\D/g, '');
-  if (!telefone) { showToast('⚠️ Informe o telefone da mãe!', true); return; }
-  const msg = document.getElementById('c-wpp').innerText;
-  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ============================================================
@@ -1549,6 +1623,18 @@ document.getElementById('c-peso').addEventListener('change', cCalcular);
 document.getElementById('c-ig').addEventListener('change', cCalcular);
 document.querySelectorAll('#modulo-crianca .chk-alto, #modulo-crianca .chk-inter').forEach(cb => {
   cb.addEventListener('change', cCalcular);
+});
+
+// Atualiza prévias ao preencher campos de texto
+['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => {
+    const retorno = document.getElementById('c-retorno').value;
+    if (retorno) {
+      const parts = retorno.split('-');
+      atualizarPreviewWpp(parts[2], parts[1], parts[0]);
+    }
+  });
 });
 
 // ============================================================
