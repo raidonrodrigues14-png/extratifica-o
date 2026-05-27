@@ -1226,7 +1226,7 @@ function atualizarPreviewWpp(dd, mm, yy) {
     INTERMEDIARIO: '📌 Acompanhamento preventivo importante.',
     HABITUAL: ''
   };
-  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰  Manhã: 08:00 às 11:30  e Tarde: 2h às 4h.  horário de Brasilia!  — por ordem de chegada\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
+  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰  Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00 .   — por ordem de chegada\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
   const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   document.getElementById('c-wpp').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
 }
