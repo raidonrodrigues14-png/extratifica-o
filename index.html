@@ -776,12 +776,12 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         <div style="margin-bottom:0;background:var(--verde-claro);padding:0.75rem;border-radius:10px;border:1px solid #bbf7d0;">
           <strong style="color:var(--verde)">Risco Habitual:</strong>
           <div class="c-checklist">
-    
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Riscos inerentes à própria condição do ciclo de vida</span></label>
+          </div>
         </div>
       </div>
     </div>
-<div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
-        </div>
+
     <!-- CLASSIFICAÇÃO E RETORNO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
@@ -1226,7 +1226,7 @@ function atualizarPreviewWpp(dd, mm, yy) {
     INTERMEDIARIO: '📌 Acompanhamento preventivo importante.',
     HABITUAL: ''
   };
-  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰  Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00 .   — por ordem de chegada\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
+  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰ Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00 .\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
   const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   document.getElementById('c-wpp').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
 }
