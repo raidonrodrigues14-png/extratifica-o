@@ -217,6 +217,10 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .historico-box{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
 .historico-box h3{font-size:1rem;font-weight:800;margin-bottom:1rem;color:var(--cinza-900)}
 
+.agenda-pill{padding:0.3rem 0.75rem;border-radius:20px;border:2px solid #bbf7d0;background:white;color:#166534;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.agenda-pill:hover{background:#dcfce7;border-color:#4ade80;}
+.agenda-pill.ativa{background:#16a34a;color:white;border-color:#16a34a;box-shadow:0 3px 10px rgba(22,163,74,0.3);}
+
 @media(max-width:640px){
   .portal-cards{grid-template-columns:1fr}
   .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3,.c-grid-4,.g-duas-col{grid-template-columns:1fr}
@@ -786,6 +790,27 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="p-icon">🟢</div>
           <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
         </div>
+        <!-- AGENDA DE ROTINA MS -->
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#166534;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
+            📅 Agenda de Consultas de Rotina — Ministério da Saúde
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.85rem;" id="c-agenda-pills">
+            <button class="agenda-pill" onclick="selecionarIdade(this,0)">1ª semana</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,1)">1 mês</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,2)">2 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,3)">4 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,4)">6 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,5)">9 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,6)">12 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,7)">18 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,8)">24 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,9)">36 meses</button>
+          </div>
+          <div id="c-proxima-consulta" style="display:none;background:white;border-radius:10px;padding:0.75rem 1rem;border:1px solid #bbf7d0;">
+            <div id="c-proxima-label"></div>
+          </div>
+        </div>
         <div class="c-grid-2" style="margin-bottom:1rem">
           <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
           <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534"></div>
@@ -1298,6 +1323,11 @@ function reiniciarCrianca() {
   if (!confirm('Limpar formulário?')) return;
   document.querySelectorAll('#modulo-crianca input[type=text], #modulo-crianca input[type=tel], #modulo-crianca input[type=date]').forEach(i => { if (!i.readOnly) i.value = ''; });
   document.querySelectorAll('#modulo-crianca .chk-alto, #modulo-crianca .chk-inter').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.agenda-pill').forEach(p => p.classList.remove('ativa'));
+  document.getElementById('c-proxima-consulta').style.display = 'none';
+  document.getElementById('c-proxima-consulta').style.background = 'white';
+  document.getElementById('c-proxima-consulta').style.color = '#166534';
+  document.getElementById('c-proxima-consulta').style.borderColor = '#bbf7d0';
   document.getElementById('c-peso').value = 'adequado';
   document.getElementById('c-ig').value = 'termo_completo';
   document.getElementById('c-prop').value = 'AIG';
@@ -1357,6 +1387,133 @@ function calcIMC() {
   classDiv.textContent = `IMC: ${imc.toFixed(2)} kg/m² — ${texto}`;
 }
 
+// ============================================================
+// AGENDA DE ROTINA MS — CADERNETA DA CRIANÇA
+// ============================================================
+// Regra da Caderneta do MS:
+//   Consultas até 24m: semana 1, 1m, 2m, 4m, 6m, 9m, 12m, 18m, 24m
+//   A partir de 2 anos (24m, 36m): 1 vez ao ano
+//   Seleciona a consulta ATUAL → retorno = PRÓXIMA da caderneta
+
+const CONSULTAS_ROTINA = [
+  { label: '1ª semana', meses: null, semanas: 1  },
+  { label: '1 mês',     meses: 1,    semanas: null },
+  { label: '2 meses',   meses: 2,    semanas: null },
+  { label: '4 meses',   meses: 4,    semanas: null },
+  { label: '6 meses',   meses: 6,    semanas: null },
+  { label: '9 meses',   meses: 9,    semanas: null },
+  { label: '12 meses',  meses: 12,   semanas: null },
+  { label: '18 meses',  meses: 18,   semanas: null },
+  { label: '24 meses',  meses: 24,   semanas: null },
+  { label: '36 meses',  meses: 36,   semanas: null },
+];
+
+function calcDataConsulta(dtNasc, consulta) {
+  const d = new Date(dtNasc);
+  if (consulta.semanas) {
+    d.setDate(d.getDate() + consulta.semanas * 7);
+  } else {
+    d.setMonth(d.getMonth() + consulta.meses);
+  }
+  return d;
+}
+
+function formatarDataBR(d) {
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yy = d.getFullYear();
+  return { iso: `${yy}-${mm}-${dd}`, dd, mm, yy };
+}
+
+function selecionarIdade(btn, idxAtual) {
+  // Destaca pill ativa
+  document.querySelectorAll('.agenda-pill').forEach(p => p.classList.remove('ativa'));
+  btn.classList.add('ativa');
+
+  const painelEl = document.getElementById('c-proxima-consulta');
+  const labelEl  = document.getElementById('c-proxima-label');
+
+  // Reset estilo
+  painelEl.style.background  = 'white';
+  painelEl.style.color       = '#166534';
+  painelEl.style.borderColor = '#bbf7d0';
+  painelEl.style.display     = 'block';
+
+  const nascimento = document.getElementById('c-nasc').value;
+
+  if (!nascimento) {
+    painelEl.style.background  = '#fef9c3';
+    painelEl.style.color       = '#854d0e';
+    painelEl.style.borderColor = '#fde68a';
+    labelEl.innerHTML = '⚠️ Preencha a <strong>Data de Nascimento</strong> acima para calcular o retorno';
+    document.getElementById('c-retorno').value = '';
+    return;
+  }
+
+  const dtNasc = new Date(nascimento + 'T12:00:00');
+
+  // ─────────────────────────────────────────────────────────
+  // REGRA: o retorno é sempre nascimento + offset da PRÓXIMA
+  // consulta prevista na caderneta do MS.
+  //
+  // Índices 0-7  → próxima da lista (semana 1 … 18 meses)
+  // Índices 8-9  → a partir de 2 anos: retorno anual
+  // ─────────────────────────────────────────────────────────
+
+  let dtRetorno, labelRetorno;
+
+  if (idxAtual <= 7) {
+    // Próxima consulta da caderneta
+    const proxima = CONSULTAS_ROTINA[idxAtual + 1];
+    dtRetorno    = calcDataConsulta(dtNasc, proxima);
+    labelRetorno = proxima.label;
+  } else {
+    // 24m ou 36m → retorno em +1 ano a partir do nascimento + meses atuais
+    const atual  = CONSULTAS_ROTINA[idxAtual];
+    const dtBase = calcDataConsulta(dtNasc, atual);
+    dtRetorno    = new Date(dtBase);
+    dtRetorno.setFullYear(dtRetorno.getFullYear() + 1);
+    labelRetorno = 'retorno anual';
+  }
+
+  const { iso, dd, mm, yy } = formatarDataBR(dtRetorno);
+  document.getElementById('c-retorno').value = iso;
+  atualizarPreviewWpp(dd, mm, yy);
+
+  // Monta painel com todas as datas da caderneta
+  const linhas = CONSULTAS_ROTINA.map((c, i) => {
+    const dtC = calcDataConsulta(dtNasc, c);
+    const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtC);
+    const isAtual   = (i === idxAtual);
+    const isProxima = (idxAtual <= 7 && i === idxAtual + 1) ||
+                      (idxAtual >= 8 && i === idxAtual);
+    const cor  = isAtual   ? '#1a6b40' : isProxima ? '#7c3aed' : '#374151';
+    const peso = (isAtual || isProxima) ? '700' : '500';
+    const bg   = isAtual   ? '#dcfce7' : isProxima ? '#f5f3ff' : 'transparent';
+    const icon = isAtual   ? '📍' : isProxima ? '⏭️' : '▪';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:${bg};color:${cor};font-weight:${peso};font-size:0.8rem;">
+      <span>${icon} ${c.label}</span>
+      <span>${d2}/${m2}/${y2}</span>
+    </div>`;
+  });
+
+  // Adiciona linha de retorno anual se >= 24m
+  if (idxAtual >= 8) {
+    const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtRetorno);
+    linhas.push(`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:#f5f3ff;color:#7c3aed;font-weight:700;font-size:0.8rem;">
+      <span>⏭️ Próximo retorno anual</span><span>${d2}/${m2}/${y2}</span>
+    </div>`);
+  }
+
+  labelEl.innerHTML = `
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#6b7280;margin-bottom:0.5rem;letter-spacing:0.5px;">
+      📓 Caderneta da Criança — Consultas de Rotina
+    </div>
+    ${linhas.join('')}
+    <div style="margin-top:0.6rem;padding:0.5rem 0.6rem;background:#7c3aed;color:white;border-radius:7px;font-size:0.82rem;font-weight:700;text-align:center;">
+      ⏭️ Retorno agendado: ${labelRetorno} → ${dd}/${mm}/${yy}
+    </div>`;
+}
 function enviarWhatsApp() {
   const telefone = document.getElementById('c-cel').value.replace(/\D/g, '');
   if (!telefone) { showToast('⚠️ Informe o telefone da mãe!', true); return; }
