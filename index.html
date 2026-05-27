@@ -1310,7 +1310,7 @@ function atualizarPreviewWppACS(dd, mm, yy) {
     ALTO: '🚨 ATENÇÃO PRIORITÁRIA! Criança em ALTO RISCO. Realizar visita domiciliar antes da data de retorno e confirmar presença na consulta.'
   };
 
-  const msg = `📋 *NOTIFICAÇÃO APS — ${ubs}*\n\nOlá, ACS ${acs}! 👋\n\nUma nova estratificação foi registrada em sua microárea.\n\n*👶 Criança:* ${crianca}\n*👩 Responsável:* ${mae}\n*📍 Microárea:* ${microarea}\n\n*🏷️ Classificação:* ${riscoLabel[cRiscoAtual]}\n*📅 Data de Retorno:* ${data}\n\n*📌 Orientação:*\n${orientacoes[cRiscoAtual]}\n\nPor favor, acompanhe e confirme o retorno desta família! 🤝`;
+  const msg = `📋 *NOTIFICAÇÃO APS — ${ubs}*\n\nOlá, TACS ${acs}! 👋\n\nUma nova estratificação foi registrada em sua microárea.\n\n*👶 Criança:* ${crianca}\n*👩 Responsável:* ${mae}\n*📍 Microárea:* ${microarea}\n\n*🏷️ Classificação:* ${riscoLabel[cRiscoAtual]}\n*📅 Data de Retorno:* ${data}\n\n*📌 Orientação:*\n${orientacoes[cRiscoAtual]}\n\nPor favor, acompanhe e confirme o retorno desta família! 🤝`;
 
   const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   document.getElementById('c-wpp-acs').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
