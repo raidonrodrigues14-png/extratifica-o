@@ -938,6 +938,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   </div>
 
   <div class="cri-content">
+
+    <!-- IDENTIFICAÇÃO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-id">👤 Identificação</div>
       <div class="c-secao-corpo">
@@ -948,53 +950,332 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" placeholder="CNS"></div>
           <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" placeholder="UBS"></div>
           <div class="c-campo"><label>Data Nascimento</label><input type="date" id="c-nasc"></div>
+          <div class="c-campo"><label>Microárea</label><input type="text" id="c-microarea" placeholder="Microárea"></div>
+          <div class="c-campo"><label>ACS Responsável</label><input type="text" id="c-acs" placeholder="ACS Responsável"></div>
+          <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="c-cel-acs" placeholder="98991234567"></div>
         </div>
       </div>
     </div>
 
+    <!-- CLASSIFICAÇÃO AO NASCER -->
     <div class="c-secao">
-      <div class="c-secao-titulo t-inter">⚠️ Fatores de Risco</div>
+      <div class="c-secao-titulo t-natal">👶 Classificação ao Nascer</div>
       <div class="c-secao-corpo">
-        <div class="c-checklist">
-          <label class="c-check"><input type="checkbox" class="chk-alto"><span>Prematuridade (&lt;37 semanas)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-alto"><span>Baixo peso ao nascer (&lt;2500g)</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter"><span>Doença crônica</span></label>
-          <label class="c-check"><input type="checkbox" class="chk-inter"><span>Desnutrição ou déficit ponderal</span></label>
+        <div class="c-grid-3">
+          <div class="c-campo"><label>Peso ao Nascer</label>
+            <select id="c-peso" onchange="cCalcular()">
+              <option value="adequado">Adequado (2500g-4500g)</option>
+              <option value="baixo">Baixo peso (&lt;2500g)</option>
+              <option value="muito_baixo">Muito baixo (&lt;1500g)</option>
+              <option value="extremo_baixo">Extremo baixo (&lt;1000g)</option>
+              <option value="excessivo">Excessivo (&gt;4500g)</option>
+            </select>
+          </div>
+          <div class="c-campo"><label>Idade Gestacional</label>
+            <select id="c-ig" onchange="cCalcular()">
+              <option value="termo_completo">Termo completo (39-41 sem)</option>
+              <option value="termo_precoce">Termo precoce (37-38 sem)</option>
+              <option value="pre_termo_tardio">Pré-termo tardio (34-36 sem)</option>
+              <option value="pre_termo_mod">Pré-termo moderado (32-33 sem)</option>
+              <option value="muito_prematuro">Muito prematuro (28-31 sem)</option>
+              <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
+              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
+            </select>
+          </div>
+          <div class="c-campo"><label>Proporcionalidade</label>
+            <select id="c-prop">
+              <option value="AIG">Adequado para IG (AIG)</option>
+              <option value="PIG">Pequeno para IG (PIG)</option>
+              <option value="GIG">Grande para IG (GIG)</option>
+              <option value="Crescimento simétrico">Crescimento simétrico</option>
+              <option value="Crescimento assimétrico">Crescimento assimétrico</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
 
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
-      <button class="btn btn-calc-g" onclick="classificarCrianca()">Classificar Risco</button>
-      <button class="btn btn-salvar" onclick="salvarCrianca()">Salvar</button>
-      <button class="btn btn-nova" onclick="reiniciarCrianca()">Limpar</button>
-    </div>
-
-    <div id="c-resultado" style="margin-top:1.5rem;display:none">
-      <div class="c-painel" id="c-painel-resultado">
-        <div class="p-icon" id="c-icon">🟢</div>
-        <div class="p-text"><strong id="c-classificacao">Risco Habitual</strong><small id="c-recomendacao">Acompanhamento na UBS</small></div>
-      </div>
-      <div class="g-wpp-section">
-        <div class="g-wpp-section-header">
-          <div class="g-wpp-section-icon">📱</div>
-          <div><div class="g-wpp-section-title">Notificar Responsável</div></div>
+    <!-- IMC -->
+    <div class="c-secao">
+      <div class="c-secao-titulo" style="background:#0f766e;color:white;">⚖️ IMC Atual da Criança</div>
+      <div class="c-secao-corpo">
+        <div class="c-grid-3">
+          <div class="c-campo">
+            <label>Peso Atual (kg)</label>
+            <input type="number" id="c-peso-atual" placeholder="ex: 12.5" step="0.1" min="0" oninput="calcIMC()">
+          </div>
+          <div class="c-campo">
+            <label>Altura (cm)</label>
+            <input type="number" id="c-altura" placeholder="ex: 90" step="1" min="30" max="250" oninput="calcIMC()">
+          </div>
+          <div class="c-campo">
+            <label>IMC Calculado</label>
+            <input type="text" id="c-imc" placeholder="Calculado automaticamente" readonly style="background:#f0fdf4;font-weight:700;color:#0f766e;">
+          </div>
         </div>
-        <div class="g-wpp-campo"><label>📱 Telefone</label><input type="tel" id="c-wpp-cel" placeholder="98991234567"></div>
-        <div class="g-wpp-campo"><label>📅 Próxima Consulta</label><input type="date" id="c-wpp-data"></div>
-        <button class="g-wpp-btn" onclick="enviarWhatsAppCrianca()">📲 Enviar WhatsApp</button>
+        <div id="c-imc-classificacao" style="display:none;margin-top:0.75rem;padding:0.65rem 1rem;border-radius:9px;font-size:0.85rem;font-weight:700;"></div>
       </div>
     </div>
 
-    <div style="margin-top:2rem">
-      <div style="font-weight:700;margin-bottom:0.6rem">📋 Crianças Registradas</div>
-      <div class="busca-wrap"><input type="text" class="busca-input" id="buscaCrianca" placeholder="🔍 Buscar..."><button class="busca-btn" onclick="carregarCriancas()">Buscar</button></div>
-      <div class="tabela-wrap"><table class="tbl"><thead><tr><th>Criança</th><th>Mãe</th><th>Classificação</th><th>Data</th><th>Ações</th></tr></thead><tbody id="criancasList"><tr><td colspan="5" style="text-align:center">Carregando...</td></tr></tbody></table></div>
+    <!-- ESTRATIFICAÇÃO DE RISCO - ALTO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-alto">🔴 ESTRATIFICAÇÃO DE RISCO - RISCO ALTO</div>
+      <div class="c-secao-corpo">
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Condições perinatais:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Baixo peso (&lt;2500g)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Prematuridade (IG&lt;37 semanas ao nascer)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>PIG (crescimento intrauterino restrito)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>GIG</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Apgar ≤6 no quinto minuto</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia indireta grave</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia direta</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecções crônicas do grupo ZTORCHS, confirmadas ou em investigação</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Asfixia perinatal</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações congênitas graves</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Cromossomopatias</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças metabólicas</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Complicações da prematuridade:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doença pulmonar crônica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Retinopatia e cegueira</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Surdez</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Outras. Quais?</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores maternos:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Mãe e/ou pai com dependência de álcool e outras drogas</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Depressão materna</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças maternas graves e/ou controladas</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores evolutivos:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Asma moderada ou grave</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças diarreicas crônica ou de repetição</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Alergia ou intolerância alimentar com repercussão clínica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecção urinária</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Complicações de infecções do sistema nervoso central</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Cardiomiopatias, miocardite e outras doenças cardiovasculares e circulatórias</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Desordens endócrinas, metabólicas, sanguíneas e imunes</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>HIV/Aids confirmado ou em investigação</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Leucemia e outras neoplasias</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças diagnosticadas na triagem neonatal</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Outras doenças evolutivas graves</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Intercorrências repetidas com repercussão clínica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>1 ou mais internações no último ano</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Condições especiais:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Peso ao nascer &lt;2.000g ou IG &lt;34 semanas</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações congênitas graves, cromossomopatias e doenças metabólicas com repercussão clínica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-alto"><span>2 ou mais internações no último ano</span></label>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- ESTRATIFICAÇÃO DE RISCO - INTERMEDIÁRIO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-inter">🟡 ESTRATIFICAÇÃO DE RISCO - RISCO INTERMEDIÁRIO</div>
+      <div class="c-secao-corpo">
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores relacionados às condições de saúde:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Recém-nascido termo precoce (IG 37-38 semanas)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de hiperbilirrubinemia</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de desmame precoce</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de sepse neonatal</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores relacionados à nutrição:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Desmame do aleitamento materno exclusivo antes de 6 meses</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Desmame do aleitamento materno exclusivo antes de 24 meses</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Distanciamento do canal de crescimento da criança, em fase inicial, com relação ao peso, comprimento/altura e perímetro craniano</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores relacionados ao cuidado:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Criança não vacinada ou esquema atrasado</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Não comparecimento à agenda de acompanhamento (inclusive triagens neonatais)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Higiene oral e corporal inadequados</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe ou cuidador não habilitado</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores sociofamiliares:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Gravidez não aceita</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe adolescente</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com baixa escolaridade (&lt;5 anos de estudo)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Pai com baixa escolaridade (&lt;5 anos de estudo)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com pré-natal não realizado ou incompleto (&lt;6 consultas)</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Irmão &lt;5 anos com internação de repetição ou óbito por causas inevitáveis</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe e/ou pai com condições que comprometem o cuidado da criança</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe e/ou pai com comportamentos que comprometem o cuidado da criança</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe ausente por doenças, abandono ou óbito</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Fatores relacionados ao ambiente:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Exposição à fumaça ambiental do tabaco</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Condições de moradia desfavoráveis</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Vulnerabilidade socioeconômica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
+          <strong>Doenças próprias do ciclo de vida:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Doenças transitórias, sem complicações</span></label>
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Doenças bucais de menor complexidade: lesão de mancha branca, cárie dentária, doenças periodontal</span></label>
+          </div>
+        </div>
+        <div style="margin-bottom:0;background:var(--verde-claro);padding:0.75rem;border-radius:10px;border:1px solid #bbf7d0;">
+          <strong style="color:var(--verde)">Risco Habitual:</strong>
+          <div class="c-checklist">
+            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Riscos inerentes à própria condição do ciclo de vida</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASSIFICAÇÃO E RETORNO -->
+    <div class="c-secao">
+      <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
+      <div class="c-secao-corpo">
+        <div id="c-painel" class="c-painel c-habitual">
+          <div class="p-icon">🟢</div>
+          <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
+        </div>
+
+        <!-- AGENDA DE ROTINA MS -->
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#166534;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
+            📅 Agenda de Consultas de Rotina — Ministério da Saúde
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.85rem;" id="c-agenda-pills">
+            <button class="agenda-pill" onclick="selecionarIdade(this,0)">1ª semana</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,1)">1 mês</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,2)">2 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,3)">4 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,4)">6 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,5)">9 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,6)">12 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,7)">18 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,8)">24 meses</button>
+            <button class="agenda-pill" onclick="selecionarIdade(this,9)">36 meses</button>
+          </div>
+          <div id="c-proxima-consulta" style="display:none;background:white;border-radius:10px;padding:0.75rem 1rem;border:1px solid #bbf7d0;">
+            <div id="c-proxima-label"></div>
+          </div>
+        </div>
+
+        <div class="c-grid-2" style="margin-bottom:1rem">
+          <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
+          <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534"></div>
+        </div>
+
+        <!-- ===== PRÉVIAS WHATSAPP — MÃE E ACS LADO A LADO ===== -->
+        <div class="wpp-grid">
+
+          <!-- PRÉVIA MÃE -->
+          <div class="wpp-wrap wpp-mae">
+            <div class="wpp-head">📱 Mensagem para a Mãe</div>
+            <span class="wpp-label label-mae">👩 Para: Mãe / Responsável</span>
+            <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado!<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsApp()">
+              📱 Enviar para a Mãe
+            </button>
+          </div>
+
+          <!-- PRÉVIA ACS -->
+          <div class="wpp-wrap wpp-acs">
+            <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
+            <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
+            <div class="wpp-balao" id="c-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppACS()">
+              📱 Enviar para o ACS
+            </button>
+          </div>
+
+        </div>
+        <!-- FIM PRÉVIAS WHATSAPP -->
+
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
+          <button class="btn btn-salvar" id="btn-salvar-crianca" onclick="salvarCrianca()">💾 Salvar Registro</button>
+          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-nova" onclick="reiniciarCrianca()">↺ Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        </div>
+
+        <!-- LISTA DE CRIANÇAS CADASTRADAS -->
+        <div style="margin-top:1.75rem">
+          <div style="font-size:0.8rem;font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+            📋 Registros Salvos
+            <button onclick="carregarCriancas()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700">↻</button>
+          </div>
+          <div class="busca-wrap">
+            <input type="text" class="busca-input" id="buscaCrianca" placeholder="🔍 Buscar pelo nome da criança...">
+            <button class="busca-btn" onclick="buscarCriancas()">Buscar</button>
+            <button class="busca-btn" onclick="carregarCriancas()" style="background:var(--cinza-500)">Limpar</button>
+          </div>
+          <div class="tabela-wrap">
+            <table class="tbl">
+              <thead>
+                <tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr>
+              </thead>
+              <tbody id="criancasList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+<!-- FIM MÓDULO CRIANÇA -->
 
 <script>
+// ============================================================
+// SUPABASE CONFIG
+// ============================================================
+const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ============================================================
+// CREDENCIAIS
+// ============================================================
+const USUARIOS = { "enfermeira": "123", "admin": "admin123" };
+let usuarioLogado = false;
+
+// ============================================================
+// FUNÇÕES DE TOAST
+// ============================================================
+function showToast(msg, isError = false) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.background = isError ? '#b91c1c' : '#1a6b40';
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+
 // ============================================================
 // SUPABASE CONFIG
 // ============================================================
