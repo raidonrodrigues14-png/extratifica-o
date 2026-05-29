@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal APS - SECRETARIA DE SAÚDE - ALTO ALEGRE DO Maranhão</title>
+<title>Portal APS - SECRETARIA DE SAÚDE - ALTO ALEGRE DO MARANHÃO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -11,14 +11,14 @@
 :root {
   --verde:#1a6b40;--verde-claro:#e6f4ed;--verde-escuro:#0d3d25;
   --amarelo:#d97706;--amarelo-cl:#fef3c7;--laranja:#c2410c;--laranja-cl:#fff0e8;
-  --vermelho:#b91c1c;--vermelho-cl:#fee2e2;--azul:#1e40af;
+  --vermelho:#b91c1c;--vermelho-cl:#fee2e2;--azul:#1e40af;--roxo:#7c3aed;--roxo-cl:#f5f3ff;
   --cinza-100:#f3f4f6;--cinza-200:#e5e7eb;--cinza-500:#6b7280;--cinza-700:#374151;
   --cinza-900:#111827;--borda:#e5e7eb;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);font-size:14px;min-height:100vh}
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 #tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 55%,#2d8f56 100%)}
 .login-card{background:white;border-radius:24px;padding:2.75rem 2.25rem;width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,0.28)}
 .login-top{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
@@ -33,10 +33,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .login-erro{background:var(--vermelho-cl);color:var(--vermelho);border:1px solid #fca5a5;border-left:3px solid var(--vermelho);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.82rem;font-weight:600;margin-bottom:1rem;display:none}
 .btn-login-submit{width:100%;background:linear-gradient(135deg,var(--verde-escuro),var(--verde));color:white;border:none;padding:0.85rem;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 6px 20px rgba(26,107,64,0.38);transition:transform 0.15s}
 .btn-login-submit:hover{transform:translateY(-1px)}
-.btn-login-submit.loading{opacity:0.75;pointer-events:none}
 .login-tentativas{text-align:center;margin-top:1.1rem;font-size:0.72rem;color:var(--cinza-500)}
 
-/* ===== PORTAL ===== */
+/* PORTAL */
 #tela-portal{min-height:100vh;display:none;flex-direction:column;background:var(--cinza-100)}
 .portal-hero{background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 60%,#2d8f56 100%);padding:3rem 2rem 4rem;text-align:center;position:relative}
 .portal-hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;background:var(--cinza-100);clip-path:ellipse(55% 100% at 50% 100%)}
@@ -59,8 +58,8 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .portal-card.gestante:hover{border-color:#a78bfa}
 .portal-card.crianca:hover{border-color:#5eead4}
 .card-emoji-wrap{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2rem}
-.gestante .card-emoji-wrap{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #ddd6fe;color:#7c3aed}
-.crianca .card-emoji-wrap{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #99f6e4;color:#0d9488}
+.gestante .card-emoji-wrap{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #ddd6fe}
+.crianca .card-emoji-wrap{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #99f6e4}
 .portal-card h2{font-size:1.15rem;font-weight:800;color:var(--cinza-900)}
 .portal-card p{font-size:0.82rem;color:var(--cinza-500);line-height:1.6}
 .card-riscos{display:flex;flex-wrap:wrap;gap:0.35rem}
@@ -74,7 +73,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .crianca .card-arrow{color:#0d9488}
 .portal-footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--cinza-500);border-top:1px solid var(--borda);background:white;margin-top:auto}
 
-/* ===== HEADER APP ===== */
+/* HEADER APP */
 .app-header{background:linear-gradient(135deg,var(--verde-escuro),var(--verde));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:58px;position:sticky;top:0;z-index:200;box-shadow:0 3px 16px rgba(0,0,0,0.25)}
 .app-header-brand{display:flex;align-items:center;gap:0.75rem}
 .app-header-icon{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(255,255,255,0.2)}
@@ -82,15 +81,15 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .app-header-text span{font-size:0.68rem;opacity:0.75}
 .btn-portal-voltar{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:white;padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-family:'Sora',sans-serif;font-size:0.78rem;font-weight:600}
 
-/* ===== GESTANTE ===== */
-#modulo-gestante{display:none}
-.gest-progress{background:white;border-bottom:1px solid var(--borda);padding:0.65rem 1.5rem;display:flex;align-items:center;gap:1rem}
+/* GESTANTE */
+#modulo-gestante{display:none;min-height:100vh;background:var(--cinza-100)}
+.gest-progress{background:white;border-bottom:1px solid var(--borda);padding:0.65rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:58px;z-index:99}
 .gest-steps{display:flex;gap:0.5rem;flex:1}
 .gest-step{flex:1;height:5px;border-radius:4px;background:var(--borda);transition:background 0.3s}
-.gest-step.ativo{background:#7c3aed}
-.gest-step.concluido{background:#7c3aed;opacity:0.35}
+.gest-step.ativo{background:var(--roxo)}
+.gest-step.concluido{background:var(--roxo);opacity:0.35}
 .gest-step-label{font-size:0.75rem;font-weight:600;color:var(--cinza-500);white-space:nowrap}
-.gest-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 8rem}
+.gest-content{max-width:1200px;margin:0 auto;padding:1.5rem 1rem 8rem}
 .g-secao{background:white;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
 .g-secao-titulo{padding:0.8rem 1.2rem;font-weight:700;font-size:0.88rem;display:flex;align-items:center;gap:0.5rem}
 .g-secao-titulo.t-id{background:var(--azul);color:white}
@@ -98,42 +97,110 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .g-secao-titulo.t-vigilancia{background:var(--amarelo);color:white}
 .g-secao-titulo.t-compartilhado{background:var(--laranja);color:white}
 .g-secao-titulo.t-maternidade{background:var(--vermelho);color:white}
+.g-secao-titulo.t-preeclampsia{background:var(--roxo);color:white}
 .g-secao-corpo{padding:1.25rem}
 .g-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 .g-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
 .g-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
 .g-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
 .g-campo input,.g-campo select{width:100%;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s}
-.g-campo input:focus,.g-campo select:focus{border-color:#7c3aed}
+.g-campo input:focus,.g-campo select:focus{border-color:var(--roxo)}
 .g-campo input[readonly]{background:var(--cinza-100)}
 .g-raca{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.35rem}
 .g-raca label{display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.9rem;border:2px solid var(--borda);border-radius:20px;cursor:pointer;font-size:0.82rem;font-weight:600}
-.g-raca input[type=radio]{accent-color:#7c3aed;width:14px;height:14px}
+.g-raca input[type=radio]{accent-color:var(--roxo);width:14px;height:14px}
 .g-duas-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .g-sub{font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--cinza-700);margin:0.9rem 0 0.6rem;padding-bottom:0.3rem;border-bottom:2px solid var(--cinza-100)}
 .g-checklist{display:flex;flex-direction:column;gap:0.45rem}
 .g-check{display:flex;align-items:flex-start;gap:0.6rem;padding:0.55rem 0.85rem;border-radius:9px;cursor:pointer;border:2px solid var(--borda);background:white;transition:all 0.15s;user-select:none}
-.g-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:#7c3aed}
+.g-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:var(--roxo)}
 .g-check span{font-size:0.855rem;line-height:1.45;font-weight:500}
 .g-check.m-verde{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
 .g-check.m-amarelo{background:var(--amarelo-cl);border-color:#fde68a;color:#92400e}
 .g-check.m-laranja{background:var(--laranja-cl);border-color:#fed7aa;color:#9a3412}
 .g-check.m-vermelho{background:var(--vermelho-cl);border-color:#fecaca;color:#991b1b}
-.g-resultado-header{min-height:28vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem;text-align:center;color:white}
-.g-resultado-header.rh-habitual{background:linear-gradient(135deg,#15803d,#166534)}
-.g-resultado-header.rh-vigilancia{background:linear-gradient(135deg,#d97706,#b45309)}
-.g-resultado-header.rh-compartilhado{background:linear-gradient(135deg,#ea580c,#c2410c)}
-.g-resultado-header.rh-maternidade{background:linear-gradient(135deg,#dc2626,#991b1b)}
-.g-resultado-header .badge{font-size:3.5rem;margin-bottom:0.5rem}
-.g-resultado-header h2{font-size:1.8rem;font-weight:800;margin-bottom:0.4rem}
-.g-resultado-body{max-width:800px;margin:0 auto;padding:1.5rem 1rem 3rem}
-.g-res-card{background:white;border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;border:1px solid var(--borda)}
-.g-res-card h3{font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--cinza-500);margin-bottom:0.9rem;border-bottom:1px solid var(--cinza-100);padding-bottom:0.5rem}
-.g-item-alerta{display:flex;gap:0.5rem;font-size:0.88rem;padding:0.45rem 0;border-bottom:1px solid var(--cinza-100)}
-.g-item-alerta:last-child{border-bottom:none}
-.g-item-alerta::before{content:'>';color:#9ca3af;flex-shrink:0}
 
-/* ===== CRIANCA ===== */
+/* INFO BOXES */
+.info-box{border-left:4px solid;border-radius:12px;padding:1rem;margin-bottom:1rem}
+.info-box-header{display:flex;align-items:center;gap:0.6rem;font-weight:700;font-size:0.85rem;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(0,0,0,0.08)}
+.info-box-social{border-left-color:#3b82f6;background:linear-gradient(135deg,#eff6ff,#f8fafc)}
+.info-box-social .info-box-header{color:#1e40af}
+.info-box-reproductive{border-left-color:#8b5cf6;background:linear-gradient(135deg,#f5f3ff,#faf5ff)}
+.info-box-reproductive .info-box-header{color:#6d28d9}
+.info-box-clinical{border-left-color:#10b981;background:linear-gradient(135deg,#ecfdf5,#f0fdf4)}
+.info-box-clinical .info-box-header{color:#065f46}
+.info-box-clinical-current{border-left-color:#f59e0b;background:linear-gradient(135deg,#fffbeb,#fefce8)}
+.info-box-clinical-current .info-box-header{color:#92400e}
+
+/* PRE-ECLAMPSIA */
+.preec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:0.5rem}
+.preec-col{border-radius:16px;overflow:hidden}
+.preec-col.alto{border:1px solid rgba(220,38,38,0.3)}
+.preec-col.moderado{border:1px solid rgba(217,119,6,0.3)}
+.preec-col-header{padding:0.9rem 1.2rem;font-weight:800;font-size:0.9rem;display:flex;align-items:center;gap:0.6rem}
+.preec-col.alto .preec-col-header{background:linear-gradient(135deg,#dc2626,#b91c1c);color:white}
+.preec-col.moderado .preec-col-header{background:linear-gradient(135deg,#d97706,#b45309);color:white}
+.preec-item{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;border-bottom:1px solid #f0f0f0;background:white;gap:0.8rem}
+.preec-item:last-child{border-bottom:none}
+.preec-item-label{font-size:0.82rem;font-weight:500;color:var(--cinza-700);flex:1;line-height:1.4}
+.preec-radio-group{display:flex;gap:0.5rem;flex-shrink:0}
+.preec-radio-group label{display:flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:700;cursor:pointer;padding:0.3rem 0.8rem;border-radius:20px;border:1.5px solid #e5e7eb;transition:all 0.2s;white-space:nowrap}
+.preec-radio-group label input{display:none}
+.preec-radio-group label:has(input:checked).sim{background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:#dc2626;color:#991b1b}
+.preec-radio-group label:has(input:checked).nao{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#16a34a;color:#166534}
+
+/* RESULTADO GESTANTE */
+.resultado-container{max-width:900px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.resultado-header{text-align:center;padding:2.5rem 2rem;border-radius:24px;margin-bottom:2rem;position:relative;overflow:hidden}
+.resultado-icone{font-size:4.5rem;margin-bottom:1rem;display:inline-block}
+.resultado-header h2{font-size:1.8rem;font-weight:800;margin-bottom:0.5rem;color:white}
+.resultado-sub{font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.18);padding:0.4rem 1rem;border-radius:40px;color:white}
+.resultado-header.habitual{background:linear-gradient(135deg,#059669,#047857)}
+.resultado-header.vigilancia{background:linear-gradient(135deg,#d97706,#b45309)}
+.resultado-header.compartilhado{background:linear-gradient(135deg,#ea580c,#c2410c)}
+.resultado-header.maternidade{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+.resultado-card{background:white;border-radius:20px;margin-bottom:1.5rem;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.06)}
+.card-header{padding:1rem 1.5rem;background:linear-gradient(135deg,#f8fafc,#f1f5f9);border-bottom:2px solid #e2e8f0;display:flex;align-items:center;gap:0.6rem}
+.card-header-icon{font-size:1.3rem}
+.card-header-title{font-size:0.85rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#475569}
+.card-content{padding:1.25rem 1.5rem}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.info-item{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f8fafc;border-radius:12px}
+.info-icon{font-size:1.3rem;min-width:32px;text-align:center}
+.info-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;color:#64748b;letter-spacing:0.5px}
+.info-value{font-size:0.9rem;font-weight:600;color:#1e293b;margin-top:0.15rem}
+.info-col{flex:1}
+.fatores-lista{display:flex;flex-direction:column;gap:0.6rem}
+.fator-item{display:flex;align-items:flex-start;gap:0.8rem;padding:0.8rem 1rem;background:#fef2f2;border-left:3px solid #ef4444;border-radius:10px}
+.fator-icon{font-size:1rem;flex-shrink:0}
+.fator-texto{font-size:0.85rem;color:#991b1b;line-height:1.4}
+.sem-fatores{display:flex;align-items:center;gap:0.8rem;padding:1rem;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:12px;color:#065f46;font-weight:600}
+
+/* WHATSAPP GESTANTE */
+.whatsapp-section{background:linear-gradient(135deg,#dcfce7,#f0fdf4);border-radius:20px;padding:1.5rem;margin:1.5rem 0;border:1px solid #86efac}
+.whatsapp-header{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem}
+.whatsapp-icon{width:48px;height:48px;background:linear-gradient(135deg,#15803d,#25d366);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.whatsapp-title{font-size:1rem;font-weight:800;color:#064e3b}
+.whatsapp-sub{font-size:0.75rem;color:#166534}
+.whatsapp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.whatsapp-campo{background:white;padding:0.9rem;border-radius:12px;border:1px solid #bbf7d0;margin-bottom:0.75rem}
+.whatsapp-campo label{display:block;font-size:0.7rem;font-weight:700;color:#166534;margin-bottom:0.3rem;text-transform:uppercase}
+.whatsapp-campo input{width:100%;padding:0.6rem;border:2px solid #bbf7d0;border-radius:8px;font-family:inherit;font-size:0.9rem;outline:none}
+.whatsapp-preview{background:#e5ddd5;border-radius:12px;padding:1rem}
+.whatsapp-preview-header{display:flex;align-items:center;gap:0.5rem;font-weight:700;color:#075e54;margin-bottom:0.8rem;font-size:0.82rem}
+.whatsapp-balao{background:white;padding:0.9rem;border-radius:0 12px 12px 12px;font-size:0.82rem;line-height:1.5;position:relative;white-space:pre-wrap}
+.whatsapp-balao::before{content:'';position:absolute;top:0;left:-8px;border:7px solid transparent;border-right-color:white;border-top:0;border-left:0}
+.whatsapp-btn{width:100%;background:linear-gradient(135deg,#128c7e,#25d366);color:white;padding:0.8rem;border-radius:10px;font-weight:700;cursor:pointer;margin-top:1rem;border:none;font-family:'Sora',sans-serif;transition:all 0.2s}
+.whatsapp-btn:hover{transform:translateY(-2px)}
+.acao-buttons{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0}
+.btn-acao{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.3rem;border-radius:40px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:all 0.2s;border:none;font-family:'Sora',sans-serif}
+.btn-acao:hover{transform:translateY(-2px)}
+.btn-salvar-resultado{background:linear-gradient(135deg,#059669,#047857);color:white}
+.btn-excel-resultado{background:linear-gradient(135deg,#16a34a,#15803d);color:white}
+.btn-pdf-resultado{background:linear-gradient(135deg,#dc2626,#b91c1c);color:white}
+.btn-novo-resultado,.btn-portal-resultado{background:white;color:#475569;border:2px solid #e2e8f0}
+
+/* CRIANCA */
 #modulo-crianca{display:none}
 .cri-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .c-secao{background:white;border-radius:14px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--borda);box-shadow:0 2px 8px rgba(0,0,0,0.05)}
@@ -146,7 +213,6 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .c-secao-corpo{padding:1.25rem}
 .c-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
 .c-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
-.c-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
 .c-campo label{display:block;font-size:0.68rem;font-weight:700;color:var(--cinza-500);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
 .c-campo input,.c-campo select{width:100%;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;color:var(--cinza-900);outline:none;transition:border-color 0.2s}
 .c-campo input:focus,.c-campo select:focus{border-color:#0d9488}
@@ -155,8 +221,6 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .c-check{display:flex;align-items:flex-start;gap:0.6rem;padding:0.55rem 0.85rem;border-radius:9px;cursor:pointer;border:2px solid var(--borda);background:white;transition:all 0.15s;user-select:none}
 .c-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:#0d9488}
 .c-check span{font-size:0.855rem;line-height:1.45;font-weight:500}
-.c-check.m-alto{background:var(--vermelho-cl);border-color:#fca5a5;color:#991b1b}
-.c-check.m-inter{background:var(--amarelo-cl);border-color:#fde68a;color:#92400e}
 .c-painel{border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;font-weight:700;font-size:1rem;margin-bottom:1rem}
 .c-painel .p-icon{font-size:1.8rem;flex-shrink:0}
 .c-painel .p-text small{display:block;font-size:0.75rem;font-weight:500;opacity:0.75;margin-top:0.15rem}
@@ -164,7 +228,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .c-intermediario{background:var(--amarelo-cl);color:#92400e}
 .c-alto{background:var(--vermelho-cl);color:#991b1b}
 
-/* ===== WPP WRAP DUPLO ===== */
+/* WPP DUPLO */
 .wpp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
 .wpp-wrap{background:#e5ddd5;border-radius:12px;padding:1.1rem;border:1px solid #c8c0b8}
 .wpp-wrap.wpp-mae{border-top:3px solid #25d366}
@@ -183,11 +247,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .wpp-btn-acs{background:#0f766e;color:white}
 .wpp-btn-acs:hover{background:#0d9488}
 
-@media(max-width:700px){
-  .wpp-grid{grid-template-columns:1fr}
-}
-
-/* ===== BUTTONS ===== */
+/* BOTOES GERAIS */
 .btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.6rem 1.3rem;border-radius:9px;border:none;font-family:'Sora',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.18s}
 .btn:disabled{opacity:0.6;cursor:not-allowed}
 .btn-prev{background:white;color:var(--cinza-700);border:2px solid var(--borda)}
@@ -195,13 +255,9 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .btn-calc-g{background:#7c3aed;color:white}
 .btn-salvar{background:var(--verde);color:white}
 .btn-salvar:hover{background:var(--verde-escuro)}
-.btn-wpp{background:#25d366;color:white}
 .btn-pdf{background:#dc2626;color:white}
-.btn-excel{background:#16a34a;color:white}
 .btn-nova{background:white;color:var(--cinza-700);border:2px solid var(--borda)}
-.btn-editar{background:#1e40af;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
 .btn-excluir{background:#dc2626;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
-.btn-wpp-ok{background:#25d366;color:white;padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;border:none;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700}
 .nav-bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--borda);padding:0.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 16px rgba(0,0,0,0.07);z-index:150}
 .nav-bottom.hidden{display:none}
 .toast{position:fixed;bottom:5rem;right:1.5rem;background:#1a6b40;color:white;padding:0.75rem 1.2rem;border-radius:10px;font-weight:700;font-size:0.85rem;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:9999;display:none;animation:tin 0.3s cubic-bezier(0.34,1.56,0.64,1)}
@@ -216,12 +272,10 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .bp-verde{background:var(--verde-claro);color:var(--verde)}
 .bp-amarelo{background:var(--amarelo-cl);color:#92400e}
 .bp-vermelho{background:var(--vermelho-cl);color:#991b1b}
-.bp-enviado{background:#dcfce7;color:#166534}
 .busca-wrap{display:flex;gap:0.5rem;margin-bottom:0.75rem;align-items:center;flex-wrap:wrap}
 .busca-input{flex:1;min-width:160px;border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.88rem;outline:none}
 .busca-input:focus{border-color:#0d9488}
 .busca-btn{background:#0d9488;color:white;border:none;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem}
-.busca-equipe{border:2px solid var(--borda);border-radius:8px;padding:0.5rem 0.75rem;font-family:'Sora',sans-serif;font-size:0.82rem;outline:none;min-width:160px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.aberto{display:flex}
 .modal{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
@@ -233,121 +287,52 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
 .historico-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .historico-overlay.aberto{display:flex}
 .historico-box{background:white;border-radius:16px;padding:1.75rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.historico-box h3{font-size:1rem;font-weight:800;margin-bottom:1rem;color:var(--cinza-900)}
-
-.agenda-pill{padding:0.3rem 0.75rem;border-radius:20px;border:2px solid #bbf7d0;background:white;color:#166534;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.15s;}
-.agenda-pill:hover{background:#dcfce7;border-color:#4ade80;}
-.agenda-pill.ativa{background:#16a34a;color:white;border-color:#16a34a;box-shadow:0 3px 10px rgba(22,163,74,0.3);}
-
+.agenda-pill{padding:0.3rem 0.75rem;border-radius:20px;border:2px solid #bbf7d0;background:white;color:#166534;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.15s}
+.agenda-pill:hover{background:#dcfce7;border-color:#4ade80}
+.agenda-pill.ativa{background:#16a34a;color:white;border-color:#16a34a;box-shadow:0 3px 10px rgba(22,163,74,0.3)}
+@media(max-width:700px){.wpp-grid,.whatsapp-grid,.preec-grid{grid-template-columns:1fr}}
 @media(max-width:640px){
   .portal-cards{grid-template-columns:1fr}
-  .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3,.c-grid-4,.g-duas-col{grid-template-columns:1fr}
+  .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3,.g-duas-col{grid-template-columns:1fr}
   .portal-hero h1{font-size:1.6rem}
+  .info-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 
-<!-- MODAL EDITAR CRIANCA -->
-<div class="modal-overlay" id="modal-editar-crianca">
-  <div class="modal">
-    <h3>✏️ Editar Registro</h3>
-    <input type="hidden" id="edit-id">
-    <div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div>
-    <div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div>
-    <div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div>
-    <div class="modal-campo"><label>Equipe</label><select id="edit-equipe-modal"></select></div>
-    <div class="modal-campo"><label>Risco</label>
-      <select id="edit-risco">
-        <option value="HABITUAL">Habitual</option>
-        <option value="INTERMEDIARIO">Intermediario</option>
-        <option value="ALTO">Alto</option>
-      </select>
-    </div>
-    <div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div>
-    <div class="modal-btns">
-      <button class="btn btn-nova" onclick="fecharModalCrianca()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">Salvar</button>
-    </div>
-  </div>
-</div>
+<!-- MODAIS -->
+<div class="modal-overlay" id="modal-editar-crianca"><div class="modal"><h3>✏️ Editar Registro</h3><input type="hidden" id="edit-id"><div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div><div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div><div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div><div class="modal-campo"><label>Risco</label><select id="edit-risco"><option value="HABITUAL">Habitual</option><option value="INTERMEDIARIO">Intermediario</option><option value="ALTO">Alto</option></select></div><div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalCrianca()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">Salvar</button></div></div></div>
+<div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:0.3rem 0.75rem;font-size:0.78rem">✕ Fechar</button></div><div id="historico-conteudo"></div></div></div>
+<div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificacao</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilancia</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
 
-<!-- MODAL HISTORICO -->
-<div class="historico-overlay" id="modal-historico">
-  <div class="historico-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <h3 id="historico-titulo">Histórico</h3>
-      <button class="btn btn-nova" onclick="fecharHistorico()" style="padding:0.3rem 0.75rem;font-size:0.78rem">✕ Fechar</button>
-    </div>
-    <div id="historico-conteudo"></div>
-  </div>
-</div>
-
-<!-- MODAL EDITAR GESTANTE -->
-<div class="modal-overlay" id="modal-editar-gest">
-  <div class="modal">
-    <h3>✏️ Editar Registro da Gestante</h3>
-    <input type="hidden" id="gedit-id">
-    <div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div>
-    <div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div>
-    <div class="modal-campo"><label>Equipe</label><select id="gedit-equipe"></select></div>
-    <div class="modal-campo"><label>Classificacao</label>
-      <select id="gedit-classif">
-        <option value="habitual">Risco Habitual</option>
-        <option value="vigilancia">Risco Habitual com Maior Vigilancia</option>
-        <option value="compartilhado">Alto Risco Compartilhado</option>
-        <option value="maternidade">Alto Risco - Maternidade</option>
-      </select>
-    </div>
-    <div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div>
-    <div class="modal-btns">
-      <button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button>
-      <button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== TELA LOGIN ===== -->
+<!-- LOGIN -->
 <div id="tela-login">
   <div class="login-card">
     <div class="login-top">
       <div class="login-icon-wrap">🏥</div>
-      <div class="login-title-block">
-        <strong>Portal APS - SES Maranhão</strong>
-        <span>Estratificação de Risco - Acesso Seguro</span>
-      </div>
+      <div class="login-title-block"><strong>Portal APS - SES Maranhão</strong><span>Estratificação de Risco - Acesso Seguro</span></div>
     </div>
     <div class="login-divider"></div>
     <div class="login-erro" id="login-erro"></div>
-    <div class="login-campo">
-      <label>Usuário</label>
-      <input type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário">
-    </div>
-    <div class="login-campo">
-      <label>Senha</label>
-      <input type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha">
-    </div>
+    <div class="login-campo"><label>Usuário</label><input type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div>
+    <div class="login-campo"><label>Senha</label><input type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div>
     <button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button>
     <p class="login-tentativas">Acesso restrito à equipe de saúde autorizada</p>
   </div>
 </div>
 
-<!-- ===== TELA PORTAL ===== -->
+<!-- PORTAL -->
 <div id="tela-portal">
   <div class="portal-hero">
     <div class="portal-logo-box">
       <div class="portal-logo-icon">🏥</div>
-      <div class="portal-logo-text">
-        <strong>Sistema APS - SES Maranhão</strong>
-        <span>Atenção Primária à Saúde - Estratificação de Risco</span>
-      </div>
+      <div class="portal-logo-text"><strong>Sistema APS - SES Maranhão</strong><span>Atenção Primária à Saúde - Estratificação de Risco</span></div>
     </div>
     <div>
       <div class="portal-ubs-info" id="portal-ubs-badge">
-        <span>🏥</span>
-        <span id="portal-ubs-nome">UBS</span>
-        <small id="portal-usuario-info"></small>
+        <span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small>
         <button class="btn-logout" onclick="fazerLogout()">Sair</button>
       </div>
     </div>
@@ -360,24 +345,15 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
       <div class="portal-card gestante" onclick="abrirModulo('gestante')">
         <div class="card-emoji-wrap">🤰</div>
         <h2>Estratificação da Gestante</h2>
-        <p>Ficha de monitoramento e estratificação de risco obstétrico com 3 etapas de avaliação clínica.</p>
-        <div class="card-riscos">
-          <span class="risco-pill verde">Habitual</span>
-          <span class="risco-pill amarelo">Vigilância</span>
-          <span class="risco-pill laranja">Compartilhado</span>
-          <span class="risco-pill vermelho">Maternidade</span>
-        </div>
+        <p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p>
+        <div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div>
         <div class="card-arrow">Iniciar ficha →</div>
       </div>
       <div class="portal-card crianca" onclick="abrirModulo('crianca')">
         <div class="card-emoji-wrap">👶</div>
         <h2>Estratificação da Criança</h2>
         <p>Ficha de estratificação de risco 0-5 anos com cálculo automático de retorno e envio via WhatsApp.</p>
-        <div class="card-riscos">
-          <span class="risco-pill verde">Habitual</span>
-          <span class="risco-pill amarelo">Intermediário</span>
-          <span class="risco-pill vermelho">Alto Risco</span>
-        </div>
+        <div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div>
         <div class="card-arrow">Iniciar ficha →</div>
       </div>
     </div>
@@ -385,30 +361,26 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   <div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Estado da Saúde do Maranhão</div>
 </div>
 
-<!-- ===== MÓDULO GESTANTE ===== -->
+<!-- MÓDULO GESTANTE — FICHA ER v4 (4 PASSOS) -->
 <div id="modulo-gestante">
   <div class="app-header">
     <div class="app-header-brand">
       <div class="app-header-icon">🤰</div>
-      <div class="app-header-text">
-        <strong>Estratificação da Gestante</strong>
-        <span>Ficha de Monitoramento e Risco Obstétrico</span>
-      </div>
+      <div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div>
     </div>
-    <div class="app-header-right">
-      <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
-    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
   </div>
   <div class="gest-progress">
     <div class="gest-steps">
       <div class="gest-step ativo" id="gs-1"></div>
       <div class="gest-step" id="gs-2"></div>
       <div class="gest-step" id="gs-3"></div>
+      <div class="gest-step" id="gs-4"></div>
     </div>
-    <span class="gest-step-label" id="gs-label">Passo 1 de 3</span>
+    <span class="gest-step-label" id="gs-label">Passo 1 de 4</span>
   </div>
 
-  <!-- PASSO 1 -->
+  <!-- PASSO 1 IDENTIFICAÇÃO -->
   <div class="gest-content" id="gpag-1">
     <div class="g-secao">
       <div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div>
@@ -441,127 +413,221 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           <div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div>
           <div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div>
         </div>
-        <div class="g-grid-3">
+        <div class="g-grid-3" style="margin-bottom:0.75rem">
           <div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="background:var(--cinza-100);font-weight:700;color:var(--verde)"></div>
-          <div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"></select></div>
+          <div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe 1 - ESF Alto Alegre</option><option>Equipe 2 - ESF Alto Alegre</option></select></div>
           <div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div>
         </div>
+        <div class="g-campo"><label>📱 Telefone (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div>
       </div>
     </div>
   </div>
 
-  <!-- PASSO 2 -->
+  <!-- PASSO 2 RISCO HABITUAL E VIGILÂNCIA -->
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
-      <div class="g-secao-titulo t-habitual">🟢 Critérios de Risco Habitual - Acompanhamento na APS</div>
+      <div class="g-secao-titulo t-habitual">🟢 Risco Habitual - Acompanhamento na APS</div>
       <div class="g-secao-corpo">
         <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Idade adequada (entre 15 e 39 anos)"><span>Idade adequada (entre 15 e 39 anos)</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Peso/IMC adequado para idade Gestacional(IG)</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Aceitação da gestação</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Intervalo interpartal maior que 2 anos</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de comorbidades ou antecedentes reprodutivos graves"><span>Ausência de fatores de risco ou intercorrências na gravidez anterior ou na atual</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Idade entre 15 e 39 anos"><span>Idade entre 15 e 39 anos</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Peso/IMC adequado para IG"><span>Peso/IMC adequado para IG</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Aceitação da gestação"><span>Aceitação da gestação</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Intervalo interpartal > 2 anos"><span>Intervalo interpartal &gt; 2 anos</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-verde')"><input type="checkbox" data-grupo="risco_habitual" data-label="Ausência de fatores de risco"><span>Ausência de fatores de risco ou intercorrências</span></label>
         </div>
       </div>
     </div>
     <div class="g-secao">
-      <div class="g-secao-titulo t-vigilancia">🟡 Risco Habitual - Com necessidade de maior vigilância - Acompanhamento na APS</div>
+      <div class="g-secao-titulo t-vigilancia">🟡 Risco Habitual com Maior Vigilância - Acompanhamento na APS</div>
       <div class="g-secao-corpo">
-        <div class="g-duas-col">
-          <div>
-            <div class="g-sub">Caractestisticas individuais, condições socioeconômicas e familiares</div>
-            <div class="g-checklist">
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixa escolaridade ou extrema vulnerabilidade"><span>Baixo nivel socioeconômico</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Idade nos extremos reprodutivos (&lt;15 ou &gt;40)"><span>Condições de trabalho desfavoráveis: esfoço fisico excessivo, carga horária extensa, exposição a agentes fisicos, quimicos e biológicos nocivos, niveis altos de estresse (&lt;15 ou &gt;40)</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Falta de apoio social ou familiar"><span>Indicios ou ocorrência de violência</span></label>
-            </div>
+        <div class="info-box info-box-social">
+          <div class="info-box-header"><span>👥</span><span>Características individuais, condições socioeconômicas e familiares</span></div>
+          <div class="g-checklist">
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixo nível socioeconômico"><span>Baixo nível socioeconômico</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Condições de trabalho desfavoráveis"><span>Condições de trabalho desfavoráveis</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Indícios de violência"><span>Indícios ou ocorrência de violência</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Situação conjugal insegura"><span>Situação conjugal insegura</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Insuficiência de apoio familiar"><span>Insuficiência de apoio familiar</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Capacidade de autocuidado insuficiente"><span>Capacidade de autocuidado insuficiente</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Não aceitação da gestação"><span>Não aceitação da gestação</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Baixa escolaridade (<5 anos)"><span>Baixa escolaridade (&lt;5 anos)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Tabagismo ativo/passivo"><span>Tabagismo ativo ou passivo</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de medicamentos teratogênicos"><span>Uso de medicamentos teratogênicos</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="IMC < 18,5 ou ≥ 30 a ≤ 39"><span>IMC &lt;18,5 ou ≥30 a ≤39</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Gestante em situação de rua/comunidades tradicionais"><span>Gestante em situação de rua/comunidades tradicionais</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Mulher preta"><span>Mulher preta</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Outras condições de menor complexidade"><span>Outras condições de saúde de menor complexidade</span></label>
           </div>
-          <div>
-            <div class="g-sub">Histórico ou Clínico Atual</div>
-            <div class="g-checklist">
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Ganho de peso inadequado"><span>Ganho de peso inadequado ou IMC inadequado</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Infecção urinária baixa recorrente"><span>Infecção urinária baixa recorrente</span></label>
-              <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Uso de tabaco ou dependências leves"><span>Uso de tabaco ou dependências leves</span></label>
-            </div>
+        </div>
+        <div class="info-box info-box-reproductive">
+          <div class="info-box-header"><span>📚</span><span>História reprodutiva anterior</span></div>
+          <div class="g-checklist">
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Alterações CIUR/macrossomia"><span>Alterações no crescimento intrauterino (CIUR/macrossomia)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Malformação fetal ou arritmia cardíaca fetal"><span>Malformação fetal ou arritmia cardíaca fetal</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Nuliparidade ou multiparidade (≥5 partos)"><span>Nuliparidade ou multiparidade (≥5 partos)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Diabetes gestacional"><span>Diabetes gestacional</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Síndromes hemorrágicas/hipertensivas sem gravidade"><span>Síndromes hemorrágicas/hipertensivas sem gravidade</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Cesariana prévia com incisão clássica"><span>Cesariana prévia com incisão clássica</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Intervalo interpartal < 2 anos"><span>Intervalo interpartal &lt;2 anos</span></label>
+          </div>
+        </div>
+        <div class="info-box info-box-clinical">
+          <div class="info-box-header"><span>🩺</span><span>Condições e intercorrências na gestação atual</span></div>
+          <div class="g-checklist">
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Infecção urinária baixa (1-2 ocorrências)"><span>Infecção urinária baixa (1-2 ocorrências)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Ganho de peso inadequado"><span>Ganho de peso inadequado</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Sífilis (exceto terciária/resistente)"><span>Sífilis (exceto terciária/resistente)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Dengue, Zika, Chikungunya ou Covid-19"><span>Dengue, Zika, Chikungunya ou Covid-19</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Doença Periodontal"><span>Doença Periodontal</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Toxoplasmose suscetível"><span>Toxoplasmose suscetível</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Tuberculose/Hanseníase em tratamento"><span>Tuberculose/Hanseníase em tratamento</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-amarelo')"><input type="checkbox" data-grupo="vigilancia" data-label="Anemia leve a moderada"><span>Anemia leve a moderada (Hb 9-11 g/dl)</span></label>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PASSO 3 -->
+  <!-- PASSO 3 ALTO RISCO -->
   <div class="gest-content" id="gpag-3" style="display:none">
     <div class="g-secao">
-      <div class="g-secao-titulo t-compartilhado">🟠 Alto Risco — Acompanhamento Compartilhado</div>
+      <div class="g-secao-titulo t-compartilhado">🟠 Alto Risco - Acompanhamento Compartilhado (APS + Especializada)</div>
       <div class="g-secao-corpo">
         <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Diabetes Mellitus Gestacional controlado"><span>Diabetes Mellitus Gestacional (DMG) controlado</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Hipertensão Arterial Crônica controlada"><span>Hipertensão Arterial Crônica controlada</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Anemia grave refratária"><span>Anemia grave refratária ao tratamento primário</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatrizes uterinas múltiplas (2+ cesáreas)"><span>Cicatrizes uterinas múltiplas (2 ou mais cesáreas)</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Idade < 15 anos ou > 39 anos"><span>Idade &lt;15 anos ou &gt;39 anos</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="IMC < 18,5 ou IMC ≥ 40"><span>IMC &lt;18,5 ou IMC ≥40</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Condições de trabalho insalubre/extremo estresse"><span>Condições de trabalho insalubre/extremo estresse</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Violência doméstica"><span>Violência doméstica</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="História de desfechos adversos prévios"><span>História de desfechos adversos prévios</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Síndromes hemorrágicas/hipertensivas graves anteriores"><span>Síndromes hemorrágicas/hipertensivas graves anteriores</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cicatriz uterina anormal"><span>Cicatriz uterina anormal</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Cardiopatias compensadas"><span>Cardiopatias compensadas</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Nefropatias leves/moderadas"><span>Nefropatias leves/moderadas</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Hepatopatias leves/moderadas"><span>Hepatopatias leves/moderadas</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Doenças hematológicas"><span>Doenças hematológicas</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Doenças autoimunes compensadas"><span>Doenças autoimunes compensadas</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Asma moderada/grave"><span>Asma moderada/grave</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Epilepsia (com tratamento)"><span>Epilepsia (com tratamento)</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="Endocrinopatias controladas"><span>Endocrinopatias controladas</span></label>
         </div>
       </div>
     </div>
     <div class="g-secao">
-      <div class="g-secao-titulo t-maternidade">🔴 Alto Risco Gravíssimo — Maternidade</div>
+      <div class="g-secao-titulo t-maternidade">🔴 Alto Risco - Maternidade de Alto Risco (APS + Maternidade)</div>
       <div class="g-secao-corpo">
+        <div class="info-box info-box-clinical-current">
+          <div class="info-box-header"><span>🏥</span><span>Condições e intercorrências na gestação atual</span></div>
+          <div class="g-checklist">
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Síndrome hipertensiva de difícil controle"><span>Síndrome hipertensiva de difícil controle</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes de difícil controle"><span>Diabetes de difícil controle</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Infecções com comprometimento materno/fetal"><span>Infecções com comprometimento materno/fetal</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Sífilis terciária ou resistente"><span>Sífilis terciária/resistente</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Toxoplasmose ativa"><span>Toxoplasmose ativa</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Insuficiência ístimo-cervical"><span>Insuficiência ístimo-cervical</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Anemia grave"><span>Anemia grave (&lt;9 g/dL)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias após 2° trimestre"><span>Hemorragias após 2° trimestre</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Acretismo placentário/placenta prévia"><span>Acretismo placentário/placenta prévia</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Colestase gestacional"><span>Colestase gestacional</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Malformação fetal"><span>Malformação fetal</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Ginecopatias (miomas >4cm)"><span>Ginecopatias (miomas &gt;4 cm)</span></label>
+            <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="ITU de repetição (≥3 ou ≥2 pielonefrite)"><span>ITU de repetição (≥3 ou ≥2 pielonefrite)</span></label>
+          </div>
+        </div>
+        <div class="g-sub">🏥 Condições clínicas prévias</div>
         <div class="g-checklist">
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Pré-eclâmpsia ou Eclâmpsia"><span>Pré-eclâmpsia sobreposta ou Sinais de Eclâmpsia</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Diabetes Insulino-dependente descompensado"><span>Diabetes Insulino-dependente prévio descompensado</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Cardiopatias maternas limitantes"><span>Cardiopatias maternas limitantes estruturais</span></label>
-          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Hemorragias ativas persistentes"><span>Hemorragias ativas persistentes na gestação</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Cardiopatias classe 3-4"><span>Cardiopatias classe 3-4</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Nefropatias com hemodiálise"><span>Nefropatias com hemodiálise</span></label>
+          <label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="Neoplasias em tratamento"><span>Neoplasias em tratamento</span></label>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RESULTADO -->
-  <div id="gpag-resultado" style="display:none">
-    <div class="g-resultado-header" id="g-res-header">
-      <div class="badge" id="g-res-icone">🟢</div>
-      <h2 id="g-res-titulo">Risco Habitual</h2>
-      <p id="g-res-sub">Direcionamento: Linha de Cuidado Primário na UBS</p>
-    </div>
-    <div class="g-resultado-body">
-      <div class="g-res-card">
-        <h3>Identificação da Gestante</h3>
-        <div class="g-grid-2" style="gap:0.5rem">
-          <p><strong>Gestante:</strong> <span id="go-nome">—</span></p>
-          <p><strong>CNS:</strong> <span id="go-cns">—</span></p>
-          <p><strong>Idade:</strong> <span id="go-idade">—</span> anos</p>
-          <p><strong>UBS:</strong> <span id="go-ubs">—</span></p>
-          <p><strong>Equipe:</strong> <span id="go-equipe">—</span></p>
-          <p><strong>DPP:</strong> <span id="go-dpp">—</span></p>
+  <!-- PASSO 4 PRÉ-ECLÂMPSIA -->
+  <div class="gest-content" id="gpag-4" style="display:none">
+    <div class="g-secao">
+      <div class="g-secao-titulo t-preeclampsia">🔬 Fatores de Risco Associados à Pré-Eclâmpsia</div>
+      <div class="g-secao-corpo">
+        <div class="preec-grid">
+          <div class="preec-col alto">
+            <div class="preec-col-header">⚠️ Alto Risco</div>
+            <div class="preec-item"><span class="preec-item-label">Histórico de Pré-Eclâmpsia com desfechos adversos</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_1" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_1" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Gestação Múltipla</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_2" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_2" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Obesidade (IMC &gt; 30)</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_3" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_3" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Hipertensão arterial crônica</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_4" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_4" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Diabetes tipo 1 ou 2</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_5" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_5" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Doença renal</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_6" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_6" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Doenças autoimunes (Lúpus, SAAF)</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_7" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_7" value="nao" checked> NÃO</label></div></div>
+          </div>
+          <div class="preec-col moderado">
+            <div class="preec-col-header">📋 Risco Moderado</div>
+            <div class="preec-item"><span class="preec-item-label">Nuliparidade</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_8" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_8" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Histórico familiar de Pré-Eclâmpsia</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_9" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_9" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Baixo nível socioeconômico</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_10" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_10" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Etnia Afrodescendente</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_11" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_11" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Idade &gt; 35 anos</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_12" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_12" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">História de baixo peso ao nascer</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_13" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_13" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Gravidez prévia com desfecho adverso</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_14" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_14" value="nao" checked> NÃO</label></div></div>
+            <div class="preec-item"><span class="preec-item-label">Intervalo &gt; 10 anos da última gestação</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_15" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_15" value="nao" checked> NÃO</label></div></div>
+          </div>
         </div>
       </div>
-      <div class="g-res-card">
-        <h3>Fatores de Risco Identificados</h3>
-        <div id="go-alertas"></div>
-      </div>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
-        <button class="btn btn-salvar" id="btn-salvar-gest" onclick="salvarGestante()">💾 Salvar Registro</button>
-        <button class="btn btn-excel" onclick="exportarExcelGestante()">📊 Excel</button>
-        <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
-        <button class="btn btn-nova" onclick="reiniciarGestante()">↺ Nova Consulta</button>
-        <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
-      </div>
+    </div>
+  </div>
 
-      <!-- LISTA DE GESTANTES CADASTRADAS -->
+  <!-- RESULTADO GESTANTE -->
+  <div id="gpag-resultado" style="display:none">
+    <div class="resultado-container">
+      <div class="resultado-header habitual" id="g-res-header">
+        <div class="resultado-icone" id="g-res-icone">🟢</div>
+        <h2 id="g-res-titulo">Risco Habitual</h2>
+        <div class="resultado-sub" id="g-res-sub">Acompanhamento na Atenção Primária</div>
+      </div>
+      <div class="resultado-card">
+        <div class="card-header"><span class="card-header-icon">👤</span><span class="card-header-title">Identificação da Gestante</span></div>
+        <div class="card-content"><div class="info-grid" id="info-grid-gestante"></div></div>
+      </div>
+      <div class="resultado-card">
+        <div class="card-header"><span class="card-header-icon">⚠️</span><span class="card-header-title">Fatores de Risco Identificados</span></div>
+        <div class="card-content"><div id="go-alertas"></div></div>
+      </div>
+      <div class="whatsapp-section">
+        <div class="whatsapp-header">
+          <div class="whatsapp-icon">📱</div>
+          <div><div class="whatsapp-title">Notificação via WhatsApp</div><div class="whatsapp-sub">Envie o resultado da estratificação para a gestante</div></div>
+        </div>
+        <div class="whatsapp-grid">
+          <div>
+            <div class="whatsapp-campo"><label>📱 Telefone</label><input type="tel" id="g-wpp-cel" placeholder="98991234567" oninput="atualizarPreviewWppGestante()"></div>
+            <div class="whatsapp-campo"><label>📅 Próxima Consulta</label><input type="date" id="g-wpp-data" oninput="atualizarPreviewWppGestante()"></div>
+            <button class="whatsapp-btn" onclick="enviarWhatsAppGestante()">📲 Enviar WhatsApp para a Gestante</button>
+          </div>
+          <div class="whatsapp-preview">
+            <div class="whatsapp-preview-header">💬 Prévia da Mensagem</div>
+            <div class="whatsapp-balao" id="g-wpp-msg">Mensagem será gerada automaticamente</div>
+          </div>
+        </div>
+      </div>
+      <div class="acao-buttons">
+        <button class="btn-acao btn-salvar-resultado" onclick="salvarGestante()">💾 Salvar</button>
+        <button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button>
+        <button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button>
+        <button class="btn-acao btn-novo-resultado" onclick="reiniciarGestante()">↺ Nova</button>
+        <button class="btn-acao btn-portal-resultado" onclick="voltarPortal()">← Voltar</button>
+      </div>
       <div style="margin-top:1.75rem">
-        <div style="font-size:0.8rem;font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+        <div style="font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
           📋 Gestantes Registradas
           <button onclick="carregarGestantes()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700">↻</button>
         </div>
         <div class="busca-wrap">
-          <input type="text" class="busca-input" id="buscaGestante" placeholder="🔍 Buscar pelo nome da gestante...">
+          <input type="text" class="busca-input" id="buscaGestante" placeholder="🔍 Buscar pelo nome...">
           <button class="busca-btn" onclick="buscarGestantes()">Buscar</button>
           <button class="busca-btn" onclick="carregarGestantes()" style="background:var(--cinza-500)">Limpar</button>
         </div>
         <div class="tabela-wrap">
           <table class="tbl">
-            <thead>
-              <tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr>
-            </thead>
+            <thead><tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr></thead>
             <tbody id="gestantesList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
           </table>
         </div>
@@ -575,26 +641,17 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
     <button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button>
   </div>
 </div>
-<!-- FIM MÓDULO GESTANTE -->
 
-<!-- ===== MÓDULO CRIANÇA ===== -->
+<!-- MÓDULO CRIANÇA -->
 <div id="modulo-crianca">
   <div class="app-header">
     <div class="app-header-brand">
       <div class="app-header-icon">👶</div>
-      <div class="app-header-text">
-        <strong>Estratificação da Criança (0-5 anos)</strong>
-        <span>Monitoramento de Risco e Retorno APS</span>
-      </div>
+      <div class="app-header-text"><strong>Estratificação da Criança (0-5 anos)</strong><span>Monitoramento de Risco e Retorno APS</span></div>
     </div>
-    <div class="app-header-right">
-      <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
-    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
   </div>
-
   <div class="cri-content">
-
-    <!-- IDENTIFICAÇÃO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-id">👤 Identificação</div>
       <div class="c-secao-corpo">
@@ -611,220 +668,53 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         </div>
       </div>
     </div>
-
-    <!-- CLASSIFICAÇÃO AO NASCER -->
     <div class="c-secao">
       <div class="c-secao-titulo t-natal">👶 Classificação ao Nascer</div>
       <div class="c-secao-corpo">
         <div class="c-grid-3">
-          <div class="c-campo"><label>Peso ao Nascer</label>
-            <select id="c-peso" onchange="cCalcular()">
-              <option value="adequado">Adequado (2500g-4500g)</option>
-              <option value="baixo">Baixo peso (&lt;2500g)</option>
-              <option value="muito_baixo">Muito baixo (&lt;1500g)</option>
-              <option value="extremo_baixo">Extremo baixo (&lt;1000g)</option>
-              <option value="excessivo">Excessivo (&gt;4500g)</option>
-            </select>
-          </div>
-          <div class="c-campo"><label>Idade Gestacional</label>
-            <select id="c-ig" onchange="cCalcular()">
-              <option value="termo_completo">Termo completo (39-41 sem)</option>
-              <option value="termo_precoce">Termo precoce (37-38 sem)</option>
-              <option value="pre_termo_tardio">Pré-termo tardio (34-36 sem)</option>
-              <option value="pre_termo_mod">Pré-termo moderado (32-33 sem)</option>
-              <option value="muito_prematuro">Muito prematuro (28-31 sem)</option>
-              <option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option>
-              <option value="pos_termo">Pós-termo (&gt;42 sem)</option>
-            </select>
-          </div>
-          <div class="c-campo"><label>Proporcionalidade</label>
-            <select id="c-prop">
-              <option value="AIG">Adequado para IG (AIG)</option>
-              <option value="PIG">Pequeno para IG (PIG)</option>
-              <option value="GIG">Grande para IG (GIG)</option>
-              <option value="Crescimento simétrico">Crescimento simétrico</option>
-              <option value="Crescimento assimétrico">Crescimento assimétrico</option>
-            </select>
-          </div>
+          <div class="c-campo"><label>Peso ao Nascer</label><select id="c-peso" onchange="cCalcular()"><option value="adequado">Adequado (2500g-4500g)</option><option value="baixo">Baixo peso (&lt;2500g)</option><option value="muito_baixo">Muito baixo (&lt;1500g)</option><option value="extremo_baixo">Extremo baixo (&lt;1000g)</option><option value="excessivo">Excessivo (&gt;4500g)</option></select></div>
+          <div class="c-campo"><label>Idade Gestacional</label><select id="c-ig" onchange="cCalcular()"><option value="termo_completo">Termo completo (39-41 sem)</option><option value="termo_precoce">Termo precoce (37-38 sem)</option><option value="pre_termo_tardio">Pré-termo tardio (34-36 sem)</option><option value="pre_termo_mod">Pré-termo moderado (32-33 sem)</option><option value="muito_prematuro">Muito prematuro (28-31 sem)</option><option value="extremo_prematuro">Extremamente prematuro (&lt;28 sem)</option><option value="pos_termo">Pós-termo (&gt;42 sem)</option></select></div>
+          <div class="c-campo"><label>Proporcionalidade</label><select id="c-prop"><option value="AIG">Adequado para IG (AIG)</option><option value="PIG">Pequeno para IG (PIG)</option><option value="GIG">Grande para IG (GIG)</option><option value="simétrico">Crescimento simétrico</option><option value="assimétrico">Crescimento assimétrico</option></select></div>
         </div>
       </div>
     </div>
-
-    <!-- IMC -->
     <div class="c-secao">
       <div class="c-secao-titulo" style="background:#0f766e;color:white;">⚖️ IMC Atual da Criança</div>
       <div class="c-secao-corpo">
         <div class="c-grid-3">
-          <div class="c-campo">
-            <label>Peso Atual (kg)</label>
-            <input type="number" id="c-peso-atual" placeholder="ex: 12.5" step="0.1" min="0" oninput="calcIMC()">
-          </div>
-          <div class="c-campo">
-            <label>Altura (cm)</label>
-            <input type="number" id="c-altura" placeholder="ex: 90" step="1" min="30" max="250" oninput="calcIMC()">
-          </div>
-          <div class="c-campo">
-            <label>IMC Calculado</label>
-            <input type="text" id="c-imc" placeholder="Calculado automaticamente" readonly style="background:#f0fdf4;font-weight:700;color:#0f766e;">
-          </div>
+          <div class="c-campo"><label>Peso Atual (kg)</label><input type="number" id="c-peso-atual" placeholder="ex: 12.5" step="0.1" min="0" oninput="calcIMC()"></div>
+          <div class="c-campo"><label>Altura (cm)</label><input type="number" id="c-altura" placeholder="ex: 90" step="1" min="30" max="250" oninput="calcIMC()"></div>
+          <div class="c-campo"><label>IMC Calculado</label><input type="text" id="c-imc" placeholder="Calculado automaticamente" readonly style="background:#f0fdf4;font-weight:700;color:#0f766e;"></div>
         </div>
         <div id="c-imc-classificacao" style="display:none;margin-top:0.75rem;padding:0.65rem 1rem;border-radius:9px;font-size:0.85rem;font-weight:700;"></div>
       </div>
     </div>
-
-    <!-- ESTRATIFICAÇÃO DE RISCO - ALTO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-alto">🔴 ESTRATIFICAÇÃO DE RISCO - RISCO ALTO</div>
       <div class="c-secao-corpo">
-        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Condições perinatais:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Baixo peso (&lt;2500g)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Prematuridade (IG&lt;37 semanas ao nascer)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>PIG (crescimento intrauterino restrito)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>GIG</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Apgar ≤6 no quinto minuto</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia indireta grave</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia direta</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecções crônicas do grupo ZTORCHS, confirmadas ou em investigação</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Asfixia perinatal</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações congênitas graves</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Cromossomopatias</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças metabólicas</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Complicações da prematuridade:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doença pulmonar crônica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Retinopatia e cegueira</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Surdez</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Outras. Quais?</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores maternos:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Mãe e/ou pai com dependência de álcool e outras drogas</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Depressão materna</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças maternas graves e/ou controladas</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores evolutivos:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Asma moderada ou grave</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças diarreicas crônica ou de repetição</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Alergia ou intolerância alimentar com repercussão clínica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecção urinária</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Complicações de infecções do sistema nervoso central</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Cardiomiopatias, miocardite e outras doenças cardiovasculares e circulatórias</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Desordens endócrinas, metabólicas, sanguíneas e imunes</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>HIV/Aids confirmado ou em investigação</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Leucemia e outras neoplasias</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças diagnosticadas na triagem neonatal</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Outras doenças evolutivas graves</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Intercorrências repetidas com repercussão clínica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>1 ou mais internações no último ano</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Condições especiais:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Peso ao nascer &lt;2.000g ou IG &lt;34 semanas</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações congênitas graves, cromossomopatias e doenças metabólicas com repercussão clínica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-alto"><span>2 ou mais internações no último ano</span></label>
-          </div>
-        </div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;"><strong>Condições perinatais:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-alto"><span>Baixo peso (&lt;2500g)</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Prematuridade (IG&lt;37 semanas ao nascer)</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>PIG (crescimento intrauterino restrito)</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>GIG</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Apgar ≤6 no quinto minuto</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia indireta grave</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Hiperbilirrubinemia direta</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecções crônicas do grupo ZTORCHS</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Asfixia perinatal</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações congênitas graves</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Cromossomopatias</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças metabólicas</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;"><strong>Complicações da prematuridade:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-alto"><span>Doença pulmonar crônica</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Retinopatia e cegueira</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Surdez</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores maternos:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-alto"><span>Mãe e/ou pai com dependência de álcool e outras drogas</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Depressão materna</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças maternas graves e/ou controladas</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores evolutivos:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-alto"><span>Asma moderada ou grave</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Doenças diarreicas crônica ou de repetição</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Alergia ou intolerância alimentar com repercussão clínica</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Infecção urinária</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Cardiomiopatias e outras doenças cardiovasculares</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>HIV/Aids confirmado ou em investigação</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Leucemia e outras neoplasias</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>1 ou mais internações no último ano</span></label></div></div>
+        <div style="margin-bottom:0;background:var(--vermelho-cl);padding:0.75rem;border-radius:10px;"><strong>Condições especiais:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-alto"><span>Peso ao nascer &lt;2.000g ou IG &lt;34 semanas</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>Malformações graves com repercussão clínica</span></label><label class="c-check"><input type="checkbox" class="chk-alto"><span>2 ou mais internações no último ano</span></label></div></div>
       </div>
     </div>
-
-    <!-- ESTRATIFICAÇÃO DE RISCO - INTERMEDIÁRIO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-inter">🟡 ESTRATIFICAÇÃO DE RISCO - RISCO INTERMEDIÁRIO</div>
       <div class="c-secao-corpo">
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores relacionados às condições de saúde:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Recém-nascido termo precoce (IG 37-38 semanas)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de hiperbilirrubinemia</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de desmame precoce</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de sepse neonatal</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores relacionados à nutrição:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Desmame do aleitamento materno exclusivo antes de 6 meses</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Desmame do aleitamento materno exclusivo antes de 24 meses</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Distanciamento do canal de crescimento da criança, em fase inicial, com relação ao peso, comprimento/altura e perímetro craniano</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores relacionados ao cuidado:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Criança não vacinada ou esquema atrasado</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Não comparecimento à agenda de acompanhamento (inclusive triagens neonatais)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Higiene oral e corporal inadequados</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe ou cuidador não habilitado</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores sociofamiliares:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Gravidez não aceita</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe adolescente</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com baixa escolaridade (&lt;5 anos de estudo)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Pai com baixa escolaridade (&lt;5 anos de estudo)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com pré-natal não realizado ou incompleto (&lt;6 consultas)</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Irmão &lt;5 anos com internação de repetição ou óbito por causas inevitáveis</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe e/ou pai com condições que comprometem o cuidado da criança</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe e/ou pai com comportamentos que comprometem o cuidado da criança</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe ausente por doenças, abandono ou óbito</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Fatores relacionados ao ambiente:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Exposição à fumaça ambiental do tabaco</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Condições de moradia desfavoráveis</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Vulnerabilidade socioeconômica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;">
-          <strong>Doenças próprias do ciclo de vida:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Doenças transitórias, sem complicações</span></label>
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Doenças bucais de menor complexidade: lesão de mancha branca, cárie dentária, doenças periodontal</span></label>
-          </div>
-        </div>
-        <div style="margin-bottom:0;background:var(--verde-claro);padding:0.75rem;border-radius:10px;border:1px solid #bbf7d0;">
-          <strong style="color:var(--verde)">Risco Habitual:</strong>
-          <div class="c-checklist">
-            <label class="c-check"><input type="checkbox" class="chk-inter"><span>Riscos inerentes à própria condição do ciclo de vida</span></label>
-          </div>
-        </div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores relacionados às condições de saúde:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-inter"><span>Recém-nascido termo precoce (IG 37-38 semanas)</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de hiperbilirrubinemia</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de desmame precoce</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Risco de sepse neonatal</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores relacionados à nutrição:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-inter"><span>Desmame do aleitamento materno exclusivo antes de 6 meses</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Distanciamento do canal de crescimento da criança</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores relacionados ao cuidado:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-inter"><span>Criança não vacinada ou esquema atrasado</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Não comparecimento à agenda de acompanhamento</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Higiene oral e corporal inadequados</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe ou cuidador não habilitado</span></label></div></div>
+        <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores sociofamiliares:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe adolescente</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com baixa escolaridade (&lt;5 anos de estudo)</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Mãe com pré-natal não realizado ou incompleto (&lt;6 consultas)</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Vulnerabilidade socioeconômica</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label></div></div>
+        <div style="margin-bottom:0;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores relacionados ao ambiente:</strong><div class="c-checklist"><label class="c-check"><input type="checkbox" class="chk-inter"><span>Exposição à fumaça ambiental do tabaco</span></label><label class="c-check"><input type="checkbox" class="chk-inter"><span>Condições de moradia desfavoráveis</span></label></div></div>
       </div>
     </div>
-
-    <!-- CLASSIFICAÇÃO E RETORNO -->
     <div class="c-secao">
       <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
       <div class="c-secao-corpo">
-        <div id="c-painel" class="c-painel c-habitual">
-          <div class="p-icon">🟢</div>
-          <div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div>
-        </div>
-
-        <!-- AGENDA DE ROTINA MS -->
+        <div id="c-painel" class="c-painel c-habitual"><div class="p-icon">🟢</div><div class="p-text"><span>Classificação: RISCO HABITUAL</span><small>Rotina padrão de crescimento e desenvolvimento</small></div></div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;">
-          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#166534;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;">
-            📅 Agenda de Consultas de Rotina — Ministério da Saúde
-          </div>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#166534;margin-bottom:0.75rem;">📅 Agenda de Consultas de Rotina — Ministério da Saúde</div>
           <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.85rem;" id="c-agenda-pills">
             <button class="agenda-pill" onclick="selecionarIdade(this,0)">1ª semana</button>
             <button class="agenda-pill" onclick="selecionarIdade(this,1)">1 mês</button>
@@ -837,52 +727,34 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
             <button class="agenda-pill" onclick="selecionarIdade(this,8)">24 meses</button>
             <button class="agenda-pill" onclick="selecionarIdade(this,9)">36 meses</button>
           </div>
-          <div id="c-proxima-consulta" style="display:none;background:white;border-radius:10px;padding:0.75rem 1rem;border:1px solid #bbf7d0;">
-            <div id="c-proxima-label"></div>
-          </div>
+          <div id="c-proxima-consulta" style="display:none;background:white;border-radius:10px;padding:0.75rem 1rem;border:1px solid #bbf7d0;"><div id="c-proxima-label"></div></div>
         </div>
-
         <div class="c-grid-2" style="margin-bottom:1rem">
           <div class="c-campo"><label>Data da Consulta</label><input type="date" id="c-data" onchange="cCalcular()"></div>
           <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="c-retorno" readonly style="background:#f0fdf4;font-weight:700;color:#166534"></div>
         </div>
-
-        <!-- ===== PRÉVIAS WHATSAPP — MÃE E ACS LADO A LADO ===== -->
         <div class="wpp-grid">
-
-          <!-- PRÉVIA MÃE -->
           <div class="wpp-wrap wpp-mae">
             <div class="wpp-head">📱 Mensagem para a Mãe</div>
             <span class="wpp-label label-mae">👩 Para: Mãe / Responsável</span>
-            <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS. Retorno agendado!<span class="wpp-time">09:41 ✓✓</span></div>
-            <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsApp()">
-              📱 Enviar para a Mãe
-            </button>
+            <div class="wpp-balao" id="c-wpp">Olá! Aqui é a UBS.<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsApp()">📱 Enviar para a Mãe</button>
           </div>
-
-          <!-- PRÉVIA ACS -->
           <div class="wpp-wrap wpp-acs">
             <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
             <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
             <div class="wpp-balao" id="c-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
-            <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppACS()">
-              📱 Enviar para o ACS
-            </button>
+            <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppACS()">📱 Enviar para o ACS</button>
           </div>
-
         </div>
-        <!-- FIM PRÉVIAS WHATSAPP -->
-
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem">
           <button class="btn btn-salvar" id="btn-salvar-crianca" onclick="salvarCrianca()">💾 Salvar Registro</button>
           <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
           <button class="btn btn-nova" onclick="reiniciarCrianca()">↺ Nova Ficha</button>
           <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
         </div>
-
-        <!-- LISTA DE CRIANÇAS CADASTRADAS -->
         <div style="margin-top:1.75rem">
-          <div style="font-size:0.8rem;font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+          <div style="font-size:0.8rem;font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem">
             📋 Registros Salvos
             <button onclick="carregarCriancas()" style="background:var(--cinza-100);border:1px solid var(--borda);padding:0.18rem 0.5rem;border-radius:6px;cursor:pointer;font-size:0.68rem;font-weight:700">↻</button>
           </div>
@@ -893,763 +765,356 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
-              <thead>
-                <tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr>
-              </thead>
+              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
               <tbody id="criancasList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-<!-- FIM MÓDULO CRIANÇA -->
 
 <script>
-// ============================================================
-// SUPABASE CONFIG
-// ============================================================
-const SUPABASE_URL = 'https://kqielgdslxjtykgqjmfg.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL='https://kqielgdslxjtykgqjmfg.supabase.co';
+const SUPABASE_KEY='sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const USUARIOS={"enfermeira":"123","admin":"admin123"};
 
-// ============================================================
-// CREDENCIAIS
-// ============================================================
-const USUARIOS = { "enfermeira": "123", "admin": "admin123" };
-let usuarioLogado = false;
-
-// ============================================================
-// FUNÇÕES DE TOAST
-// ============================================================
-function showToast(msg, isError = false) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.style.background = isError ? '#b91c1c' : '#1a6b40';
-  toast.style.display = 'block';
-  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+function showToast(msg,isError=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.background=isError?'#b91c1c':'#1a6b40';t.style.display='block';
+  setTimeout(()=>{t.style.display='none';},3000);
 }
 
-// ============================================================
-// LOGIN
-// ============================================================
-function fazerLogin() {
-  const user = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-senha').value;
-  const errorDiv = document.getElementById('login-erro');
-
-  if (!user || !pass) {
-    errorDiv.textContent = 'Preencha usuário e senha';
-    errorDiv.style.display = 'block';
-    return;
-  }
-
-  if (USUARIOS[user] && USUARIOS[user] === pass) {
-    usuarioLogado = true;
-    errorDiv.style.display = 'none';
-    document.getElementById('tela-login').style.display = 'none';
-    document.getElementById('tela-portal').style.display = 'flex';
-
-    document.getElementById('c-data').valueAsDate = new Date();
-    cCalcular();
-    carregarGestantes();
-    carregarCriancas();
-
-    const equipes = ['Equipe 1 - ESF Alto Alegre', 'Equipe 2 - ESF Alto Alegre'];
-    preencherSelect('g-equipe', equipes);
-  } else {
-    errorDiv.textContent = 'Usuário ou senha incorretos';
-    errorDiv.style.display = 'block';
-    document.getElementById('login-senha').value = '';
-  }
+function fazerLogin(){
+  const user=document.getElementById('login-user').value.trim();
+  const pass=document.getElementById('login-senha').value;
+  const err=document.getElementById('login-erro');
+  if(!user||!pass){err.textContent='Preencha usuário e senha';err.style.display='block';return;}
+  if(USUARIOS[user]&&USUARIOS[user]===pass){
+    err.style.display='none';
+    document.getElementById('tela-login').style.display='none';
+    document.getElementById('tela-portal').style.display='flex';
+    document.getElementById('portal-usuario-info').innerHTML='👤 '+user;
+    document.getElementById('portal-ubs-nome').innerText='UBS Alto Alegre';
+    document.getElementById('g-ubs').value='UBS Alto Alegre';
+    document.getElementById('c-data').valueAsDate=new Date();
+    cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
+  }else{err.textContent='Usuário ou senha incorretos';err.style.display='block';document.getElementById('login-senha').value='';}
 }
 
-function fazerLogout() {
-  if (!confirm('Deseja sair do sistema?')) return;
-  document.getElementById('tela-portal').style.display = 'none';
-  document.getElementById('tela-login').style.display = 'flex';
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-senha').value = '';
+function fazerLogout(){
+  if(!confirm('Deseja sair do sistema?'))return;
+  document.getElementById('tela-portal').style.display='none';
+  document.getElementById('tela-login').style.display='flex';
+  document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
 }
 
-function preencherSelect(selectId, opcoes) {
-  const sel = document.getElementById(selectId);
-  if (!sel) return;
-  sel.innerHTML = '<option value="">Selecione uma equipe</option>';
-  opcoes.forEach(eq => {
-    const opt = document.createElement('option');
-    opt.value = eq;
-    opt.textContent = eq;
-    sel.appendChild(opt);
+function voltarPortal(){
+  document.getElementById('modulo-gestante').style.display='none';
+  document.getElementById('modulo-crianca').style.display='none';
+  document.getElementById('tela-portal').style.display='flex';
+}
+
+function abrirModulo(mod){
+  document.getElementById('tela-portal').style.display='none';
+  document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';
+  document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';
+  if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else carregarCriancas();
+}
+
+/* ====== GESTANTE ====== */
+let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
+
+function gRenderPag(){
+  for(let i=1;i<=G_TOTAL;i++){const p=document.getElementById('gpag-'+i);if(p)p.style.display=(i===gPagAtual)?'block':'none';}
+  document.getElementById('gpag-resultado').style.display='none';
+  for(let i=1;i<=G_TOTAL;i++){const s=document.getElementById('gs-'+i);if(s){s.className='gest-step';if(i===gPagAtual)s.classList.add('ativo');else if(i<gPagAtual)s.classList.add('concluido');}}
+  document.getElementById('gs-label').textContent='Passo '+gPagAtual+' de '+G_TOTAL;
+  const prev=document.getElementById('g-btn-prev'),next=document.getElementById('g-btn-next'),calc=document.getElementById('g-btn-calc'),gnav=document.getElementById('gnav');
+  if(prev)prev.disabled=(gPagAtual===1);
+  gnav.classList.remove('hidden');
+  if(gPagAtual===G_TOTAL){if(next)next.style.display='none';if(calc)calc.style.display='inline-flex';}
+  else{if(next)next.style.display='inline-flex';if(calc)calc.style.display='none';}
+}
+
+function gMudarPag(dir){gPagAtual=Math.max(1,Math.min(G_TOTAL,gPagAtual+dir));gRenderPag();window.scrollTo(0,0);}
+
+function gToggle(el,classe){
+  const cb=el.querySelector('input[type=checkbox]');
+  if(event.target.type!=='checkbox')cb.checked=!cb.checked;
+  el.className='g-check';if(cb.checked)el.classList.add(classe);
+}
+
+function processarGestante(){
+  const sels=document.querySelectorAll('#modulo-gestante input[type=checkbox]:checked');
+  gMarcados=[];let maiorRisco='habitual';
+  sels.forEach(c=>{
+    const g=c.getAttribute('data-grupo'),l=c.getAttribute('data-label');
+    if(l)gMarcados.push({grupo:g,label:l});
+    if(g==='alto_risco_maternidade')maiorRisco='maternidade';
+    else if(g==='alto_risco'&&maiorRisco!=='maternidade')maiorRisco='compartilhado';
+    else if(g==='vigilancia'&&!['maternidade','compartilhado'].includes(maiorRisco))maiorRisco='vigilancia';
   });
-}
-
-// ============================================================
-// NAVEGAÇÃO
-// ============================================================
-function voltarPortal() {
-  document.getElementById('modulo-gestante').style.display = 'none';
-  document.getElementById('modulo-crianca').style.display = 'none';
-  document.getElementById('tela-portal').style.display = 'flex';
-}
-
-function abrirModulo(mod) {
-  document.getElementById('tela-portal').style.display = 'none';
-  document.getElementById('modulo-gestante').style.display = mod === 'gestante' ? 'block' : 'none';
-  document.getElementById('modulo-crianca').style.display = mod === 'crianca' ? 'block' : 'none';
-  if (mod === 'gestante') carregarGestantes();
-  else carregarCriancas();
-}
-
-// ============================================================
-// GESTANTE - FUNÇÕES DO FORMULÁRIO
-// ============================================================
-let gPagAtual = 1;
-const G_TOTAL = 3;
-let gMarcados = [];
-let gRiscoAtual = 'habitual';
-
-function gRenderPag() {
-  for (let i = 1; i <= G_TOTAL; i++) {
-    const p = document.getElementById('gpag-' + i);
-    if (p) p.style.display = (i === gPagAtual) ? 'block' : 'none';
-  }
-  document.getElementById('gpag-resultado').style.display = 'none';
-  for (let i = 1; i <= G_TOTAL; i++) {
-    const s = document.getElementById('gs-' + i);
-    s.className = 'gest-step';
-    if (i === gPagAtual) s.classList.add('ativo');
-    else if (i < gPagAtual) s.classList.add('concluido');
-  }
-  document.getElementById('gs-label').textContent = `Passo ${gPagAtual} de ${G_TOTAL}`;
-  const prev = document.getElementById('g-btn-prev');
-  const next = document.getElementById('g-btn-next');
-  const calc = document.getElementById('g-btn-calc');
-  prev.disabled = (gPagAtual === 1);
-  if (gPagAtual === G_TOTAL) {
-    next.style.display = 'none';
-    calc.style.display = 'inline-flex';
-  } else {
-    next.style.display = 'inline-flex';
-    calc.style.display = 'none';
-  }
-}
-
-function gMudarPag(dir) {
-  gPagAtual = Math.max(1, Math.min(G_TOTAL, gPagAtual + dir));
-  gRenderPag();
-  window.scrollTo(0, 0);
-}
-
-function gToggle(el, classe) {
-  const cb = el.querySelector('input[type=checkbox]');
-  if (event.target.type !== 'checkbox') cb.checked = !cb.checked;
-  el.className = 'g-check';
-  if (cb.checked) el.classList.add(classe);
-}
-
-function processarGestante() {
-  const sels = document.querySelectorAll('#modulo-gestante input[type=checkbox]:checked');
-  gMarcados = [];
-  let maiorRisco = 'habitual';
-
-  sels.forEach(c => {
-    const g = c.getAttribute('data-grupo');
-    const l = c.getAttribute('data-label');
-    if (l) gMarcados.push({ grupo: g, label: l });
-    if (g === 'alto_risco_maternidade') maiorRisco = 'maternidade';
-    else if (g === 'alto_risco' && maiorRisco !== 'maternidade') maiorRisco = 'compartilhado';
-    else if (g === 'vigilancia' && !['maternidade', 'compartilhado'].includes(maiorRisco)) maiorRisco = 'vigilancia';
-  });
-
-  gRiscoAtual = maiorRisco;
-  const cfgs = {
-    habitual: { cls: 'rh-habitual', icon: '🟢', titulo: 'Risco Habitual', sub: 'Direcionamento: Linha de Cuidado Primário na UBS' },
-    vigilancia: { cls: 'rh-vigilancia', icon: '🟡', titulo: 'Risco Habitual com Maior Vigilância', sub: 'Acompanhamento reforçado na Atenção Primária' },
-    compartilhado: { cls: 'rh-compartilhado', icon: '🟠', titulo: 'Alto Risco Compartilhado', sub: 'Encaminhar para Policlínica / Especialista' },
-    maternidade: { cls: 'rh-maternidade', icon: '🔴', titulo: 'Alto Risco — Maternidade', sub: 'Vinculação imediata à Maternidade de Alta Complexidade' }
+  gRiscoAtual=maiorRisco;
+  const cfgs={
+    habitual:{cls:'habitual',icon:'🟢',titulo:'Risco Habitual',sub:'Acompanhamento na Atenção Primária'},
+    vigilancia:{cls:'vigilancia',icon:'🟡',titulo:'Risco Habitual com Maior Vigilância',sub:'Acompanhamento reforçado na APS'},
+    compartilhado:{cls:'compartilhado',icon:'🟠',titulo:'Alto Risco Compartilhado',sub:'Encaminhar para Especialista'},
+    maternidade:{cls:'maternidade',icon:'🔴',titulo:'Alto Risco — Maternidade',sub:'Vinculação imediata à Maternidade de Alta Complexidade'}
   };
-  const cfg = cfgs[maiorRisco];
-  const h = document.getElementById('g-res-header');
-  h.className = 'g-resultado-header ' + cfg.cls;
-  document.getElementById('g-res-icone').textContent = cfg.icon;
-  document.getElementById('g-res-titulo').textContent = cfg.titulo;
-  document.getElementById('g-res-sub').textContent = cfg.sub;
-  document.getElementById('go-nome').textContent = document.getElementById('g-nome').value || '-';
-  document.getElementById('go-cns').textContent = document.getElementById('g-cns').value || '-';
-  document.getElementById('go-idade').textContent = document.getElementById('g-idade').value || '-';
-  document.getElementById('go-ubs').textContent = document.getElementById('g-ubs').value || '-';
-  document.getElementById('go-equipe').textContent = document.getElementById('g-equipe').value || '-';
-  const dpp = document.getElementById('g-dpp').value;
-  document.getElementById('go-dpp').textContent = dpp ? dpp.split('-').reverse().join('/') : '-';
-  const box = document.getElementById('go-alertas');
-  box.innerHTML = gMarcados.length === 0
-    ? '<div class="g-item-alerta">Nenhum fator de risco. Gestação fisiológica.</div>'
-    : gMarcados.map(m => `<div class="g-item-alerta"><strong>[${m.grupo.replace(/_/g, ' ').toUpperCase()}]</strong> ${m.label}</div>`).join('');
-  for (let i = 1; i <= G_TOTAL; i++) document.getElementById('gpag-' + i).style.display = 'none';
-  document.getElementById('gpag-resultado').style.display = 'block';
+  const cfg=cfgs[maiorRisco];
+  const header=document.getElementById('g-res-header');
+  header.className='resultado-header '+cfg.cls;
+  document.getElementById('g-res-icone').textContent=cfg.icon;
+  document.getElementById('g-res-titulo').textContent=cfg.titulo;
+  document.getElementById('g-res-sub').textContent=cfg.sub;
+  const dpp=document.getElementById('g-dpp').value;
+  document.getElementById('info-grid-gestante').innerHTML=[
+    ['👤','Gestante',document.getElementById('g-nome').value||'-'],
+    ['🆔','CNS',document.getElementById('g-cns').value||'-'],
+    ['🎂','Idade',(document.getElementById('g-idade').value||'-')+' anos'],
+    ['🏥','UBS',document.getElementById('g-ubs').value||'-'],
+    ['👩‍⚕️','Equipe',document.getElementById('g-equipe').value||'-'],
+    ['📅','DPP',dpp?dpp.split('-').reverse().join('/')  :'-'],
+    ['📱','Telefone',document.getElementById('g-cel').value||'-'],
+  ].map(([icon,label,val])=>`<div class="info-item"><div class="info-icon">${icon}</div><div class="info-col"><div class="info-label">${label}</div><div class="info-value">${val}</div></div></div>`).join('');
+  const alertasDiv=document.getElementById('go-alertas');
+  if(gMarcados.length===0){alertasDiv.innerHTML='<div class="sem-fatores">✅ Nenhum fator de risco identificado. Gestação fisiológica.</div>';}
+  else{alertasDiv.innerHTML='<div class="fatores-lista">'+gMarcados.map(m=>`<div class="fator-item"><span class="fator-icon">⚠️</span><span class="fator-texto">${m.label}</span></div>`).join('')+'</div>';}
+  document.getElementById('g-wpp-cel').value=document.getElementById('g-cel').value;
+  atualizarPreviewWppGestante();
+  for(let i=1;i<=G_TOTAL;i++){const p=document.getElementById('gpag-'+i);if(p)p.style.display='none';}
+  document.getElementById('gpag-resultado').style.display='block';
   document.getElementById('gnav').classList.add('hidden');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-// ============================================================
-// GESTANTES - CRUD SUPABASE
-// ============================================================
-async function salvarGestante() {
-  const nome = document.getElementById('g-nome').value.trim();
-  if (!nome) { showToast('⚠️ Informe o nome da gestante!', true); return; }
+function atualizarPreviewWppGestante(){
+  const nome=document.getElementById('g-nome').value||'Gestante';
+  const classificacao=document.getElementById('g-res-titulo').textContent;
+  const dataConsulta=document.getElementById('g-wpp-data').value;
+  const ubs=document.getElementById('g-ubs').value||'UBS';
+  let msg='🏥 '+ubs+'\n\nOlá, '+nome+'! 🌸\n\nSua classificação: *'+classificacao+'*\n\n';
+  if(dataConsulta)msg+='📅 Próxima consulta: '+new Date(dataConsulta+'T12:00:00').toLocaleDateString('pt-BR')+'\n\n';
+  msg+='💚 Atenção Primária à Saúde — Cuidando de você e do seu bebê!';
+  document.getElementById('g-wpp-msg').innerHTML=msg.replace(/\n/g,'<br>');
+}
 
-  const raca = document.querySelector('input[name="graca"]:checked');
-  const btn = document.getElementById('btn-salvar-gest');
-  btn.disabled = true;
-  btn.textContent = '⏳ Salvando...';
+function enviarWhatsAppGestante(){
+  let t=document.getElementById('g-wpp-cel').value.replace(/\D/g,'');
+  if(!t||t.length<10){showToast('Telefone inválido',true);return;}
+  window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById('g-wpp-msg').innerText),'_blank');
+}
 
-  const data = {
-    nome, cns: document.getElementById('g-cns').value || null,
-    cpf: document.getElementById('g-cpf').value || null,
-    idade: parseInt(document.getElementById('g-idade').value) || null,
-    data_nasc: document.getElementById('g-data_nasc').value || null,
-    estado_civil: document.getElementById('g-estado_civil').value || null,
-    raca_cor: raca ? raca.value : null,
-    dum: document.getElementById('g-dum').value || null,
-    dpp: document.getElementById('g-dpp').value || null,
-    gestacoes: parseInt(document.getElementById('g-gest').value) || 0,
-    abortos: parseInt(document.getElementById('g-abort').value) || 0,
-    partos_normais: parseInt(document.getElementById('g-pn').value) || 0,
-    partos_cesareos: parseInt(document.getElementById('g-pc').value) || 0,
-    ubs: document.getElementById('g-ubs').value || null,
-    equipe_esf: document.getElementById('g-equipe').value || null,
-    acs: document.getElementById('g-acs').value || null,
-    risco_classificacao: gRiscoAtual,
-    fatores_risco: gMarcados
-  };
+async function salvarGestante(){
+  const nome=document.getElementById('g-nome').value.trim();
+  if(!nome){showToast('⚠️ Informe o nome da gestante!',true);return;}
+  const raca=document.querySelector('input[name="graca"]:checked');
+  const data={nome,cns:document.getElementById('g-cns').value||null,cpf:document.getElementById('g-cpf').value||null,idade:parseInt(document.getElementById('g-idade').value)||null,data_nasc:document.getElementById('g-data_nasc').value||null,estado_civil:document.getElementById('g-estado_civil').value||null,raca_cor:raca?raca.value:null,dum:document.getElementById('g-dum').value||null,dpp:document.getElementById('g-dpp').value||null,gestacoes:parseInt(document.getElementById('g-gest').value)||0,abortos:parseInt(document.getElementById('g-abort').value)||0,partos_normais:parseInt(document.getElementById('g-pn').value)||0,partos_cesareos:parseInt(document.getElementById('g-pc').value)||0,ubs:document.getElementById('g-ubs').value||null,equipe_esf:document.getElementById('g-equipe').value||null,acs:document.getElementById('g-acs').value||null,telefone:document.getElementById('g-cel').value||null,risco_classificacao:gRiscoAtual,fatores_risco:gMarcados};
+  try{const{error}=await supabaseClient.from('gestantes').insert([data]);if(error)throw error;showToast('✅ Gestante salva!');carregarGestantes();}
+  catch(err){showToast('❌ Erro: '+err.message,true);}
+}
 
-  try {
-    const { error } = await supabaseClient.from('gestantes').insert([data]);
-    if (error) throw error;
-    showToast('✅ Gestante salva com sucesso!');
-    reiniciarGestante();
-    carregarGestantes();
-  } catch (err) {
-    showToast('❌ Erro: ' + err.message, true);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '💾 Salvar Registro';
+async function carregarGestantes(){
+  const tbody=document.getElementById('gestantesList');if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhuma gestante cadastrada</td></tr>';return;}
+    const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
+    tbody.innerHTML=data.map(g=>`<tr><td><strong>${g.nome||'-'}</strong></td><td>${g.cns||'-'}</td><td>${g.ubs||'-'}</td><td>${cm[g.risco_classificacao]||g.risco_classificacao}</td><td>${g.created_at?new Date(g.created_at).toLocaleDateString():'-'}</td><td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';}
+}
+
+async function buscarGestantes(){
+  const termo=document.getElementById('buscaGestante').value.trim();if(!termo){carregarGestantes();return;}
+  const tbody=document.getElementById('gestantesList');tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('gestantes').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhuma gestante encontrada</td></tr>';return;}
+    const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
+    tbody.innerHTML=data.map(g=>`<tr><td><strong>${g.nome||'-'}</strong></td><td>${g.cns||'-'}</td><td>${g.ubs||'-'}</td><td>${cm[g.risco_classificacao]||g.risco_classificacao}</td><td>${g.created_at?new Date(g.created_at).toLocaleDateString():'-'}</td><td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){showToast('❌ Erro na busca',true);}
+}
+
+async function excluirGestante(id){
+  if(!confirm('Excluir este registro permanentemente?'))return;
+  try{const{error}=await supabaseClient.from('gestantes').delete().eq('id',id);if(error)throw error;showToast('🗑️ Excluído');carregarGestantes();}
+  catch(err){showToast('❌ Erro ao excluir',true);}
+}
+
+function reiniciarGestante(){
+  if(!confirm('Limpar todos os dados da ficha?'))return;
+  document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});
+  document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});
+  document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);
+  document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);
+  document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Alto Alegre';
+  gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);
+}
+
+function exportarExcelGestante(){showToast('📊 Exportação disponível em breve');}
+
+/* ====== CRIANÇA ====== */
+let cRiscoAtual='HABITUAL';
+
+function cCalcular(){
+  const peso=document.getElementById('c-peso').value,ig=document.getElementById('c-ig').value;
+  const alto=document.querySelectorAll('#modulo-crianca .chk-alto:checked').length>0;
+  const inter=document.querySelectorAll('#modulo-crianca .chk-inter:checked').length>0;
+  let dias=30;
+  if(alto||['muito_baixo','extremo_baixo'].includes(peso)||['extremo_prematuro','muito_prematuro','pre_termo_mod'].includes(ig)){cRiscoAtual='ALTO';dias=7;}
+  else if(inter||['baixo','excessivo'].includes(peso)||['termo_precoce','pre_termo_tardio','pos_termo'].includes(ig)){cRiscoAtual='INTERMEDIARIO';dias=15;}
+  else{cRiscoAtual='HABITUAL';dias=30;}
+  const cfgs={HABITUAL:{cls:'c-habitual',icon:'🟢',txt:'Classificação: RISCO HABITUAL',sub:'Rotina padrão de crescimento e desenvolvimento'},INTERMEDIARIO:{cls:'c-intermediario',icon:'🟡',txt:'Classificação: RISCO INTERMEDIÁRIO',sub:'Acompanhamento estratégico (retorno em 15 dias)'},ALTO:{cls:'c-alto',icon:'🔴',txt:'Classificação: ALTO RISCO',sub:'Encaminhar ao especialista (retorno em 7 dias)'}};
+  const cfg=cfgs[cRiscoAtual];
+  const painel=document.getElementById('c-painel');
+  painel.className='c-painel '+cfg.cls;
+  painel.innerHTML='<div class="p-icon">'+cfg.icon+'</div><div class="p-text"><span>'+cfg.txt+'</span><small>'+cfg.sub+'</small></div>';
+  const dataStr=document.getElementById('c-data').value;
+  if(dataStr){
+    const d=new Date(dataStr+'T12:00:00');d.setDate(d.getDate()+dias);
+    const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yy=d.getFullYear();
+    document.getElementById('c-retorno').value=yy+'-'+mm+'-'+dd;
+    atualizarPreviewWpp(dd,mm,yy);
   }
 }
 
-async function carregarGestantes() {
-  const tbody = document.getElementById('gestantesList');
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
-  document.getElementById('buscaGestante').value = '';
-  try {
-    const { data, error } = await supabaseClient.from('gestantes').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma gestante cadastrada</td></tr>';
-      return;
-    }
-    const classMap = {
-      habitual: '<span class="badge-pill bp-verde">Habitual</span>',
-      vigilancia: '<span class="badge-pill bp-amarelo">Vigilância</span>',
-      compartilhado: '<span class="badge-pill bp-vermelho">Compartilhado</span>',
-      maternidade: '<span class="badge-pill bp-vermelho">Maternidade</span>'
-    };
-    tbody.innerHTML = data.map(g => `
-      <tr>
-        <td><strong>${g.nome || '-'}</strong></td>
-        <td>${g.cns || '-'}</td>
-        <td>${g.ubs || '-'}</td>
-        <td>${classMap[g.risco_classificacao] || g.risco_classificacao}</td>
-        <td>${g.created_at ? new Date(g.created_at).toLocaleDateString() : '-'}</td>
-        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td>
-      </tr>
-    `).join('');
-  } catch (err) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';
-  }
+function atualizarPreviewWpp(dd,mm,yy){
+  const mae=document.getElementById('c-mae').value||'[Mãe]',crianca=document.getElementById('c-nome').value||'[Criança]',ubs=document.getElementById('c-ubs').value||'[UBS]',data=dd+'/'+mm+'/'+yy;
+  const extras={ALTO:'⚠️ ATENÇÃO: Criança em ALTO RISCO. Retorno em 7 dias é fundamental.',INTERMEDIARIO:'📌 Acompanhamento preventivo importante.',HABITUAL:''};
+  const msg='Olá, Sra. '+mae+'! 👋\nAqui é o assistente da '+ubs+'.\n\nA avaliação do(a) '+crianca+' foi concluída! ✅\n\n📅 Próximo retorno: '+data+'\n⏰ Manhã: 08:00 às 11:30 e Tarde: 14:00 às 16:00.\n\n'+extras[cRiscoAtual]+'\n\nTraga a Caderneta de Vacinação! 💉';
+  const hora=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('c-wpp').innerHTML=msg.replace(/\n/g,'<br>')+'<span class="wpp-time">'+hora+' ✓✓</span>';
+  atualizarPreviewWppACS(dd,mm,yy);
 }
 
-async function buscarGestantes() {
-  const termo = document.getElementById('buscaGestante').value.trim();
-  if (!termo) { carregarGestantes(); return; }
-  const tbody = document.getElementById('gestantesList');
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
-  try {
-    const { data, error } = await supabaseClient.from('gestantes').select('*').ilike('nome', `%${termo}%`).order('created_at', { ascending: false });
-    if (error) throw error;
-    if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma gestante encontrada</td></tr>';
-      return;
-    }
-    const classMap = {
-      habitual: '<span class="badge-pill bp-verde">Habitual</span>',
-      vigilancia: '<span class="badge-pill bp-amarelo">Vigilância</span>',
-      compartilhado: '<span class="badge-pill bp-vermelho">Compartilhado</span>',
-      maternidade: '<span class="badge-pill bp-vermelho">Maternidade</span>'
-    };
-    tbody.innerHTML = data.map(g => `
-      <tr>
-        <td><strong>${g.nome || '-'}</strong></td>
-        <td>${g.cns || '-'}</td>
-        <td>${g.ubs || '-'}</td>
-        <td>${classMap[g.risco_classificacao] || g.risco_classificacao}</td>
-        <td>${g.created_at ? new Date(g.created_at).toLocaleDateString() : '-'}</td>
-        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td>
-      </tr>
-    `).join('');
-  } catch (err) { showToast('❌ Erro na busca', true); }
+function atualizarPreviewWppACS(dd,mm,yy){
+  const acs=document.getElementById('c-acs').value||'[ACS]',crianca=document.getElementById('c-nome').value||'[Criança]',mae=document.getElementById('c-mae').value||'[Mãe]',ubs=document.getElementById('c-ubs').value||'[UBS]',microarea=document.getElementById('c-microarea').value||'[Microárea]',data=dd+'/'+mm+'/'+yy;
+  const riscoLabel={HABITUAL:'🟢 RISCO HABITUAL',INTERMEDIARIO:'🟡 RISCO INTERMEDIÁRIO',ALTO:'🔴 ALTO RISCO'};
+  const orientacoes={HABITUAL:'Rotina de acompanhamento normal. Verificar comparecimento na data prevista.',INTERMEDIARIO:'Atenção redobrada! Realizar visita domiciliar próxima à data de retorno.',ALTO:'🚨 ATENÇÃO PRIORITÁRIA! Criança em ALTO RISCO. Realizar visita domiciliar antes da data de retorno.'};
+  const msg='📋 *NOTIFICAÇÃO APS — '+ubs+'*\n\nOlá, ACS '+acs+'! 👋\n\n*👶 Criança:* '+crianca+'\n*👩 Responsável:* '+mae+'\n*📍 Microárea:* '+microarea+'\n\n*🏷️ Classificação:* '+riscoLabel[cRiscoAtual]+'\n*📅 Data de Retorno:* '+data+'\n\n*📌 Orientação:*\n'+orientacoes[cRiscoAtual]+'\n\nAcompanhe e confirme o retorno desta família! 🤝';
+  const hora=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('c-wpp-acs').innerHTML=msg.replace(/\n/g,'<br>')+'<span class="wpp-time">'+hora+' ✓✓</span>';
 }
 
-async function excluirGestante(id) {
-  if (!confirm('Excluir este registro permanentemente?')) return;
-  try {
-    const { error } = await supabaseClient.from('gestantes').delete().eq('id', id);
-    if (error) throw error;
-    showToast('🗑️ Registro excluído');
-    carregarGestantes();
-  } catch (err) { showToast('❌ Erro ao excluir', true); }
-}
+function enviarWhatsApp(){const t=document.getElementById('c-cel-mae').value.replace(/\D/g,'');if(!t){showToast('⚠️ Informe o telefone da mãe!',true);return;}window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById('c-wpp').innerText),'_blank');}
+function enviarWhatsAppACS(){const t=document.getElementById('c-cel-acs').value.replace(/\D/g,'');if(!t){showToast('⚠️ Informe o telefone do ACS!',true);return;}window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById('c-wpp-acs').innerText),'_blank');}
 
-function reiniciarGestante() {
-  if (!confirm('Limpar dados?')) return;
-  document.querySelectorAll('#modulo-gestante input[type=text], #modulo-gestante input[type=number], #modulo-gestante input[type=date]').forEach(i => { if (!i.readOnly) i.value = ''; });
-  document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c => { c.checked = false; c.closest('.g-check').className = 'g-check'; });
-  document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r => r.checked = false);
-  document.getElementById('g-equipe').value = '';
-  gPagAtual = 1; gMarcados = [];
-  document.getElementById('gpag-resultado').style.display = 'none';
-  gRenderPag();
-  window.scrollTo(0, 0);
-}
-
-function exportarExcelGestante() { showToast('📊 Exportação disponível em breve'); }
-
-// ============================================================
-// CRIANÇAS - FUNÇÕES
-// ============================================================
-let cRiscoAtual = 'HABITUAL';
-
-function cCalcular() {
-  const peso = document.getElementById('c-peso').value;
-  const ig = document.getElementById('c-ig').value;
-  const alto = document.querySelectorAll('#modulo-crianca .chk-alto:checked').length > 0;
-  const inter = document.querySelectorAll('#modulo-crianca .chk-inter:checked').length > 0;
-  let dias = 30;
-
-  if (alto || ['muito_baixo', 'extremo_baixo'].includes(peso) || ['extremo_prematuro', 'muito_prematuro', 'pre_termo_mod'].includes(ig)) {
-    cRiscoAtual = 'ALTO'; dias = 7;
-  } else if (inter || ['baixo', 'excessivo'].includes(peso) || ['termo_precoce', 'pre_termo_tardio', 'pos_termo'].includes(ig)) {
-    cRiscoAtual = 'INTERMEDIARIO'; dias = 15;
-  } else {
-    cRiscoAtual = 'HABITUAL'; dias = 30;
-  }
-
-  const cfgs = {
-    HABITUAL: { cls: 'c-habitual', icon: '🟢', txt: 'Classificação: RISCO HABITUAL', sub: 'Rotina padrão de crescimento e desenvolvimento' },
-    INTERMEDIARIO: { cls: 'c-intermediario', icon: '🟡', txt: 'Classificação: RISCO INTERMEDIÁRIO', sub: 'Acompanhamento estratégico (retorno em 15 dias)' },
-    ALTO: { cls: 'c-alto', icon: '🔴', txt: 'Classificação: ALTO RISCO', sub: 'Encaminhar ao especialista (retorno em 7 dias)' }
-  };
-  const cfg = cfgs[cRiscoAtual];
-  const painel = document.getElementById('c-painel');
-  painel.className = 'c-painel ' + cfg.cls;
-  painel.innerHTML = `<div class="p-icon">${cfg.icon}</div><div class="p-text"><span>${cfg.txt}</span><small>${cfg.sub}</small></div>`;
-
-  const dataStr = document.getElementById('c-data').value;
-  if (dataStr) {
-    const d = new Date(dataStr + 'T12:00:00');
-    d.setDate(d.getDate() + dias);
-    const dd = String(d.getDate()).padStart(2, '0');
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const yy = d.getFullYear();
-    document.getElementById('c-retorno').value = `${yy}-${mm}-${dd}`;
-    atualizarPreviewWpp(dd, mm, yy);
-  }
-}
-
-// ============================================================
-// MENSAGEM WPP — MÃE
-// ============================================================
-function atualizarPreviewWpp(dd, mm, yy) {
-  const mae = document.getElementById('c-mae').value || '[Mãe]';
-  const crianca = document.getElementById('c-nome').value || '[Criança]';
-  const ubs = document.getElementById('c-ubs').value || '[UBS]';
-  const data = `${dd}/${mm}/${yy}`;
-  const extras = {
-    ALTO: '⚠️ ATENÇÃO: Criança em ALTO RISCO. Retorno em 7 dias é fundamental.',
-    INTERMEDIARIO: '📌 Acompanhamento preventivo importante.',
-    HABITUAL: ''
-  };
-  const msg = `Olá, Sra. ${mae}! 👋\nAqui é o assistente da ${ubs}.\n\nA avaliação do(a) ${crianca} foi concluída! ✅\n\n📅 Próximo retorno: ${data}\n⏰ Manhã: 08:00 às 11:30  e Tarde: 14:00 às 16:00.\n\n${extras[cRiscoAtual]}\n\nTraga a Caderneta de Vacinação! 💉`;
-  const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  document.getElementById('c-wpp').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
-
-  // Atualiza também a prévia do ACS sempre que a da mãe atualizar
-  atualizarPreviewWppACS(dd, mm, yy);
-}
-
-// ============================================================
-// MENSAGEM WPP — ACS  ← NOVA FUNÇÃO
-// ============================================================
-function atualizarPreviewWppACS(dd, mm, yy) {
-  const acs = document.getElementById('c-acs').value || '[ACS]';
-  const crianca = document.getElementById('c-nome').value || '[Criança]';
-  const mae = document.getElementById('c-mae').value || '[Mãe]';
-  const ubs = document.getElementById('c-ubs').value || '[UBS]';
-  const microarea = document.getElementById('c-microarea').value || '[Microárea]';
-  const data = `${dd}/${mm}/${yy}`;
-
-  const riscoLabel = {
-    HABITUAL: '🟢 RISCO HABITUAL',
-    INTERMEDIARIO: '🟡 RISCO INTERMEDIÁRIO',
-    ALTO: '🔴 ALTO RISCO'
-  };
-  const orientacoes = {
-    HABITUAL: 'Rotina de acompanhamento normal. Verificar comparecimento na data prevista.',
-    INTERMEDIARIO: 'Atenção redobrada! Realizar visita domiciliar próxima à data de retorno para garantir comparecimento.',
-    ALTO: '🚨 ATENÇÃO PRIORITÁRIA! Criança em ALTO RISCO. Realizar visita domiciliar antes da data de retorno e confirmar presença na consulta.'
-  };
-
-  const msg = `📋 *NOTIFICAÇÃO APS — ${ubs}*\n\nOlá, TACS ${acs}! 👋\n\nUma nova estratificação foi registrada em sua microárea.\n\n*👶 Criança:* ${crianca}\n*👩 Responsável:* ${mae}\n*📍 Microárea:* ${microarea}\n\n*🏷️ Classificação:* ${riscoLabel[cRiscoAtual]}\n*📅 Data de Retorno:* ${data}\n\n*📌 Orientação:*\n${orientacoes[cRiscoAtual]}\n\nPor favor, acompanhe e confirme o retorno desta família! 🤝`;
-
-  const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  document.getElementById('c-wpp-acs').innerHTML = msg.replace(/\n/g, '<br>') + `<span class="wpp-time">${hora} ✓✓</span>`;
-}
-
-// ============================================================
-// ENVIAR WHATSAPP — MÃE
-// ============================================================
-function enviarWhatsApp() {
-  const telefone = document.getElementById('c-cel-mae').value.replace(/\D/g, '');
-  if (!telefone) { showToast('⚠️ Informe o telefone da mãe!', true); return; }
-  const msg = document.getElementById('c-wpp').innerText;
-  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-// ============================================================
-// ENVIAR WHATSAPP — ACS  ← NOVA FUNÇÃO
-// ============================================================
-function enviarWhatsAppACS() {
-  const telefone = document.getElementById('c-cel-acs').value.replace(/\D/g, '');
-  if (!telefone) { showToast('⚠️ Informe o telefone do ACS!', true); return; }
-  const crianca = document.getElementById('c-nome').value.trim();
-  if (!crianca) { showToast('⚠️ Informe o nome da criança antes de enviar!', true); return; }
-  const msg = document.getElementById('c-wpp-acs').innerText;
-  window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${encodeURIComponent(msg)}`, '_blank');
-}
-
-// ============================================================
-// CRIANÇAS - CRUD SUPABASE
-// ============================================================
-async function salvarCrianca() {
+async function salvarCrianca(){
   cCalcular();
-  const nome = document.getElementById('c-nome').value.trim();
-  const mae = document.getElementById('c-mae').value.trim();
-  if (!nome || !mae) { showToast('⚠️ Informe o nome da criança e da mãe!', true); return; }
-
-  const fatoresAlto = Array.from(document.querySelectorAll('#modulo-crianca .chk-alto:checked')).map(cb => cb.closest('.c-check').querySelector('span').textContent);
-  const fatoresInter = Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked')).map(cb => cb.closest('.c-check').querySelector('span').textContent);
-
-  const data = {
-    crianca: nome, mae,
-    telefone: document.getElementById('c-cel-mae').value || null,
-    cns: document.getElementById('c-cns').value || null,
-    ubs: document.getElementById('c-ubs').value || null,
-    nascimento: document.getElementById('c-nasc').value || null,
-    risco: cRiscoAtual,
-    data_retorno: document.getElementById('c-retorno').value,
-    peso_nascer: document.getElementById('c-peso').value,
-    idade_gestacional: document.getElementById('c-ig').value,
-    proporcionalidade: document.getElementById('c-prop').value,
-    fatores_alto: fatoresAlto, fatores_inter: fatoresInter, wpp: 'PENDENTE'
-  };
-
-  const btn = document.getElementById('btn-salvar-crianca');
-  btn.disabled = true; btn.textContent = '⏳ Salvando...';
-  try {
-    const { error } = await supabaseClient.from('extratifica').insert([data]);
-    if (error) throw error;
-    showToast('✅ Criança salva com sucesso!');
-    reiniciarCrianca();
-    carregarCriancas();
-  } catch (err) { showToast('❌ Erro: ' + err.message, true); }
-  finally { btn.disabled = false; btn.innerHTML = '💾 Salvar Registro'; }
+  const nome=document.getElementById('c-nome').value.trim(),mae=document.getElementById('c-mae').value.trim();
+  if(!nome||!mae){showToast('⚠️ Informe o nome da criança e da mãe!',true);return;}
+  const fatoresAlto=Array.from(document.querySelectorAll('#modulo-crianca .chk-alto:checked')).map(cb=>cb.closest('.c-check').querySelector('span').textContent);
+  const fatoresInter=Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked')).map(cb=>cb.closest('.c-check').querySelector('span').textContent);
+  const data={crianca:nome,mae,telefone:document.getElementById('c-cel-mae').value||null,cns:document.getElementById('c-cns').value||null,ubs:document.getElementById('c-ubs').value||null,nascimento:document.getElementById('c-nasc').value||null,microarea:document.getElementById('c-microarea').value||null,acs:document.getElementById('c-acs').value||null,peso_atual:document.getElementById('c-peso-atual').value||null,altura:document.getElementById('c-altura').value||null,risco:cRiscoAtual,data_retorno:document.getElementById('c-retorno').value,peso_nascer:document.getElementById('c-peso').value,idade_gestacional:document.getElementById('c-ig').value,proporcionalidade:document.getElementById('c-prop').value,fatores_alto:fatoresAlto,fatores_inter:fatoresInter};
+  const btn=document.getElementById('btn-salvar-crianca');btn.disabled=true;btn.textContent='⏳ Salvando...';
+  try{const{error}=await supabaseClient.from('extratifica').insert([data]);if(error)throw error;showToast('✅ Criança salva!');carregarCriancas();}
+  catch(err){showToast('❌ Erro: '+err.message,true);}
+  finally{btn.disabled=false;btn.innerHTML='💾 Salvar Registro';}
 }
 
-async function carregarCriancas() {
-  const tbody = document.getElementById('criancasList');
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
-  document.getElementById('buscaCrianca').value = '';
-  try {
-    const { data, error } = await supabaseClient.from('extratifica').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma criança cadastrada</td></tr>'; return; }
-    const classMap = { HABITUAL: '<span class="badge-pill bp-verde">Habitual</span>', INTERMEDIARIO: '<span class="badge-pill bp-amarelo">Intermediário</span>', ALTO: '<span class="badge-pill bp-vermelho">Alto Risco</span>' };
-    tbody.innerHTML = data.map(c => `<tr>
-      <td><strong>${c.crianca || '-'}</strong></td>
-      <td>${c.mae || '-'}</td>
-      <td>${c.telefone || '-'}</td>
-      <td>${classMap[c.risco] || c.risco}</td>
-      <td>${c.data_retorno ? c.data_retorno.split('-').reverse().join('/') : '-'}</td>
-      <td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td>
-    </tr>`).join('');
-  } catch (err) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>'; }
+async function carregarCriancas(){
+  const tbody=document.getElementById('criancasList');if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Carregando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('extratifica').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhuma criança cadastrada</td></tr>';return;}
+    const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'-'}</strong></td><td>${c.mae||'-'}</td><td>${c.telefone||'-'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'-'}</td><td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:red">Erro ao carregar</td></tr>';}
 }
 
-async function buscarCriancas() {
-  const termo = document.getElementById('buscaCrianca').value.trim();
-  if (!termo) { carregarCriancas(); return; }
-  const tbody = document.getElementById('criancasList');
-  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
-  try {
-    const { data, error } = await supabaseClient.from('extratifica').select('*').ilike('crianca', `%${termo}%`).order('created_at', { ascending: false });
-    if (error) throw error;
-    if (!data || data.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center">Nenhuma criança encontrada</td></tr>'; return; }
-    const classMap = { HABITUAL: '<span class="badge-pill bp-verde">Habitual</span>', INTERMEDIARIO: '<span class="badge-pill bp-amarelo">Intermediário</span>', ALTO: '<span class="badge-pill bp-vermelho">Alto Risco</span>' };
-    tbody.innerHTML = data.map(c => `<tr>
-      <td><strong>${c.crianca || '-'}</strong></td>
-      <td>${c.mae || '-'}</td>
-      <td>${c.telefone || '-'}</td>
-      <td>${classMap[c.risco] || c.risco}</td>
-      <td>${c.data_retorno ? c.data_retorno.split('-').reverse().join('/') : '-'}</td>
-      <td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td>
-    </tr>`).join('');
-  } catch (err) { showToast('❌ Erro na busca', true); }
+async function buscarCriancas(){
+  const termo=document.getElementById('buscaCrianca').value.trim();if(!termo){carregarCriancas();return;}
+  const tbody=document.getElementById('criancasList');tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Buscando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('extratifica').select('*').ilike('crianca','%'+termo+'%').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhuma criança encontrada</td></tr>';return;}
+    const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'-'}</strong></td><td>${c.mae||'-'}</td><td>${c.telefone||'-'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'-'}</td><td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){showToast('❌ Erro na busca',true);}
 }
 
-async function excluirCrianca(id) {
-  if (!confirm('Excluir este registro permanentemente?')) return;
-  try {
-    const { error } = await supabaseClient.from('extratifica').delete().eq('id', id);
-    if (error) throw error;
-    showToast('🗑️ Registro excluído');
-    carregarCriancas();
-  } catch (err) { showToast('❌ Erro ao excluir', true); }
+async function excluirCrianca(id){
+  if(!confirm('Excluir este registro permanentemente?'))return;
+  try{const{error}=await supabaseClient.from('extratifica').delete().eq('id',id);if(error)throw error;showToast('🗑️ Excluído');carregarCriancas();}
+  catch(err){showToast('❌ Erro ao excluir',true);}
 }
 
-function reiniciarCrianca() {
-  if (!confirm('Limpar formulário?')) return;
-  document.querySelectorAll('#modulo-crianca input[type=text], #modulo-crianca input[type=tel], #modulo-crianca input[type=date]').forEach(i => { if (!i.readOnly) i.value = ''; });
-  document.querySelectorAll('#modulo-crianca .chk-alto, #modulo-crianca .chk-inter').forEach(cb => cb.checked = false);
-  document.querySelectorAll('.agenda-pill').forEach(p => p.classList.remove('ativa'));
-  document.getElementById('c-proxima-consulta').style.display = 'none';
-  document.getElementById('c-proxima-consulta').style.background = 'white';
-  document.getElementById('c-proxima-consulta').style.color = '#166534';
-  document.getElementById('c-proxima-consulta').style.borderColor = '#bbf7d0';
-  document.getElementById('c-peso').value = 'adequado';
-  document.getElementById('c-ig').value = 'termo_completo';
-  document.getElementById('c-prop').value = 'AIG';
-  document.getElementById('c-data').valueAsDate = new Date();
-  cCalcular();
-  window.scrollTo(0, 0);
+function reiniciarCrianca(){
+  if(!confirm('Limpar formulário?'))return;
+  document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});
+  document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));
+  document.getElementById('c-proxima-consulta').style.display='none';
+  document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';
+  document.getElementById('c-imc').value='';document.getElementById('c-imc-classificacao').style.display='none';
+  document.getElementById('c-data').valueAsDate=new Date();cCalcular();window.scrollTo(0,0);
 }
 
-function calcIMC() {
-  const peso = parseFloat(document.getElementById('c-peso-atual').value);
-  const altura = parseFloat(document.getElementById('c-altura').value);
-  const imcInput = document.getElementById('c-imc');
-  const classDiv = document.getElementById('c-imc-classificacao');
-
-  if (!peso || !altura || altura <= 0) {
-    imcInput.value = '';
-    classDiv.style.display = 'none';
-    return;
-  }
-
-  const alturaM = altura / 100;
-  const imc = peso / (alturaM * alturaM);
-  imcInput.value = imc.toFixed(2) + ' kg/m²';
-
-  let texto = '';
-  let bg = '';
-  let cor = '';
-
-  if (imc < 14) {
-    texto = '⚠️ Magreza acentuada (IMC muito baixo)';
-    bg = '#fee2e2'; cor = '#991b1b';
-  } else if (imc < 16) {
-    texto = '⚠️ Magreza (IMC abaixo do esperado)';
-    bg = '#ffedd5'; cor = '#9a3412';
-  } else if (imc < 18.5) {
-    texto = '🟡 Peso adequado — limite inferior';
-    bg = '#fef9c3'; cor = '#854d0e';
-  } else if (imc < 25) {
-    texto = '✅ Peso adequado (eutrófico)';
-    bg = '#dcfce7'; cor = '#166534';
-  } else if (imc < 27) {
-    texto = '🟡 Sobrepeso (risco nutricional)';
-    bg = '#fef9c3'; cor = '#854d0e';
-  } else if (imc < 30) {
-    texto = '🟠 Obesidade grau I';
-    bg = '#ffedd5'; cor = '#9a3412';
-  } else {
-    texto = '🔴 Obesidade grave (grau II ou III)';
-    bg = '#fee2e2'; cor = '#991b1b';
-  }
-
-  classDiv.style.display = 'block';
-  classDiv.style.background = bg;
-  classDiv.style.color = cor;
-  classDiv.style.border = `1px solid ${cor}30`;
-  classDiv.textContent = `IMC: ${imc.toFixed(2)} kg/m² — ${texto}`;
+function calcIMC(){
+  const peso=parseFloat(document.getElementById('c-peso-atual').value),altura=parseFloat(document.getElementById('c-altura').value);
+  const imcInput=document.getElementById('c-imc'),classDiv=document.getElementById('c-imc-classificacao');
+  if(!peso||!altura||altura<=0){imcInput.value='';classDiv.style.display='none';return;}
+  const imc=peso/((altura/100)*(altura/100));imcInput.value=imc.toFixed(2)+' kg/m²';
+  let texto='',bg='',cor='';
+  if(imc<14){texto='⚠️ Magreza acentuada';bg='#fee2e2';cor='#991b1b';}
+  else if(imc<16){texto='⚠️ Magreza';bg='#ffedd5';cor='#9a3412';}
+  else if(imc<18.5){texto='🟡 Peso adequado — limite inferior';bg='#fef9c3';cor='#854d0e';}
+  else if(imc<25){texto='✅ Peso adequado (eutrófico)';bg='#dcfce7';cor='#166534';}
+  else if(imc<27){texto='🟡 Sobrepeso';bg='#fef9c3';cor='#854d0e';}
+  else if(imc<30){texto='🟠 Obesidade grau I';bg='#ffedd5';cor='#9a3412';}
+  else{texto='🔴 Obesidade grave';bg='#fee2e2';cor='#991b1b';}
+  classDiv.style.display='block';classDiv.style.background=bg;classDiv.style.color=cor;
+  classDiv.textContent='IMC: '+imc.toFixed(2)+' kg/m² — '+texto;
 }
 
-// ============================================================
-// AGENDA DE ROTINA MS
-// ============================================================
-const CONSULTAS_ROTINA = [
-  { label: '1ª semana', meses: null, semanas: 1  },
-  { label: '1 mês',     meses: 1,    semanas: null },
-  { label: '2 meses',   meses: 2,    semanas: null },
-  { label: '4 meses',   meses: 4,    semanas: null },
-  { label: '6 meses',   meses: 6,    semanas: null },
-  { label: '9 meses',   meses: 9,    semanas: null },
-  { label: '12 meses',  meses: 12,   semanas: null },
-  { label: '18 meses',  meses: 18,   semanas: null },
-  { label: '24 meses',  meses: 24,   semanas: null },
-  { label: '36 meses',  meses: 36,   semanas: null },
-];
+const CONSULTAS_ROTINA=[{label:'1ª semana',meses:null,semanas:1},{label:'1 mês',meses:1,semanas:null},{label:'2 meses',meses:2,semanas:null},{label:'4 meses',meses:4,semanas:null},{label:'6 meses',meses:6,semanas:null},{label:'9 meses',meses:9,semanas:null},{label:'12 meses',meses:12,semanas:null},{label:'18 meses',meses:18,semanas:null},{label:'24 meses',meses:24,semanas:null},{label:'36 meses',meses:36,semanas:null}];
 
-function calcDataConsulta(dtNasc, consulta) {
-  const d = new Date(dtNasc);
-  if (consulta.semanas) {
-    d.setDate(d.getDate() + consulta.semanas * 7);
-  } else {
-    d.setMonth(d.getMonth() + consulta.meses);
-  }
-  return d;
+function calcDataConsulta(dtNasc,consulta){const d=new Date(dtNasc);if(consulta.semanas)d.setDate(d.getDate()+consulta.semanas*7);else d.setMonth(d.getMonth()+consulta.meses);return d;}
+function formatarDataBR(d){const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yy=d.getFullYear();return{iso:yy+'-'+mm+'-'+dd,dd,mm,yy};}
+
+function selecionarIdade(btn,idxAtual){
+  document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));btn.classList.add('ativa');
+  const painelEl=document.getElementById('c-proxima-consulta'),labelEl=document.getElementById('c-proxima-label');
+  painelEl.style.display='block';
+  const nascimento=document.getElementById('c-nasc').value;
+  if(!nascimento){labelEl.innerHTML='⚠️ Preencha a <strong>Data de Nascimento</strong> acima para calcular o retorno';document.getElementById('c-retorno').value='';return;}
+  const dtNasc=new Date(nascimento+'T12:00:00');
+  let dtRetorno,labelRetorno;
+  if(idxAtual<=7){const proxima=CONSULTAS_ROTINA[idxAtual+1];dtRetorno=calcDataConsulta(dtNasc,proxima);labelRetorno=proxima.label;}
+  else{const atual=CONSULTAS_ROTINA[idxAtual];const dtBase=calcDataConsulta(dtNasc,atual);dtRetorno=new Date(dtBase);dtRetorno.setFullYear(dtRetorno.getFullYear()+1);labelRetorno='retorno anual';}
+  const{iso,dd,mm,yy}=formatarDataBR(dtRetorno);
+  document.getElementById('c-retorno').value=iso;atualizarPreviewWpp(dd,mm,yy);
+  const linhas=CONSULTAS_ROTINA.map((c,i)=>{const dtC=calcDataConsulta(dtNasc,c);const{dd:d2,mm:m2,yy:y2}=formatarDataBR(dtC);const isAtual=(i===idxAtual),isProxima=(idxAtual<=7&&i===idxAtual+1)||(idxAtual>=8&&i===idxAtual);const cor=isAtual?'#1a6b40':isProxima?'#7c3aed':'#374151';const peso=(isAtual||isProxima)?'700':'500';const bg=isAtual?'#dcfce7':isProxima?'#f5f3ff':'transparent';const icon=isAtual?'📍':isProxima?'⏭️':'▪';return '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:'+bg+';color:'+cor+';font-weight:'+peso+';font-size:0.8rem;"><span>'+icon+' '+c.label+'</span><span>'+d2+'/'+m2+'/'+y2+'</span></div>';});
+  labelEl.innerHTML='<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#6b7280;margin-bottom:0.5rem;letter-spacing:0.5px;">📓 Caderneta da Criança — Consultas de Rotina</div>'+linhas.join('')+'<div style="margin-top:0.6rem;padding:0.5rem 0.6rem;background:#7c3aed;color:white;border-radius:7px;font-size:0.82rem;font-weight:700;text-align:center;">⏭️ Retorno agendado: '+labelRetorno+' → '+dd+'/'+mm+'/'+yy+'</div>';
 }
 
-function formatarDataBR(d) {
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yy = d.getFullYear();
-  return { iso: `${yy}-${mm}-${dd}`, dd, mm, yy };
-}
+function fecharModalCrianca(){document.getElementById('modal-editar-crianca').classList.remove('aberto');}
+function fecharModalGest(){document.getElementById('modal-editar-gest').classList.remove('aberto');}
+function fecharHistorico(){document.getElementById('modal-historico').classList.remove('aberto');}
+function salvarEdicaoCrianca(){showToast('Função em desenvolvimento');}
+function salvarEdicaoGest(){showToast('Função em desenvolvimento');}
 
-function selecionarIdade(btn, idxAtual) {
-  document.querySelectorAll('.agenda-pill').forEach(p => p.classList.remove('ativa'));
-  btn.classList.add('ativa');
+document.getElementById('btn-login').addEventListener('click',fazerLogin);
+document.getElementById('login-user').addEventListener('keypress',e=>{if(e.key==='Enter')fazerLogin();});
+document.getElementById('login-senha').addEventListener('keypress',e=>{if(e.key==='Enter')fazerLogin();});
+document.getElementById('c-data').addEventListener('change',cCalcular);
+document.getElementById('c-peso').addEventListener('change',cCalcular);
+document.getElementById('c-ig').addEventListener('change',cCalcular);
+document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
+['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);}});});
 
-  const painelEl = document.getElementById('c-proxima-consulta');
-  const labelEl  = document.getElementById('c-proxima-label');
-
-  painelEl.style.background  = 'white';
-  painelEl.style.color       = '#166534';
-  painelEl.style.borderColor = '#bbf7d0';
-  painelEl.style.display     = 'block';
-
-  const nascimento = document.getElementById('c-nasc').value;
-
-  if (!nascimento) {
-    painelEl.style.background  = '#fef9c3';
-    painelEl.style.color       = '#854d0e';
-    painelEl.style.borderColor = '#fde68a';
-    labelEl.innerHTML = '⚠️ Preencha a <strong>Data de Nascimento</strong> acima para calcular o retorno';
-    document.getElementById('c-retorno').value = '';
-    return;
-  }
-
-  const dtNasc = new Date(nascimento + 'T12:00:00');
-
-  let dtRetorno, labelRetorno;
-
-  if (idxAtual <= 7) {
-    const proxima = CONSULTAS_ROTINA[idxAtual + 1];
-    dtRetorno    = calcDataConsulta(dtNasc, proxima);
-    labelRetorno = proxima.label;
-  } else {
-    const atual  = CONSULTAS_ROTINA[idxAtual];
-    const dtBase = calcDataConsulta(dtNasc, atual);
-    dtRetorno    = new Date(dtBase);
-    dtRetorno.setFullYear(dtRetorno.getFullYear() + 1);
-    labelRetorno = 'retorno anual';
-  }
-
-  const { iso, dd, mm, yy } = formatarDataBR(dtRetorno);
-  document.getElementById('c-retorno').value = iso;
-  atualizarPreviewWpp(dd, mm, yy);
-
-  const linhas = CONSULTAS_ROTINA.map((c, i) => {
-    const dtC = calcDataConsulta(dtNasc, c);
-    const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtC);
-    const isAtual   = (i === idxAtual);
-    const isProxima = (idxAtual <= 7 && i === idxAtual + 1) ||
-                      (idxAtual >= 8 && i === idxAtual);
-    const cor  = isAtual   ? '#1a6b40' : isProxima ? '#7c3aed' : '#374151';
-    const peso = (isAtual || isProxima) ? '700' : '500';
-    const bg   = isAtual   ? '#dcfce7' : isProxima ? '#f5f3ff' : 'transparent';
-    const icon = isAtual   ? '📍' : isProxima ? '⏭️' : '▪';
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:${bg};color:${cor};font-weight:${peso};font-size:0.8rem;">
-      <span>${icon} ${c.label}</span>
-      <span>${d2}/${m2}/${y2}</span>
-    </div>`;
-  });
-
-  if (idxAtual >= 8) {
-    const { dd: d2, mm: m2, yy: y2 } = formatarDataBR(dtRetorno);
-    linhas.push(`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.28rem 0.6rem;border-radius:6px;background:#f5f3ff;color:#7c3aed;font-weight:700;font-size:0.8rem;">
-      <span>⏭️ Próximo retorno anual</span><span>${d2}/${m2}/${y2}</span>
-    </div>`);
-  }
-
-  labelEl.innerHTML = `
-    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#6b7280;margin-bottom:0.5rem;letter-spacing:0.5px;">
-      📓 Caderneta da Criança — Consultas de Rotina
-    </div>
-    ${linhas.join('')}
-    <div style="margin-top:0.6rem;padding:0.5rem 0.6rem;background:#7c3aed;color:white;border-radius:7px;font-size:0.82rem;font-weight:700;text-align:center;">
-      ⏭️ Retorno agendado: ${labelRetorno} → ${dd}/${mm}/${yy}
-    </div>`;
-}
-
-// ============================================================
-// FUNÇÕES AUXILIARES MODAIS
-// ============================================================
-function fecharModalCrianca() { document.getElementById('modal-editar-crianca').classList.remove('aberto'); }
-function fecharModalGest() { document.getElementById('modal-editar-gest').classList.remove('aberto'); }
-function fecharHistorico() { document.getElementById('modal-historico').classList.remove('aberto'); }
-function salvarEdicaoCrianca() { showToast('Função em desenvolvimento'); }
-function salvarEdicaoGest() { showToast('Função em desenvolvimento'); }
-
-// ============================================================
-// EVENTOS
-// ============================================================
-document.getElementById('btn-login').addEventListener('click', fazerLogin);
-document.getElementById('login-user').addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
-document.getElementById('login-senha').addEventListener('keypress', (e) => { if (e.key === 'Enter') fazerLogin(); });
-document.getElementById('c-data').addEventListener('change', cCalcular);
-document.getElementById('c-peso').addEventListener('change', cCalcular);
-document.getElementById('c-ig').addEventListener('change', cCalcular);
-document.querySelectorAll('#modulo-crianca .chk-alto, #modulo-crianca .chk-inter').forEach(cb => {
-  cb.addEventListener('change', cCalcular);
-});
-
-// Atualiza prévias ao preencher campos de texto
-['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('input', () => {
-    const retorno = document.getElementById('c-retorno').value;
-    if (retorno) {
-      const parts = retorno.split('-');
-      atualizarPreviewWpp(parts[2], parts[1], parts[0]);
-    }
-  });
-});
-
-// ============================================================
-// INICIALIZAÇÃO
-// ============================================================
-window.addEventListener('load', () => {
-  document.getElementById('login-user').value = '';
-  document.getElementById('login-senha').value = '';
-  document.getElementById('c-data').valueAsDate = new Date();
-  cCalcular();
-  gPagAtual = 1;
-  gRenderPag();
-  console.log('Sistema APS inicializado com sucesso!');
+window.addEventListener('load',()=>{
+  document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
+  document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
 });
 </script>
 </body>
