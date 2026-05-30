@@ -833,6 +833,16 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
         <div style="margin-bottom:1rem;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores sociofamiliares:</strong><div class="c-checklist"><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Mãe adolescente</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Mãe com baixa escolaridade (&lt;5 anos de estudo)</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Mãe com pré-natal não realizado ou incompleto (&lt;6 consultas)</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Vulnerabilidade socioeconômica</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Indícios de violência física, sexual ou psicológica</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Negligência com relação às necessidades da criança</span></label></div></div>
         <div style="margin-bottom:0;background:var(--amarelo-cl);padding:0.75rem;border-radius:10px;"><strong>Fatores relacionados ao ambiente:</strong><div class="c-checklist"><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Exposição à fumaça ambiental do tabaco</span></label><label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>Condições de moradia desfavoráveis</span></label></div></div>
       </div>
+    <div style="margin-top:1rem;margin-bottom:0;background:#f0fdf4;padding:0.75rem;border-radius:10px;border:2px solid #bbf7d0;">
+  <strong style="color:#166534;">🟢 Risco Habitual:</strong>
+  <div class="c-checklist">
+    <label class="c-check" onclick="cToggleCheckbox(this)">
+      <input type="checkbox" class="chk-habitual">
+      <span>Riscos inerentes à própria condição do ciclo de vida</span>
+    </label>
+  </div>
+</div>
+</div>
     </div>
     <div class="c-secao">
       <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
@@ -1194,7 +1204,7 @@ async function excluirCrianca(id){
 function reiniciarCrianca(){
   if(!confirm('Limpar formulário?'))return;
   document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});
-  document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.checked=false);
+  document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.checked=false);
   document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));
   document.getElementById('c-proxima-consulta').style.display='none';
   document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';
@@ -1252,7 +1262,7 @@ document.getElementById('login-senha').addEventListener('keypress',e=>{if(e.key=
 document.getElementById('c-data').addEventListener('change',cCalcular);
 document.getElementById('c-peso').addEventListener('change',cCalcular);
 document.getElementById('c-ig').addEventListener('change',cCalcular);
-document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
+document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.addEventListener('change',cCalcular));
 ['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);}});});
 
 window.addEventListener('load',()=>{
