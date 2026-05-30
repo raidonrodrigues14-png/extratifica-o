@@ -312,7 +312,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   <div class="login-card">
     <div class="login-top">
       <div class="login-icon-wrap">🏥</div>
-      <div class="login-title-block"><strong>Portal APS - SES Maranhão</strong><span>Estratificação de Risco - Acesso Seguro</span></div>
+      <div class="login-title-block"><strong>Secretária de Saúde <br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco - Acesso Seguro</span></div>
     </div>
     <div class="login-divider"></div>
     <div class="login-erro" id="login-erro"></div>
@@ -328,7 +328,7 @@ body{font-family:'Sora',sans-serif;background:#f0f4f0;color:var(--cinza-900);fon
   <div class="portal-hero">
     <div class="portal-logo-box">
       <div class="portal-logo-icon">🏥</div>
-      <div class="portal-logo-text"><strong>Sistema APS - SES Maranhão</strong><span>Atenção Primária à Saúde - Estratificação de Risco</span></div>
+      <div class="portal-logo-text"><strong>Sistema APS - Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde - Estratificação de Risco</span></div>
     </div>
     <div>
       <div class="portal-ubs-info" id="portal-ubs-badge">
@@ -1262,7 +1262,7 @@ document.getElementById('login-senha').addEventListener('keypress',e=>{if(e.key=
 document.getElementById('c-data').addEventListener('change',cCalcular);
 document.getElementById('c-peso').addEventListener('change',cCalcular);
 document.getElementById('c-ig').addEventListener('change',cCalcular);
-document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.addEventListener('change',cCalcular));
+document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
 ['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);}});});
 
 window.addEventListener('load',()=>{
