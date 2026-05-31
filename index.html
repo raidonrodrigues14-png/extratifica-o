@@ -540,7 +540,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
         <div class="g-grid-3" style="margin-bottom:.75rem">
           <div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div>
           <div class="g-campo"><label>Equipe ESF</label>
-            <select id="g-equipe"><option value="">Selecione</option><option>Equipe 1 - ESF Alto Alegre</option><option>Equipe 2 - ESF Alto Alegre</option></select>
+            <select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option></select>
           </div>
           <div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div>
         </div>
@@ -1069,8 +1069,8 @@ function fazerLogin(){
     document.getElementById('tela-login').style.display='none';
     document.getElementById('tela-portal').style.display='flex';
     document.getElementById('portal-usuario-info').innerHTML=' · '+user;
-    document.getElementById('portal-ubs-nome').innerText='UBS Alto Alegre';
-    document.getElementById('g-ubs').value='UBS Alto Alegre';
+    document.getElementById('portal-ubs-nome').innerText='UBS- Ozima Batista Bezerra Vieia';
+    document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
     document.getElementById('c-data').valueAsDate=new Date();
     cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
   }else{
@@ -1254,7 +1254,7 @@ function reiniciarGestante(){
   document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});
   document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);
   document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);
-  document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Alto Alegre';
+  document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='Ozima Batista Bezerra Vieira';
   gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);
 }
 
