@@ -789,25 +789,53 @@ async function salvarGestante(){
 
 async function carregarGestantes(){
   const tbody=document.getElementById('gestantesList');if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="6">Carregando...</td></tr>';
+  tbody.innerHTML='<tr><td colspan="7">Carregando...<\/td><\/tr>';
   try{
     const{data,error}=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma gestante cadastrada</td></tr>';return;}
+    if(!data||data.length===0){tbody.innerHTML='<td><td colspan="7">Nenhuma gestante cadastrada<\/td><\/tr>';return;}
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
-    tbody.innerHTML=data.map(g=>`<tr><td><strong>${g.nome||'—'}</strong></td><td>${g.cns||'—'}</td><td>${g.ubs||'—'}</td><td>${cm[g.risco_classificacao]||g.risco_classificacao}</td><td>${g.created_at?new Date(g.created_at).toLocaleDateString():'—'}</td><td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td></tr>`).join('');
-  }catch(err){tbody.innerHTML='<tr><td colspan="6">Erro ao carregar</td></tr>';}
+    tbody.innerHTML=data.map(g=>{
+      let dataRetorno = '—';
+      if(g.proxima_consulta){
+        const data = new Date(g.proxima_consulta + 'T12:00:00');
+        dataRetorno = data.toLocaleDateString('pt-BR');
+      }
+      return `<tr>
+        <td><strong>${g.nome||'—'}</strong><\/td>
+        <td>${g.cns||'—'}<\/td>
+        <td>${g.ubs||'—'}<\/td>
+        <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
+        <td>${dataRetorno}<\/td>
+        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir<\/button><\/td>
+      <\/tr>`;
+    }).join('');
+  }catch(err){tbody.innerHTML='<td><td colspan="7">Erro ao carregar<\/td><\/tr>';}
 }
 
 async function buscarGestantes(){
   const termo=document.getElementById('buscaGestante').value.trim();if(!termo){carregarGestantes();return;}
-  const tbody=document.getElementById('gestantesList');tbody.innerHTML='<tr><td colspan="6">Buscando...</td></tr>';
+  const tbody=document.getElementById('gestantesList');tbody.innerHTML='<tr><td colspan="7">Buscando...<\/td><\/tr>';
   try{
     const{data,error}=await supabaseClient.from('gestantes').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma gestante encontrada</td></tr>';return;}
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma gestante encontrada<\/td><\/tr>';return;}
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
-    tbody.innerHTML=data.map(g=>`<tr><td><strong>${g.nome||'—'}</strong></td><td>${g.cns||'—'}</td><td>${g.ubs||'—'}</td><td>${cm[g.risco_classificacao]||g.risco_classificacao}</td><td>${g.created_at?new Date(g.created_at).toLocaleDateString():'—'}</td><td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(g=>{
+      let dataRetorno = '—';
+      if(g.proxima_consulta){
+        const data = new Date(g.proxima_consulta + 'T12:00:00');
+        dataRetorno = data.toLocaleDateString('pt-BR');
+      }
+      return `<tr>
+        <td><strong>${g.nome||'—'}</strong><\/td>
+        <td>${g.cns||'—'}<\/td>
+        <td>${g.ubs||'—'}<\/td>
+        <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
+        <td>${dataRetorno}<\/td>
+        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir<\/button><\/td>
+      <\/tr>`;
+    }).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
