@@ -499,7 +499,93 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
   </div>
 <div class="gest-content" id="gpag-4" style="display:none"><div class="g-secao"><div class="g-secao-titulo t-preeclampsia">🔬 Fatores de Risco Associados à Pré-Eclâmpsia</div><div class="g-secao-corpo"><div class="preec-grid"><div class="preec-col alto"><div class="preec-col-header">⚠️ ALTO RISCO</div><div class="preec-item"><span class="preec-item-label">Histórico de Pré-Eclâmpsia com desfechos adversos</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_1" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_1" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Gestação Múltipla</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_2" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_2" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Obesidade (IMC &gt; 30)</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_3" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_3" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Hipertensão arterial crônica</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_4" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_4" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Diabetes tipo 1 ou 2</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_5" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_5" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Doença renal</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_6" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_6" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Doenças autoimunes</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_7" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_7" value="nao" checked> NÃO</label></div></div></div><div class="preec-col moderado"><div class="preec-col-header">📋 RISCO MODERADO</div><div class="preec-item"><span class="preec-item-label">Nuliparidade</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_8" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_8" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Histórico familiar de Pré-Eclâmpsia</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_9" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_9" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Baixo nível socioeconômico</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_10" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_10" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Etnia Afrodescendente</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_11" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_11" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Idade &gt; 35 anos</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_12" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_12" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Baixo peso ao nascer</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_13" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_13" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Gravidez prévia com desfecho adverso</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_14" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_14" value="nao" checked> NÃO</label></div></div><div class="preec-item"><span class="preec-item-label">Intervalo &gt; 10 anos desde última gestação</span><div class="preec-radio-group"><label class="sim"><input type="radio" name="pre_15" value="sim"> SIM</label><label class="nao"><input type="radio" name="pre_15" value="nao" checked> NÃO</label></div></div></div></div></div></div></div>
 
-<div id="gpag-resultado" style="display:none"><div class="resultado-container"><div class="resultado-header habitual" id="g-res-header"><div class="resultado-icone" id="g-res-icone">🟢</div><h2 id="g-res-titulo">Risco Habitual</h2><div class="resultado-sub" id="g-res-sub">Acompanhamento na Atenção Primária</div></div><div class="resultado-card"><div class="card-header"><span class="card-header-icon">👤</span><span class="card-header-title">Identificação da Gestante</span></div><div class="card-content"><div class="info-grid" id="info-grid-gestante"></div></div></div><div class="resultado-card"><div class="card-header"><span class="card-header-icon">⚠️</span><span class="card-header-title">Fatores de Risco Identificados</span></div><div class="card-content"><div id="go-alertas"></div></div></div><div class="resultado-card"><div class="card-header"><span class="card-header-icon">⚖️</span><span class="card-header-title">Avaliação Nutricional da Gestante</span></div><div class="card-content"><div class="info-grid" id="info-grid-imc"></div></div></div><div class="whatsapp-section"><div class="whatsapp-header"><div class="whatsapp-icon">📱</div><div><div class="whatsapp-title">Notificação via WhatsApp</div><div class="whatsapp-sub">Envie o resultado da estratificação para a gestante</div></div></div><div class="whatsapp-grid"><div><div class="whatsapp-campo"><label>📱 Telefone</label><input type="tel" id="g-wpp-cel" placeholder="98991234567" oninput="atualizarPreviewWppGestante()"></div><div class="whatsapp-campo"><label>📅 Próxima Consulta</label><input type="date" id="g-wpp-data" oninput="atualizarPreviewWppGestante()"></div><button class="whatsapp-btn" onclick="enviarWhatsAppGestante()">📲 Enviar WhatsApp</button></div><div class="whatsapp-preview"><div class="whatsapp-preview-header">💬 Prévia</div><div class="whatsapp-balao" id="g-wpp-msg"></div></div></div></div><div class="acao-buttons"><button class="btn-acao btn-salvar-resultado" onclick="salvarGestante()">💾 Salvar</button><button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button><button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button><button class="btn-acao btn-novo-resultado" onclick="reiniciarGestante()">↺ Nova</button><button class="btn-acao btn-portal-resultado" onclick="voltarPortal()">← Voltar</button></div><div style="margin-top:1.75rem"><div style="font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem">📋 Gestantes Registradas<button onclick="carregarGestantes()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button></div><div class="busca-wrap"><input type="text" class="busca-input" id="buscaGestante" placeholder="🔍 Buscar pelo nome..."><button class="busca-btn" onclick="buscarGestantes()">Buscar</button><button class="busca-btn" onclick="carregarGestantes()" style="background:var(--txt-3)">Limpar</button></div><div class="tabela-wrap"><table class="tbl"><thead><tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data</th><th>Ações</th></tr></thead><tbody id="gestantesList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody></table></div></div></div></div>
+<div id="gpag-resultado" style="display:none">
+  <div class="resultado-container">
+    <div class="resultado-header habitual" id="g-res-header">
+      <div class="resultado-icone" id="g-res-icone">🟢</div>
+      <h2 id="g-res-titulo">Risco Habitual</h2>
+      <div class="resultado-sub" id="g-res-sub">Acompanhamento na Atenção Primária</div>
+    </div>
+    
+    <div class="resultado-card">
+      <div class="card-header"><span class="card-header-icon">👤</span><span class="card-header-title">Identificação da Gestante</span></div>
+      <div class="card-content"><div class="info-grid" id="info-grid-gestante"></div></div>
+    </div>
+    
+    <div class="resultado-card">
+      <div class="card-header"><span class="card-header-icon">⚠️</span><span class="card-header-title">Fatores de Risco Identificados</span></div>
+      <div class="card-content"><div id="go-alertas"></div></div>
+    </div>
+    
+    <div class="resultado-card">
+      <div class="card-header"><span class="card-header-icon">⚖️</span><span class="card-header-title">Avaliação Nutricional da Gestante</span></div>
+      <div class="card-content"><div class="info-grid" id="info-grid-imc"></div></div>
+    </div>
+    
+    <!-- NOVO CARD: DATA DE RETORNO -->
+    <div class="resultado-card">
+      <div class="card-header"><span class="card-header-icon">📅</span><span class="card-header-title">Data de Retorno</span></div>
+      <div class="card-content">
+        <div class="info-item">
+          <div class="info-icon">📆</div>
+          <div class="info-col">
+            <div class="info-label">Próxima Consulta</div>
+            <div class="info-value" id="data-retorno-value">Não informada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIM DO CARD DATA DE RETORNO -->
+    
+    <div class="whatsapp-section">
+      <div class="whatsapp-header">
+        <div class="whatsapp-icon">📱</div>
+        <div><div class="whatsapp-title">Notificação via WhatsApp</div><div class="whatsapp-sub">Envie o resultado da estratificação para a gestante</div></div>
+      </div>
+      <div class="whatsapp-grid">
+        <div>
+          <div class="whatsapp-campo"><label>📱 Telefone</label><input type="tel" id="g-wpp-cel" placeholder="98991234567" oninput="atualizarPreviewWppGestante()"></div>
+          <div class="whatsapp-campo"><label>📅 Próxima Consulta</label><input type="date" id="g-wpp-data" oninput="atualizarPreviewWppGestante()"></div>
+          <button class="whatsapp-btn" onclick="enviarWhatsAppGestante()">📲 Enviar WhatsApp</button>
+        </div>
+        <div class="whatsapp-preview">
+          <div class="whatsapp-preview-header">💬 Prévia</div>
+          <div class="whatsapp-balao" id="g-wpp-msg"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="acao-buttons">
+      <button class="btn-acao btn-salvar-resultado" onclick="salvarGestante()">💾 Salvar</button>
+      <button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button>
+      <button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button>
+      <button class="btn-acao btn-novo-resultado" onclick="reiniciarGestante()">↺ Nova</button>
+      <button class="btn-acao btn-portal-resultado" onclick="voltarPortal()">← Voltar</button>
+    </div>
+    
+    <div style="margin-top:1.75rem">
+      <div style="font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem">
+        📋 Gestantes Registradas
+        <button onclick="carregarGestantes()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
+      </div>
+      <div class="busca-wrap">
+        <input type="text" class="busca-input" id="buscaGestante" placeholder="🔍 Buscar pelo nome...">
+        <button class="busca-btn" onclick="buscarGestantes()">Buscar</button>
+        <button class="busca-btn" onclick="carregarGestantes()" style="background:var(--txt-3)">Limpar</button>
+      </div>
+      <div class="tabela-wrap">
+        <table class="tbl">
+          <thead>
+            <tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data Retorno</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="gestantesList">
+            <tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="nav-bottom" id="gnav"><button class="btn btn-prev" id="g-btn-prev" onclick="gMudarPag(-1)" disabled>← Anterior</button><button class="btn btn-next-g" id="g-btn-next" onclick="gMudarPag(1)">Próximo →</button><button class="btn btn-calc-g" id="g-btn-calc" onclick="processarGestante()" style="display:none">🔍 Gerar Diagnóstico</button></div></div>
 
@@ -675,9 +761,30 @@ async function salvarGestante(){
   const nome=document.getElementById('g-nome').value.trim();
   if(!nome){showToast('Informe o nome!',true);return;}
   const raca=document.querySelector('input[name="graca"]:checked');
-  const data={nome,cns:document.getElementById('g-cns').value||null,cpf:document.getElementById('g-cpf').value||null,idade:parseInt(document.getElementById('g-idade').value)||null,data_nasc:document.getElementById('g-data_nasc').value||null,estado_civil:document.getElementById('g-estado_civil').value||null,raca_cor:raca?raca.value:null,dum:document.getElementById('g-dum').value||null,dpp:document.getElementById('g-dpp').value||null,gestacoes:parseInt(document.getElementById('g-gest').value)||1,abortos:parseInt(document.getElementById('g-abort').value)||0,partos_normais:parseInt(document.getElementById('g-pn').value)||0,partos_cesareos:parseInt(document.getElementById('g-pc').value)||0,ubs:document.getElementById('g-ubs').value||null,equipe_esf:document.getElementById('g-equipe').value||null,acs:document.getElementById('g-acs').value||null,telefone:document.getElementById('g-cel').value||null,risco_classificacao:gRiscoAtual,fatores_risco:gMarcados};
+  const data={
+    nome,cns:document.getElementById('g-cns').value||null,
+    cpf:document.getElementById('g-cpf').value||null,
+    idade:parseInt(document.getElementById('g-idade').value)||null,
+    data_nasc:document.getElementById('g-data_nasc').value||null,
+    estado_civil:document.getElementById('g-estado_civil').value||null,
+    raca_cor:raca?raca.value:null,
+    dum:document.getElementById('g-dum').value||null,
+    dpp:document.getElementById('g-dpp').value||null,
+    gestacoes:parseInt(document.getElementById('g-gest').value)||1,
+    abortos:parseInt(document.getElementById('g-abort').value)||0,
+    partos_normais:parseInt(document.getElementById('g-pn').value)||0,
+    partos_cesareos:parseInt(document.getElementById('g-pc').value)||0,
+    ubs:document.getElementById('g-ubs').value||null,
+    equipe_esf:document.getElementById('g-equipe').value||null,
+    acs:document.getElementById('g-acs').value||null,
+    telefone:document.getElementById('g-cel').value||null,
+    risco_classificacao:gRiscoAtual,
+    fatores_risco:gMarcados,
+    proxima_consulta: document.getElementById('g-wpp-data').value || null
+  };
   try{const{error}=await supabaseClient.from('gestantes').insert([data]);if(error)throw error;showToast('✅ Gestante salva!');carregarGestantes();}
   catch(err){showToast('❌ Erro: '+err.message,true);}
+
 }
 
 async function carregarGestantes(){
