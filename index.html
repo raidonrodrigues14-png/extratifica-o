@@ -273,6 +273,14 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .btn-nova{background:var(--surface);color:var(--txt-2);border:1.5px solid var(--border)}
 .btn-excluir{background:var(--verm-cl);color:var(--verm);border:1px solid #f0b0b0;padding:.28rem .65rem;font-size:.7rem;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all .2s}
 .btn-excluir:hover{background:var(--verm);color:white}
+.btn-ver{background:var(--menta-cl);color:var(--musgo-escuro);border:1px solid var(--menta);padding:.28rem .65rem;font-size:.7rem;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all .2s;margin-right:.3rem}
+.btn-ver:hover{background:var(--musgo);color:white}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.det-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.55rem .8rem}
+.det-label{display:block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-3);margin-bottom:.15rem}
+.det-valor{font-size:.85rem;font-weight:600;color:var(--txt-1)}
+.det-sub{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt-2);margin:.9rem 0 .5rem;padding-bottom:.3rem;border-bottom:1.5px solid var(--surface-2)}
+@media(max-width:640px){.det-grid{grid-template-columns:1fr}}
 .nav-bottom{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 16px rgba(0,0,0,.07);z-index:150;transition:transform .3s var(--ease)}
 .nav-bottom.hidden{transform:translateY(100%)}
 .tabela-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
@@ -1017,6 +1025,7 @@ async function carregarGestantes(){
     const{data,error}=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<td><td colspan="7">Nenhuma gestante cadastrada<\/td><\/tr>';return;}
+    data.forEach(g=>gestMap[g.id]=g);
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
     tbody.innerHTML=data.map(g=>{
       let dataRetorno = '—';
@@ -1030,7 +1039,7 @@ async function carregarGestantes(){
         <td>${g.ubs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
-        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir<\/button><\/td>
+        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
       <\/tr>`;
     }).join('');
   }catch(err){tbody.innerHTML='<td><td colspan="7">Erro ao carregar<\/td><\/tr>';}
@@ -1043,6 +1052,7 @@ async function buscarGestantes(){
     const{data,error}=await supabaseClient.from('gestantes').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma gestante encontrada<\/td><\/tr>';return;}
+    data.forEach(g=>gestMap[g.id]=g);
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
     tbody.innerHTML=data.map(g=>{
       let dataRetorno = '—';
@@ -1056,13 +1066,60 @@ async function buscarGestantes(){
         <td>${g.ubs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
-        <td><button class="btn-excluir" onclick="excluirGestante(${g.id})">🗑️ Excluir<\/button><\/td>
+        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
       <\/tr>`;
     }).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
 async function excluirGestante(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('gestantes').delete().eq('id',id);showToast('🗑️ Excluído');carregarGestantes();}catch(err){showToast('Erro',true);}}
+
+// ===== CRUD READ: ficha completa (todos os dados salvos) =====
+const gestMap={},criMap={};
+function fmtDataDet(d){if(!d)return '—';const s=String(d).substring(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return d;return s.split('-').reverse().join('/');}
+function detItem(label,valor){return '<div class="det-item"><span class="det-label">'+label+'</span><span class="det-valor">'+((valor===null||valor===undefined||valor==='')?'—':valor)+'</span></div>';}
+function detLista(titulo,arr){
+  let html='<div class="det-sub">'+titulo+'</div>';
+  if(!arr||!Array.isArray(arr)||arr.length===0)return html+'<div class="sem-fatores">✅ Nenhum fator registrado</div>';
+  return html+'<div class="fatores-lista">'+arr.map(f=>'<div class="fator-item"><span class="fator-icon">⚠️</span><span class="fator-texto">'+(typeof f==='string'?f:(f.label||JSON.stringify(f)))+'</span></div>').join('')+'</div>';
+}
+function abrirFicha(titulo,html){
+  document.getElementById('historico-titulo').textContent=titulo;
+  document.getElementById('historico-conteudo').innerHTML=html;
+  document.getElementById('modal-historico').classList.add('aberto');
+}
+function verGestante(id){
+  const g=gestMap[id];if(!g){showToast('Registro não encontrado',true);return;}
+  const cm={habitual:'🟢 Risco Habitual',vigilancia:'🟡 Habitual com Maior Vigilância',compartilhado:'🟠 Alto Risco Compartilhado',maternidade:'🔴 Alto Risco — Maternidade'};
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=detItem('Nome',g.nome)+detItem('CNS',g.cns)+detItem('CPF',g.cpf)+detItem('Idade',g.idade)+detItem('Data de Nascimento',fmtDataDet(g.data_nasc))+detItem('Estado Civil',g.estado_civil)+detItem('Raça/Cor',g.raca_cor)+detItem('Telefone (WhatsApp)',g.telefone);
+  html+='</div><div class="det-sub">🤰 Dados Obstétricos</div><div class="det-grid">';
+  html+=detItem('DUM',fmtDataDet(g.dum))+detItem('DPP',fmtDataDet(g.dpp))+detItem('Gestações (G)',g.gestacoes)+detItem('Abortos (A)',g.abortos)+detItem('Partos Normais',g.partos_normais)+detItem('Partos Cesáreos',g.partos_cesareos);
+  html+='</div><div class="det-sub">🏥 Vinculação APS</div><div class="det-grid">';
+  html+=detItem('UBS',g.ubs)+detItem('Equipe ESF',g.equipe_esf)+detItem('ACS',g.acs);
+  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
+  html+=detItem('Classificação',cm[g.risco_classificacao]||g.risco_classificacao)+detItem('Próxima Consulta',fmtDataDet(g.proxima_consulta))+detItem('Registrado em',fmtDataDet(g.created_at));
+  html+='</div>'+detLista('⚠️ Fatores de Risco Identificados',g.fatores_risco);
+  abrirFicha('🤰 Ficha Completa — '+(g.nome||'Gestante'),html);
+}
+function verCrianca(id){
+  const c=criMap[id];if(!c){showToast('Registro não encontrado',true);return;}
+  const cm={HABITUAL:'🟢 Risco Habitual',INTERMEDIARIO:'🟡 Risco Intermediário',ALTO:'🔴 Alto Risco'};
+  const pesoMap={adequado:'Adequado (2500g–4500g)',baixo:'Baixo peso (<2500g)',muito_baixo:'Muito baixo (<1500g)',extremo_baixo:'Extremo baixo (<1000g)',excessivo:'Excessivo (>4500g)'};
+  const igMap={termo_completo:'Termo completo (39–41 sem)',termo_precoce:'Termo precoce (37–38 sem)',pre_termo_tardio:'Pré-termo tardio (34–36 sem)',pre_termo_mod:'Pré-termo moderado (32–33 sem)',muito_prematuro:'Muito prematuro (28–31 sem)',extremo_prematuro:'Extremamente prematuro (<28 sem)',pos_termo:'Pós-termo (>42 sem)'};
+  let imc='—';const p=parseFloat(c.peso_atual),a=parseFloat(c.altura);
+  if(p&&a&&a>0)imc=(p/((a/100)*(a/100))).toFixed(2)+' kg/m²';
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=detItem('Criança',c.crianca)+detItem('Mãe',c.mae)+detItem('Telefone da Mãe',c.telefone)+detItem('CNS',c.cns)+detItem('UBS',c.ubs)+detItem('Data de Nascimento',fmtDataDet(c.nascimento))+detItem('Microárea',c.microarea)+detItem('ACS Responsável',c.acs)+detItem('Telefone do ACS',c.telefone_acs);
+  html+='</div><div class="det-sub">👶 Classificação ao Nascer</div><div class="det-grid">';
+  html+=detItem('Peso ao Nascer',pesoMap[c.peso_nascer]||c.peso_nascer)+detItem('Idade Gestacional',igMap[c.idade_gestacional]||c.idade_gestacional)+detItem('Proporcionalidade',c.proporcionalidade);
+  html+='</div><div class="det-sub">⚖️ Medidas Atuais</div><div class="det-grid">';
+  html+=detItem('Peso Atual (kg)',c.peso_atual)+detItem('Altura (cm)',c.altura)+detItem('IMC',imc);
+  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
+  html+=detItem('Risco',cm[c.risco]||c.risco)+detItem('Data de Retorno',fmtDataDet(c.data_retorno))+detItem('Status WhatsApp',c.wpp)+detItem('Registrado em',fmtDataDet(c.created_at));
+  html+='</div>'+detLista('🔴 Fatores de Alto Risco',c.fatores_alto)+detLista('🟡 Fatores de Risco Intermediário',c.fatores_inter);
+  abrirFicha('👶 Ficha Completa — '+(c.crianca||'Criança'),html);
+}
 
 function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);}
 function exportarExcelGestante(){showToast('📊 Exportação em breve');}
@@ -1132,8 +1189,9 @@ async function carregarCriancas(){
     const{data,error}=await supabaseClient.from('extratifica').select('*').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma criança cadastrada</td></tr>';return;}
+    data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="6">Erro ao carregar</td></tr>';}
 }
 
@@ -1144,8 +1202,9 @@ async function buscarCriancas(){
     const{data,error}=await supabaseClient.from('extratifica').select('*').ilike('crianca','%'+termo+'%').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma criança encontrada</td></tr>';return;}
+    data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
