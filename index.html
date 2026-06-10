@@ -280,6 +280,9 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .det-label{display:block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-3);margin-bottom:.15rem}
 .det-valor{font-size:.85rem;font-weight:600;color:var(--txt-1)}
 .det-sub{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt-2);margin:.9rem 0 .5rem;padding-bottom:.3rem;border-bottom:1.5px solid var(--surface-2)}
+.det-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.45rem .7rem;font-family:var(--font-body);font-size:.85rem;color:var(--txt-1);background:var(--creme);outline:none;margin-top:.15rem;transition:border-color .2s}
+.det-input:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(61,90,62,.1)}
+.det-btns{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.1rem;flex-wrap:wrap}
 @media(max-width:640px){.det-grid{grid-template-columns:1fr}}
 .nav-bottom{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 16px rgba(0,0,0,.07);z-index:150;transition:transform .3s var(--ease)}
 .nav-bottom.hidden{transform:translateY(100%)}
@@ -584,10 +587,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="tabela-wrap">
         <table class="tbl">
           <thead>
-            <tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>Classificação</th><th>Data Retorno</th><th>Ações</th></tr>
+            <tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>ACS</th><th>Classificação</th><th>Data Retorno</th><th>Ações</th></tr>
           </thead>
           <tbody id="gestantesList">
-            <tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr>
+            <tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr>
           </tbody>
         </table>
       </div>
@@ -813,8 +816,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
-              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
-              <tbody id="criancasList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
+              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
+              <tbody id="criancasList"><tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1037,6 +1040,7 @@ async function carregarGestantes(){
         <td><strong>${g.nome||'—'}</strong><\/td>
         <td>${g.cns||'—'}<\/td>
         <td>${g.ubs||'—'}<\/td>
+        <td>${g.acs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
         <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
@@ -1064,6 +1068,7 @@ async function buscarGestantes(){
         <td><strong>${g.nome||'—'}</strong><\/td>
         <td>${g.cns||'—'}<\/td>
         <td>${g.ubs||'—'}<\/td>
+        <td>${g.acs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
         <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
@@ -1100,6 +1105,7 @@ function verGestante(id){
   html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
   html+=detItem('Classificação',cm[g.risco_classificacao]||g.risco_classificacao)+detItem('Próxima Consulta',fmtDataDet(g.proxima_consulta))+detItem('Registrado em',fmtDataDet(g.created_at));
   html+='</div>'+detLista('⚠️ Fatores de Risco Identificados',g.fatores_risco);
+  html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarGestanteFicha(\''+id+'\')">✏️ Editar Dados</button></div>';
   abrirFicha('🤰 Ficha Completa — '+(g.nome||'Gestante'),html);
 }
 function verCrianca(id){
@@ -1118,7 +1124,74 @@ function verCrianca(id){
   html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
   html+=detItem('Risco',cm[c.risco]||c.risco)+detItem('Data de Retorno',fmtDataDet(c.data_retorno))+detItem('Status WhatsApp',c.wpp)+detItem('Registrado em',fmtDataDet(c.created_at));
   html+='</div>'+detLista('🔴 Fatores de Alto Risco',c.fatores_alto)+detLista('🟡 Fatores de Risco Intermediário',c.fatores_inter);
+  html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarCriancaFicha('+id+')">✏️ Editar Dados</button></div>';
   abrirFicha('👶 Ficha Completa — '+(c.crianca||'Criança'),html);
+}
+
+// ===== CRUD UPDATE: editar dados da ficha (sem nova estratificação) =====
+function escAttr(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function editItem(label,id,valor,type){return '<div class="det-item"><span class="det-label">'+label+'</span><input class="det-input" type="'+(type||'text')+'" id="'+id+'" value="'+escAttr(valor)+'"'+(type==='number'?' step="any"':'')+'></div>';}
+function editSelect(label,id,valor,opcoes){
+  const opts=Object.keys(opcoes).map(k=>'<option value="'+escAttr(k)+'"'+(k==valor?' selected':'')+'>'+opcoes[k]+'</option>').join('');
+  return '<div class="det-item"><span class="det-label">'+label+'</span><select class="det-input" id="'+id+'">'+opts+'</select></div>';
+}
+function dataISO(d){if(!d)return '';const s=String(d).substring(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(s)?s:'';}
+function editarGestanteFicha(id){
+  const g=gestMap[id];if(!g){showToast('Registro não encontrado',true);return;}
+  const classifOpc={habitual:'🟢 Risco Habitual',vigilancia:'🟡 Habitual com Maior Vigilância',compartilhado:'🟠 Alto Risco Compartilhado',maternidade:'🔴 Alto Risco — Maternidade'};
+  const racaOpc={'':'— Não informado —',Branca:'Branca',Preta:'Preta',Parda:'Parda',Amarela:'Amarela','Indígena':'Indígena'};
+  const civilOpc={'':'— Não informado —',Solteira:'Solteira',Casada:'Casada','União Estável':'União Estável',Outro:'Outro'};
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=editItem('Nome','ge-nome',g.nome)+editItem('CNS','ge-cns',g.cns)+editItem('CPF','ge-cpf',g.cpf)+editItem('Idade','ge-idade',g.idade,'number')+editItem('Data de Nascimento','ge-data_nasc',dataISO(g.data_nasc),'date')+editSelect('Estado Civil','ge-estado_civil',g.estado_civil||'',civilOpc)+editSelect('Raça/Cor','ge-raca',g.raca_cor||'',racaOpc)+editItem('Telefone (WhatsApp)','ge-telefone',g.telefone,'tel');
+  html+='</div><div class="det-sub">🤰 Dados Obstétricos</div><div class="det-grid">';
+  html+=editItem('DUM','ge-dum',dataISO(g.dum),'date')+editItem('DPP','ge-dpp',dataISO(g.dpp),'date')+editItem('Gestações (G)','ge-gest',g.gestacoes,'number')+editItem('Abortos (A)','ge-abort',g.abortos,'number')+editItem('Partos Normais','ge-pn',g.partos_normais,'number')+editItem('Partos Cesáreos','ge-pc',g.partos_cesareos,'number');
+  html+='</div><div class="det-sub">🏥 Vinculação APS</div><div class="det-grid">';
+  html+=editItem('UBS','ge-ubs',g.ubs)+editItem('Equipe ESF','ge-equipe',g.equipe_esf)+editItem('ACS','ge-acs',g.acs);
+  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
+  html+=editSelect('Classificação','ge-classif',g.risco_classificacao||'habitual',classifOpc)+editItem('Próxima Consulta','ge-proxima',dataISO(g.proxima_consulta),'date');
+  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ Os fatores de risco não são editáveis aqui. Para reavaliá-los, realize uma nova estratificação.</p>';
+  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verGestante(\''+id+'\')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaGestante(\''+id+'\')">💾 Salvar Alterações</button></div>';
+  abrirFicha('✏️ Editar Ficha — '+(g.nome||'Gestante'),html);
+}
+async function salvarFichaGestante(id){
+  const v=i=>document.getElementById(i).value.trim();
+  const dados={nome:v('ge-nome')||null,cns:v('ge-cns')||null,cpf:v('ge-cpf')||null,idade:parseInt(v('ge-idade'))||null,data_nasc:v('ge-data_nasc')||null,estado_civil:v('ge-estado_civil')||null,raca_cor:v('ge-raca')||null,telefone:v('ge-telefone')||null,dum:v('ge-dum')||null,dpp:v('ge-dpp')||null,gestacoes:parseInt(v('ge-gest'))||0,abortos:parseInt(v('ge-abort'))||0,partos_normais:parseInt(v('ge-pn'))||0,partos_cesareos:parseInt(v('ge-pc'))||0,ubs:v('ge-ubs')||null,equipe_esf:v('ge-equipe')||null,acs:v('ge-acs')||null,risco_classificacao:v('ge-classif'),proxima_consulta:v('ge-proxima')||null};
+  if(!dados.nome){showToast('Informe o nome!',true);return;}
+  try{
+    const{error}=await supabaseClient.from('gestantes').update(dados).eq('id',id);
+    if(error)throw error;
+    Object.assign(gestMap[id],dados);
+    showToast('✅ Dados atualizados!');fecharHistorico();carregarGestantes();
+  }catch(err){showToast('❌ Erro: '+err.message,true);}
+}
+function editarCriancaFicha(id){
+  const c=criMap[id];if(!c){showToast('Registro não encontrado',true);return;}
+  const riscoOpc={HABITUAL:'🟢 Risco Habitual',INTERMEDIARIO:'🟡 Risco Intermediário',ALTO:'🔴 Alto Risco'};
+  const pesoOpc={adequado:'Adequado (2500g–4500g)',baixo:'Baixo peso (<2500g)',muito_baixo:'Muito baixo (<1500g)',extremo_baixo:'Extremo baixo (<1000g)',excessivo:'Excessivo (>4500g)'};
+  const igOpc={termo_completo:'Termo completo (39–41 sem)',termo_precoce:'Termo precoce (37–38 sem)',pre_termo_tardio:'Pré-termo tardio (34–36 sem)',pre_termo_mod:'Pré-termo moderado (32–33 sem)',muito_prematuro:'Muito prematuro (28–31 sem)',extremo_prematuro:'Extremamente prematuro (<28 sem)',pos_termo:'Pós-termo (>42 sem)'};
+  const propOpc={AIG:'Adequado para IG (AIG)',PIG:'Pequeno para IG (PIG)',GIG:'Grande para IG (GIG)','simétrico':'Crescimento simétrico','assimétrico':'Crescimento assimétrico'};
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=editItem('Criança','ce-crianca',c.crianca)+editItem('Mãe','ce-mae',c.mae)+editItem('Telefone da Mãe','ce-telefone',c.telefone,'tel')+editItem('CNS','ce-cns',c.cns)+editItem('UBS','ce-ubs',c.ubs)+editItem('Data de Nascimento','ce-nasc',dataISO(c.nascimento),'date')+editItem('Microárea','ce-microarea',c.microarea)+editItem('ACS Responsável','ce-acs',c.acs)+editItem('Telefone do ACS','ce-telacs',c.telefone_acs,'tel');
+  html+='</div><div class="det-sub">👶 Classificação ao Nascer</div><div class="det-grid">';
+  html+=editSelect('Peso ao Nascer','ce-peso-nascer',c.peso_nascer||'adequado',pesoOpc)+editSelect('Idade Gestacional','ce-ig',c.idade_gestacional||'termo_completo',igOpc)+editSelect('Proporcionalidade','ce-prop',c.proporcionalidade||'AIG',propOpc);
+  html+='</div><div class="det-sub">⚖️ Medidas Atuais</div><div class="det-grid">';
+  html+=editItem('Peso Atual (kg)','ce-peso-atual',c.peso_atual,'number')+editItem('Altura (cm)','ce-altura',c.altura,'number');
+  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
+  html+=editSelect('Risco','ce-risco',c.risco||'HABITUAL',riscoOpc)+editItem('Data de Retorno','ce-retorno',dataISO(c.data_retorno),'date');
+  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ Os fatores de risco não são editáveis aqui. Para reavaliá-los, realize uma nova estratificação.</p>';
+  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verCrianca('+id+')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaCrianca('+id+')">💾 Salvar Alterações</button></div>';
+  abrirFicha('✏️ Editar Ficha — '+(c.crianca||'Criança'),html);
+}
+async function salvarFichaCrianca(id){
+  const v=i=>document.getElementById(i).value.trim();
+  const dados={crianca:v('ce-crianca')||null,mae:v('ce-mae')||null,telefone:v('ce-telefone')||null,cns:v('ce-cns')||null,ubs:v('ce-ubs')||null,nascimento:v('ce-nasc')||null,microarea:v('ce-microarea')||null,acs:v('ce-acs')||null,telefone_acs:v('ce-telacs')||null,peso_atual:v('ce-peso-atual')||null,altura:v('ce-altura')||null,peso_nascer:v('ce-peso-nascer'),idade_gestacional:v('ce-ig'),proporcionalidade:v('ce-prop'),risco:v('ce-risco'),data_retorno:v('ce-retorno')||null};
+  if(!dados.crianca||!dados.mae){showToast('Informe nome da criança e da mãe!',true);return;}
+  try{
+    const{error}=await supabaseClient.from('extratifica').update(dados).eq('id',id);
+    if(error)throw error;
+    Object.assign(criMap[id],dados);
+    showToast('✅ Dados atualizados!');fecharHistorico();carregarCriancas();
+  }catch(err){showToast('❌ Erro: '+err.message,true);}
 }
 
 function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);}
@@ -1184,27 +1257,27 @@ async function salvarCrianca(){
 
 async function carregarCriancas(){
   const tbody=document.getElementById('criancasList');if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="6">Carregando...</td></tr>';
+  tbody.innerHTML='<tr><td colspan="7">Carregando...</td></tr>';
   try{
     const{data,error}=await supabaseClient.from('extratifica').select('*').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma criança cadastrada</td></tr>';return;}
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança cadastrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
-  }catch(err){tbody.innerHTML='<tr><td colspan="6">Erro ao carregar</td></tr>';}
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
 }
 
 async function buscarCriancas(){
   const termo=document.getElementById('buscaCrianca').value.trim();if(!termo){carregarCriancas();return;}
-  const tbody=document.getElementById('criancasList');tbody.innerHTML='<tr><td colspan="6">Buscando...</td></tr>';
+  const tbody=document.getElementById('criancasList');tbody.innerHTML='<tr><td colspan="7">Buscando...</td></tr>';
   try{
     const{data,error}=await supabaseClient.from('extratifica').select('*').ilike('crianca','%'+termo+'%').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="6">Nenhuma criança encontrada</td></tr>';return;}
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança encontrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
