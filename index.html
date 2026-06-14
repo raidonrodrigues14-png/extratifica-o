@@ -952,6 +952,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <label class="b-risco-radio b-baixo"><input type="radio" name="b-risco" value="Baixo Risco" onchange="bAtualizarPainel()"> 🟢 Baixo Risco</label>
           <label class="b-risco-radio b-mod"><input type="radio" name="b-risco" value="Risco Moderado" onchange="bAtualizarPainel()"> 🟡 Risco Moderado</label>
           <label class="b-risco-radio b-alto"><input type="radio" name="b-risco" value="Alto Risco" onchange="bAtualizarPainel()"> 🔴 Alto Risco</label>
+          <small style="display:block;width:100%;margin-top:.35rem;font-size:.72rem;color:var(--txt-3);font-style:italic">⚡ Calculado automaticamente conforme as respostas das seções 1–3. Pode ser ajustado manualmente.</small>
         </div>
         <div id="b-painel" style="display:none;border-radius:12px;padding:1rem 1.25rem;font-weight:700;font-size:1rem;margin-bottom:1rem;transition:all .3s"></div>
         <table class="b-risco-table">
@@ -1531,15 +1532,56 @@ document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter'
 
 // ===== SAÚDE BUCAL =====
 function bGetRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
-function bAtualizarPainel(){
+
+function bCalcular(){
+  const r=name=>bGetRadio(name);
+  const sim=name=>r(name)==='Sim';
+  const nao=name=>r(name)==='Não';
+
+  // Verifica se há respostas suficientes (mínimo 3)
+  const campos=['b-escova','b-fio','b-acucar','b-fluor-creme','b-agua-fluor','b-carie-ult','b-perdeu-dente','b-restauracoes','b-dor','b-placa','b-sangramento','b-lesoes-carie','b-manchas','b-calculo'];
+  const respondidos=campos.filter(n=>r(n)!=='').length;
+  if(respondidos<3)return;
+
+  // ===== CRITÉRIOS ALTO RISCO =====
+  const criteriosAlto=[];
+  if(sim('b-sangramento'))criteriosAlto.push('Sangramento gengival');
+  if(sim('b-perdeu-dente'))criteriosAlto.push('Perda dentária por cárie');
+  if(sim('b-dor')&&sim('b-lesoes-carie'))criteriosAlto.push('Dor dentária + lesões de cárie ativas');
+  if(sim('b-carie-ult')&&sim('b-lesoes-carie'))criteriosAlto.push('Múltiplas lesões de cárie ativas');
+  if(sim('b-calculo')&&sim('b-placa'))criteriosAlto.push('Grande acúmulo de placa e cálculo');
+
+  // ===== CRITÉRIOS RISCO MODERADO =====
+  const criteriosMod=[];
+  if(sim('b-placa'))criteriosMod.push('Presença de placa bacteriana');
+  if(sim('b-manchas'))criteriosMod.push('Manchas brancas (lesões iniciais de cárie)');
+  if(sim('b-lesoes-carie'))criteriosMod.push('Lesões de cárie');
+  if(sim('b-restauracoes'))criteriosMod.push('Restaurações dentárias existentes');
+  if(nao('b-escova'))criteriosMod.push('Higiene bucal irregular (não escova 2x/dia)');
+  if(nao('b-fio'))criteriosMod.push('Não utiliza fio dental');
+  if(sim('b-acucar'))criteriosMod.push('Consumo frequente de açúcar');
+  if(sim('b-carie-ult')&&criteriosAlto.length===0)criteriosMod.push('Cárie no último ano');
+
+  let risco,criterios;
+  if(criteriosAlto.length>0){risco='Alto Risco';criterios=criteriosAlto;}
+  else if(criteriosMod.length>0){risco='Risco Moderado';criterios=criteriosMod;}
+  else{risco='Baixo Risco';criterios=['Ausência de fatores de risco identificados'];}
+
+  // Seleciona o radio button correspondente
+  const radio=document.querySelector(`input[name="b-risco"][value="${risco}"]`);
+  if(radio)radio.checked=true;
+  bAtualizarPainel(criterios);
+}
+
+function bAtualizarPainel(criterios){
   const risco=bGetRadio('b-risco');
   const painel=document.getElementById('b-painel');
   if(!risco){painel.style.display='none';return;}
-  painel.style.display='flex';painel.style.alignItems='center';painel.style.gap='1rem';
   const cfgs={'Baixo Risco':{bg:'#e8f5e9',border:'#4caf50',color:'#2e7d32',icon:'🟢',txt:'BAIXO RISCO'},'Risco Moderado':{bg:'#fff8e1',border:'#ffc107',color:'#f57f17',icon:'🟡',txt:'RISCO MODERADO'},'Alto Risco':{bg:'#ffebee',border:'#ef5350',color:'#c62828',icon:'🔴',txt:'ALTO RISCO'}};
   const cfg=cfgs[risco];
-  painel.style.background=cfg.bg;painel.style.border='2px solid '+cfg.border;painel.style.borderRadius='12px';painel.style.padding='1rem 1.25rem';painel.style.color=cfg.color;
-  painel.innerHTML=`<span style="font-size:1.8rem">${cfg.icon}</span><span style="font-weight:700;font-size:1rem">${cfg.txt}</span>`;
+  painel.style.cssText=`display:block;background:${cfg.bg};border:2px solid ${cfg.border};border-radius:12px;padding:1rem 1.25rem;color:${cfg.color};transition:all .3s`;
+  const lista=criterios&&criterios.length?`<ul style="margin:.5rem 0 0 1.2rem;font-size:.8rem;font-weight:400;opacity:.85">${criterios.map(c=>`<li>${c}</li>`).join('')}</ul>`:'';
+  painel.innerHTML=`<div style="display:flex;align-items:center;gap:.75rem"><span style="font-size:1.8rem">${cfg.icon}</span><div><div style="font-weight:700;font-size:1rem">${cfg.txt}</div><div style="font-size:.75rem;font-weight:400;opacity:.8;margin-top:.1rem">Classificação automática baseada nas respostas</div></div></div>${lista}`;
 }
 function preencherUbsBucal(){
   const ubsEl=document.getElementById('login-user');
@@ -1638,6 +1680,8 @@ window.addEventListener('load',()=>{
   document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
   document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
   document.getElementById('b-data-avaliacao').valueAsDate=new Date();
+  const nomesBucal=['b-escova','b-fio','b-acucar','b-fluor-creme','b-agua-fluor','b-carie-ult','b-perdeu-dente','b-restauracoes','b-dor','b-placa','b-sangramento','b-lesoes-carie','b-manchas','b-calculo'];
+  nomesBucal.forEach(name=>{document.querySelectorAll(`input[name="${name}"]`).forEach(el=>el.addEventListener('change',bCalcular));});
   
   const socialItens=['Baixo nível socioeconômico','Condições de trabalho desfavoráveis','Violência','Situação conjugal insegura','Insuficiência de apoio familiar','Autocuidado insuficiente','Não aceitação da gestação','Baixa escolaridade (<5 anos)','Tabagismo','Medicamentos teratogênicos','IMC <18,5 ou ≥30-39','Gestante em situação de rua/indígena','Mulher preta','Outras condições menor complexidade'];
   const reproItens=['Alterações crescimento intrauterino','Malformação fetal','Nuliparidade ou multiparidade (≥5)','Diabetes gestacional','Síndromes hemorrágicas/hipertensivas','Cesariana prévia incisão clássica','Cesárias (2 ou mais)','Intervalo interpartal <2 anos'];
