@@ -1627,6 +1627,44 @@ function verGestante(id){
   html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarGestanteFicha(\''+id+'\')">✏️ Editar Dados</button></div>';
   abrirFicha('🤰 Ficha Completa — '+(g.nome||'Gestante'),html);
 }
+async function verHistoricoCrianca(nomeCrianca){
+  abrirFicha('📋 Histórico — '+nomeCrianca,'<div style="text-align:center;padding:2rem;color:var(--txt-3)">Carregando histórico...</div>');
+  const{data,error}=await supabaseClient.from('extratifica').select('*').ilike('crianca',nomeCrianca).order('created_at',{ascending:false});
+  if(error||!data||!data.length){
+    document.getElementById('historico-conteudo').innerHTML='<div style="text-align:center;padding:2rem;color:var(--txt-3)">Nenhum registro encontrado para esta criança.</div>';
+    return;
+  }
+  const cm={HABITUAL:{label:'🟢 Risco Habitual',bg:'#e8f5e9',cor:'#2e7d32'},INTERMEDIARIO:{label:'🟡 Risco Intermediário',bg:'#fff8e1',cor:'#f57f17'},ALTO:{label:'🔴 Alto Risco',bg:'#ffebee',cor:'#c62828'}};
+  const pesoMap={adequado:'Adequado (2500g–4500g)',baixo:'Baixo peso (<2500g)',muito_baixo:'Muito baixo (<1500g)',extremo_baixo:'Extremo baixo (<1000g)',excessivo:'Excessivo (>4500g)'};
+  let html=`<div style="font-size:.8rem;color:var(--txt-3);margin-bottom:1.25rem">📊 <strong>${data.length}</strong> atendimento(s) registrado(s) para <strong>${nomeCrianca}</strong> — mais recente primeiro.</div>`;
+  data.forEach((c,i)=>{
+    const r=cm[c.risco]||{label:c.risco||'—',bg:'#f5f5f5',cor:'#333'};
+    const dt=c.created_at?new Date(c.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+    const retorno=c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—';
+    let imc='—';const p=parseFloat(c.peso_atual),a=parseFloat(c.altura);
+    if(p&&a&&a>0)imc=(p/((a/100)*(a/100))).toFixed(2)+' kg/m²';
+    const fatoresAlto=Array.isArray(c.fatores_alto)&&c.fatores_alto.length?c.fatores_alto.map(f=>`<span style="display:inline-block;background:#ffebee;color:#c62828;padding:.15rem .5rem;border-radius:20px;font-size:.72rem;margin:.15rem">${typeof f==='string'?f:(f.label||'')}</span>`).join(''):'<em style="color:var(--txt-3)">Nenhum</em>';
+    const fatoresInter=Array.isArray(c.fatores_inter)&&c.fatores_inter.length?c.fatores_inter.map(f=>`<span style="display:inline-block;background:#fff8e1;color:#f57f17;padding:.15rem .5rem;border-radius:20px;font-size:.72rem;margin:.15rem">${typeof f==='string'?f:(f.label||'')}</span>`).join(''):'<em style="color:var(--txt-3)">Nenhum</em>';
+    html+=`<div style="border:2px solid ${r.bg==='#f5f5f5'?'var(--border)':r.bg};border-left:5px solid ${r.cor};border-radius:12px;margin-bottom:1rem;overflow:hidden">
+      <div style="background:${r.bg};padding:.65rem 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+        <div style="font-weight:800;color:${r.cor};font-size:.9rem">${i===0?'🔵 Mais Recente — ':''}Atendimento ${data.length-i} · ${r.label}</div>
+        <div style="font-size:.75rem;color:${r.cor};opacity:.85">📅 Registrado: ${dt}</div>
+      </div>
+      <div style="padding:.85rem 1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem .75rem;font-size:.8rem">
+        ${detItem('Peso Atual',c.peso_atual?c.peso_atual+' kg':'—')}${detItem('Altura',c.altura?c.altura+' cm':'—')}${detItem('IMC',imc)}
+        ${detItem('Peso ao Nascer',pesoMap[c.peso_nascer]||c.peso_nascer||'—')}${detItem('ACS',c.acs||'—')}${detItem('Retorno Agendado',retorno)}
+      </div>
+      <div style="padding:0 1rem .85rem">
+        <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem">🔴 FATORES ALTO RISCO</div><div>${fatoresAlto}</div>
+        <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin:.5rem 0 .3rem">🟡 FATORES RISCO INTERMEDIÁRIO</div><div>${fatoresInter}</div>
+      </div>
+      <div style="padding:0 1rem .75rem;text-align:right">
+        <button class="btn-ver" onclick="verCrianca(${c.id})" style="font-size:.75rem">👁️ Ficha Completa</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('historico-conteudo').innerHTML=html;
+}
 function verCrianca(id){
   const c=criMap[id];if(!c){showToast('Registro não encontrado',true);return;}
   const cm={HABITUAL:'🟢 Risco Habitual',INTERMEDIARIO:'🟡 Risco Intermediário',ALTO:'🔴 Alto Risco'};
@@ -1783,7 +1821,7 @@ async function carregarCriancas(){
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança cadastrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
 }
 
@@ -1796,7 +1834,7 @@ async function buscarCriancas(){
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança encontrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
@@ -2155,7 +2193,8 @@ function reiniciarHasDm(){
   document.querySelectorAll('#modulo-hasdm input[type=text],#modulo-hasdm input[type=number],#modulo-hasdm input[type=date]').forEach(el=>el.value='');
   document.querySelectorAll('#modulo-hasdm input[type=radio],#modulo-hasdm input[type=checkbox]').forEach(el=>el.checked=false);
   document.querySelectorAll('#modulo-hasdm select').forEach(el=>el.selectedIndex=0);
-  document.getElementById('h-obs').value='';
+  document.querySelectorAll('#modulo-hasdm textarea').forEach(el=>el.value='');
+  const buscaH=document.getElementById('buscaHasDm');if(buscaH)buscaH.value='';
   document.getElementById('h-painel').style.display='none';
   document.getElementById('h-plano').style.display='none';
   document.getElementById('h-erg-result').style.display='none';
@@ -2233,7 +2272,7 @@ async function carregarHasDm(){
       <td>${r.acs||''}</td>
       <td><span style="background:${bg};color:${txt};padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:700">${r.risco_estratificado||''}</span></td>
       <td>${dt}</td>
-      <td><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td>
+      <td><button onclick="verHasDm('${r.id}')" style="background:#37474f;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">👁️</button><button onclick="verHistoricoHasDm(${JSON.stringify(r.nome||'').replace(/"/g,'&quot;')})" style="background:#6a1b9a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">📋</button><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td>
     </tr>`;
   }).join('');
 }
@@ -2250,7 +2289,7 @@ async function buscarHasDm(){
   tbody.innerHTML=data.map(r=>{
     const [bg,txt]=(coresRisco[r.risco_estratificado]||'#f5f5f5|#333').split('|');
     const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR'):'';
-    return `<tr><td style="font-weight:700">${r.nome||''}</td><td>${r.diagnostico||''}</td><td>${r.acs||''}</td><td><span style="background:${bg};color:${txt};padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:700">${r.risco_estratificado||''}</span></td><td>${dt}</td><td><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td></tr>`;
+    return `<tr><td style="font-weight:700">${r.nome||''}</td><td>${r.diagnostico||''}</td><td>${r.acs||''}</td><td><span style="background:${bg};color:${txt};padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:700">${r.risco_estratificado||''}</span></td><td>${dt}</td><td><button onclick="verHasDm('${r.id}')" style="background:#37474f;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">👁️</button><button onclick="verHistoricoHasDm(${JSON.stringify(r.nome||'').replace(/"/g,'&quot;')})" style="background:#6a1b9a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">📋</button><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td></tr>`;
   }).join('');
 }
 
@@ -2294,6 +2333,79 @@ async function editarHasDm(id){
   hMostrarPlano();
   document.getElementById('h-nome').scrollIntoView({behavior:'smooth'});
   showToast('Registro carregado para edição!');
+}
+
+async function verHasDm(id){
+  const{data:r,error}=await supabaseClient.from('hasdm').select('*').eq('id',id).single();
+  if(error||!r){showToast('Erro ao carregar registro!',true);return;}
+  const cR={'Baixo Risco':{label:'🟢 Baixo Risco — APS',bg:'#e8f5e9',cor:'#2e7d32'},'Risco Médio':{label:'🟡 Risco Médio — APS',bg:'#fff8e1',cor:'#f57f17'},'Alto Risco':{label:'🔴 Alto Risco — AAE',bg:'#ffebee',cor:'#c62828'},'Muito Alto Risco':{label:'🟣 Muito Alto Risco — AAE',bg:'#fce4ec',cor:'#880e4f'}};
+  const rk=cR[r.risco_estratificado]||{label:r.risco_estratificado||'—',bg:'#f5f5f5',cor:'#333'};
+  const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+  let html=`<div style="background:${rk.bg};border:2px solid ${rk.cor};border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1rem;font-size:1rem;font-weight:800;color:${rk.cor}">${rk.label}</div>`;
+  html+='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=detItem('Nome',r.nome)+detItem('CNS',r.cns)+detItem('CPF',r.cpf)+detItem('Data de Nascimento',r.data_nasc?r.data_nasc.split('-').reverse().join('/'):'—')+detItem('Idade',r.idade?r.idade+' anos':'—')+detItem('Sexo',r.sexo||'—')+detItem('Estado Civil',r.estado_civil||'—')+detItem('Escolaridade',r.escolaridade||'—');
+  html+='</div><div class="det-sub">📍 Vínculo APS</div><div class="det-grid">';
+  html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico);
+  html+='</div><div class="det-sub">🩺 Dados Clínicos</div><div class="det-grid">';
+  html+=detItem('PAS',r.pas?r.pas+' mmHg':'—')+detItem('PAD',r.pad?r.pad+' mmHg':'—')+detItem('Colesterol Total',r.colesterol?r.colesterol+' mg/dL':'—')+detItem('HDL-c',r.hdl?r.hdl+' mg/dL':'—')+detItem('LDL-c',r.ldl?r.ldl+' mg/dL':'—')+detItem('Triglicerídeos',r.triglicerideos?r.triglicerideos+' mg/dL':'—')+detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')+detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')+detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')+detItem('TFG',r.tfg?r.tfg+' mL/min':'—')+detItem('IMC',r.imc?r.imc+' kg/m²':'—')+detItem('Fumante',r.fumante||'—')+detItem('ECG',r.ecg||'—');
+  html+='</div><div class="det-sub">📊 ERG — Framingham</div><div class="det-grid">';
+  html+=detItem('Pontuação ERG',r.erg_score||'—')+detItem('Risco CVD em 10 anos',r.erg_pct||'—');
+  html+='</div>';
+  if(r.estratificadores_risco&&r.estratificadores_risco.length){
+    html+='<div class="det-sub">⚠️ Estratificadores de Risco (ER)</div><div style="display:flex;flex-wrap:wrap;gap:.35rem;padding:.5rem 0 .75rem">';
+    html+=r.estratificadores_risco.map(e=>`<span style="background:#e8eaf6;color:#283593;padding:.2rem .65rem;border-radius:20px;font-size:.75rem">${e}</span>`).join('');
+    html+='</div>';
+  }
+  if(r.dasc&&r.dasc.length){
+    html+='<div class="det-sub">🔬 DASC</div><div style="display:flex;flex-wrap:wrap;gap:.35rem;padding:.5rem 0 .75rem">';
+    html+=r.dasc.map(e=>`<span style="background:#f3e5f5;color:#4a148c;padding:.2rem .65rem;border-radius:20px;font-size:.75rem">${e}</span>`).join('');
+    html+='</div>';
+  }
+  if(r.eventos_clinicos&&r.eventos_clinicos.length){
+    html+='<div class="det-sub">🚨 Eventos Clínicos</div><div style="display:flex;flex-wrap:wrap;gap:.35rem;padding:.5rem 0 .75rem">';
+    html+=r.eventos_clinicos.map(e=>`<span style="background:#ffebee;color:#c62828;padding:.2rem .65rem;border-radius:20px;font-size:.75rem">${e}</span>`).join('');
+    html+='</div>';
+  }
+  if(r.observacoes)html+='<div class="det-sub">📝 Observações</div><div style="font-size:.85rem;color:var(--txt-2);padding:.5rem 0 .75rem;white-space:pre-wrap">'+r.observacoes+'</div>';
+  html+=detItem('Registrado em',dt);
+  html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarHasDm(\''+id+'\');fecharHistorico()">✏️ Editar</button></div>';
+  abrirFicha('❤️‍🩹 Ficha HAS/DM — '+(r.nome||'Paciente'),html);
+}
+
+async function verHistoricoHasDm(nomePaciente){
+  abrirFicha('📋 Histórico HAS/DM — '+nomePaciente,'<div style="text-align:center;padding:2rem;color:var(--txt-3)">Carregando histórico...</div>');
+  const{data,error}=await supabaseClient.from('hasdm').select('*').ilike('nome',nomePaciente).order('created_at',{ascending:false});
+  if(error||!data||!data.length){
+    document.getElementById('historico-conteudo').innerHTML='<div style="text-align:center;padding:2rem;color:var(--txt-3)">Nenhum registro encontrado para este paciente.</div>';
+    return;
+  }
+  const cR={'Baixo Risco':{label:'🟢 Baixo Risco — APS',bg:'#e8f5e9',cor:'#2e7d32'},'Risco Médio':{label:'🟡 Risco Médio — APS',bg:'#fff8e1',cor:'#f57f17'},'Alto Risco':{label:'🔴 Alto Risco — AAE',bg:'#ffebee',cor:'#c62828'},'Muito Alto Risco':{label:'🟣 Muito Alto Risco — AAE',bg:'#fce4ec',cor:'#880e4f'}};
+  let html=`<div style="font-size:.8rem;color:var(--txt-3);margin-bottom:1.25rem">📊 <strong>${data.length}</strong> atendimento(s) registrado(s) — mais recente primeiro.</div>`;
+  data.forEach((r,i)=>{
+    const rk=cR[r.risco_estratificado]||{label:r.risco_estratificado||'—',bg:'#f5f5f5',cor:'#333'};
+    const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+    const erList=Array.isArray(r.estratificadores_risco)&&r.estratificadores_risco.length?r.estratificadores_risco.map(e=>`<span style="display:inline-block;background:#e8eaf6;color:#283593;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;margin:.1rem">${e}</span>`).join(''):'<em style="color:var(--txt-3);font-size:.75rem">Nenhum</em>';
+    const evList=Array.isArray(r.eventos_clinicos)&&r.eventos_clinicos.length?r.eventos_clinicos.map(e=>`<span style="display:inline-block;background:#ffebee;color:#c62828;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;margin:.1rem">${e}</span>`).join(''):'<em style="color:var(--txt-3);font-size:.75rem">Nenhum</em>';
+    html+=`<div style="border:2px solid ${rk.bg==='#f5f5f5'?'var(--border)':rk.bg};border-left:5px solid ${rk.cor};border-radius:12px;margin-bottom:1rem;overflow:hidden">
+      <div style="background:${rk.bg};padding:.65rem 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
+        <div style="font-weight:800;color:${rk.cor};font-size:.9rem">${i===0?'🔵 Mais Recente — ':''}Atendimento ${data.length-i} · ${rk.label}</div>
+        <div style="font-size:.75rem;color:${rk.cor};opacity:.85">📅 ${dt}</div>
+      </div>
+      <div style="padding:.85rem 1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem .75rem;font-size:.8rem">
+        ${detItem('Diagnóstico',r.diagnostico||'—')}${detItem('PAS/PAD',(r.pas||'—')+' / '+(r.pad||'—')+' mmHg')}${detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')}
+        ${detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')}${detItem('ERG Score',r.erg_score||'—')}${detItem('Risco CVD 10a',r.erg_pct||'—')}
+        ${detItem('ACS',r.acs||'—')}${detItem('IMC',r.imc?r.imc+' kg/m²':'—')}${detItem('Fumante',r.fumante||'—')}
+      </div>
+      <div style="padding:0 1rem .85rem">
+        <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem">⚠️ ESTRATIFICADORES DE RISCO</div><div>${erList}</div>
+        <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin:.5rem 0 .3rem">🚨 EVENTOS CLÍNICOS</div><div>${evList}</div>
+      </div>
+      <div style="padding:0 1rem .75rem;text-align:right">
+        <button onclick="verHasDm('${r.id}');fecharHistorico()" style="background:#37474f;color:#fff;border:none;padding:.25rem .75rem;border-radius:6px;cursor:pointer;font-size:.75rem">👁️ Ficha Completa</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('historico-conteudo').innerHTML=html;
 }
 
 async function excluirHasDm(id){
