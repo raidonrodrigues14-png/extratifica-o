@@ -75,10 +75,12 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .portal-card.gestante:hover{border-color:var(--musgo-claro)}
 .portal-card.crianca:hover{border-color:var(--ocre)}
 .portal-card.bucal:hover{border-color:#5a9fd4}
+.portal-card.hasdm:hover{border-color:#e53935}
 .card-emoji-wrap{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem}
 .gestante .card-emoji-wrap{background:linear-gradient(135deg,var(--menta-cl),var(--menta));border:1.5px solid rgba(107,143,108,.3)}
 .crianca .card-emoji-wrap{background:linear-gradient(135deg,var(--ocre-cl),#f0d890);border:1.5px solid rgba(196,154,74,.3)}
 .bucal .card-emoji-wrap{background:linear-gradient(135deg,#e8f4ff,#c8e0ff);border:1.5px solid rgba(45,74,138,.3)}
+.hasdm .card-emoji-wrap{background:linear-gradient(135deg,#ffebee,#ffcdd2);border:1.5px solid rgba(198,40,40,.3)}
 .portal-card h2{font-family:var(--font-display);font-size:1.2rem;font-weight:500;color:var(--txt-1)}
 .portal-card p{font-size:.82rem;color:var(--txt-2);line-height:1.65}
 .card-riscos{display:flex;flex-wrap:wrap;gap:.35rem}
@@ -91,6 +93,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .gestante .card-arrow{color:var(--musgo)}
 .crianca .card-arrow{color:var(--terra)}
 .bucal .card-arrow{color:var(--azul)}
+.hasdm .card-arrow{color:#c62828}
 .portal-footer{text-align:center;padding:1.5rem;font-size:.7rem;color:var(--txt-4);border-top:1px solid var(--border);background:var(--surface);margin-top:auto}
 .app-header{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:58px;position:sticky;top:0;z-index:200;box-shadow:0 3px 16px rgba(0,0,0,.25)}
 .app-header-brand{display:flex;align-items:center;gap:.75rem}
@@ -216,6 +219,49 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .btn-novo-resultado,.btn-portal-resultado{background:var(--surface);color:var(--txt-2);border:1.5px solid var(--border)}
 #modulo-crianca{display:none;min-height:100vh;background:var(--bg)}
 #modulo-bucal{display:none;min-height:100vh;background:var(--bg)}
+#modulo-hasdm{display:none;min-height:100vh;background:var(--bg)}
+.hasdm-content{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.h-secao{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.h-secao-titulo{padding:.85rem 1.2rem;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:.5rem}
+.h-secao-titulo.t-id-h{background:linear-gradient(90deg,#1a237e,#283593);color:white}
+.h-secao-titulo.t-clin{background:linear-gradient(90deg,#0d47a1,#1565c0);color:white}
+.h-secao-titulo.t-erg{background:linear-gradient(90deg,#1b5e20,#2e7d32);color:white}
+.h-secao-titulo.t-er{background:linear-gradient(90deg,#4a148c,#6a1b9a);color:white}
+.h-secao-titulo.t-dasc{background:linear-gradient(90deg,#311b92,#4527a0);color:white}
+.h-secao-titulo.t-eventos{background:linear-gradient(90deg,#b71c1c,#c62828);color:white}
+.h-secao-titulo.t-critstrat{background:linear-gradient(90deg,#bf360c,#d84315);color:white}
+.h-secao-titulo.t-result{background:linear-gradient(90deg,#37474f,#546e7a);color:white}
+.h-secao-corpo{padding:1.25rem}
+.h-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.h-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+.h-grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.75rem}
+.h-campo label{display:block;font-size:.65rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px}
+.h-campo input,.h-campo select,.h-campo textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.52rem .8rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none;transition:border-color .2s}
+.h-campo input:focus,.h-campo select:focus{border-color:#c62828;box-shadow:0 0 0 3px rgba(198,40,40,.1)}
+.h-campo input[readonly]{background:var(--surface-2);font-weight:700;color:#c62828}
+.h-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.h-check-item{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem .75rem;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.82rem;color:var(--txt-2);transition:all .15s;line-height:1.4}
+.h-check-item:hover{border-color:#ef9a9a;background:#ffebee}
+.h-check-item input{accent-color:#c62828;width:15px;height:15px;flex-shrink:0;cursor:pointer;margin-top:2px}
+.h-risco-radios{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
+.h-risco-radio{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:40px;border:2px solid var(--border);cursor:pointer;font-size:.82rem;font-weight:700;transition:all .2s}
+.h-risco-radio input[type=radio]{display:none}
+.h-risco-radio.h-baixo:has(input:checked){background:#e8f5e9;border-color:#4caf50;color:#2e7d32}
+.h-risco-radio.h-medio:has(input:checked){background:#fff8e1;border-color:#ffc107;color:#f57f17}
+.h-risco-radio.h-alto:has(input:checked){background:#ffebee;border-color:#ef5350;color:#c62828}
+.h-risco-radio.h-muito:has(input:checked){background:#fce4ec;border-color:#c62828;color:#880e4f}
+.h-diag-pills{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.35rem}
+.h-diag-pill{display:flex;align-items:center;gap:.35rem;padding:.4rem 1rem;border-radius:40px;border:2px solid var(--border);cursor:pointer;font-size:.82rem;font-weight:700;transition:all .2s}
+.h-diag-pill input[type=checkbox]{display:none}
+.h-diag-pill:has(input:checked){border-color:#c62828;background:#ffebee;color:#c62828}
+.erg-badge{display:inline-block;padding:.25rem .75rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-left:.5rem}
+.erg-baixo{background:#e8f5e9;color:#2e7d32}
+.erg-medio{background:#fff8e1;color:#f57f17}
+.erg-alto{background:#ffebee;color:#c62828}
+.h-obs{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none;resize:vertical;min-height:80px;transition:border-color .2s}
+.h-obs:focus{border-color:#c62828;box-shadow:0 0 0 3px rgba(198,40,40,.1)}
+.h-plano-box{border-radius:12px;padding:1rem 1.25rem;margin-top:.75rem;font-size:.85rem;line-height:1.7;border:2px solid}
+@media(max-width:640px){.h-grid-2,.h-grid-3,.h-grid-4,.h-check-grid{grid-template-columns:1fr}}
 .bucal-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .b-secao{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .b-secao-titulo{padding:.85rem 1.2rem;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:.5rem}
@@ -374,7 +420,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -867,6 +913,278 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
   </div>
 </div>
 
+<!-- MÓDULO HAS / DM -->
+<div id="modulo-hasdm">
+  <div class="app-header" style="background:linear-gradient(135deg,#7f0000,#c62828)">
+    <div class="app-header-brand">
+      <div class="app-header-icon">❤️‍🩹</div>
+      <div class="app-header-text">
+        <strong>Estratificação de Risco — HAS / DM</strong>
+        <span>Nota Técnica Nº 01/2026 — SAPAPVS/GERAPS/COORDASAI</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+  </div>
+  <div class="hasdm-content">
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-id-h">👤 Identificação</div>
+      <div class="h-secao-corpo">
+        <div class="h-campo" style="margin-bottom:.75rem"><label>Nome Completo</label><input type="text" id="h-nome" placeholder="Nome completo do paciente"></div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>UBS</label><input type="text" id="h-ubs" readonly style="font-weight:700;color:#c62828"></div>
+          <div class="h-campo"><label>Microárea</label><input type="text" id="h-microarea" placeholder="Microárea"></div>
+          <div class="h-campo"><label>Enfermeira</label><input type="text" id="h-enfermeira" placeholder="Enfermeira(o)"></div>
+          <div class="h-campo"><label>ACS</label><input type="text" id="h-acs" placeholder="ACS Responsável"></div>
+        </div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>Data de Nascimento</label><input type="date" id="h-nasc" onchange="hCalcIdade()"></div>
+          <div class="h-campo"><label>Idade</label><input type="number" id="h-idade" placeholder="Anos" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>Cartão SUS / CNS</label><input type="text" id="h-cns" placeholder="CNS"></div>
+          <div class="h-campo"><label>CPF</label><input type="text" id="h-cpf" placeholder="CPF"></div>
+        </div>
+        <div class="h-grid-2" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>Endereço</label><input type="text" id="h-endereco" placeholder="Endereço completo"></div>
+          <div class="h-grid-2">
+            <div class="h-campo"><label>Estado Civil</label><select id="h-estado-civil"><option value="">Selecione</option><option>Solteiro(a)</option><option>Casado(a)</option><option>União Estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></div>
+            <div class="h-campo"><label>Escolaridade</label><select id="h-escolaridade"><option value="">Selecione</option><option>Sem escolaridade</option><option>Fundamental incompleto</option><option>Fundamental completo</option><option>Médio completo</option><option>Superior completo</option></select></div>
+          </div>
+        </div>
+        <div style="margin-bottom:.75rem">
+          <label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem">Diagnóstico</label>
+          <div class="h-diag-pills">
+            <label class="h-diag-pill"><input type="checkbox" id="h-diag-has" onchange="hCalcular()"> 🫀 HAS</label>
+            <label class="h-diag-pill"><input type="checkbox" id="h-diag-dm" onchange="hCalcular()"> 🩸 DM</label>
+            <label class="h-diag-pill"><input type="checkbox" id="h-diag-dm1" onchange="hCalcular()"> 💉 DM Tipo 1 / LADA</label>
+          </div>
+        </div>
+        <div class="h-grid-2">
+          <div class="h-campo"><label>Histórico Familiar</label><input type="text" id="h-hist-familiar" placeholder="ex: pai com IAM, mãe com DM2..."></div>
+          <div class="h-campo"><label>Histórico Pessoal</label><input type="text" id="h-hist-pessoal" placeholder="ex: obesidade, tabagismo..."></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DADOS CLÍNICOS -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-clin">🩺 Dados Clínicos</div>
+      <div class="h-secao-corpo">
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo">
+            <label>Sexo</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-sexo" value="M" onchange="hCalcular()"> Masculino</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-sexo" value="F" onchange="hCalcular()"> Feminino</label>
+            </div>
+          </div>
+          <div class="h-campo"><label>PAS (mmHg)</label><input type="number" id="h-pas" placeholder="ex: 130" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>PAD (mmHg)</label><input type="number" id="h-pad" placeholder="ex: 85" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>PAS em tratamento?</label><div style="display:flex;gap:.75rem;margin-top:.35rem"><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-pas-trat" value="S" onchange="hErgCalc()"> Sim</label><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-pas-trat" value="N" onchange="hErgCalc()"> Não</label></div></div>
+        </div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>Colesterol Total (mg/dL)</label><input type="number" id="h-colesterol" placeholder="ex: 200" oninput="hErgCalc()"></div>
+          <div class="h-campo"><label>HDL-c (mg/dL)</label><input type="number" id="h-hdl" placeholder="ex: 45" oninput="hErgCalc()"></div>
+          <div class="h-campo"><label>LDL-c (mg/dL)</label><input type="number" id="h-ldl" placeholder="ex: 130" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>Triglicerídeos (mg/dL)</label><input type="number" id="h-tg" placeholder="ex: 150" oninput="hCalcular()"></div>
+        </div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>Creatinina (mg/dL)</label><input type="number" id="h-creatinina" placeholder="ex: 1.0" step="0.1" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>HbA1c (%)</label><input type="number" id="h-hba1c" placeholder="ex: 7.5" step="0.1" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>Glicemia em Jejum (mg/dL)</label><input type="number" id="h-glicemia" placeholder="ex: 110" oninput="hCalcular()"></div>
+          <div class="h-campo"><label>TFG (mL/min/1,73m²)</label><input type="number" id="h-tfg" placeholder="ex: 75" oninput="hCalcular()"></div>
+        </div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo"><label>Peso (kg)</label><input type="number" id="h-peso" placeholder="ex: 80" step="0.1" oninput="hCalcImc()"></div>
+          <div class="h-campo"><label>Altura (m)</label><input type="number" id="h-altura" placeholder="ex: 1.70" step="0.01" oninput="hCalcImc()"></div>
+          <div class="h-campo"><label>IMC (kg/m²)</label><input type="text" id="h-imc" readonly placeholder="Calculado auto."></div>
+          <div class="h-campo"><label>Fumante</label><div style="display:flex;gap:.75rem;margin-top:.35rem"><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-fumo" value="S" onchange="hErgCalc()"> Sim</label><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-fumo" value="N" onchange="hErgCalc()"> Não</label></div></div>
+        </div>
+        <div class="h-campo"><label>ECG</label><div style="display:flex;gap:.75rem;margin-top:.35rem"><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-ecg" value="Normal" onchange="hCalcular()"> Normal</label><label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="h-ecg" value="Alterado" onchange="hCalcular()"> Alterado</label></div></div>
+      </div>
+    </div>
+
+    <!-- ERG FRAMINGHAM -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-erg">📊 Escore de Risco Global — ERG (Framingham revisado)</div>
+      <div class="h-secao-corpo">
+        <p style="font-size:.8rem;color:var(--txt-2);margin-bottom:1rem">Preencha os campos abaixo. O ERG é calculado automaticamente e indica o risco de evento cardiovascular em 10 anos.</p>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo">
+            <label>Idade (para ERG)</label>
+            <select id="h-erg-idade" onchange="hErgCalc()">
+              <option value="">Selecione</option>
+              <option value="0">30–34 anos</option><option value="2">35–39 anos</option>
+              <option value="5">40–44 anos</option><option value="6">45–49 anos</option>
+              <option value="8">50–54 anos</option><option value="10">55–59 anos</option>
+              <option value="11">60–64 anos</option><option value="12">65–69 anos</option>
+              <option value="14">70–74 anos</option><option value="15">75+ anos</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>Colesterol Total (ERG)</label>
+            <select id="h-erg-col" onchange="hErgCalc()">
+              <option value="">Selecione</option>
+              <option value="0">&lt;160 mg/dL</option><option value="1">160–199 mg/dL</option>
+              <option value="2">200–239 mg/dL</option><option value="3">240–279 mg/dL</option>
+              <option value="4">≥280 mg/dL</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>HDL-c (ERG)</label>
+            <select id="h-erg-hdl" onchange="hErgCalc()">
+              <option value="">Selecione</option>
+              <option value="-2">≥60 mg/dL</option><option value="-1">50–59 mg/dL</option>
+              <option value="0">45–49 mg/dL</option><option value="1">35–44 mg/dL</option>
+              <option value="2">&lt;35 mg/dL</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>PAS (ERG)</label>
+            <select id="h-erg-pas" onchange="hErgCalc()">
+              <option value="">Selecione</option>
+              <option value="0">&lt;120 mmHg</option><option value="1">120–129 mmHg</option>
+              <option value="2">130–139 mmHg</option><option value="3">140–159 mmHg</option>
+              <option value="4">≥160 mmHg</option>
+            </select>
+          </div>
+        </div>
+        <div id="h-erg-result" style="display:none;background:var(--surface-2);border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;font-size:.9rem">
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+            <span style="font-weight:700">Pontuação ERG:</span><span id="h-erg-score" style="font-size:1.2rem;font-weight:700;color:#c62828"></span>
+            <span style="font-weight:700">→ Risco CDV em 10 anos:</span><span id="h-erg-pct-badge" class="erg-badge"></span>
+          </div>
+          <div id="h-erg-classif" style="font-size:.78rem;color:var(--txt-3);margin-top:.35rem"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTRATIFICADORES DE RISCO (ER) — QUADRO 2 -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-er">⚠️ Quadro 2 — Estratificadores de Risco (ER)</div>
+      <div class="h-secao-corpo">
+        <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Marque se o paciente apresenta qualquer um dos critérios abaixo. A presença de ER eleva para <strong>Alto Risco</strong>.</p>
+        <div class="h-check-grid">
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Diabetes há mais de 10 anos</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> História familiar de DCV prematura (parentes 1º grau: H &lt;55a / M &lt;65a)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Tabagismo</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> DM2 e HAS concomitantes</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Síndrome Metabólica</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> TFG &lt; 60 mL/min/1,73m²</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Albuminúria entre 30–300 mg/24h ou relação albumina/creatinina 30–300 mg/g</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> LDL–c ≥ 190 mg/dL</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Internações por complicações de DM e/ou HAS nos últimos 12 meses</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Obesidade (IMC ≥ 30 kg/m²)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Hipertrofia de ventrículo esquerdo (ECG ou ecocardiograma)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASC — QUADRO 2 -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-dasc">🔬 Quadro 2 — Doença Aterosclerótica Subclínica (DASC)</div>
+      <div class="h-secao-corpo">
+        <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Presença de DASC eleva para <strong>Alto Risco</strong>.</p>
+        <div class="h-check-grid">
+          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Escore de cálcio coronário (CAC) &gt; 100 U Agatston</label>
+          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Ultrassonografia de carótidas com placa (&gt; 1,5 mm)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Angiotomografia de coronárias com placas ateroscleróticas</label>
+          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> ITB &lt; 0,9 (Índice tornozelo-braquial)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Aneurisma de aorta abdominal</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTOS CLÍNICOS — QUADRO 5 -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-eventos">🚨 Quadro 5 — Eventos Clínicos (→ Muito Alto Risco)</div>
+      <div class="h-secao-corpo">
+        <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Qualquer evento clínico abaixo classifica automaticamente como <strong>Muito Alto Risco</strong>.</p>
+        <div class="h-check-grid">
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> AVC Isquêmico</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Hemorragia Cerebral</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Ataque Isquêmico Transitório (AIT)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Insuficiência Cardíaca</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Infarto do Miocárdio</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Angina estável ou instável</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Revascularização miocárdica</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Insuficiência Vascular Periférica / úlcera isquêmica</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Amputação não traumática de membros inferiores</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Doença Aterosclerótica coronária, cerebrovascular ou vascular periférica com obstrução ≥ 50%</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> DRC com TFG &lt; 30 mL/min/1,73m² ou proteinúria &gt; 300 mg/24h</label>
+          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Retinopatia avançada (hemorragias, exsudatos, manchas algodonosas ou papiledema)</label>
+        </div>
+        <div style="margin-top:.75rem;background:#fce4ec;padding:.75rem 1rem;border-radius:10px;border:1.5px solid #f48fb1">
+          <p style="font-size:.78rem;font-weight:700;color:#880e4f;margin-bottom:.5rem">Outros critérios de Muito Alto Risco (Quadro 1):</p>
+          <div class="h-check-grid">
+            <label class="h-check-item" style="background:#fff"><input type="checkbox" class="h-evento" id="h-dm1-lada" onchange="hCalcular()"> Diabetes Mellitus Insulinodependente — Tipo 1 / LADA</label>
+            <label class="h-check-item" style="background:#fff"><input type="checkbox" class="h-evento" id="h-pe-ulcerativa" onchange="hCalcular()"> Lesão de pé pré-ulcerativa</label>
+            <label class="h-check-item" style="background:#fff"><input type="checkbox" class="h-evento" id="h-hba1c-gte11" onchange="hCalcular()"> HbA1c ≥ 11% com insulinização basal (DM2)</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRITÉRIOS ADICIONAIS DE ALTO RISCO (Quadro 1) -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-critstrat">🔴 Critérios Adicionais de Alto Risco (Quadro 1)</div>
+      <div class="h-secao-corpo">
+        <div class="h-check-grid">
+          <label class="h-check-item"><input type="checkbox" class="h-alto-crit" onchange="hCalcular()"> HbA1c &gt; 9% e &lt; 11% com insulinização basal (DM2)</label>
+          <label class="h-check-item"><input type="checkbox" class="h-alto-crit" onchange="hCalcular()"> Neuropatia periférica e/ou dor neuropática de difícil controle</label>
+          <label class="h-check-item"><input type="checkbox" class="h-alto-crit" onchange="hCalcular()"> Hipertensão Arterial com alto risco cardiovascular</label>
+          <label class="h-check-item"><input type="checkbox" class="h-alto-crit" onchange="hCalcular()"> Hipercolesterolemia familiar</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-result">📋 Estratificação do Risco — Resultado</div>
+      <div class="h-secao-corpo">
+        <div class="h-risco-radios">
+          <label class="h-risco-radio h-baixo"><input type="radio" name="h-risco" value="Baixo Risco" onchange="hMostrarPlano()"> 🟢 Baixo Risco — APS</label>
+          <label class="h-risco-radio h-medio"><input type="radio" name="h-risco" value="Risco Médio" onchange="hMostrarPlano()"> 🟡 Risco Médio — APS</label>
+          <label class="h-risco-radio h-alto"><input type="radio" name="h-risco" value="Alto Risco" onchange="hMostrarPlano()"> 🔴 Alto Risco — AAE</label>
+          <label class="h-risco-radio h-muito"><input type="radio" name="h-risco" value="Muito Alto Risco" onchange="hMostrarPlano()"> 🟣 Muito Alto Risco — AAE</label>
+          <small style="display:block;width:100%;margin-top:.35rem;font-size:.72rem;color:var(--txt-3);font-style:italic">⚡ Calculado automaticamente. Pode ser ajustado manualmente.</small>
+        </div>
+        <div id="h-painel" style="display:none"></div>
+        <div id="h-plano" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- OBSERVAÇÕES + AÇÕES -->
+    <div class="h-secao">
+      <div class="h-secao-corpo">
+        <div class="h-campo" style="margin-bottom:1.25rem"><label>Observações</label><textarea class="h-obs" id="h-obs" placeholder="Observações clínicas adicionais..."></textarea></div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
+          <button class="btn btn-salvar" id="btn-salvar-hasdm" onclick="salvarHasDm()" style="background:linear-gradient(135deg,#7f0000,#c62828)">💾 Salvar Registro</button>
+          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-nova" onclick="reiniciarHasDm()">↺ Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        </div>
+        <div style="font-size:.8rem;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem">
+          📋 Registros Salvos
+          <button onclick="carregarHasDm()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
+        </div>
+        <div class="busca-wrap">
+          <input type="text" class="busca-input" id="buscaHasDm" placeholder="🔍 Buscar pelo nome do paciente...">
+          <button class="busca-btn" onclick="buscarHasDm()" style="background:#c62828">Buscar</button>
+          <button class="busca-btn" onclick="carregarHasDm()" style="background:var(--txt-3)">Limpar</button>
+        </div>
+        <div class="tabela-wrap">
+          <table class="tbl">
+            <thead><tr><th>Paciente</th><th>Diagnóstico</th><th>ACS</th><th>Risco</th><th>Data</th><th>Ações</th></tr></thead>
+            <tbody id="hasdmList"><tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- MÓDULO SAÚDE BUCAL -->
 <div id="modulo-bucal">
   <div class="app-header">
@@ -1055,16 +1373,17 @@ function ativarSessao(user,bemVindo){
   document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
+  document.getElementById('h-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('c-data').valueAsDate=new Date();
   cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
   const tela=sessionStorage.getItem('aps_tela')||'portal';
   if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
-  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}}
+  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
 function fazerLogout(){if(confirm('Deseja sair?')){sessionStorage.removeItem('aps_user');sessionStorage.removeItem('aps_tela');location.reload();}}
-function voltarPortal(){document.getElementById('modulo-gestante').style.display='none';document.getElementById('modulo-crianca').style.display='none';document.getElementById('modulo-bucal').style.display='none';document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');}
-function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}}
+function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');}
+function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
 
 // ===== GESTANTE =====
 let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
@@ -1681,6 +2000,307 @@ function reiniciarBucal(){
   const painel=document.getElementById('b-painel');if(painel)painel.style.display='none';
   document.getElementById('b-data-avaliacao').valueAsDate=new Date();
   preencherUbsBucal();
+}
+
+// ===== HAS / DM =====
+const ERG_M={'-3':1,'-2':1,'-1':1.4,'0':1.6,'1':1.9,'2':2.3,'3':2.8,'4':3.3,'5':3.9,'6':4.7,'7':5.6,'8':6.7,'9':7.9,'10':9.4,'11':11.2,'12':13.2,'13':15.6,'14':18.4,'15':21.6,'16':25.3,'17':29.4,'18':35};
+const ERG_F={'-2':1,'-1':1,'0':1.2,'1':1.5,'2':1.7,'3':2,'4':2.4,'5':2.8,'6':3.3,'7':3.9,'8':4.5,'9':5.3,'10':6.3,'11':7.3,'12':8.6,'13':10,'14':11.7,'15':13.7,'16':15.9,'17':18.5,'18':21.6,'19':24.8,'20':28.5,'21':35};
+
+function preencherUbsHasDm(){const u=document.getElementById('h-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';}
+
+function hCalcIdade(){
+  const nasc=document.getElementById('h-nasc').value;
+  if(!nasc)return;
+  const hoje=new Date(),nascD=new Date(nasc);
+  let idade=hoje.getFullYear()-nascD.getFullYear();
+  if(hoje<new Date(hoje.getFullYear(),nascD.getMonth(),nascD.getDate()))idade--;
+  document.getElementById('h-idade').value=idade;
+  hCalcular();
+}
+
+function hCalcImc(){
+  const peso=parseFloat(document.getElementById('h-peso').value)||0;
+  const alt=parseFloat(document.getElementById('h-altura').value)||0;
+  const el=document.getElementById('h-imc');
+  if(peso>0&&alt>0){el.value=(peso/(alt*alt)).toFixed(1);}else{el.value='';}
+  hCalcular();
+}
+
+function hErgCalc(){
+  const sexoEl=document.querySelector('input[name="h-sexo"]:checked');
+  const idadeScore=parseInt(document.getElementById('h-erg-idade').value)||null;
+  const colScore=parseInt(document.getElementById('h-erg-col').value)||null;
+  const hdlScore=parseInt(document.getElementById('h-erg-hdl').value)||null;
+  const pasScore=parseInt(document.getElementById('h-erg-pas').value)||null;
+  const fumante=document.querySelector('input[name="h-fumo"]:checked');
+  const pasTrat=document.querySelector('input[name="h-pas-trat"]:checked');
+  const res=document.getElementById('h-erg-result');
+  if(idadeScore===null||colScore===null||hdlScore===null||pasScore===null||!sexoEl){res.style.display='none';hCalcular();return;}
+  const sexo=sexoEl.value;
+  let score=idadeScore+colScore+hdlScore+pasScore;
+  if(fumante&&fumante.value==='S')score+=(sexo==='M'?4:3);
+  if(pasTrat&&pasTrat.value==='S')score+=(sexo==='M'?1:2);
+  const table=sexo==='M'?ERG_M:ERG_F;
+  const keys=Object.keys(table).map(Number).sort((a,b)=>a-b);
+  let pct=null;
+  if(score<=keys[0])pct=table[keys[0]+''];
+  else if(score>=keys[keys.length-1])pct=table[keys[keys.length-1]+''];
+  else pct=table[score+'']||table[(keys.find(k=>k>=score))+''];
+  document.getElementById('h-erg-score').textContent=score;
+  const badge=document.getElementById('h-erg-pct-badge');
+  badge.textContent=(pct>=35?'>30':pct+'')+'%';
+  badge.className='erg-badge '+(pct<5?'erg-baixo':pct<20?'erg-medio':'erg-alto');
+  let cl='Risco cardiovascular ';
+  if(sexo==='M')cl+=(pct<5?'baixo (<5%)':pct<20?'intermediário (5–20%)':'alto (>20%)');
+  else cl+=(pct<5?'baixo (<5%)':pct<10?'intermediário (5–10%)':'alto (>10%)');
+  document.getElementById('h-erg-classif').textContent=cl+' em 10 anos ('+(sexo==='M'?'Homem':'Mulher')+')';
+  res.style.display='block';
+  hCalcular();
+}
+
+function hCalcular(){
+  const sexoEl=document.querySelector('input[name="h-sexo"]:checked');
+  const sexo=sexoEl?sexoEl.value:'';
+  const pas=parseFloat(document.getElementById('h-pas').value)||0;
+  const pad=parseFloat(document.getElementById('h-pad').value)||0;
+  const hba1c=parseFloat(document.getElementById('h-hba1c').value)||0;
+  const creat=parseFloat(document.getElementById('h-creatinina').value)||0;
+  const ldl=parseFloat(document.getElementById('h-ldl').value)||0;
+  const tfg=parseFloat(document.getElementById('h-tfg').value)||0;
+  const imc=parseFloat(document.getElementById('h-imc').value)||0;
+  const glicemia=parseFloat(document.getElementById('h-glicemia').value)||0;
+  const ecg=document.querySelector('input[name="h-ecg"]:checked');
+  const hasDm=document.getElementById('h-diag-dm').checked;
+  const hasHas=document.getElementById('h-diag-has').checked;
+  const erCount=document.querySelectorAll('.h-er:checked').length;
+  const dascCount=document.querySelectorAll('.h-dasc:checked').length;
+  const eventoCount=document.querySelectorAll('.h-evento:checked').length;
+  const altoCritCount=document.querySelectorAll('.h-alto-crit:checked').length;
+  // ERG %
+  const ergPctEl=document.getElementById('h-erg-pct-badge');
+  let ergPct=0;
+  if(ergPctEl&&ergPctEl.textContent){ergPct=parseFloat(ergPctEl.textContent)||0;}
+  // MUITO ALTO RISCO
+  const muitoAlto=eventoCount>0;
+  // ALTO RISCO
+  const altoRisco=!muitoAlto&&(
+    altoCritCount>0||erCount>0||dascCount>0||
+    (sexo==='M'&&ergPct>=20)||(sexo==='F'&&ergPct>=10)||
+    (creat>=2.5)||
+    (hasDm&&hasHas)
+  );
+  // MÉDIO RISCO
+  const medioRisco=!muitoAlto&&!altoRisco&&(
+    (pas>=140&&pas<=159)||(pad>=90&&pad<=99)||
+    (sexo==='M'&&ergPct>=5&&ergPct<20)||(sexo==='F'&&ergPct>=5&&ergPct<10)||
+    (hasDm&&!hasHas&&ergPct<5)||
+    (ldl>=190)||(creat>=1.3&&creat<2.5)||
+    (hba1c>6.5&&hba1c<9)
+  );
+  let risco='Baixo Risco';
+  if(muitoAlto)risco='Muito Alto Risco';
+  else if(altoRisco)risco='Alto Risco';
+  else if(medioRisco)risco='Risco Médio';
+  // Marcar radio
+  document.querySelectorAll('input[name="h-risco"]').forEach(r=>r.checked=r.value===risco);
+  hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo);
+  hMostrarPlano();
+}
+
+function hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo){
+  const p=document.getElementById('h-painel');
+  const cores={
+    'Baixo Risco':{bg:'#e8f5e9',borda:'#4caf50',txt:'#2e7d32',emoji:'🟢'},
+    'Risco Médio':{bg:'#fff8e1',borda:'#ffc107',txt:'#f57f17',emoji:'🟡'},
+    'Alto Risco':{bg:'#ffebee',borda:'#ef5350',txt:'#c62828',emoji:'🔴'},
+    'Muito Alto Risco':{bg:'#fce4ec',borda:'#c62828',txt:'#880e4f',emoji:'🟣'}
+  };
+  const c=cores[risco];
+  const fatores=[];
+  if(eventoCount>0)fatores.push(`${eventoCount} evento(s) clínico(s) do Quadro 5`);
+  if(altoCritCount>0)fatores.push(`${altoCritCount} critério(s) adicional(is) de alto risco`);
+  if(erCount>0)fatores.push(`${erCount} estratificador(es) de risco (ER)`);
+  if(dascCount>0)fatores.push(`${dascCount} marcador(es) de DASC`);
+  if(ergPct>0){
+    if((sexo==='M'&&ergPct>=20)||(sexo==='F'&&ergPct>=10))fatores.push(`ERG elevado: ${ergPct}% em 10 anos`);
+    else if((sexo==='M'&&ergPct>=5)||(sexo==='F'&&ergPct>=5))fatores.push(`ERG intermediário: ${ergPct}% em 10 anos`);
+  }
+  p.style.display='block';
+  p.innerHTML=`<div style="background:${c.bg};border:2px solid ${c.borda};border-radius:14px;padding:1rem 1.25rem;margin-bottom:.75rem">
+    <div style="font-size:1.1rem;font-weight:800;color:${c.txt};margin-bottom:.5rem">${c.emoji} ${risco}</div>
+    ${fatores.length?'<div style="font-size:.8rem;color:'+c.txt+';margin-top:.4rem"><strong>Fatores determinantes:</strong><ul style="margin:.3rem 0 0 1rem;padding:0">'+fatores.map(f=>'<li>'+f+'</li>').join('')+'</ul></div>':'<div style="font-size:.8rem;color:'+c.txt+'">Nenhum critério de risco elevado identificado.</div>'}
+  </div>`;
+}
+
+function hMostrarPlano(){
+  const risc=document.querySelector('input[name="h-risco"]:checked');
+  const pl=document.getElementById('h-plano');
+  if(!risc){pl.style.display='none';return;}
+  const planos={
+    'Baixo Risco':{cor:'#e8f5e9',borda:'#4caf50',txt:'#2e7d32',servico:'APS',plano:'<li>Consulta médica <strong>anual</strong></li><li>Consulta de enfermagem <strong>semestral</strong></li><li>Consulta odontológica <strong>anual</strong></li>'},
+    'Risco Médio':{cor:'#fff8e1',borda:'#ffc107',txt:'#f57f17',servico:'APS',plano:'<li>Consulta médica <strong>semestral</strong></li><li>Consulta de enfermagem <strong>quadrimestral</strong></li><li>Consulta odontológica <strong>anual</strong></li>'},
+    'Alto Risco':{cor:'#ffebee',borda:'#ef5350',txt:'#c62828',servico:'AAE',plano:'<li>Consulta médica <strong>quadrimestral</strong></li><li>Consulta de enfermagem <strong>trimestral</strong></li><li>Consulta odontológica <strong>anual</strong></li><li><strong>Encaminhar à Atenção Ambulatorial Especializada (AAE)</strong></li>'},
+    'Muito Alto Risco':{cor:'#fce4ec',borda:'#c62828',txt:'#880e4f',servico:'AAE',plano:'<li>Consulta médica <strong>quadrimestral</strong></li><li>Consulta de enfermagem <strong>trimestral</strong></li><li>Consulta odontológica <strong>anual</strong></li><li><strong>Encaminhar URGENTEMENTE à Atenção Ambulatorial Especializada (AAE)</strong></li>'}
+  };
+  const d=planos[risc.value];
+  pl.style.display='block';
+  pl.innerHTML=`<div class="h-plano-box" style="background:${d.cor};border-color:${d.borda};color:${d.txt}">
+    <strong>📋 Plano de Cuidados — ${d.servico}</strong>
+    <ul style="margin:.5rem 0 0 1.2rem;padding:0;font-size:.85rem">${d.plano}</ul>
+  </div>`;
+}
+
+function reiniciarHasDm(){
+  if(!confirm('Deseja iniciar uma nova ficha? Os dados não salvos serão perdidos.'))return;
+  document.querySelectorAll('#modulo-hasdm input[type=text],#modulo-hasdm input[type=number],#modulo-hasdm input[type=date]').forEach(el=>el.value='');
+  document.querySelectorAll('#modulo-hasdm input[type=radio],#modulo-hasdm input[type=checkbox]').forEach(el=>el.checked=false);
+  document.querySelectorAll('#modulo-hasdm select').forEach(el=>el.selectedIndex=0);
+  document.getElementById('h-obs').value='';
+  document.getElementById('h-painel').style.display='none';
+  document.getElementById('h-plano').style.display='none';
+  document.getElementById('h-erg-result').style.display='none';
+  preencherUbsHasDm();
+}
+
+async function salvarHasDm(){
+  const nome=document.getElementById('h-nome').value.trim();
+  if(!nome){showToast('Informe o nome do paciente!',true);return;}
+  const risc=document.querySelector('input[name="h-risco"]:checked');
+  if(!risc){showToast('Selecione ou calcule o risco antes de salvar!',true);return;}
+  const btn=document.getElementById('btn-salvar-hasdm');
+  btn.disabled=true;btn.textContent='Salvando...';
+  const ergPct=document.getElementById('h-erg-pct-badge')?.textContent||'';
+  const erMarcados=[...document.querySelectorAll('.h-er:checked')].map(el=>el.closest('label').textContent.trim());
+  const dascMarcados=[...document.querySelectorAll('.h-dasc:checked')].map(el=>el.closest('label').textContent.trim());
+  const eventosMarcados=[...document.querySelectorAll('.h-evento:checked')].map(el=>el.closest('label').textContent.trim());
+  const diag=[];
+  if(document.getElementById('h-diag-has').checked)diag.push('HAS');
+  if(document.getElementById('h-diag-dm').checked)diag.push('DM');
+  if(document.getElementById('h-diag-dm1').checked)diag.push('DM Tipo 1/LADA');
+  const payload={
+    nome,ubs:document.getElementById('h-ubs').value,microarea:document.getElementById('h-microarea').value,
+    enfermeira:document.getElementById('h-enfermeira').value,acs:document.getElementById('h-acs').value,
+    data_nasc:document.getElementById('h-nasc').value,idade:parseInt(document.getElementById('h-idade').value)||null,
+    cns:document.getElementById('h-cns').value,cpf:document.getElementById('h-cpf').value,
+    endereco:document.getElementById('h-endereco').value,estado_civil:document.getElementById('h-estado-civil').value,
+    escolaridade:document.getElementById('h-escolaridade').value,diagnostico:diag.join(', '),
+    sexo:document.querySelector('input[name="h-sexo"]:checked')?.value||'',
+    pas:parseFloat(document.getElementById('h-pas').value)||null,
+    pad:parseFloat(document.getElementById('h-pad').value)||null,
+    colesterol:parseFloat(document.getElementById('h-colesterol').value)||null,
+    hdl:parseFloat(document.getElementById('h-hdl').value)||null,
+    ldl:parseFloat(document.getElementById('h-ldl').value)||null,
+    triglicerideos:parseFloat(document.getElementById('h-tg').value)||null,
+    creatinina:parseFloat(document.getElementById('h-creatinina').value)||null,
+    hba1c:parseFloat(document.getElementById('h-hba1c').value)||null,
+    glicemia:parseFloat(document.getElementById('h-glicemia').value)||null,
+    tfg:parseFloat(document.getElementById('h-tfg').value)||null,
+    imc:parseFloat(document.getElementById('h-imc').value)||null,
+    fumante:document.querySelector('input[name="h-fumo"]:checked')?.value||'',
+    ecg:document.querySelector('input[name="h-ecg"]:checked')?.value||'',
+    erg_score:document.getElementById('h-erg-score')?.textContent||'',
+    erg_pct:ergPct,
+    estratificadores_risco:erMarcados,
+    dasc:dascMarcados,
+    eventos_clinicos:eventosMarcados,
+    risco_estratificado:risc.value,
+    observacoes:document.getElementById('h-obs').value,
+    hist_familiar:document.getElementById('h-hist-familiar').value,
+    hist_pessoal:document.getElementById('h-hist-pessoal').value
+  };
+  const editId=document.getElementById('btn-salvar-hasdm').dataset.editId;
+  let res;
+  if(editId){res=await supabase.from('hasdm').update(payload).eq('id',editId);}
+  else{res=await supabase.from('hasdm').insert([payload]);}
+  btn.disabled=false;btn.textContent='💾 Salvar Registro';
+  if(res.error){showToast('Erro ao salvar: '+res.error.message,true);}
+  else{showToast('Registro salvo com sucesso!');delete btn.dataset.editId;reiniciarHasDm();carregarHasDm();}
+}
+
+async function carregarHasDm(){
+  const tbody=document.getElementById('hasdmList');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+  const {data,error}=await supabase.from('hasdm').select('*').order('created_at',{ascending:false}).limit(50);
+  if(error){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:red">Erro: '+error.message+'</td></tr>';return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--txt-3)">Nenhum registro encontrado.</td></tr>';return;}
+  const coresRisco={'Baixo Risco':'#e8f5e9|#2e7d32','Risco Médio':'#fff8e1|#f57f17','Alto Risco':'#ffebee|#c62828','Muito Alto Risco':'#fce4ec|#880e4f'};
+  tbody.innerHTML=data.map(r=>{
+    const [bg,txt]=(coresRisco[r.risco_estratificado]||'#f5f5f5|#333').split('|');
+    const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR'):'';
+    return `<tr>
+      <td style="font-weight:700">${r.nome||''}</td>
+      <td>${r.diagnostico||''}</td>
+      <td>${r.acs||''}</td>
+      <td><span style="background:${bg};color:${txt};padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:700">${r.risco_estratificado||''}</span></td>
+      <td>${dt}</td>
+      <td><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function buscarHasDm(){
+  const q=document.getElementById('buscaHasDm').value.trim();
+  if(!q){carregarHasDm();return;}
+  const tbody=document.getElementById('hasdmList');
+  tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem">Buscando...</td></tr>';
+  const {data,error}=await supabase.from('hasdm').select('*').ilike('nome','%'+q+'%').order('created_at',{ascending:false}).limit(50);
+  if(error){tbody.innerHTML='<tr><td colspan="6">Erro: '+error.message+'</td></tr>';return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--txt-3)">Nenhum registro encontrado para "'+q+'".</td></tr>';return;}
+  const coresRisco={'Baixo Risco':'#e8f5e9|#2e7d32','Risco Médio':'#fff8e1|#f57f17','Alto Risco':'#ffebee|#c62828','Muito Alto Risco':'#fce4ec|#880e4f'};
+  tbody.innerHTML=data.map(r=>{
+    const [bg,txt]=(coresRisco[r.risco_estratificado]||'#f5f5f5|#333').split('|');
+    const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR'):'';
+    return `<tr><td style="font-weight:700">${r.nome||''}</td><td>${r.diagnostico||''}</td><td>${r.acs||''}</td><td><span style="background:${bg};color:${txt};padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:700">${r.risco_estratificado||''}</span></td><td>${dt}</td><td><button onclick="editarHasDm('${r.id}')" style="background:#2d4a8a;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem;margin-right:.3rem">✏️</button><button onclick="excluirHasDm('${r.id}')" style="background:#c62828;color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;cursor:pointer;font-size:.75rem">🗑️</button></td></tr>`;
+  }).join('');
+}
+
+async function editarHasDm(id){
+  const {data,error}=await supabase.from('hasdm').select('*').eq('id',id).single();
+  if(error||!data){showToast('Erro ao carregar registro!',true);return;}
+  document.getElementById('h-nome').value=data.nome||'';
+  document.getElementById('h-microarea').value=data.microarea||'';
+  document.getElementById('h-enfermeira').value=data.enfermeira||'';
+  document.getElementById('h-acs').value=data.acs||'';
+  document.getElementById('h-nasc').value=data.data_nasc||'';
+  document.getElementById('h-idade').value=data.idade||'';
+  document.getElementById('h-cns').value=data.cns||'';
+  document.getElementById('h-cpf').value=data.cpf||'';
+  document.getElementById('h-endereco').value=data.endereco||'';
+  document.getElementById('h-estado-civil').value=data.estado_civil||'';
+  document.getElementById('h-escolaridade').value=data.escolaridade||'';
+  document.getElementById('h-pas').value=data.pas||'';
+  document.getElementById('h-pad').value=data.pad||'';
+  document.getElementById('h-colesterol').value=data.colesterol||'';
+  document.getElementById('h-hdl').value=data.hdl||'';
+  document.getElementById('h-ldl').value=data.ldl||'';
+  document.getElementById('h-tg').value=data.triglicerideos||'';
+  document.getElementById('h-creatinina').value=data.creatinina||'';
+  document.getElementById('h-hba1c').value=data.hba1c||'';
+  document.getElementById('h-glicemia').value=data.glicemia||'';
+  document.getElementById('h-tfg').value=data.tfg||'';
+  document.getElementById('h-imc').value=data.imc||'';
+  document.getElementById('h-obs').value=data.observacoes||'';
+  document.getElementById('h-hist-familiar').value=data.hist_familiar||'';
+  document.getElementById('h-hist-pessoal').value=data.hist_pessoal||'';
+  if(data.sexo){const r=document.querySelector(`input[name="h-sexo"][value="${data.sexo}"]`);if(r)r.checked=true;}
+  if(data.fumante){const r=document.querySelector(`input[name="h-fumo"][value="${data.fumante}"]`);if(r)r.checked=true;}
+  if(data.ecg){const r=document.querySelector(`input[name="h-ecg"][value="${data.ecg}"]`);if(r)r.checked=true;}
+  const diags=data.diagnostico?data.diagnostico.split(', '):[];
+  document.getElementById('h-diag-has').checked=diags.includes('HAS');
+  document.getElementById('h-diag-dm').checked=diags.includes('DM');
+  document.getElementById('h-diag-dm1').checked=diags.includes('DM Tipo 1/LADA');
+  if(data.risco_estratificado){const r=document.querySelector(`input[name="h-risco"][value="${data.risco_estratificado}"]`);if(r)r.checked=true;}
+  document.getElementById('btn-salvar-hasdm').dataset.editId=id;
+  hMostrarPlano();
+  document.getElementById('h-nome').scrollIntoView({behavior:'smooth'});
+  showToast('Registro carregado para edição!');
+}
+
+async function excluirHasDm(id){
+  if(!confirm('Excluir este registro permanentemente?'))return;
+  const {error}=await supabase.from('hasdm').delete().eq('id',id);
+  if(error)showToast('Erro ao excluir: '+error.message,true);
+  else{showToast('Registro excluído!');carregarHasDm();}
 }
 
 // ===== INICIALIZAÇÃO =====
