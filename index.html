@@ -2210,8 +2210,8 @@ async function salvarHasDm(){
   };
   const editId=document.getElementById('btn-salvar-hasdm').dataset.editId;
   let res;
-  if(editId){res=await supabase.from('hasdm').update(payload).eq('id',editId);}
-  else{res=await supabase.from('hasdm').insert([payload]);}
+  if(editId){res=await supabaseClient.from('hasdm').update(payload).eq('id',editId);}
+  else{res=await supabaseClient.from('hasdm').insert([payload]);}
   btn.disabled=false;btn.textContent='💾 Salvar Registro';
   if(res.error){showToast('Erro ao salvar: '+res.error.message,true);}
   else{showToast('Registro salvo com sucesso!');delete btn.dataset.editId;reiniciarHasDm();carregarHasDm();}
@@ -2220,7 +2220,7 @@ async function salvarHasDm(){
 async function carregarHasDm(){
   const tbody=document.getElementById('hasdmList');
   tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
-  const {data,error}=await supabase.from('hasdm').select('*').order('created_at',{ascending:false}).limit(50);
+  const {data,error}=await supabaseClient.from('hasdm').select('*').order('created_at',{ascending:false}).limit(50);
   if(error){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:red">Erro: '+error.message+'</td></tr>';return;}
   if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--txt-3)">Nenhum registro encontrado.</td></tr>';return;}
   const coresRisco={'Baixo Risco':'#e8f5e9|#2e7d32','Risco Médio':'#fff8e1|#f57f17','Alto Risco':'#ffebee|#c62828','Muito Alto Risco':'#fce4ec|#880e4f'};
@@ -2243,7 +2243,7 @@ async function buscarHasDm(){
   if(!q){carregarHasDm();return;}
   const tbody=document.getElementById('hasdmList');
   tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem">Buscando...</td></tr>';
-  const {data,error}=await supabase.from('hasdm').select('*').ilike('nome','%'+q+'%').order('created_at',{ascending:false}).limit(50);
+  const {data,error}=await supabaseClient.from('hasdm').select('*').ilike('nome','%'+q+'%').order('created_at',{ascending:false}).limit(50);
   if(error){tbody.innerHTML='<tr><td colspan="6">Erro: '+error.message+'</td></tr>';return;}
   if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--txt-3)">Nenhum registro encontrado para "'+q+'".</td></tr>';return;}
   const coresRisco={'Baixo Risco':'#e8f5e9|#2e7d32','Risco Médio':'#fff8e1|#f57f17','Alto Risco':'#ffebee|#c62828','Muito Alto Risco':'#fce4ec|#880e4f'};
@@ -2255,7 +2255,7 @@ async function buscarHasDm(){
 }
 
 async function editarHasDm(id){
-  const {data,error}=await supabase.from('hasdm').select('*').eq('id',id).single();
+  const {data,error}=await supabaseClient.from('hasdm').select('*').eq('id',id).single();
   if(error||!data){showToast('Erro ao carregar registro!',true);return;}
   document.getElementById('h-nome').value=data.nome||'';
   document.getElementById('h-microarea').value=data.microarea||'';
@@ -2298,7 +2298,7 @@ async function editarHasDm(id){
 
 async function excluirHasDm(id){
   if(!confirm('Excluir este registro permanentemente?'))return;
-  const {error}=await supabase.from('hasdm').delete().eq('id',id);
+  const {error}=await supabaseClient.from('hasdm').delete().eq('id',id);
   if(error)showToast('Erro ao excluir: '+error.message,true);
   else{showToast('Registro excluído!');carregarHasDm();}
 }
