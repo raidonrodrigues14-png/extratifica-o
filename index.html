@@ -362,6 +362,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .btn-excluir:hover{background:var(--verm);color:white}
 .btn-ver{background:var(--menta-cl);color:var(--musgo-escuro);border:1px solid var(--menta);padding:.28rem .65rem;font-size:.7rem;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all .2s;margin-right:.3rem}
 .btn-ver:hover{background:var(--musgo);color:white}
+.btn-edit{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;padding:.28rem .65rem;font-size:.7rem;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all .2s;margin-right:.3rem}
+.btn-edit:hover{background:#1565c0;color:white}
+.btn-hist{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;padding:.28rem .65rem;font-size:.7rem;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all .2s;margin-right:.3rem}
+.btn-hist:hover{background:#6a1b9a;color:white}
 .det-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
 .det-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.55rem .8rem}
 .det-label{display:block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-3);margin-bottom:.15rem}
@@ -1562,7 +1566,7 @@ async function carregarGestantes(){
         <td>${g.acs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
-        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
+        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-edit" onclick="editarGestanteFicha('${g.id}')">✏️ Editar<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
       <\/tr>`;
     }).join('');
   }catch(err){tbody.innerHTML='<td><td colspan="7">Erro ao carregar<\/td><\/tr>';}
@@ -1590,7 +1594,7 @@ async function buscarGestantes(){
         <td>${g.acs||'—'}<\/td>
         <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
         <td>${dataRetorno}<\/td>
-        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
+        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-edit" onclick="editarGestanteFicha('${g.id}')">✏️ Editar<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
       <\/tr>`;
     }).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
@@ -1821,7 +1825,7 @@ async function carregarCriancas(){
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança cadastrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-edit" onclick="editarCriancaFicha(${c.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
 }
 
@@ -1834,7 +1838,7 @@ async function buscarCriancas(){
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança encontrada</td></tr>';return;}
     data.forEach(c=>criMap[c.id]=c);
     const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-edit" onclick="editarCriancaFicha(${c.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){showToast('❌ Erro na busca',true);}
 }
 
@@ -2014,7 +2018,7 @@ async function carregarBucal(){
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1.5rem">Nenhum registro cadastrado</td></tr>';return;}
     const rm={'Baixo Risco':'<span class="badge-pill bp-verde">Baixo Risco</span>','Risco Moderado':'<span class="badge-pill bp-amarelo">Risco Moderado</span>','Alto Risco':'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-ver" onclick="verBucal(${r.id})">👁️ Ver</button><button class="btn-edit" onclick="editarBucal(${r.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="5" style="color:red;text-align:center;padding:1rem">Erro ao carregar. Verifique a tabela "saudebucal" no Supabase.</td></tr>';}
 }
 async function buscarBucal(){
@@ -2025,9 +2029,111 @@ async function buscarBucal(){
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1rem">Nenhum resultado encontrado</td></tr>';return;}
     const rm={'Baixo Risco':'<span class="badge-pill bp-verde">Baixo Risco</span>','Risco Moderado':'<span class="badge-pill bp-amarelo">Risco Moderado</span>','Alto Risco':'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
+    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-ver" onclick="verBucal(${r.id})">👁️ Ver</button><button class="btn-edit" onclick="editarBucal(${r.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
   }catch(err){showToast('Erro na busca',true);}
 }
+async function verBucal(id){
+  const{data:r,error}=await supabaseClient.from('saudebucal').select('*').eq('id',id).single();
+  if(error||!r){showToast('Erro ao carregar!',true);return;}
+  const rm={'Baixo Risco':{label:'🟢 Baixo Risco',bg:'#e8f5e9',cor:'#2e7d32'},'Risco Moderado':{label:'🟡 Risco Moderado',bg:'#fff8e1',cor:'#f57f17'},'Alto Risco':{label:'🔴 Alto Risco',bg:'#ffebee',cor:'#c62828'}};
+  const rk=rm[r.risco]||{label:r.risco||'—',bg:'#f5f5f5',cor:'#333'};
+  const dt=r.created_at?new Date(r.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
+  const sim='✅ Sim',nao='❌ Não';const yn=v=>v==='Sim'?sim:v==='Não'?nao:(v||'—');
+  let html=`<div style="background:${rk.bg};border:2px solid ${rk.cor};border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1rem;font-size:1rem;font-weight:800;color:${rk.cor}">${rk.label}</div>`;
+  html+='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=detItem('Nome Civil',r.nome_civil)+detItem('Nome Social',r.nome_social)+detItem('Raça/Cor',r.raca_cor)+detItem('Sexo',r.sexo)+detItem('Data de Avaliação',r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—')+detItem('UBS',r.ubs)+detItem('ACS',r.acs)+detItem('Microárea',r.microarea);
+  html+='</div><div class="det-sub">🦷 Hábitos e História</div><div class="det-grid">';
+  html+=detItem('Escova 2x/dia',yn(r.escova_2x))+detItem('Usa fio dental',yn(r.fio_dental))+detItem('Consome açúcar',yn(r.consume_acucar))+detItem('Creme dental c/ flúor',yn(r.creme_fluor))+detItem('Água fluoretada',yn(r.agua_fluoretada))+detItem('Cárie último ano',yn(r.carie_ultimo_ano))+detItem('Perdeu dente',yn(r.perdeu_dente))+detItem('Restaurações',yn(r.restauracoes))+detItem('Dor dentária',yn(r.dor_dentaria))+detItem('Placa bacteriana',yn(r.placa_bacteriana))+detItem('Sangramento gengival',yn(r.sangramento_gengival))+detItem('Lesões/cárie',yn(r.lesoes_carie))+detItem('Manchas brancas',yn(r.manchas_brancas))+detItem('Cálculo dental',yn(r.calculo_dental));
+  html+='</div>';
+  if(r.conduta)html+='<div class="det-sub">📋 Conduta</div><div style="font-size:.85rem;color:var(--txt-2);padding:.5rem 0 .75rem">'+r.conduta+'</div>';
+  if(r.observacoes)html+='<div class="det-sub">📝 Observações</div><div style="font-size:.85rem;color:var(--txt-2);padding:.5rem 0 .75rem;white-space:pre-wrap">'+r.observacoes+'</div>';
+  html+=detItem('Registrado em',dt);
+  html+='<div class="det-btns"><button class="btn btn-salvar" onclick="fecharHistorico();editarBucal('+id+')">✏️ Editar</button></div>';
+  abrirFicha('🦷 Ficha Bucal — '+(r.nome_civil||r.nome_social||'Paciente'),html);
+}
+
+async function editarBucal(id){
+  const{data:r,error}=await supabaseClient.from('saudebucal').select('*').eq('id',id).single();
+  if(error||!r){showToast('Erro ao carregar registro!',true);return;}
+  // Preencher campos do formulário existente
+  document.getElementById('b-nome-civil').value=r.nome_civil||'';
+  document.getElementById('b-nome-social').value=r.nome_social||'';
+  document.getElementById('b-sexo').value=r.sexo||'';
+  document.getElementById('b-data-avaliacao').value=r.data_avaliacao||'';
+  document.getElementById('b-ubs').value=r.ubs||'';
+  document.getElementById('b-acs').value=r.acs||'';
+  if(document.getElementById('b-microarea'))document.getElementById('b-microarea').value=r.microarea||'';
+  // Raça/cor
+  const racaEl=document.querySelector(`input[name="b-raca"][value="${r.raca_cor}"]`);if(racaEl)racaEl.checked=true;
+  // Respostas Sim/Não
+  const campos={'b-escova':r.escova_2x,'b-fio':r.fio_dental,'b-acucar':r.consume_acucar,'b-fluor-creme':r.creme_fluor,'b-agua-fluor':r.agua_fluoretada,'b-carie-ult':r.carie_ultimo_ano,'b-perdeu-dente':r.perdeu_dente,'b-restauracoes':r.restauracoes,'b-dor':r.dor_dentaria,'b-placa':r.placa_bacteriana,'b-sangramento':r.sangramento_gengival,'b-lesoes-carie':r.lesoes_carie,'b-manchas':r.manchas_brancas,'b-calculo':r.calculo_dental};
+  Object.entries(campos).forEach(([name,val])=>{const el=document.querySelector(`input[name="${name}"][value="${val}"]`);if(el)el.checked=true;});
+  // Conduta
+  const condutas=r.conduta?r.conduta.split(', '):[];
+  const condutaMap={'Orientação higiene bucal':'bc-higiene','Acompanhamento contínuo':'bc-continuo','Aplicação tópica de flúor':'bc-fluor-top','Tratamento restaurador atraumático':'bc-restaurador-atraumatico','Atenção contínua na APS':'bc-aps','Atenção compartilhada em grupo':'bc-grupo','Tratamento restaurador':'bc-restaurador','Compartilhamento do cuidado':'bc-compartilhado','Grupo operativo':'bc-operativo'};
+  Object.values(condutaMap).forEach(id=>document.getElementById(id)&&(document.getElementById(id).checked=false));
+  const outro=condutas.filter(c=>c.startsWith('Outro: '));
+  condutas.forEach(c=>{if(condutaMap[c]&&document.getElementById(condutaMap[c]))document.getElementById(condutaMap[c]).checked=true;});
+  document.getElementById('b-outro').value=outro.length?outro[0].replace('Outro: ',''):'';
+  document.getElementById('b-observacoes').value=r.observacoes||'';
+  // Risco
+  const riEl=document.querySelector(`input[name="b-risco"][value="${r.risco}"]`);if(riEl)riEl.checked=true;
+  bCalcular();
+  // Mudar o botão salvar para update
+  const btn=document.getElementById('btn-salvar-bucal');
+  btn.dataset.editId=id;
+  btn.textContent='💾 Salvar Alterações';
+  btn.onclick=()=>atualizarBucal(id);
+  showToast('Registro carregado para edição!');
+  document.getElementById('b-nome-civil').scrollIntoView({behavior:'smooth'});
+}
+
+async function atualizarBucal(id){
+  const nome=document.getElementById('b-nome-civil').value||document.getElementById('b-nome-social').value;
+  if(!nome){showToast('Informe o nome do paciente!',true);return;}
+  const conduta=[];
+  if(document.getElementById('bc-higiene').checked)conduta.push('Orientação higiene bucal');
+  if(document.getElementById('bc-continuo').checked)conduta.push('Acompanhamento contínuo');
+  if(document.getElementById('bc-fluor-top').checked)conduta.push('Aplicação tópica de flúor');
+  if(document.getElementById('bc-restaurador-atraumatico').checked)conduta.push('Tratamento restaurador atraumático');
+  if(document.getElementById('bc-aps').checked)conduta.push('Atenção contínua na APS');
+  if(document.getElementById('bc-grupo').checked)conduta.push('Atenção compartilhada em grupo');
+  if(document.getElementById('bc-restaurador').checked)conduta.push('Tratamento restaurador');
+  if(document.getElementById('bc-compartilhado').checked)conduta.push('Compartilhamento do cuidado');
+  if(document.getElementById('bc-operativo').checked)conduta.push('Grupo operativo');
+  const outro=document.getElementById('b-outro').value;if(outro)conduta.push('Outro: '+outro);
+  const dados={
+    nome_civil:document.getElementById('b-nome-civil').value||null,
+    nome_social:document.getElementById('b-nome-social').value||null,
+    raca_cor:bGetRadio('b-raca')||null,
+    sexo:document.getElementById('b-sexo').value||null,
+    data_avaliacao:document.getElementById('b-data-avaliacao').value||null,
+    ubs:document.getElementById('b-ubs').value||null,
+    acs:document.getElementById('b-acs').value||null,
+    microarea:document.getElementById('b-microarea')?document.getElementById('b-microarea').value||null:null,
+    escova_2x:bGetRadio('b-escova')||null,fio_dental:bGetRadio('b-fio')||null,consume_acucar:bGetRadio('b-acucar')||null,
+    creme_fluor:bGetRadio('b-fluor-creme')||null,agua_fluoretada:bGetRadio('b-agua-fluor')||null,
+    carie_ultimo_ano:bGetRadio('b-carie-ult')||null,perdeu_dente:bGetRadio('b-perdeu-dente')||null,
+    restauracoes:bGetRadio('b-restauracoes')||null,dor_dentaria:bGetRadio('b-dor')||null,
+    placa_bacteriana:bGetRadio('b-placa')||null,sangramento_gengival:bGetRadio('b-sangramento')||null,
+    lesoes_carie:bGetRadio('b-lesoes-carie')||null,manchas_brancas:bGetRadio('b-manchas')||null,
+    calculo_dental:bGetRadio('b-calculo')||null,
+    risco:bGetRadio('b-risco')||null,
+    conduta:conduta.join(', ')||null,
+    observacoes:document.getElementById('b-observacoes').value||null
+  };
+  const btn=document.getElementById('btn-salvar-bucal');btn.disabled=true;btn.textContent='⏳ Salvando...';
+  try{
+    const{error}=await supabaseClient.from('saudebucal').update(dados).eq('id',id);
+    if(error)throw error;
+    showToast('✅ Registro atualizado!');
+    // Restaurar botão salvar para modo inserção
+    btn.textContent='💾 Salvar Registro';btn.onclick=salvarBucal;delete btn.dataset.editId;
+    reiniciarBucal();carregarBucal();
+  }catch(err){showToast('Erro ao atualizar: '+(err.message||''),true);}
+  finally{btn.disabled=false;}
+}
+
 async function excluirBucal(id){if(!confirm('Excluir este registro?'))return;try{await supabaseClient.from('saudebucal').delete().eq('id',id);showToast('🗑️ Excluído');carregarBucal();}catch(err){showToast('Erro ao excluir',true);}}
 function reiniciarBucal(){
   document.querySelectorAll('#modulo-bucal input[type=text],#modulo-bucal input[type=date]').forEach(el=>el.value='');
