@@ -1040,24 +1040,31 @@ function fazerLogin(){
   if(!user||!pass){err.textContent='Preencha usuário e senha';err.style.display='block';return;}
   if(USUARIOS[user]&&USUARIOS[user]===pass){
     err.style.display='none';
-    document.getElementById('tela-login').style.display='none';
-    document.getElementById('tela-portal').style.display='flex';
-    document.getElementById('portal-usuario-info').innerHTML=' · '+user;
-    document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
-    document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
-    document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
-    document.getElementById('c-data').valueAsDate=new Date();
-    cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
-    showToast('Bem-vindo(a), '+user+'!');
+    sessionStorage.setItem('aps_user',user);
+    sessionStorage.setItem('aps_tela','portal');
+    ativarSessao(user,true);
   }else{
     err.textContent='Usuário ou senha incorretos';err.style.display='block';
     document.getElementById('login-senha').value='';
   }
 }
 
-function fazerLogout(){if(confirm('Deseja sair?')){location.reload();}}
-function voltarPortal(){document.getElementById('modulo-gestante').style.display='none';document.getElementById('modulo-crianca').style.display='none';document.getElementById('modulo-bucal').style.display='none';document.getElementById('tela-portal').style.display='flex';}
-function abrirModulo(mod){document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}}
+function ativarSessao(user,bemVindo){
+  document.getElementById('tela-login').style.display='none';
+  document.getElementById('portal-usuario-info').innerHTML=' · '+user;
+  document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
+  document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
+  document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
+  document.getElementById('c-data').valueAsDate=new Date();
+  cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
+  const tela=sessionStorage.getItem('aps_tela')||'portal';
+  if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
+  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}}
+  if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
+}
+function fazerLogout(){if(confirm('Deseja sair?')){sessionStorage.removeItem('aps_user');sessionStorage.removeItem('aps_tela');location.reload();}}
+function voltarPortal(){document.getElementById('modulo-gestante').style.display='none';document.getElementById('modulo-crianca').style.display='none';document.getElementById('modulo-bucal').style.display='none';document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');}
+function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}}
 
 // ===== GESTANTE =====
 let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
@@ -1679,6 +1686,9 @@ function reiniciarBucal(){
 // ===== INICIALIZAÇÃO =====
 window.addEventListener('load',()=>{
   document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
+  // Restaurar sessão ao atualizar página
+  const userSalvo=sessionStorage.getItem('aps_user');
+  if(userSalvo&&USUARIOS[userSalvo]){ativarSessao(userSalvo,false);}
   document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
   document.getElementById('b-data-avaliacao').valueAsDate=new Date();
   const nomesBucal=['b-escova','b-fio','b-acucar','b-fluor-creme','b-agua-fluor','b-carie-ult','b-perdeu-dente','b-restauracoes','b-dor','b-placa','b-sangramento','b-lesoes-carie','b-manchas','b-calculo'];
