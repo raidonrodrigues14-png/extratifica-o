@@ -68,15 +68,17 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .portal-cards-wrap{padding:2.5rem 1.5rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
 .portal-cards-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-3);display:flex;align-items:center;gap:.75rem}
 .portal-cards-label::before,.portal-cards-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border)}
-.portal-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;width:100%;max-width:780px}
+.portal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;width:100%;max-width:1050px}
 .portal-card{background:var(--surface);border-radius:24px;padding:2rem 1.75rem;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);cursor:pointer;transition:transform .3s var(--ease-spring),box-shadow .3s,border-color .3s;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
 .portal-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.5),transparent 60%);pointer-events:none}
 .portal-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.12)}
 .portal-card.gestante:hover{border-color:var(--musgo-claro)}
 .portal-card.crianca:hover{border-color:var(--ocre)}
+.portal-card.bucal:hover{border-color:#5a9fd4}
 .card-emoji-wrap{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem}
 .gestante .card-emoji-wrap{background:linear-gradient(135deg,var(--menta-cl),var(--menta));border:1.5px solid rgba(107,143,108,.3)}
 .crianca .card-emoji-wrap{background:linear-gradient(135deg,var(--ocre-cl),#f0d890);border:1.5px solid rgba(196,154,74,.3)}
+.bucal .card-emoji-wrap{background:linear-gradient(135deg,#e8f4ff,#c8e0ff);border:1.5px solid rgba(45,74,138,.3)}
 .portal-card h2{font-family:var(--font-display);font-size:1.2rem;font-weight:500;color:var(--txt-1)}
 .portal-card p{font-size:.82rem;color:var(--txt-2);line-height:1.65}
 .card-riscos{display:flex;flex-wrap:wrap;gap:.35rem}
@@ -88,6 +90,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .card-arrow{margin-top:auto;display:flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:700}
 .gestante .card-arrow{color:var(--musgo)}
 .crianca .card-arrow{color:var(--terra)}
+.bucal .card-arrow{color:var(--azul)}
 .portal-footer{text-align:center;padding:1.5rem;font-size:.7rem;color:var(--txt-4);border-top:1px solid var(--border);background:var(--surface);margin-top:auto}
 .app-header{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:58px;position:sticky;top:0;z-index:200;box-shadow:0 3px 16px rgba(0,0,0,.25)}
 .app-header-brand{display:flex;align-items:center;gap:.75rem}
@@ -212,6 +215,43 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .btn-pdf-resultado{background:linear-gradient(135deg,var(--verm),var(--verm-md));color:white}
 .btn-novo-resultado,.btn-portal-resultado{background:var(--surface);color:var(--txt-2);border:1.5px solid var(--border)}
 #modulo-crianca{display:none;min-height:100vh;background:var(--bg)}
+#modulo-bucal{display:none;min-height:100vh;background:var(--bg)}
+.bucal-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.b-secao{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.b-secao-titulo{padding:.85rem 1.2rem;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:.5rem}
+.b-secao-titulo.t-id-b{background:linear-gradient(90deg,#2d4a8a,#3d6aaa);color:white}
+.b-secao-titulo.t-hab{background:linear-gradient(90deg,#1a5276,#2980b9);color:white}
+.b-secao-titulo.t-hist{background:linear-gradient(90deg,#6c3483,#9b59b6);color:white}
+.b-secao-titulo.t-exam{background:linear-gradient(90deg,#1e8449,#27ae60);color:white}
+.b-secao-titulo.t-estrat{background:linear-gradient(90deg,var(--verm),var(--verm-md));color:white}
+.b-secao-titulo.t-conduta{background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white}
+.b-secao-corpo{padding:1.25rem}
+.b-simNao-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .85rem;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);margin-bottom:.4rem}
+.b-simNao-row span{flex:1;font-size:.845rem;color:var(--txt-2)}
+.b-radios{display:flex;gap:1rem}
+.b-radios label{display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--txt-2)}
+.b-radios label input{accent-color:var(--musgo)}
+.b-grid-id{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.b-campo label{display:block;font-size:.65rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px}
+.b-campo input,.b-campo select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.52rem .8rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none;transition:border-color .2s}
+.b-campo input:focus,.b-campo select:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(45,74,138,.1)}
+.b-risco-radios{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.b-risco-radio{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:40px;border:2px solid var(--border);cursor:pointer;font-size:.82rem;font-weight:700;transition:all .2s}
+.b-risco-radio.b-baixo:has(input:checked){background:#e8f5e9;border-color:#4caf50;color:#2e7d32}
+.b-risco-radio.b-mod:has(input:checked){background:#fff8e1;border-color:#ffc107;color:#f57f17}
+.b-risco-radio.b-alto:has(input:checked){background:#ffebee;border-color:#ef5350;color:#c62828}
+.b-risco-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--border);margin-top:.75rem}
+.b-risco-table th{padding:.6rem 1rem;font-size:.75rem;font-weight:700;text-align:left}
+.b-risco-table td{padding:.45rem 1rem;font-size:.78rem;border-top:1px solid var(--border);color:var(--txt-2)}
+.th-baixo{background:#e8f5e9;color:#2e7d32}
+.th-mod{background:#fff8e1;color:#f57f17}
+.th-alto{background:#ffebee;color:#c62828}
+.b-check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.b-check-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.82rem;color:var(--txt-2);transition:all .15s}
+.b-check-item:hover{border-color:#5a9fd4;background:#e8f4ff}
+.b-check-item input{accent-color:var(--azul);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.b-obs{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none;resize:vertical;min-height:80px;transition:border-color .2s}
+.b-obs:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(45,74,138,.1)}
 .cri-content{max-width:980px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .c-secao{background:var(--surface);border-radius:16px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .c-secao-titulo{padding:.85rem 1.2rem;font-weight:700;font-size:.85rem;display:flex;align-items:center;gap:.5rem}
@@ -333,7 +373,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -826,6 +866,156 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
   </div>
 </div>
 
+<!-- MÓDULO SAÚDE BUCAL -->
+<div id="modulo-bucal">
+  <div class="app-header">
+    <div class="app-header-brand">
+      <div class="app-header-icon">🦷</div>
+      <div class="app-header-text">
+        <strong>Estratificação em Saúde Bucal</strong>
+        <span>Anexo 2 — Modelo de Estratificação de Riscos em Saúde Bucal</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+  </div>
+  <div class="bucal-content">
+
+    <!-- 1. IDENTIFICAÇÃO -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-id-b">👤 Identificação</div>
+      <div class="b-secao-corpo">
+        <div class="b-grid-id" style="margin-bottom:.75rem">
+          <div class="b-campo"><label>Nome Social</label><input type="text" id="b-nome-social" placeholder="Nome social"></div>
+          <div class="b-campo"><label>Nome Civil</label><input type="text" id="b-nome-civil" placeholder="Nome civil"></div>
+          <div class="b-campo"><label>Data da Avaliação</label><input type="date" id="b-data-avaliacao"></div>
+          <div class="b-campo"><label>CPF / CNS</label><input type="text" id="b-cpf-cns" placeholder="CPF ou CNS"></div>
+          <div class="b-campo"><label>Data de Nascimento</label><input type="date" id="b-nascimento"></div>
+          <div class="b-campo"><label>Sexo</label><select id="b-sexo"><option value="">Selecione</option><option value="F">Feminino</option><option value="M">Masculino</option></select></div>
+        </div>
+        <div class="b-campo" style="margin-bottom:.75rem"><label>Raça / Cor</label>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.35rem">
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Branca"> Branca</label>
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Preta"> Preta</label>
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Amarela"> Amarela</label>
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Parda"> Parda</label>
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Indígena"> Indígena</label>
+            <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.85rem"><input type="radio" name="b-raca" value="Ignorado"> Ignorado</label>
+          </div>
+        </div>
+        <div class="b-grid-id">
+          <div class="b-campo"><label>UBS</label><input type="text" id="b-ubs" readonly style="font-weight:700;color:var(--musgo)"></div>
+          <div class="b-campo"><label>ACS Responsável</label><input type="text" id="b-acs" placeholder="ACS Responsável"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. HÁBITOS E FATORES COMPORTAMENTAIS -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-hab">1. Hábitos e fatores comportamentais</div>
+      <div class="b-secao-corpo">
+        <div class="b-simNao-row"><span>Escova os dentes pelo menos 2 vezes ao dia</span><div class="b-radios"><label><input type="radio" name="b-escova" value="Sim"> Sim</label><label><input type="radio" name="b-escova" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Utiliza fio dental regularmente</span><div class="b-radios"><label><input type="radio" name="b-fio" value="Sim"> Sim</label><label><input type="radio" name="b-fio" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Consome açúcar várias vezes ao dia</span><div class="b-radios"><label><input type="radio" name="b-acucar" value="Sim"> Sim</label><label><input type="radio" name="b-acucar" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Utiliza creme dental com flúor</span><div class="b-radios"><label><input type="radio" name="b-fluor-creme" value="Sim"> Sim</label><label><input type="radio" name="b-fluor-creme" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Tem acesso à água fluoretada</span><div class="b-radios"><label><input type="radio" name="b-agua-fluor" value="Sim"> Sim</label><label><input type="radio" name="b-agua-fluor" value="Não"> Não</label></div></div>
+      </div>
+    </div>
+
+    <!-- 3. HISTÓRICO DE SAÚDE BUCAL -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-hist">2. Histórico de saúde bucal</div>
+      <div class="b-secao-corpo">
+        <div class="b-simNao-row"><span>Teve cárie no último ano</span><div class="b-radios"><label><input type="radio" name="b-carie-ult" value="Sim"> Sim</label><label><input type="radio" name="b-carie-ult" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Perdeu dente por cárie</span><div class="b-radios"><label><input type="radio" name="b-perdeu-dente" value="Sim"> Sim</label><label><input type="radio" name="b-perdeu-dente" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Possui restaurações dentárias</span><div class="b-radios"><label><input type="radio" name="b-restauracoes" value="Sim"> Sim</label><label><input type="radio" name="b-restauracoes" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Relata dor dentária recente</span><div class="b-radios"><label><input type="radio" name="b-dor" value="Sim"> Sim</label><label><input type="radio" name="b-dor" value="Não"> Não</label></div></div>
+      </div>
+    </div>
+
+    <!-- 4. EXAME CLÍNICO -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-exam">3. Exame clínico</div>
+      <div class="b-secao-corpo">
+        <div class="b-simNao-row"><span>Placa bacteriana visível</span><div class="b-radios"><label><input type="radio" name="b-placa" value="Sim"> Sim</label><label><input type="radio" name="b-placa" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Sangramento gengival</span><div class="b-radios"><label><input type="radio" name="b-sangramento" value="Sim"> Sim</label><label><input type="radio" name="b-sangramento" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Lesões de cárie</span><div class="b-radios"><label><input type="radio" name="b-lesoes-carie" value="Sim"> Sim</label><label><input type="radio" name="b-lesoes-carie" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Manchas brancas no esmalte</span><div class="b-radios"><label><input type="radio" name="b-manchas" value="Sim"> Sim</label><label><input type="radio" name="b-manchas" value="Não"> Não</label></div></div>
+        <div class="b-simNao-row"><span>Cálculo dental</span><div class="b-radios"><label><input type="radio" name="b-calculo" value="Sim"> Sim</label><label><input type="radio" name="b-calculo" value="Não"> Não</label></div></div>
+      </div>
+    </div>
+
+    <!-- 5. ESTRATIFICAÇÃO DO RISCO -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-estrat">4. Estratificação do risco em saúde bucal</div>
+      <div class="b-secao-corpo">
+        <div class="b-risco-radios">
+          <label class="b-risco-radio b-baixo"><input type="radio" name="b-risco" value="Baixo Risco" onchange="bAtualizarPainel()"> 🟢 Baixo Risco</label>
+          <label class="b-risco-radio b-mod"><input type="radio" name="b-risco" value="Risco Moderado" onchange="bAtualizarPainel()"> 🟡 Risco Moderado</label>
+          <label class="b-risco-radio b-alto"><input type="radio" name="b-risco" value="Alto Risco" onchange="bAtualizarPainel()"> 🔴 Alto Risco</label>
+        </div>
+        <div id="b-painel" style="display:none;border-radius:12px;padding:1rem 1.25rem;font-weight:700;font-size:1rem;margin-bottom:1rem;transition:all .3s"></div>
+        <table class="b-risco-table">
+          <thead><tr><th class="th-baixo">🟢 Baixo risco</th><th class="th-mod">🟡 Risco moderado</th><th class="th-alto">🔴 Alto risco</th></tr></thead>
+          <tbody>
+            <tr><td>Ausência de lesões de cárie</td><td>Presença de placa bacteriana</td><td>Múltiplas lesões de cárie ativas</td></tr>
+            <tr><td>Boa higiene bucal</td><td>Algumas restaurações</td><td>Sangramento gengival frequente</td></tr>
+            <tr><td>Ausência de sangramento gengival</td><td>Lesões iniciais de cárie</td><td>Grande acúmulo de placa</td></tr>
+            <tr><td>Uso regular de flúor</td><td>Higiene bucal irregular</td><td>Histórico recente de perda dentária por cárie</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. CONDUTA / PLANO DE CUIDADOS -->
+    <div class="b-secao">
+      <div class="b-secao-titulo t-conduta">5. Conduta / Plano de cuidados individualizado</div>
+      <div class="b-secao-corpo">
+        <div class="b-check-grid" style="margin-bottom:.75rem">
+          <label class="b-check-item"><input type="checkbox" id="bc-higiene"> Orientação sobre higiene bucal</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-continuo"> Acompanhamento contínuo/programado</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-fluor-top"> Aplicação tópica de flúor</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-restaurador-atraumatico"> Tratamento restaurador atraumático</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-aps"> Atenção contínua na APS</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-grupo"> Atenção compartilhada em grupo</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-restaurador"> Tratamento restaurador</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-compartilhado"> Compartilhamento do cuidado</label>
+          <label class="b-check-item"><input type="checkbox" id="bc-operativo"> Grupo operativo</label>
+        </div>
+        <div class="b-campo"><label>Outro</label><input type="text" id="b-outro" placeholder="Descreva outra conduta, se necessário"></div>
+        <div class="b-campo" style="margin-top:.75rem"><label>Observações</label><textarea class="b-obs" id="b-observacoes" placeholder="Observações adicionais..."></textarea></div>
+      </div>
+    </div>
+
+    <!-- AÇÕES -->
+    <div class="b-secao">
+      <div class="b-secao-corpo">
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem">
+          <button class="btn btn-salvar" id="btn-salvar-bucal" onclick="salvarBucal()">💾 Salvar Registro</button>
+          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-nova" onclick="reiniciarBucal()">↺ Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        </div>
+        <div style="font-size:.8rem;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem">
+          📋 Registros Salvos
+          <button onclick="carregarBucal()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
+        </div>
+        <div class="busca-wrap">
+          <input type="text" class="busca-input" id="buscaBucal" placeholder="🔍 Buscar pelo nome do paciente...">
+          <button class="busca-btn" onclick="buscarBucal()">Buscar</button>
+          <button class="busca-btn" onclick="carregarBucal()" style="background:var(--txt-3)">Limpar</button>
+        </div>
+        <div class="tabela-wrap">
+          <table class="tbl">
+            <thead><tr><th>Paciente</th><th>Data Avaliação</th><th>ACS</th><th>Risco</th><th>Ações</th></tr></thead>
+            <tbody id="bucalList"><tr><td colspan="5" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 // ===== CONFIGURAÇÃO SUPABASE =====
 const SUPABASE_URL='https://kqielgdslxjtykgqjmfg.supabase.co';
@@ -853,6 +1043,7 @@ function fazerLogin(){
     document.getElementById('portal-usuario-info').innerHTML=' · '+user;
     document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
     document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
+    document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
     document.getElementById('c-data').valueAsDate=new Date();
     cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
     showToast('Bem-vindo(a), '+user+'!');
@@ -863,8 +1054,8 @@ function fazerLogin(){
 }
 
 function fazerLogout(){if(confirm('Deseja sair?')){location.reload();}}
-function voltarPortal(){document.getElementById('modulo-gestante').style.display='none';document.getElementById('modulo-crianca').style.display='none';document.getElementById('tela-portal').style.display='flex';}
-function abrirModulo(mod){document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else carregarCriancas();}
+function voltarPortal(){document.getElementById('modulo-gestante').style.display='none';document.getElementById('modulo-crianca').style.display='none';document.getElementById('modulo-bucal').style.display='none';document.getElementById('tela-portal').style.display='flex';}
+function abrirModulo(mod){document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}}
 
 // ===== GESTANTE =====
 let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
@@ -1338,10 +1529,115 @@ document.getElementById('c-ig').addEventListener('change',cCalcular);
 document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
 ['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);atualizarPreviewWppACS(p[2],p[1],p[0]);}});});
 
+// ===== SAÚDE BUCAL =====
+function bGetRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
+function bAtualizarPainel(){
+  const risco=bGetRadio('b-risco');
+  const painel=document.getElementById('b-painel');
+  if(!risco){painel.style.display='none';return;}
+  painel.style.display='flex';painel.style.alignItems='center';painel.style.gap='1rem';
+  const cfgs={'Baixo Risco':{bg:'#e8f5e9',border:'#4caf50',color:'#2e7d32',icon:'🟢',txt:'BAIXO RISCO'},'Risco Moderado':{bg:'#fff8e1',border:'#ffc107',color:'#f57f17',icon:'🟡',txt:'RISCO MODERADO'},'Alto Risco':{bg:'#ffebee',border:'#ef5350',color:'#c62828',icon:'🔴',txt:'ALTO RISCO'}};
+  const cfg=cfgs[risco];
+  painel.style.background=cfg.bg;painel.style.border='2px solid '+cfg.border;painel.style.borderRadius='12px';painel.style.padding='1rem 1.25rem';painel.style.color=cfg.color;
+  painel.innerHTML=`<span style="font-size:1.8rem">${cfg.icon}</span><span style="font-weight:700;font-size:1rem">${cfg.txt}</span>`;
+}
+function preencherUbsBucal(){
+  const ubsEl=document.getElementById('login-user');
+  const mapped={'ESF01':'UBS Central','ESF02':'UBS Tucum'};
+  const ubs=document.getElementById('b-ubs');
+  if(ubs)ubs.value=document.getElementById('portal-ubs-nome')?document.getElementById('portal-ubs-nome').textContent:'';
+}
+async function salvarBucal(){
+  const nome=document.getElementById('b-nome-civil').value||document.getElementById('b-nome-social').value;
+  if(!nome){showToast('Informe o nome do paciente!',true);return;}
+  const risco=bGetRadio('b-risco');
+  if(!risco){showToast('Selecione o nível de risco!',true);return;}
+  const conduta=[];
+  if(document.getElementById('bc-higiene').checked)conduta.push('Orientação higiene bucal');
+  if(document.getElementById('bc-continuo').checked)conduta.push('Acompanhamento contínuo');
+  if(document.getElementById('bc-fluor-top').checked)conduta.push('Aplicação tópica de flúor');
+  if(document.getElementById('bc-restaurador-atraumatico').checked)conduta.push('Tratamento restaurador atraumático');
+  if(document.getElementById('bc-aps').checked)conduta.push('Atenção contínua na APS');
+  if(document.getElementById('bc-grupo').checked)conduta.push('Atenção compartilhada em grupo');
+  if(document.getElementById('bc-restaurador').checked)conduta.push('Tratamento restaurador');
+  if(document.getElementById('bc-compartilhado').checked)conduta.push('Compartilhamento do cuidado');
+  if(document.getElementById('bc-operativo').checked)conduta.push('Grupo operativo');
+  const outro=document.getElementById('b-outro').value;if(outro)conduta.push('Outro: '+outro);
+  const data={
+    nome_civil:document.getElementById('b-nome-civil').value||null,
+    nome_social:document.getElementById('b-nome-social').value||null,
+    raca_cor:bGetRadio('b-raca')||null,
+    sexo:document.getElementById('b-sexo').value||null,
+    data_avaliacao:document.getElementById('b-data-avaliacao').value||null,
+    cpf_cns:document.getElementById('b-cpf-cns').value||null,
+    nascimento:document.getElementById('b-nascimento').value||null,
+    ubs:document.getElementById('b-ubs').value||null,
+    acs:document.getElementById('b-acs').value||null,
+    escova_2x:bGetRadio('b-escova')||null,
+    fio_dental:bGetRadio('b-fio')||null,
+    consume_acucar:bGetRadio('b-acucar')||null,
+    creme_fluor:bGetRadio('b-fluor-creme')||null,
+    agua_fluoretada:bGetRadio('b-agua-fluor')||null,
+    carie_ultimo_ano:bGetRadio('b-carie-ult')||null,
+    perdeu_dente:bGetRadio('b-perdeu-dente')||null,
+    restauracoes:bGetRadio('b-restauracoes')||null,
+    dor_dentaria:bGetRadio('b-dor')||null,
+    placa_bacteriana:bGetRadio('b-placa')||null,
+    sangramento_gengival:bGetRadio('b-sangramento')||null,
+    lesoes_carie:bGetRadio('b-lesoes-carie')||null,
+    manchas_brancas:bGetRadio('b-manchas')||null,
+    calculo_dental:bGetRadio('b-calculo')||null,
+    risco,
+    conduta:conduta.join(', ')||null,
+    observacoes:document.getElementById('b-observacoes').value||null
+  };
+  const btn=document.getElementById('btn-salvar-bucal');btn.disabled=true;btn.textContent='⏳ Salvando...';
+  try{
+    const{error}=await supabaseClient.from('saudebucal').insert([data]);
+    if(error)throw error;
+    showToast('✅ Registro salvo!');carregarBucal();reiniciarBucal();
+  }catch(err){showToast('Erro ao salvar: '+(err.message||''),true);}
+  finally{btn.disabled=false;btn.textContent='💾 Salvar Registro';}
+}
+async function carregarBucal(){
+  const tbody=document.getElementById('bucalList');if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1.5rem">Carregando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('saudebucal').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1.5rem">Nenhum registro cadastrado</td></tr>';return;}
+    const rm={'Baixo Risco':'<span class="badge-pill bp-verde">Baixo Risco</span>','Risco Moderado':'<span class="badge-pill bp-amarelo">Risco Moderado</span>','Alto Risco':'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
+    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){tbody.innerHTML='<tr><td colspan="5" style="color:red;text-align:center;padding:1rem">Erro ao carregar. Verifique a tabela "saudebucal" no Supabase.</td></tr>';}
+}
+async function buscarBucal(){
+  const termo=document.getElementById('buscaBucal').value.trim();if(!termo){carregarBucal();return;}
+  const tbody=document.getElementById('bucalList');tbody.innerHTML='<tr><td colspan="5">Buscando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('saudebucal').select('*').or(`nome_civil.ilike.%${termo}%,nome_social.ilike.%${termo}%`).order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1rem">Nenhum resultado encontrado</td></tr>';return;}
+    const rm={'Baixo Risco':'<span class="badge-pill bp-verde">Baixo Risco</span>','Risco Moderado':'<span class="badge-pill bp-amarelo">Risco Moderado</span>','Alto Risco':'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
+    tbody.innerHTML=data.map(r=>`<tr><td><strong>${r.nome_civil||r.nome_social||'—'}</strong></td><td>${r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—'}</td><td>${r.acs||'—'}</td><td>${rm[r.risco]||r.risco||'—'}</td><td><button class="btn-excluir" onclick="excluirBucal(${r.id})">🗑️ Excluir</button></td></tr>`).join('');
+  }catch(err){showToast('Erro na busca',true);}
+}
+async function excluirBucal(id){if(!confirm('Excluir este registro?'))return;try{await supabaseClient.from('saudebucal').delete().eq('id',id);showToast('🗑️ Excluído');carregarBucal();}catch(err){showToast('Erro ao excluir',true);}}
+function reiniciarBucal(){
+  document.querySelectorAll('#modulo-bucal input[type=text],#modulo-bucal input[type=date]').forEach(el=>el.value='');
+  document.querySelectorAll('#modulo-bucal input[type=radio],#modulo-bucal input[type=checkbox]').forEach(el=>el.checked=false);
+  document.querySelectorAll('#modulo-bucal select').forEach(el=>el.selectedIndex=0);
+  document.getElementById('b-observacoes').value='';
+  document.getElementById('b-outro').value='';
+  const painel=document.getElementById('b-painel');if(painel)painel.style.display='none';
+  document.getElementById('b-data-avaliacao').valueAsDate=new Date();
+  preencherUbsBucal();
+}
+
 // ===== INICIALIZAÇÃO =====
 window.addEventListener('load',()=>{
   document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
   document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
+  document.getElementById('b-data-avaliacao').valueAsDate=new Date();
   
   const socialItens=['Baixo nível socioeconômico','Condições de trabalho desfavoráveis','Violência','Situação conjugal insegura','Insuficiência de apoio familiar','Autocuidado insuficiente','Não aceitação da gestação','Baixa escolaridade (<5 anos)','Tabagismo','Medicamentos teratogênicos','IMC <18,5 ou ≥30-39','Gestante em situação de rua/indígena','Mulher preta','Outras condições menor complexidade'];
   const reproItens=['Alterações crescimento intrauterino','Malformação fetal','Nuliparidade ou multiparidade (≥5)','Diabetes gestacional','Síndromes hemorrágicas/hipertensivas','Cesariana prévia incisão clássica','Cesárias (2 ou mais)','Intervalo interpartal <2 anos'];
