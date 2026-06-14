@@ -6,102 +6,128 @@
 <title>Portal APS - SECRETARIA DE SAÚDE - ALTO ALEGRE DO MARANHÃO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --musgo:#3d5a3e;--musgo-escuro:#253826;--musgo-medio:#4f7150;--musgo-claro:#8aac8b;
-  --menta:#c8dbc9;--menta-cl:#e8f2e8;
-  --creme:#faf6ef;--areia:#f0e8d8;
-  --terra:#8b6f47;--terra-cl:#f5ede0;
-  --ocre:#c49a4a;--ocre-cl:#fdf4e0;
-  --verm:#8b3a3a;--verm-cl:#fdf0f0;--verm-md:#c05252;
-  --azul:#2d4a8a;
-  --roxo:#5a2878;--roxo-cl:#f5f3ff;
-  --bg:#f7f3ec;--surface:#fdfaf5;--surface-2:#f5f0e8;
-  --border:#e2d9c8;--border-md:#ccc0a8;
-  --txt-1:#1e2a1f;--txt-2:#4a5a4b;--txt-3:#7a8c7b;--txt-4:#a8b8a9;
+  --musgo:#2e7d32;--musgo-escuro:#1b5e20;--musgo-medio:#388e3c;--musgo-claro:#66bb6a;
+  --menta:#a5d6a7;--menta-cl:#e8f5e9;
+  --creme:#f8fafc;--areia:#f1f5f9;
+  --terra:#7c5c3a;--terra-cl:#fdf6ee;
+  --ocre:#b8860b;--ocre-cl:#fffbeb;
+  --verm:#c62828;--verm-cl:#fff5f5;--verm-md:#e53935;
+  --azul:#1565c0;
+  --roxo:#6a1b9a;--roxo-cl:#faf5ff;
+  --bg:#f0f4f8;--surface:#ffffff;--surface-2:#f8fafc;
+  --border:#e2e8f0;--border-md:#cbd5e1;
+  --txt-1:#0f172a;--txt-2:#334155;--txt-3:#64748b;--txt-4:#94a3b8;
   --font-display:'Fraunces',Georgia,serif;
-  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
   --ease:cubic-bezier(.4,0,.2,1);
   --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.08),0 4px 6px rgba(0,0,0,.04);
+  --shadow-xl:0 20px 25px rgba(0,0,0,.10),0 8px 10px rgba(0,0,0,.05);
+  --shadow-2xl:0 25px 50px rgba(0,0,0,.18);
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:18px;--radius-2xl:24px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-size:14px;min-height:100vh}
-.toast{position:fixed;bottom:5rem;right:1.5rem;background:var(--musgo);color:white;padding:.75rem 1.2rem;border-radius:12px;font-weight:700;font-size:.85rem;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:9999;display:none;animation:toastIn .35s var(--ease-spring)}
-@keyframes toastIn{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-#tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(135deg,var(--musgo-escuro) 0%,var(--musgo) 55%,#3a7040 100%);position:relative;overflow:hidden}
-#tela-login::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(107,143,108,.3) 0%,transparent 70%);top:-200px;left:-200px;animation:blob 8s ease-in-out infinite}
-#tela-login::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(196,154,74,.2) 0%,transparent 70%);bottom:-100px;right:-100px;animation:blob 10s ease-in-out infinite reverse}
-@keyframes blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.05)}}
-.login-card{background:var(--surface);border-radius:28px;padding:2.75rem 2.25rem;width:100%;max-width:430px;box-shadow:0 32px 80px rgba(0,0,0,.28);position:relative;z-index:2;animation:cardUp .7s var(--ease-spring) both}
-@keyframes cardUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-.login-top{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
-.login-icon{width:56px;height:56px;flex-shrink:0;background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 8px 20px rgba(37,56,38,.4)}
-.login-title strong{display:block;font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--txt-1);line-height:1.2}
-.login-title span{font-size:.7rem;color:var(--txt-3)}
-.login-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:1.5rem}
-.login-erro{background:var(--verm-cl);color:var(--verm);border:1px solid rgba(139,58,58,.2);border-left:3px solid var(--verm-md);border-radius:8px;padding:.6rem .9rem;font-size:.82rem;font-weight:600;margin-bottom:1rem;display:none;animation:shake .4s}
+body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;color:white;padding:.8rem 1.25rem;border-radius:12px;font-weight:600;font-size:.85rem;box-shadow:var(--shadow-xl);z-index:9999;display:none;animation:toastIn .35s var(--ease-spring);max-width:340px;line-height:1.4}
+@keyframes toastIn{from{transform:translateY(20px) scale(.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.f-group{margin-bottom:1rem}
-.f-label{display:block;font-size:.65rem;font-weight:700;color:var(--txt-3);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.8px}
-.f-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;font-family:var(--font-body);font-size:.92rem;color:var(--txt-1);background:var(--creme);outline:none;transition:border-color .2s,box-shadow .2s}
-.f-input:focus{border-color:var(--musgo);box-shadow:0 0 0 4px rgba(61,90,62,.1)}
+@keyframes cardUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.05)}}
+@keyframes iconPop{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes modalIn{from{transform:scale(.95) translateY(16px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+
+/* ── LOGIN ── */
+#tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(150deg,#0f2417 0%,var(--musgo-escuro) 40%,var(--musgo) 80%,#43a047 100%);position:relative;overflow:hidden}
+#tela-login::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(102,187,106,.18) 0%,transparent 65%);top:-250px;left:-250px;animation:blob 9s ease-in-out infinite}
+#tela-login::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(46,125,50,.25) 0%,transparent 65%);bottom:-150px;right:-150px;animation:blob 11s ease-in-out infinite reverse}
+.login-card{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-radius:24px;padding:2.5rem 2.25rem;width:100%;max-width:420px;box-shadow:0 32px 64px rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.4);position:relative;z-index:2;animation:cardUp .6s var(--ease-spring) both}
+.login-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.75rem}
+.login-icon{width:52px;height:52px;flex-shrink:0;background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 6px 16px rgba(27,94,32,.4)}
+.login-title strong{display:block;font-size:.95rem;font-weight:700;color:var(--txt-1);line-height:1.3;letter-spacing:-.02em}
+.login-title span{font-size:.7rem;color:var(--txt-3);font-weight:400}
+.login-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:1.5rem}
+.login-erro{background:#fff5f5;color:var(--verm);border:1px solid #fecaca;border-left:3px solid var(--verm);border-radius:8px;padding:.6rem .9rem;font-size:.82rem;font-weight:600;margin-bottom:1rem;display:none;animation:shake .4s}
+.f-group{margin-bottom:.9rem}
+.f-label{display:block;font-size:.65rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.7px}
+.f-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.72rem 1rem;font-family:var(--font-body);font-size:.9rem;color:var(--txt-1);background:var(--creme);outline:none;transition:border-color .2s,box-shadow .2s;font-weight:400}
+.f-input:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(46,125,50,.12)}
 .f-input::placeholder{color:var(--txt-4)}
-.btn-login-submit{width:100%;background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;border:none;padding:.85rem;border-radius:12px;font-family:var(--font-body);font-size:.95rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(37,56,38,.35);transition:transform .2s var(--ease-spring)}
-.btn-login-submit:hover{transform:translateY(-2px)}
-.login-note{text-align:center;margin-top:1rem;font-size:.7rem;color:var(--txt-4)}
+.btn-login-submit{width:100%;background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;border:none;padding:.82rem;border-radius:11px;font-family:var(--font-body);font-size:.92rem;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(27,94,32,.35);transition:all .2s var(--ease-spring);letter-spacing:-.01em;margin-top:.25rem}
+.btn-login-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,94,32,.45)}
+.login-note{text-align:center;margin-top:1rem;font-size:.68rem;color:var(--txt-4)}
+
+/* ── PORTAL ── */
 #tela-portal{min-height:100vh;display:none;flex-direction:column;background:var(--bg)}
-.portal-hero{background:linear-gradient(135deg,var(--musgo-escuro) 0%,var(--musgo) 60%,#3a7040 100%);padding:3rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
-.portal-hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:50px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
-.portal-logo-box{display:inline-flex;align-items:center;gap:1rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:.75rem 1.5rem;margin-bottom:1rem;backdrop-filter:blur(6px)}
-.portal-logo-icon{width:44px;height:44px;background:rgba(255,255,255,.9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.portal-hero{background:linear-gradient(150deg,#0f2417 0%,var(--musgo-escuro) 45%,var(--musgo) 100%);padding:2.75rem 2rem 4.5rem;text-align:center;position:relative;overflow:hidden}
+.portal-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(102,187,106,.12) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(165,214,167,.08) 0%,transparent 40%);pointer-events:none}
+.portal-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(60% 100% at 50% 100%)}
+.portal-logo-box{display:inline-flex;align-items:center;gap:.9rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:.65rem 1.25rem;margin-bottom:1.25rem;backdrop-filter:blur(8px)}
+.portal-logo-icon{width:40px;height:40px;background:rgba(255,255,255,.92);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .portal-logo-text{text-align:left;color:white}
-.portal-logo-text strong{display:block;font-size:.95rem;font-weight:700}
-.portal-logo-text span{font-size:.7rem;opacity:.8}
-.portal-hero h1{font-family:var(--font-display);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:500;color:white;line-height:1.15;margin-bottom:.6rem}
-.portal-hero h1 em{font-style:italic;color:#c8e6c9}
-.portal-hero p{color:rgba(255,255,255,.8);font-size:1rem}
-.portal-ubs-info{display:inline-flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:.5rem 1.2rem;color:white;font-size:.85rem;font-weight:600;margin-bottom:1.25rem}
-.btn-logout{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:.3rem .8rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:.73rem;font-weight:600;margin-left:.6rem;transition:background .2s}
-.btn-logout:hover{background:rgba(255,255,255,.25)}
-.portal-cards-wrap{padding:2.5rem 1.5rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
-.portal-cards-label{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-3);display:flex;align-items:center;gap:.75rem}
+.portal-logo-text strong{display:block;font-size:.88rem;font-weight:700;letter-spacing:-.01em}
+.portal-logo-text span{font-size:.67rem;opacity:.75;font-weight:400}
+.portal-hero h1{font-family:var(--font-display);font-size:clamp(1.7rem,4.5vw,2.6rem);font-weight:500;color:white;line-height:1.15;margin-bottom:.55rem;letter-spacing:-.02em}
+.portal-hero h1 em{font-style:italic;color:#a5d6a7}
+.portal-hero p{color:rgba(255,255,255,.75);font-size:.92rem;font-weight:400}
+.portal-ubs-info{display:inline-flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:.45rem 1.1rem;color:white;font-size:.82rem;font-weight:600;margin-bottom:1.1rem}
+.btn-logout{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.9);padding:.3rem .8rem;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-size:.7rem;font-weight:600;margin-left:.6rem;transition:all .2s}
+.btn-logout:hover{background:rgba(255,255,255,.22);color:white}
+.portal-stats{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;padding:1.25rem 1.5rem .5rem;margin-top:-1rem;position:relative;z-index:5}
+.portal-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:.9rem 1.5rem;display:flex;flex-direction:column;align-items:center;gap:.15rem;box-shadow:var(--shadow-md);min-width:110px;flex:1;max-width:160px}
+.pstat-num{font-size:1.7rem;font-weight:800;color:var(--musgo);line-height:1;letter-spacing:-.03em}
+.pstat-lab{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-3)}
+.portal-cards-wrap{padding:1.5rem 1.5rem 3rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem}
+.portal-cards-label{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt-3);display:flex;align-items:center;gap:.75rem}
 .portal-cards-label::before,.portal-cards-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border)}
-.portal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;width:100%;max-width:1050px}
-.portal-card{background:var(--surface);border-radius:24px;padding:2rem 1.75rem;border:1.5px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);cursor:pointer;transition:transform .3s var(--ease-spring),box-shadow .3s,border-color .3s;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
-.portal-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.5),transparent 60%);pointer-events:none}
-.portal-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.12)}
-.portal-card.gestante:hover{border-color:var(--musgo-claro)}
-.portal-card.crianca:hover{border-color:var(--ocre)}
-.portal-card.bucal:hover{border-color:#5a9fd4}
-.portal-card.hasdm:hover{border-color:#e53935}
-.card-emoji-wrap{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem}
-.gestante .card-emoji-wrap{background:linear-gradient(135deg,var(--menta-cl),var(--menta));border:1.5px solid rgba(107,143,108,.3)}
-.crianca .card-emoji-wrap{background:linear-gradient(135deg,var(--ocre-cl),#f0d890);border:1.5px solid rgba(196,154,74,.3)}
-.bucal .card-emoji-wrap{background:linear-gradient(135deg,#e8f4ff,#c8e0ff);border:1.5px solid rgba(45,74,138,.3)}
-.hasdm .card-emoji-wrap{background:linear-gradient(135deg,#ffebee,#ffcdd2);border:1.5px solid rgba(198,40,40,.3)}
-.portal-card h2{font-family:var(--font-display);font-size:1.2rem;font-weight:500;color:var(--txt-1)}
-.portal-card p{font-size:.82rem;color:var(--txt-2);line-height:1.65}
-.card-riscos{display:flex;flex-wrap:wrap;gap:.35rem}
-.risco-pill{font-size:.63rem;font-weight:700;padding:.2rem .6rem;border-radius:20px}
-.risco-pill.verde{background:var(--menta-cl);color:var(--musgo);border:1px solid var(--menta)}
-.risco-pill.amarelo{background:var(--ocre-cl);color:#7a5010;border:1px solid #e8c878}
-.risco-pill.laranja{background:#fff0e0;color:#8a4a10;border:1px solid #f0c898}
-.risco-pill.vermelho{background:var(--verm-cl);color:var(--verm);border:1px solid #f0b8b8}
-.card-arrow{margin-top:auto;display:flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:700}
+.portal-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem;width:100%;max-width:1080px}
+.portal-card{background:var(--surface);border-radius:20px;padding:1.75rem;border:1px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .3s var(--ease-spring),box-shadow .3s,border-color .25s;display:flex;flex-direction:column;gap:.85rem;position:relative;overflow:hidden}
+.portal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.portal-card.gestante::before{background:linear-gradient(90deg,var(--musgo-escuro),var(--musgo));opacity:1}
+.portal-card.crianca::before{background:linear-gradient(90deg,#7c5c3a,var(--ocre));opacity:1}
+.portal-card.bucal::before{background:linear-gradient(90deg,#1a237e,#1565c0);opacity:1}
+.portal-card.hasdm::before{background:linear-gradient(90deg,#7f0000,#c62828);opacity:1}
+.portal-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-xl)}
+.portal-card.gestante:hover{border-color:#a5d6a7}
+.portal-card.crianca:hover{border-color:#f0c070}
+.portal-card.bucal:hover{border-color:#90caf9}
+.portal-card.hasdm:hover{border-color:#ef9a9a}
+.card-emoji-wrap{width:60px;height:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.75rem}
+.gestante .card-emoji-wrap{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1px solid #a5d6a7}
+.crianca .card-emoji-wrap{background:linear-gradient(135deg,#fffde7,#fff9c4);border:1px solid #f0e070}
+.bucal .card-emoji-wrap{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1px solid #90caf9}
+.hasdm .card-emoji-wrap{background:linear-gradient(135deg,#ffebee,#ffcdd2);border:1px solid #ef9a9a}
+.portal-card h2{font-size:1rem;font-weight:700;color:var(--txt-1);letter-spacing:-.02em;line-height:1.3}
+.portal-card p{font-size:.8rem;color:var(--txt-3);line-height:1.6;font-weight:400}
+.card-riscos{display:flex;flex-wrap:wrap;gap:.3rem}
+.risco-pill{font-size:.62rem;font-weight:600;padding:.18rem .55rem;border-radius:20px}
+.risco-pill.verde{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.risco-pill.amarelo{background:#fffde7;color:#f57f17;border:1px solid #ffe082}
+.risco-pill.laranja{background:#fff3e0;color:#e65100;border:1px solid #ffcc80}
+.risco-pill.vermelho{background:#ffebee;color:#c62828;border:1px solid #ef9a9a}
+.card-arrow{margin-top:auto;display:flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:700}
 .gestante .card-arrow{color:var(--musgo)}
 .crianca .card-arrow{color:var(--terra)}
 .bucal .card-arrow{color:var(--azul)}
 .hasdm .card-arrow{color:#c62828}
-.portal-footer{text-align:center;padding:1.5rem;font-size:.7rem;color:var(--txt-4);border-top:1px solid var(--border);background:var(--surface);margin-top:auto}
-.app-header{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:58px;position:sticky;top:0;z-index:200;box-shadow:0 3px 16px rgba(0,0,0,.25)}
-.app-header-brand{display:flex;align-items:center;gap:.75rem}
-.app-header-icon{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(255,255,255,.2)}
-.app-header-text strong{display:block;font-size:.88rem;font-weight:700}
-.app-header-text span{font-size:.68rem;opacity:.75}
-.btn-portal-voltar{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:white;padding:.4rem 1rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:.78rem;font-weight:600;transition:background .2s}
-.btn-portal-voltar:hover{background:rgba(255,255,255,.2)}
+.portal-footer{text-align:center;padding:1.25rem;font-size:.68rem;color:var(--txt-4);border-top:1px solid var(--border);background:var(--surface);margin-top:auto;letter-spacing:.01em}
+
+/* ── APP HEADER ── */
+.app-header{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.app-header-brand{display:flex;align-items:center;gap:.7rem}
+.app-header-icon{width:34px;height:34px;background:rgba(255,255,255,.14);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:1px solid rgba(255,255,255,.18)}
+.app-header-text strong{display:block;font-size:.85rem;font-weight:700;letter-spacing:-.01em}
+.app-header-text span{font-size:.65rem;opacity:.7;font-weight:400}
+.btn-portal-voltar{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.92);padding:.38rem .95rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:.75rem;font-weight:600;transition:all .2s;letter-spacing:-.01em}
+.btn-portal-voltar:hover{background:rgba(255,255,255,.18);color:white}
 #modulo-gestante{display:none;min-height:100vh;background:var(--bg)}
 .gest-progress{background:var(--surface);border-bottom:1px solid var(--border);padding:.65rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:58px;z-index:99}
 .gest-steps{display:flex;gap:.5rem;flex:1}
@@ -375,44 +401,95 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .det-input:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(61,90,62,.1)}
 .det-btns{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.1rem;flex-wrap:wrap}
 @media(max-width:640px){.det-grid{grid-template-columns:1fr}}
-.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:.85rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 16px rgba(0,0,0,.07);z-index:150;transition:transform .3s var(--ease)}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -2px 12px rgba(0,0,0,.06);z-index:150;transition:transform .3s var(--ease)}
 .nav-bottom.hidden{transform:translateY(100%)}
-.tabela-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+
+/* ── TABELAS ── */
+.tabela-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
 .tbl{width:100%;border-collapse:collapse;font-size:.8rem}
-.tbl th{background:var(--surface-2);padding:.55rem .85rem;font-weight:700;text-transform:uppercase;font-size:.63rem;color:var(--txt-3);border-bottom:1px solid var(--border);text-align:left;letter-spacing:.4px}
-.tbl td{padding:.55rem .85rem;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--txt-2)}
+.tbl thead{background:linear-gradient(135deg,#f8fafc,#f1f5f9)}
+.tbl th{padding:.65rem 1rem;font-weight:700;text-transform:uppercase;font-size:.6rem;color:var(--txt-3);border-bottom:1.5px solid var(--border);text-align:left;letter-spacing:.5px;white-space:nowrap}
+.tbl td{padding:.65rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--txt-2);font-size:.82rem}
 .tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(--surface-2)}
-.badge-pill{display:inline-block;padding:.12rem .55rem;border-radius:20px;font-size:.67rem;font-weight:700}
-.bp-verde{background:var(--menta-cl);color:var(--musgo);border:1px solid var(--menta)}
-.bp-amarelo{background:var(--ocre-cl);color:#7a5010;border:1px solid #e0c060}
-.bp-vermelho{background:var(--verm-cl);color:var(--verm);border:1px solid #f0b0b0}
-.busca-wrap{display:flex;gap:.5rem;margin-bottom:.75rem;align-items:center;flex-wrap:wrap}
-.busca-input{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:8px;padding:.5rem .75rem;font-family:var(--font-body);font-size:.88rem;background:var(--creme);color:var(--txt-1);outline:none;transition:border-color .2s}
-.busca-input:focus{border-color:var(--musgo)}
-.busca-btn{background:var(--musgo);color:white;border:none;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.82rem;transition:background .2s}
-.busca-btn:hover{background:var(--musgo-escuro)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(3px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+.tbl tbody tr:nth-child(even) td{background:#fafbfc}
+.tbl tbody tr:hover td{background:#f0f9f0;transition:background .1s}
+.badge-pill{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:20px;font-size:.65rem;font-weight:700;white-space:nowrap}
+.bp-verde{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.bp-amarelo{background:#fffde7;color:#f57f17;border:1px solid #ffe082}
+.bp-vermelho{background:#ffebee;color:#c62828;border:1px solid #ef9a9a}
+
+/* ── BUSCA ── */
+.busca-wrap{display:flex;gap:.5rem;margin-bottom:.85rem;align-items:center;flex-wrap:wrap}
+.busca-input{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:9px;padding:.52rem .85rem;font-family:var(--font-body);font-size:.85rem;background:var(--surface);color:var(--txt-1);outline:none;transition:border-color .2s,box-shadow .2s;font-weight:400}
+.busca-input:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(46,125,50,.1)}
+.busca-btn{background:var(--musgo);color:white;border:none;padding:.52rem 1.1rem;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.8rem;transition:all .2s;white-space:nowrap}
+.busca-btn:hover{background:var(--musgo-escuro);transform:translateY(-1px)}
+
+/* ── MODAIS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.aberto{display:flex}
-.modal{background:var(--surface);border-radius:16px;padding:1.75rem;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:modalIn .35s var(--ease-spring) both}
-@keyframes modalIn{from{transform:scale(.9) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal h3{font-family:var(--font-display);font-size:1.1rem;font-weight:500;margin-bottom:1.25rem;color:var(--txt-1)}
+.modal{background:var(--surface);border-radius:18px;padding:2rem;width:100%;max-width:500px;box-shadow:var(--shadow-2xl);animation:modalIn .3s var(--ease-spring) both;border:1px solid rgba(255,255,255,.8)}
+.modal h3{font-size:1rem;font-weight:700;margin-bottom:1.25rem;color:var(--txt-1);letter-spacing:-.02em}
 .modal-campo{margin-bottom:.75rem}
-.modal-campo label{display:block;font-size:.65rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem;text-transform:uppercase}
-.modal-campo input,.modal-campo select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.52rem .8rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none}
-.modal-btns{display:flex;gap:.75rem;margin-top:1.25rem;justify-content:flex-end}
-.historico-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-campo label{display:block;font-size:.63rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px}
+.modal-campo input,.modal-campo select{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:.55rem .85rem;font-family:var(--font-body);font-size:.88rem;color:var(--txt-1);background:var(--creme);outline:none;transition:border-color .2s}
+.modal-campo input:focus,.modal-campo select:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(46,125,50,.1)}
+.modal-btns{display:flex;gap:.6rem;margin-top:1.25rem;justify-content:flex-end}
+.historico-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(5px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .historico-overlay.aberto{display:flex}
-.historico-box{background:var(--surface);border-radius:16px;padding:1.75rem;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.historico-box{background:var(--surface);border-radius:20px;padding:1.75rem 2rem;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-2xl);animation:modalIn .3s var(--ease-spring) both;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.historico-box::-webkit-scrollbar{width:6px}
+.historico-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── BOTÕES DE AÇÃO ── */
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.58rem 1.25rem;border-radius:9px;border:none;font-family:var(--font-body);font-size:.83rem;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:-.01em}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.btn-prev{background:var(--surface);color:var(--txt-2);border:1.5px solid var(--border)}
+.btn-prev:hover:not(:disabled){background:var(--surface-2);border-color:var(--border-md)}
+.btn-next-g{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;box-shadow:0 3px 10px rgba(27,94,32,.28)}
+.btn-next-g:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(27,94,32,.35)}
+.btn-calc-g{background:linear-gradient(135deg,var(--roxo),#8e24aa);color:white;box-shadow:0 3px 10px rgba(106,27,154,.25)}
+.btn-calc-g:hover{transform:translateY(-1px)}
+.btn-salvar{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;box-shadow:0 2px 8px rgba(27,94,32,.2)}
+.btn-salvar:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(27,94,32,.3)}
+.btn-pdf{background:linear-gradient(135deg,#b71c1c,var(--verm));color:white}
+.btn-pdf:hover{transform:translateY(-1px)}
+.btn-nova{background:var(--surface);color:var(--txt-2);border:1.5px solid var(--border);font-weight:600}
+.btn-nova:hover{background:var(--surface-2)}
+.btn-excluir{background:#fff5f5;color:#c62828;border:1px solid #fecaca;padding:.28rem .65rem;font-size:.7rem;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-weight:600;transition:all .15s}
+.btn-excluir:hover{background:#c62828;color:white;border-color:#c62828}
+.btn-ver{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:.28rem .65rem;font-size:.7rem;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-weight:600;transition:all .15s;margin-right:.3rem}
+.btn-ver:hover{background:#2e7d32;color:white;border-color:#2e7d32}
+.btn-edit{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;padding:.28rem .65rem;font-size:.7rem;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-weight:600;transition:all .15s;margin-right:.3rem}
+.btn-edit:hover{background:#1565c0;color:white;border-color:#1565c0}
+.btn-hist{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;padding:.28rem .65rem;font-size:.7rem;border-radius:7px;cursor:pointer;font-family:var(--font-body);font-weight:600;transition:all .15s;margin-right:.3rem}
+.btn-hist:hover{background:#6a1b9a;color:white;border-color:#6a1b9a}
+
+/* ── FICHA DETALHE ── */
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem}
+.det-item{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:.55rem .85rem}
+.det-label{display:block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-3);margin-bottom:.12rem}
+.det-valor{font-size:.85rem;font-weight:600;color:var(--txt-1)}
+.det-sub{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt-2);margin:.9rem 0 .5rem;padding-bottom:.3rem;border-bottom:1.5px solid var(--border)}
+.det-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.48rem .75rem;font-family:var(--font-body);font-size:.85rem;color:var(--txt-1);background:var(--creme);outline:none;margin-top:.15rem;transition:border-color .2s}
+.det-input:focus{border-color:var(--musgo);box-shadow:0 0 0 3px rgba(46,125,50,.1)}
+.det-btns{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.1rem;flex-wrap:wrap}
+
+/* ── IMC ── */
 .imc-result{display:none;margin-top:.75rem;padding:.65rem 1rem;border-radius:9px;font-size:.85rem;font-weight:600}
+
+/* ── RESPONSIVO ── */
 @media(max-width:700px){.wpp-grid,.whatsapp-grid,.preec-grid{grid-template-columns:1fr}}
 @media(max-width:640px){
   .portal-cards{grid-template-columns:1fr}
+  .portal-stats{gap:.65rem}
+  .portal-stat-card{min-width:0;flex:1 1 calc(50% - .5rem);max-width:none}
   .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3{grid-template-columns:1fr}
-  .portal-hero h1{font-size:1.6rem}
+  .portal-hero h1{font-size:1.55rem}
   .info-grid{grid-template-columns:1fr}
+  .det-grid{grid-template-columns:1fr}
 }
-@media print{.nav-bottom,.btn-acao,.whatsapp-section,.wpp-grid,.app-header,.gest-progress,.acao-buttons{display:none!important}}
+@media print{.nav-bottom,.btn-acao,.whatsapp-section,.wpp-grid,.app-header,.gest-progress,.acao-buttons,.busca-wrap,.tabela-wrap{display:none!important}}
 </style>
 </head>
 <body>
@@ -424,7 +501,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -1379,14 +1456,15 @@ function ativarSessao(user,bemVindo){
   document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('h-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('c-data').valueAsDate=new Date();
-  cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();
+  cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
   const tela=sessionStorage.getItem('aps_tela')||'portal';
   if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
   else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
 function fazerLogout(){if(confirm('Deseja sair?')){sessionStorage.removeItem('aps_user');sessionStorage.removeItem('aps_tela');location.reload();}}
-function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');}
+function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
+async function carregarStatPortal(){try{const[g,c,b,h]=await Promise.all([supabaseClient.from('gestantes').select('id',{count:'exact',head:true}),supabaseClient.from('criancas').select('id',{count:'exact',head:true}),supabaseClient.from('saudebucal').select('id',{count:'exact',head:true}),supabaseClient.from('hasdm').select('id',{count:'exact',head:true})]);document.getElementById('pstat-gest').textContent=g.count??'0';document.getElementById('pstat-cri').textContent=c.count??'0';document.getElementById('pstat-buc').textContent=b.count??'0';document.getElementById('pstat-has').textContent=h.count??'0';}catch(e){console.warn('stat portal',e);}}
 function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
 
 // ===== GESTANTE =====
