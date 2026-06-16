@@ -1856,7 +1856,10 @@ async function carregarGestantes(){
     const{data,error}=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<td><td colspan="7">Nenhuma gestante cadastrada<\/td><\/tr>';return;}
-    data.forEach(g=>gestMap[g.id]=g);
+    data.forEach(g=>{
+      if(typeof g.fatores_risco==='string'){try{g.fatores_risco=JSON.parse(g.fatores_risco);}catch(e){g.fatores_risco=[];}}
+      gestMap[g.id]=g;
+    });
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
     tbody.innerHTML=data.map(g=>{
       let dataRetorno = '—';
@@ -1884,7 +1887,10 @@ async function buscarGestantes(){
     const{data,error}=await supabaseClient.from('gestantes').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
     if(error)throw error;
     if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma gestante encontrada<\/td><\/tr>';return;}
-    data.forEach(g=>gestMap[g.id]=g);
+    data.forEach(g=>{
+      if(typeof g.fatores_risco==='string'){try{g.fatores_risco=JSON.parse(g.fatores_risco);}catch(e){g.fatores_risco=[];}}
+      gestMap[g.id]=g;
+    });
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
     tbody.innerHTML=data.map(g=>{
       let dataRetorno = '—';
@@ -1927,6 +1933,40 @@ function ergHtml(erg){
   }
   return h;
 }
+function detListaGestante(arr){
+  if(!arr||!Array.isArray(arr)||arr.length===0)
+    return '<div class="det-sub">⚠️ Fatores de Risco Identificados</div><div class="sem-fatores">✅ Nenhum fator de risco registrado</div>';
+  const grupos={
+    risco_habitual:{titulo:'🟢 Risco Habitual',bg:'#e8f5e9',borda:'#4caf50',cor:'#2e7d32',icone:'🟢'},
+    vigilancia:{titulo:'🟡 Habitual com Maior Vigilância',bg:'#fff8e1',borda:'#ffc107',cor:'#f57f17',icone:'🟡'},
+    alto_risco:{titulo:'🟠 Alto Risco Compartilhado',bg:'#fff3e0',borda:'#ff9800',cor:'#e65100',icone:'🟠'},
+    alto_risco_maternidade:{titulo:'🔴 Alto Risco — Maternidade',bg:'#ffebee',borda:'#ef5350',cor:'#c62828',icone:'🔴'}
+  };
+  const agrupado={};
+  arr.forEach(f=>{
+    const g=typeof f==='object'?f.grupo:'outro';
+    const label=typeof f==='object'?f.label:String(f);
+    if(!agrupado[g])agrupado[g]=[];
+    agrupado[g].push(label);
+  });
+  let html='<div class="det-sub">⚠️ Fatores de Risco Identificados</div>';
+  const ordem=['risco_habitual','vigilancia','alto_risco','alto_risco_maternidade'];
+  ordem.forEach(gKey=>{
+    if(!agrupado[gKey])return;
+    const cfg=grupos[gKey]||{titulo:gKey,bg:'#f5f5f5',borda:'#9e9e9e',cor:'#333',icone:'⚠️'};
+    html+=`<div style="background:${cfg.bg};border:1.5px solid ${cfg.borda};border-radius:10px;padding:.75rem 1rem;margin-bottom:.6rem">`;
+    html+=`<div style="font-size:.78rem;font-weight:700;color:${cfg.cor};margin-bottom:.45rem">${cfg.titulo}</div>`;
+    html+=agrupado[gKey].map(label=>`<div style="display:flex;align-items:flex-start;gap:.4rem;font-size:.8rem;color:${cfg.cor};margin-bottom:.25rem"><span style="flex-shrink:0">${cfg.icone}</span><span>${label}</span></div>`).join('');
+    html+='</div>';
+  });
+  // grupos não mapeados
+  Object.keys(agrupado).filter(k=>!ordem.includes(k)).forEach(gKey=>{
+    agrupado[gKey].forEach(label=>{
+      html+=`<div style="font-size:.8rem;margin-bottom:.25rem">⚠️ ${label}</div>`;
+    });
+  });
+  return html;
+}
 function detLista(titulo,arr){
   let html='<div class="det-sub">'+titulo+'</div>';
   if(!arr||!Array.isArray(arr)||arr.length===0)return html+'<div class="sem-fatores">✅ Nenhum fator registrado</div>';
@@ -1948,7 +1988,7 @@ function verGestante(id){
   html+=detItem('UBS',g.ubs)+detItem('Equipe ESF',g.equipe_esf)+detItem('ACS',g.acs);
   html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
   html+=detItem('Classificação',cm[g.risco_classificacao]||g.risco_classificacao)+detItem('Próxima Consulta',fmtDataDet(g.proxima_consulta))+detItem('Registrado em',fmtDataDet(g.created_at));
-  html+='</div>'+detLista('⚠️ Fatores de Risco Identificados',g.fatores_risco);
+  html+='</div>'+detListaGestante(g.fatores_risco);
   html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarGestanteFicha(\''+id+'\')">✏️ Editar Dados</button></div>';
   abrirFicha('🤰 Ficha Completa — '+(g.nome||'Gestante'),html);
 }
