@@ -1373,19 +1373,19 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     <div class="h-secao">
       <div class="h-secao-titulo t-er">⚠️ Quadro 2 — Estratificadores de Risco (ER)</div>
       <div class="h-secao-corpo">
-        <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Marque se o paciente apresenta qualquer um dos critérios abaixo. A presença de ER eleva para <strong>Alto Risco</strong>.</p>
+        <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">A presença de qualquer critério abaixo eleva para <strong>Alto Risco</strong>.</p>
         <div class="h-check-grid">
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Diabetes há mais de 10 anos</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> História familiar de DCV prematura (parentes 1º grau: H &lt;55a / M &lt;65a)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Tabagismo</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> DM2 e HAS concomitantes</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Síndrome Metabólica</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> TFG &lt; 60 mL/min/1,73m²</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Albuminúria entre 30–300 mg/24h ou relação albumina/creatinina 30–300 mg/g</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> LDL–c ≥ 190 mg/dL</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Internações por complicações de DM e/ou HAS nos últimos 12 meses</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Obesidade (IMC ≥ 30 kg/m²)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-er" onchange="hCalcular()"> Hipertrofia de ventrículo esquerdo (ECG ou ecocardiograma)</label>
+          <div class="h-check-item">Diabetes há mais de 10 anos</div>
+          <div class="h-check-item">História familiar de DCV prematura (parentes 1º grau: H &lt;55a / M &lt;65a)</div>
+          <div class="h-check-item">Tabagismo</div>
+          <div class="h-check-item">DM2 e HAS concomitantes</div>
+          <div class="h-check-item">Síndrome Metabólica</div>
+          <div class="h-check-item">TFG &lt; 60 mL/min/1,73m²</div>
+          <div class="h-check-item">Albuminúria entre 30–300 mg/24h ou relação albumina/creatinina 30–300 mg/g</div>
+          <div class="h-check-item">LDL–c ≥ 190 mg/dL</div>
+          <div class="h-check-item">Internações por complicações de DM e/ou HAS nos últimos 12 meses</div>
+          <div class="h-check-item">Obesidade (IMC ≥ 30 kg/m²)</div>
+          <div class="h-check-item">Hipertrofia de ventrículo esquerdo (ECG ou ecocardiograma)</div>
         </div>
       </div>
     </div>
@@ -1396,11 +1396,11 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="h-secao-corpo">
         <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Presença de DASC eleva para <strong>Alto Risco</strong>.</p>
         <div class="h-check-grid">
-          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Escore de cálcio coronário (CAC) &gt; 100 U Agatston</label>
-          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Ultrassonografia de carótidas com placa (&gt; 1,5 mm)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Angiotomografia de coronárias com placas ateroscleróticas</label>
-          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> ITB &lt; 0,9 (Índice tornozelo-braquial)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-dasc" onchange="hCalcular()"> Aneurisma de aorta abdominal</label>
+          <div class="h-check-item">Escore de cálcio coronário (CAC) &gt; 100 U Agatston</div>
+          <div class="h-check-item">Ultrassonografia de carótidas com placa (&gt; 1,5 mm)</div>
+          <div class="h-check-item">Angiotomografia de coronárias com placas ateroscleróticas</div>
+          <div class="h-check-item">ITB &lt; 0,9 (Índice tornozelo-braquial)</div>
+          <div class="h-check-item">Aneurisma de aorta abdominal</div>
         </div>
       </div>
     </div>
@@ -1410,12 +1410,12 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="h-secao-titulo t-er">📋 Quadro 3 — Fatores de Risco</div>
       <div class="h-secao-corpo">
         <div class="h-check-grid">
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> Idade: &gt; 55 anos no homem e &gt; 65 anos na mulher</label>
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> Tabagismo</label>
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> DCV prematura em parentes de 1º grau (homens &lt; 55 anos e mulheres &lt; 65 anos)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> Diabetes Mellitus</label>
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> Dislipidemia: LDL–colesterol ≥ 100mg/dL e/ou não HDL–colesterol 130mg/dL e/ou HDL–colesterol ≤ 40mg/dL no homem e ≤ 46mg/dL na mulher e/ou TG &gt; 150mg/Dl</label>
-          <label class="h-check-item"><input type="checkbox" class="h-fator-risco" onchange="hCalcular()"> Obesidade (IMC ≥ 30kg/m²)</label>
+          <div class="h-check-item">Idade: &gt; 55 anos no homem e &gt; 65 anos na mulher</div>
+          <div class="h-check-item">Tabagismo</div>
+          <div class="h-check-item">DCV prematura em parentes de 1º grau (homens &lt; 55 anos e mulheres &lt; 65 anos)</div>
+          <div class="h-check-item">Diabetes Mellitus</div>
+          <div class="h-check-item">Dislipidemia: LDL–colesterol ≥ 100mg/dL e/ou não HDL–colesterol 130mg/dL e/ou HDL–colesterol ≤ 40mg/dL no homem e ≤ 46mg/dL na mulher e/ou TG &gt; 150mg/Dl</div>
+          <div class="h-check-item">Obesidade (IMC ≥ 30kg/m²)</div>
         </div>
       </div>
     </div>
@@ -1425,16 +1425,16 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="h-secao-titulo t-critstrat">📋 Quadro 4 — Condições de Alto Risco</div>
       <div class="h-secao-corpo">
         <div class="h-check-grid">
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> IMC &gt; 30 Kg/m²</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Lp(a) &gt; 50mg/dL (ou &gt; 75nmol/L)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Início de tratamento hipolipemiante após os 40 anos de idade</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> HDL-c &lt; 40mg/dL</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Sexo Masculino</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Tabagismo</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Hipertensão Arterial e/ou DM</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Doença renal crônica, com TFG 60ml/minuto/1,73m²</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> Xantoma de tendão de Aquiles</label>
-          <label class="h-check-item"><input type="checkbox" class="h-cond-alto" onchange="hCalcular()"> História Familiar de DAC prematura em usuários de 1º grau (H &lt; 55 anos e M &lt; 60 anos)</label>
+          <div class="h-check-item">IMC &gt; 30 Kg/m²</div>
+          <div class="h-check-item">Lp(a) &gt; 50mg/dL (ou &gt; 75nmol/L)</div>
+          <div class="h-check-item">Início de tratamento hipolipemiante após os 40 anos de idade</div>
+          <div class="h-check-item">HDL-c &lt; 40mg/dL</div>
+          <div class="h-check-item">Sexo Masculino</div>
+          <div class="h-check-item">Tabagismo</div>
+          <div class="h-check-item">Hipertensão Arterial e/ou DM</div>
+          <div class="h-check-item">Doença renal crônica, com TFG 60ml/minuto/1,73m²</div>
+          <div class="h-check-item">Xantoma de tendão de Aquiles</div>
+          <div class="h-check-item">História Familiar de DAC prematura em usuários de 1º grau (H &lt; 55 anos e M &lt; 60 anos)</div>
         </div>
       </div>
     </div>
@@ -1445,18 +1445,18 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="h-secao-corpo">
         <p style="font-size:.78rem;color:var(--txt-2);margin-bottom:.75rem">Qualquer evento clínico abaixo classifica automaticamente como <strong>Muito Alto Risco</strong>.</p>
         <div class="h-check-grid">
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> AVC Isquêmico</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Hemorragia Cerebral</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Ataque Isquêmico Transitório (AIT)</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Insuficiência Cardíaca</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Infarto do Miocárdio</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Angina estável ou instável</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Revascularização miocárdica</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Insuficiência Vascular Periférica / úlcera isquêmica</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Amputação não traumática de membros inferiores</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Doença Aterosclerótica coronária, cerebrovascular ou vascular periférica com obstrução ≥ 50%</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> DRC com TFG &lt; 30 mL/min/1,73m² ou proteinúria &gt; 300 mg/24h</label>
-          <label class="h-check-item"><input type="checkbox" class="h-evento" onchange="hCalcular()"> Retinopatia avançada (hemorragias, exsudatos, manchas algodonosas ou papiledema)</label>
+          <div class="h-check-item">AVC Isquêmico</div>
+          <div class="h-check-item">Hemorragia Cerebral</div>
+          <div class="h-check-item">Ataque Isquêmico Transitório (AIT)</div>
+          <div class="h-check-item">Insuficiência Cardíaca</div>
+          <div class="h-check-item">Infarto do Miocárdio</div>
+          <div class="h-check-item">Angina estável ou instável</div>
+          <div class="h-check-item">Revascularização miocárdica</div>
+          <div class="h-check-item">Insuficiência Vascular Periférica / úlcera isquêmica</div>
+          <div class="h-check-item">Amputação não traumática de membros inferiores</div>
+          <div class="h-check-item">Doença Aterosclerótica coronária, cerebrovascular ou vascular periférica com obstrução ≥ 50%</div>
+          <div class="h-check-item">DRC com TFG &lt; 30 mL/min/1,73m² ou proteinúria &gt; 300 mg/24h</div>
+          <div class="h-check-item">Retinopatia avançada (hemorragias, exsudatos, manchas algodonosas ou papiledema)</div>
         </div>
       </div>
     </div>
