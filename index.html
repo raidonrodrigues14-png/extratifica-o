@@ -1927,6 +1927,22 @@ async function excluirGestante(id){if(!confirm('Excluir?'))return;try{await supa
 const gestMap={},criMap={};
 function fmtDataDet(d){if(!d)return '—';const s=String(d).substring(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return d;return s.split('-').reverse().join('/');}
 function detItem(label,valor){return '<div class="det-item"><span class="det-label">'+label+'</span><span class="det-valor">'+((valor===null||valor===undefined||valor==='')?'—':valor)+'</span></div>';}
+function parseErg(raw){try{const d=JSON.parse(raw);if(d&&typeof d==='object')return d;}catch(e){}return null;}
+function ergHtml(erg){
+  if(!erg)return '';
+  let h='';
+  if(erg.hm_score||erg.hm_pct){
+    h+=`<div class="det-sub">📊 ERG Framingham — Homens</div><div class="det-grid">
+      ${detItem('Pontuação',erg.hm_score||'—')}${detItem('Risco CDV 10 anos',erg.hm_pct||'—')}${detItem('Classificação',erg.hm_cl||'—')}
+    </div>`;
+  }
+  if(erg.mf_score||erg.mf_pct){
+    h+=`<div class="det-sub">📊 ERG Framingham — Mulheres</div><div class="det-grid">
+      ${detItem('Pontuação',erg.mf_score||'—')}${detItem('Risco CDV 10 anos',erg.mf_pct||'—')}${detItem('Classificação',erg.mf_cl||'—')}
+    </div>`;
+  }
+  return h;
+}
 function detLista(titulo,arr){
   let html='<div class="det-sub">'+titulo+'</div>';
   if(!arr||!Array.isArray(arr)||arr.length===0)return html+'<div class="sem-fatores">✅ Nenhum fator registrado</div>';
@@ -2733,8 +2749,8 @@ async function salvarHasDm(){
     imc:parseFloat(document.getElementById('h-imc').value)||null,
     fumante:document.querySelector('input[name="h-fumo"]:checked')?.value||'',
     ecg:document.querySelector('input[name="h-ecg"]:checked')?.value||'',
-    erg_score:ergScore,
-    erg_pct:ergPct,
+    erg_score:JSON.stringify({hm_score:ergHmScore,hm_pct:ergHmPct,hm_cl:ergHmClassif,mf_score:ergMfScore,mf_pct:ergMfPct,mf_cl:ergMfClassif}),
+    erg_pct:ergHmPct||ergMfPct,
     estratificadores_risco:erMarcados,
     dasc:dascMarcados,
     eventos_clinicos:eventosMarcados,
@@ -2856,10 +2872,8 @@ async function verHasDm(id){
   html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico);
   html+='</div><div class="det-sub">🩺 Dados Clínicos</div><div class="det-grid">';
   html+=detItem('PAS',r.pas?r.pas+' mmHg':'—')+detItem('PAD',r.pad?r.pad+' mmHg':'—')+detItem('Colesterol Total',r.colesterol?r.colesterol+' mg/dL':'—')+detItem('HDL-c',r.hdl?r.hdl+' mg/dL':'—')+detItem('LDL-c',r.ldl?r.ldl+' mg/dL':'—')+detItem('Triglicerídeos',r.triglicerideos?r.triglicerideos+' mg/dL':'—')+detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')+detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')+detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')+detItem('TFG',r.tfg?r.tfg+' mL/min':'—')+detItem('IMC',r.imc?r.imc+' kg/m²':'—')+detItem('Fumante',r.fumante||'—')+detItem('ECG',r.ecg||'—');
-  html+='</div><div class="det-sub">📊 ERG Framingham — Homens</div><div class="det-grid">';
-  html+=detItem('Pontuação',r.erg_homens_score||'—')+detItem('Risco CDV 10 anos',r.erg_homens_pct||'—')+detItem('Classificação',r.erg_homens_classif||'—');
-  html+='</div><div class="det-sub">📊 ERG Framingham — Mulheres</div><div class="det-grid">';
-  html+=detItem('Pontuação',r.erg_mulheres_score||'—')+detItem('Risco CDV 10 anos',r.erg_mulheres_pct||'—')+detItem('Classificação',r.erg_mulheres_classif||'—');
+  html+='</div>';
+  html+=ergHtml(parseErg(r.erg_score));
   html+='</div>';
   if(r.estrato_risco){
     const coresEstrato={'🟢 Baixo Risco':{bg:'#f1f8e9',cor:'#2e7d32'},'🟡 Risco Médio':{bg:'#fff8e1',cor:'#e65100'},'🔴 Alto Risco':{bg:'#fce4ec',cor:'#c62828'},'🟣 Muito Alto Risco':{bg:'#f3e5f5',cor:'#4a148c'}};
@@ -2919,10 +2933,10 @@ async function verHistoricoHasDm(nomePaciente){
       </div>
       <div style="padding:.85rem 1rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem .75rem;font-size:.8rem">
         ${detItem('Diagnóstico',r.diagnostico||'—')}${detItem('PAS/PAD',(r.pas||'—')+' / '+(r.pad||'—')+' mmHg')}${detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')}
-        ${detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')}${detItem('ERG Score',r.erg_score||'—')}${detItem('Risco CVD 10a',r.erg_pct||'—')}
-        ${detItem('Classificação ERG',r.erg_classificacao||'—')}${detItem('Estrato de Risco',r.estrato_risco||'—')}${detItem('Estratificação Final',r.risco_estratificado||'—')}
-        ${detItem('ACS',r.acs||'—')}${detItem('IMC',r.imc?r.imc+' kg/m²':'—')}${detItem('Fumante',r.fumante||'—')}
+        ${detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')}${detItem('Estratificação Final',r.risco_estratificado||'—')}${detItem('ACS',r.acs||'—')}
+        ${detItem('IMC',r.imc?r.imc+' kg/m²':'—')}${detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')}${detItem('Fumante',r.fumante||'—')}
       </div>
+      ${(()=>{const erg=parseErg(r.erg_score);if(!erg)return '';let s='<div style="padding:0 1rem .5rem;display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem;font-size:.8rem">';if(erg.hm_score||erg.hm_pct){s+=`<div style="background:#fff3e0;border-radius:8px;padding:.45rem .6rem"><div style="font-size:.65rem;font-weight:700;color:#e65100;margin-bottom:.25rem">📊 ERG HOMENS</div>${detItem('Pontuação',erg.hm_score||'—')}${detItem('Risco CDV 10a',erg.hm_pct||'—')}${detItem('Classificação',erg.hm_cl||'—')}</div>`;}if(erg.mf_score||erg.mf_pct){s+=`<div style="background:#fce4ec;border-radius:8px;padding:.45rem .6rem"><div style="font-size:.65rem;font-weight:700;color:#c62828;margin-bottom:.25rem">📊 ERG MULHERES</div>${detItem('Pontuação',erg.mf_score||'—')}${detItem('Risco CDV 10a',erg.mf_pct||'—')}${detItem('Classificação',erg.mf_cl||'—')}</div>`;}s+='</div>';return s;})()}
       <div style="padding:0 1rem .85rem">
         <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin-bottom:.3rem">⚠️ ESTRATIFICADORES DE RISCO</div><div>${erList}</div>
         <div style="font-size:.72rem;font-weight:700;color:var(--txt-3);margin:.5rem 0 .3rem">🚨 EVENTOS CLÍNICOS</div><div>${evList}</div>
