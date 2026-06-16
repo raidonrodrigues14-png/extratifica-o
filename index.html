@@ -1163,57 +1163,208 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       </div>
     </div>
 
-    <!-- ERG FRAMINGHAM -->
+    <!-- ERG FRAMINGHAM — HOMENS -->
     <div class="h-secao">
-      <div class="h-secao-titulo t-erg">📊 Escore de Risco Global — ERG (Framingham revisado)</div>
+      <div class="h-secao-titulo t-erg">📊 Tabela 1 — ERG Framingham: Homens</div>
       <div class="h-secao-corpo">
-        <p style="font-size:.8rem;color:var(--txt-2);margin-bottom:1rem">Preencha os campos abaixo. O ERG é calculado automaticamente e indica o risco de evento cardiovascular em 10 anos.</p>
+        <p style="font-size:.8rem;color:var(--txt-2);margin-bottom:1rem">Fonte: SBC; D'Agostino. Indica o risco de evento cardiovascular em 10 anos. Preencha todos os campos.</p>
         <div class="h-grid-4" style="margin-bottom:.75rem">
           <div class="h-campo">
-            <label>Idade (para ERG)</label>
-            <select id="h-erg-idade" onchange="hErgCalc()">
+            <label>Idade</label>
+            <select id="hm-idade" onchange="hErgHomens()">
               <option value="">Selecione</option>
-              <option value="0">30–34 anos</option><option value="2">35–39 anos</option>
-              <option value="5">40–44 anos</option><option value="6">45–49 anos</option>
-              <option value="8">50–54 anos</option><option value="10">55–59 anos</option>
-              <option value="11">60–64 anos</option><option value="12">65–69 anos</option>
-              <option value="14">70–74 anos</option><option value="15">75+ anos</option>
+              <option value="0">30–34 anos</option>
+              <option value="2">35–39 anos</option>
+              <option value="5">40–44 anos</option>
+              <option value="6">45–49 anos</option>
+              <option value="8">50–54 anos</option>
+              <option value="10">55–59 anos</option>
+              <option value="11">60–64 anos</option>
+              <option value="12">65–69 anos</option>
+              <option value="14">70–74 anos</option>
+              <option value="15">75+ anos</option>
             </select>
           </div>
           <div class="h-campo">
-            <label>Colesterol Total (ERG)</label>
-            <select id="h-erg-col" onchange="hErgCalc()">
+            <label>HDL-c (mg/dL)</label>
+            <select id="hm-hdl" onchange="hErgHomens()">
               <option value="">Selecione</option>
-              <option value="0">&lt;160 mg/dL</option><option value="1">160–199 mg/dL</option>
-              <option value="2">200–239 mg/dL</option><option value="3">240–279 mg/dL</option>
-              <option value="4">≥280 mg/dL</option>
+              <option value="-2">≥ 60</option>
+              <option value="-1">50–59</option>
+              <option value="0">45–49</option>
+              <option value="1">35–44</option>
+              <option value="2">&lt; 35</option>
             </select>
           </div>
           <div class="h-campo">
-            <label>HDL-c (ERG)</label>
-            <select id="h-erg-hdl" onchange="hErgCalc()">
+            <label>Colesterol Total (mg/dL)</label>
+            <select id="hm-col" onchange="hErgHomens()">
               <option value="">Selecione</option>
-              <option value="-2">≥60 mg/dL</option><option value="-1">50–59 mg/dL</option>
-              <option value="0">45–49 mg/dL</option><option value="1">35–44 mg/dL</option>
-              <option value="2">&lt;35 mg/dL</option>
+              <option value="0">&lt; 160</option>
+              <option value="1">160–199</option>
+              <option value="2">200–239</option>
+              <option value="3">240–279</option>
+              <option value="4">≥ 280</option>
             </select>
           </div>
           <div class="h-campo">
-            <label>PAS (ERG)</label>
-            <select id="h-erg-pas" onchange="hErgCalc()">
-              <option value="">Selecione</option>
-              <option value="0">&lt;120 mmHg</option><option value="1">120–129 mmHg</option>
-              <option value="2">130–139 mmHg</option><option value="3">140–159 mmHg</option>
-              <option value="4">≥160 mmHg</option>
-            </select>
+            <label>PAS em tratamento?</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-pas-trat" value="S" onchange="hErgHomens()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-pas-trat" value="N" onchange="hErgHomens()"> Não</label>
+            </div>
           </div>
         </div>
-        <div id="h-erg-result" style="display:none;background:var(--surface-2);border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;font-size:.9rem">
-          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
-            <span style="font-weight:700">Pontuação ERG:</span><span id="h-erg-score" style="font-size:1.2rem;font-weight:700;color:#c62828"></span>
-            <span style="font-weight:700">→ Risco CDV em 10 anos:</span><span id="h-erg-pct-badge" class="erg-badge"></span>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo">
+            <label>PAS não tratada (mmHg)</label>
+            <select id="hm-pas-nt" onchange="hErgHomens()">
+              <option value="">Selecione</option>
+              <option value="-2">&lt; 120</option>
+              <option value="0">120–129</option>
+              <option value="1">130–139</option>
+              <option value="2">140–159</option>
+              <option value="3">≥ 160</option>
+            </select>
           </div>
-          <div id="h-erg-classif" style="font-size:.78rem;color:var(--txt-3);margin-top:.35rem"></div>
+          <div class="h-campo">
+            <label>PAS tratada (mmHg)</label>
+            <select id="hm-pas-t" onchange="hErgHomens()">
+              <option value="">Selecione</option>
+              <option value="0">&lt; 120</option>
+              <option value="2">120–129</option>
+              <option value="3">130–139</option>
+              <option value="4">140–159</option>
+              <option value="6">≥ 160</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>Tabagismo</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-fumo" value="3" onchange="hErgHomens()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-fumo" value="0" onchange="hErgHomens()"> Não</label>
+            </div>
+          </div>
+          <div class="h-campo">
+            <label>Diabetes</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-dm" value="3" onchange="hErgHomens()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="hm-dm" value="0" onchange="hErgHomens()"> Não</label>
+            </div>
+          </div>
+        </div>
+        <div id="hm-erg-result" style="display:none;border-radius:12px;padding:1rem 1.25rem;font-size:.9rem;border:1.5px solid var(--border);background:var(--surface-2)">
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.35rem">
+            <span style="font-weight:700">Pontuação:</span>
+            <span id="hm-erg-score" style="font-size:1.3rem;font-weight:800;color:#c62828"></span>
+            <span style="font-weight:700">→ Risco CDV em 10 anos:</span>
+            <span id="hm-erg-pct" class="erg-badge"></span>
+          </div>
+          <div id="hm-erg-classif" style="font-size:.78rem;color:var(--txt-3)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERG FRAMINGHAM — MULHERES -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-erg">📊 Tabela 2 — ERG Framingham: Mulheres</div>
+      <div class="h-secao-corpo">
+        <p style="font-size:.8rem;color:var(--txt-2);margin-bottom:1rem">Fonte: SBC; D'Agostino. Válido para ≥ 30 anos. Para usuárias &lt;30 anos com HAS: investigar lesão de órgão-alvo.</p>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo">
+            <label>Idade</label>
+            <select id="mf-idade" onchange="hErgMulheres()">
+              <option value="">Selecione</option>
+              <option value="0">30–34 anos</option>
+              <option value="2">35–39 anos</option>
+              <option value="4">40–44 anos</option>
+              <option value="5">45–49 anos</option>
+              <option value="7">50–54 anos</option>
+              <option value="8">55–59 anos</option>
+              <option value="9">60–64 anos</option>
+              <option value="10">65–69 anos</option>
+              <option value="11">70–74 anos</option>
+              <option value="12">75+ anos</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>HDL-c (mg/dL)</label>
+            <select id="mf-hdl" onchange="hErgMulheres()">
+              <option value="">Selecione</option>
+              <option value="-2">≥ 60</option>
+              <option value="-1">50–59</option>
+              <option value="0">45–49</option>
+              <option value="1">35–44</option>
+              <option value="2">&lt; 35</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>Colesterol Total (mg/dL)</label>
+            <select id="mf-col" onchange="hErgMulheres()">
+              <option value="">Selecione</option>
+              <option value="0">&lt; 160</option>
+              <option value="1">160–199</option>
+              <option value="3">200–239</option>
+              <option value="4">240–279</option>
+              <option value="5">≥ 280</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>PAS em tratamento?</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-pas-trat" value="S" onchange="hErgMulheres()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-pas-trat" value="N" onchange="hErgMulheres()"> Não</label>
+            </div>
+          </div>
+        </div>
+        <div class="h-grid-4" style="margin-bottom:.75rem">
+          <div class="h-campo">
+            <label>PAS não tratada (mmHg)</label>
+            <select id="mf-pas-nt" onchange="hErgMulheres()">
+              <option value="">Selecione</option>
+              <option value="-3">&lt; 120</option>
+              <option value="0">120–129</option>
+              <option value="1">130–139</option>
+              <option value="2">140–149</option>
+              <option value="4">150–159</option>
+              <option value="5">≥ 160</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>PAS tratada (mmHg)</label>
+            <select id="mf-pas-t" onchange="hErgMulheres()">
+              <option value="">Selecione</option>
+              <option value="-1">&lt; 120</option>
+              <option value="2">120–129</option>
+              <option value="3">130–139</option>
+              <option value="5">140–149</option>
+              <option value="6">150–159</option>
+              <option value="7">≥ 160</option>
+            </select>
+          </div>
+          <div class="h-campo">
+            <label>Tabagismo</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-fumo" value="3" onchange="hErgMulheres()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-fumo" value="0" onchange="hErgMulheres()"> Não</label>
+            </div>
+          </div>
+          <div class="h-campo">
+            <label>Diabetes</label>
+            <div style="display:flex;gap:.75rem;margin-top:.35rem">
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-dm" value="4" onchange="hErgMulheres()"> Sim</label>
+              <label style="display:flex;align-items:center;gap:.35rem;cursor:pointer;font-size:.88rem"><input type="radio" name="mf-dm" value="0" onchange="hErgMulheres()"> Não</label>
+            </div>
+          </div>
+        </div>
+        <div id="mf-erg-result" style="display:none;border-radius:12px;padding:1rem 1.25rem;font-size:.9rem;border:1.5px solid var(--border);background:var(--surface-2)">
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.35rem">
+            <span style="font-weight:700">Pontuação:</span>
+            <span id="mf-erg-score" style="font-size:1.3rem;font-weight:800;color:#c62828"></span>
+            <span style="font-weight:700">→ Risco CDV em 10 anos:</span>
+            <span id="mf-erg-pct" class="erg-badge"></span>
+          </div>
+          <div id="mf-erg-classif" style="font-size:.78rem;color:var(--txt-3)"></div>
         </div>
       </div>
     </div>
@@ -2364,37 +2515,64 @@ function hCalcImc(){
   hCalcular();
 }
 
-function hErgCalc(){
-  const sexoEl=document.querySelector('input[name="h-sexo"]:checked');
-  const idadeScore=parseInt(document.getElementById('h-erg-idade').value)||null;
-  const colScore=parseInt(document.getElementById('h-erg-col').value)||null;
-  const hdlScore=parseInt(document.getElementById('h-erg-hdl').value)||null;
-  const pasScore=parseInt(document.getElementById('h-erg-pas').value)||null;
-  const fumante=document.querySelector('input[name="h-fumo"]:checked');
-  const pasTrat=document.querySelector('input[name="h-pas-trat"]:checked');
-  const res=document.getElementById('h-erg-result');
-  if(idadeScore===null||colScore===null||hdlScore===null||pasScore===null||!sexoEl){res.style.display='none';hCalcular();return;}
-  const sexo=sexoEl.value;
-  let score=idadeScore+colScore+hdlScore+pasScore;
-  if(fumante&&fumante.value==='S')score+=(sexo==='M'?4:3);
-  if(pasTrat&&pasTrat.value==='S')score+=(sexo==='M'?1:2);
-  const table=sexo==='M'?ERG_M:ERG_F;
+function hErgLookup(table,score){
   const keys=Object.keys(table).map(Number).sort((a,b)=>a-b);
-  let pct=null;
-  if(score<=keys[0])pct=table[keys[0]+''];
-  else if(score>=keys[keys.length-1])pct=table[keys[keys.length-1]+''];
-  else pct=table[score+'']||table[(keys.find(k=>k>=score))+''];
-  document.getElementById('h-erg-score').textContent=score;
-  const badge=document.getElementById('h-erg-pct-badge');
-  badge.textContent=(pct>=35?'>30':pct+'')+'%';
-  badge.className='erg-badge '+(pct<5?'erg-baixo':pct<20?'erg-medio':'erg-alto');
-  let cl='Risco cardiovascular ';
-  if(sexo==='M')cl+=(pct<5?'baixo (<5%)':pct<20?'intermediário (5–20%)':'alto (>20%)');
-  else cl+=(pct<5?'baixo (<5%)':pct<10?'intermediário (5–10%)':'alto (>10%)');
-  document.getElementById('h-erg-classif').textContent=cl+' em 10 anos ('+(sexo==='M'?'Homem':'Mulher')+')';
-  res.style.display='block';
+  if(score<=keys[0])return table[keys[0]];
+  if(score>=keys[keys.length-1])return table[keys[keys.length-1]];
+  return table[score]??table[keys.find(k=>k>=score)];
+}
+function hErgRender(scoreId,pctId,classifId,resultId,score,pct,label){
+  document.getElementById(scoreId).textContent=score;
+  const badge=document.getElementById(pctId);
+  badge.textContent=(pct>=35?'>30':pct)+'%';
+  badge.className='erg-badge '+(pct<5?'erg-baixo':pct<10?'erg-medio':'erg-alto');
+  document.getElementById(classifId).textContent=label;
+  document.getElementById(resultId).style.display='block';
+}
+function hErgHomens(){
+  const idade=document.getElementById('hm-idade').value;
+  const hdl=document.getElementById('hm-hdl').value;
+  const col=document.getElementById('hm-col').value;
+  const pasTrat=document.querySelector('input[name="hm-pas-trat"]:checked');
+  const pasNT=document.getElementById('hm-pas-nt').value;
+  const pasT=document.getElementById('hm-pas-t').value;
+  const fumo=document.querySelector('input[name="hm-fumo"]:checked');
+  const dm=document.querySelector('input[name="hm-dm"]:checked');
+  const res=document.getElementById('hm-erg-result');
+  if(idade===''||hdl===''||col===''||!pasTrat){res.style.display='none';hCalcular();return;}
+  const pasScore=pasTrat.value==='S'?(pasT===''?null:parseInt(pasT)):(pasNT===''?null:parseInt(pasNT));
+  if(pasScore===null){res.style.display='none';hCalcular();return;}
+  let score=parseInt(idade)+parseInt(hdl)+parseInt(col)+pasScore;
+  if(fumo)score+=parseInt(fumo.value);
+  if(dm)score+=parseInt(dm.value);
+  const pct=hErgLookup(ERG_M,score);
+  const cl='Homem — Risco CDV '+(pct<5?'baixo (<5%)':pct<20?'intermediário (5–20%)':'alto (>20%)')+' em 10 anos';
+  hErgRender('hm-erg-score','hm-erg-pct','hm-erg-classif','hm-erg-result',score,pct,cl);
   hCalcular();
 }
+function hErgMulheres(){
+  const idade=document.getElementById('mf-idade').value;
+  const hdl=document.getElementById('mf-hdl').value;
+  const col=document.getElementById('mf-col').value;
+  const pasTrat=document.querySelector('input[name="mf-pas-trat"]:checked');
+  const pasNT=document.getElementById('mf-pas-nt').value;
+  const pasT=document.getElementById('mf-pas-t').value;
+  const fumo=document.querySelector('input[name="mf-fumo"]:checked');
+  const dm=document.querySelector('input[name="mf-dm"]:checked');
+  const res=document.getElementById('mf-erg-result');
+  if(idade===''||hdl===''||col===''||!pasTrat){res.style.display='none';hCalcular();return;}
+  const pasScore=pasTrat.value==='S'?(pasT===''?null:parseInt(pasT)):(pasNT===''?null:parseInt(pasNT));
+  if(pasScore===null){res.style.display='none';hCalcular();return;}
+  let score=parseInt(idade)+parseInt(hdl)+parseInt(col)+pasScore;
+  if(fumo)score+=parseInt(fumo.value);
+  if(dm)score+=parseInt(dm.value);
+  const pct=hErgLookup(ERG_F,score);
+  const cl='Mulher — Risco CDV '+(pct<5?'baixo (<5%)':pct<10?'intermediário (5–10%)':'alto (>10%)')+' em 10 anos';
+  hErgRender('mf-erg-score','mf-erg-pct','mf-erg-classif','mf-erg-result',score,pct,cl);
+  hCalcular();
+}
+// compatibilidade retroativa
+function hErgCalc(){hErgHomens();hErgMulheres();}
 
 function hCalcular(){
   const sexoEl=document.querySelector('input[name="h-sexo"]:checked');
@@ -2416,8 +2594,8 @@ function hCalcular(){
   const altoCritCount=document.querySelectorAll('.h-alto-crit:checked').length;
   const fatorRiscoCount=document.querySelectorAll('.h-fator-risco:checked').length;
   const condAltoCount=document.querySelectorAll('.h-cond-alto:checked').length;
-  // ERG %
-  const ergPctEl=document.getElementById('h-erg-pct-badge');
+  // ERG % — usa o score do sexo selecionado
+  const ergPctEl=sexo==='M'?document.getElementById('hm-erg-pct'):document.getElementById('mf-erg-pct');
   let ergPct=0;
   if(ergPctEl&&ergPctEl.textContent){ergPct=parseFloat(ergPctEl.textContent)||0;}
   // MUITO ALTO RISCO
@@ -2513,9 +2691,16 @@ async function salvarHasDm(){
   if(!risc){showToast('Selecione ou calcule o risco antes de salvar!',true);return;}
   const btn=document.getElementById('btn-salvar-hasdm');
   btn.disabled=true;btn.textContent='Salvando...';
-  const ergPct=document.getElementById('h-erg-pct-badge')?.textContent||'';
-  const ergScore=document.getElementById('h-erg-score')?.textContent||'';
-  const ergClassif=document.getElementById('h-erg-classif')?.textContent||'';
+  const ergHmScore=document.getElementById('hm-erg-score')?.textContent||'';
+  const ergHmPct=document.getElementById('hm-erg-pct')?.textContent||'';
+  const ergHmClassif=document.getElementById('hm-erg-classif')?.textContent||'';
+  const ergMfScore=document.getElementById('mf-erg-score')?.textContent||'';
+  const ergMfPct=document.getElementById('mf-erg-pct')?.textContent||'';
+  const ergMfClassif=document.getElementById('mf-erg-classif')?.textContent||'';
+  // compatibilidade com campos antigos
+  const ergPct=ergHmPct||ergMfPct;
+  const ergScore=ergHmScore||ergMfScore;
+  const ergClassif=ergHmClassif||ergMfClassif;
   const estratoRiscoEl=document.getElementById('h-estrato-valor');
   const estratoRisco=estratoRiscoEl&&estratoRiscoEl.closest('#h-estrato-result')?.style.display!=='none'?estratoRiscoEl.textContent.trim():'';
   const erMarcados=[...document.querySelectorAll('.h-er:checked')].map(el=>el.closest('label').textContent.trim());
@@ -2671,8 +2856,10 @@ async function verHasDm(id){
   html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico);
   html+='</div><div class="det-sub">🩺 Dados Clínicos</div><div class="det-grid">';
   html+=detItem('PAS',r.pas?r.pas+' mmHg':'—')+detItem('PAD',r.pad?r.pad+' mmHg':'—')+detItem('Colesterol Total',r.colesterol?r.colesterol+' mg/dL':'—')+detItem('HDL-c',r.hdl?r.hdl+' mg/dL':'—')+detItem('LDL-c',r.ldl?r.ldl+' mg/dL':'—')+detItem('Triglicerídeos',r.triglicerideos?r.triglicerideos+' mg/dL':'—')+detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')+detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')+detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')+detItem('TFG',r.tfg?r.tfg+' mL/min':'—')+detItem('IMC',r.imc?r.imc+' kg/m²':'—')+detItem('Fumante',r.fumante||'—')+detItem('ECG',r.ecg||'—');
-  html+='</div><div class="det-sub">📊 ERG — Framingham</div><div class="det-grid">';
-  html+=detItem('Pontuação ERG',r.erg_score||'—')+detItem('Risco CVD em 10 anos',r.erg_pct||'—')+detItem('Classificação ERG',r.erg_classificacao||'—');
+  html+='</div><div class="det-sub">📊 ERG Framingham — Homens</div><div class="det-grid">';
+  html+=detItem('Pontuação',r.erg_homens_score||'—')+detItem('Risco CDV 10 anos',r.erg_homens_pct||'—')+detItem('Classificação',r.erg_homens_classif||'—');
+  html+='</div><div class="det-sub">📊 ERG Framingham — Mulheres</div><div class="det-grid">';
+  html+=detItem('Pontuação',r.erg_mulheres_score||'—')+detItem('Risco CDV 10 anos',r.erg_mulheres_pct||'—')+detItem('Classificação',r.erg_mulheres_classif||'—');
   html+='</div>';
   if(r.estrato_risco){
     const coresEstrato={'🟢 Baixo Risco':{bg:'#f1f8e9',cor:'#2e7d32'},'🟡 Risco Médio':{bg:'#fff8e1',cor:'#e65100'},'🔴 Alto Risco':{bg:'#fce4ec',cor:'#c62828'},'🟣 Muito Alto Risco':{bg:'#f3e5f5',cor:'#4a148c'}};
