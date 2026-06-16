@@ -1089,69 +1089,77 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     <div class="h-secao">
       <div class="h-secao-titulo t-clin">📋 Estrato de Risco</div>
       <div class="h-secao-corpo">
-        <div style="overflow-x:auto">
-          <table style="width:100%;border-collapse:collapse;font-size:.82rem">
-            <thead>
-              <tr style="background:var(--surface-2)">
-                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700;min-width:130px">Estrato de Risco</th>
-                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700;min-width:160px">Ponto de Atenção</th>
-                <th style="padding:.6rem .75rem;text-align:center;border:1px solid var(--border);font-weight:700;width:80px">Marcar (X)</th>
-                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700">Critérios de Risco</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- BAIXO RISCO -->
-              <tr style="vertical-align:top">
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#2e7d32;background:#f1f8e9">🟢 Baixo Risco</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Primária em Saúde</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-baixo" onchange="hEstratoCheck('baixo')" style="width:1.1rem;height:1.1rem"></label></td>
-                <td style="padding:.6rem .75rem;border:1px solid var(--border)">PAS &lt; 139mmHg e PAD &lt; 89mmHg</td>
-              </tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina – 0,5 mg/dL – 1,2 mg/dL</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">ECG Normal</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens e Mulheres &lt; 5%</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Glicemia em Jejum: ≤126mg/dl</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">HbA1c: ≤ 6,5%</td></tr>
 
-              <!-- RISCO MÉDIO -->
-              <tr style="vertical-align:top">
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#f57c00;background:#fff8e1">🟡 Risco Médio</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Primária em Saúde</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-medio" onchange="hEstratoCheck('medio')" style="width:1.1rem;height:1.1rem"></label></td>
-                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Estágio I: PAS=140 – 159mmHg e/ou PAD= 90 – 99mmHg</td>
-              </tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens 5-20% ou Mulheres 5-10%</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">DM2, sem ER, sem DASC e Homens 38-49 anos/Mulheres 46-56 anos</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">LDL ≥190 mg/dL (sem critérios adicionais de risco)</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina – 1,3 mg/dL – 2,4 mg/dL</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">HbA1c: &gt; 6,5% e &lt; 9%</td></tr>
-
-              <!-- ALTO RISCO -->
-              <tr style="vertical-align:top">
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#c62828;background:#fce4ec">🔴 Alto Risco</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Ambulatorial Especializada</td>
-                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-alto" onchange="hEstratoCheck('alto')" style="width:1.1rem;height:1.1rem"></label></td>
-                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Hemoglobina Glicada &gt; 9% e &lt; 11% pelo menos com insulinização basal para usuários com DM2</td>
-              </tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Neuropatia periférica e/ou dor neuropática de difícil controle</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens &gt;20% ou Mulheres &gt; 10%</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina ≥ 2,5 mg/dL</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">DM2 e/ou HAS com Estratificadores de Risco* ou Doença Aterosclerótica Subclínica* (DASC)</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Hipertensão Arterial sistêmica com alto risco cardiovascular; Hipercolesterolemia familiar</td></tr>
-
-              <!-- MUITO ALTO RISCO -->
-              <tr style="vertical-align:top">
-                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#4a148c;background:#f3e5f5">🟣 Muito Alto Risco</td>
-                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Ambulatorial Especializada</td>
-                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-muito-alto" onchange="hEstratoCheck('muito-alto')" style="width:1.1rem;height:1.1rem"></label></td>
-                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Doença aterosclerótica coronária, cerebrovascular ou vascular periférica com ou sem eventos clínicos; obstrução ≥ 50% em qualquer território arterial</td>
-              </tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Hemoglobina glicada ≥ 11% - pelo menos com insulinização basal p/ usuários com DM2</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Lesão de pé Pré-ulcerativa</td></tr>
-              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Diabetes Mellitus Insulinodependente – Tipo 1/LADA</td></tr>
-            </tbody>
-          </table>
+        <!-- BAIXO RISCO -->
+        <div style="margin-bottom:1rem">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <span style="font-weight:700;color:#2e7d32;font-size:.88rem">🟢 Baixo Risco</span>
+            <span style="font-size:.78rem;color:var(--txt-3)">— Atenção Primária em Saúde</span>
+          </div>
+          <div class="h-check-grid">
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> PAS &lt; 139mmHg e PAD &lt; 89mmHg</label>
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Creatinina – 0,5 mg/dL – 1,2 mg/dL</label>
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> ECG Normal</label>
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Escore de Risco Global (ERG): Homens e Mulheres &lt; 5%</label>
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Glicemia em Jejum: ≤126mg/dl</label>
+            <label class="h-check-item" style="border-color:#a5d6a7;background:#f1f8e9"><input type="checkbox" class="h-estrato-crit" data-nivel="1" onchange="hCalcularEstrato()" style="accent-color:#2e7d32;width:15px;height:15px;flex-shrink:0;margin-top:2px"> HbA1c: ≤ 6,5%</label>
+          </div>
         </div>
+
+        <!-- RISCO MÉDIO -->
+        <div style="margin-bottom:1rem">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <span style="font-weight:700;color:#e65100;font-size:.88rem">🟡 Risco Médio</span>
+            <span style="font-size:.78rem;color:var(--txt-3)">— Atenção Primária em Saúde</span>
+          </div>
+          <div class="h-check-grid">
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Estágio I: PAS=140 – 159mmHg e/ou PAD= 90 – 99mmHg</label>
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Escore de Risco Global (ERG): Homens 5-20% ou Mulheres 5-10%</label>
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> DM2, sem ER, sem DASC e Homens 38-49 anos/Mulheres 46-56 anos</label>
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> LDL ≥190 mg/dL (sem critérios adicionais de risco)</label>
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Creatinina – 1,3 mg/dL – 2,4 mg/dL</label>
+            <label class="h-check-item" style="border-color:#ffe082;background:#fff8e1"><input type="checkbox" class="h-estrato-crit" data-nivel="2" onchange="hCalcularEstrato()" style="accent-color:#e65100;width:15px;height:15px;flex-shrink:0;margin-top:2px"> HbA1c: &gt; 6,5% e &lt; 9%</label>
+          </div>
+        </div>
+
+        <!-- ALTO RISCO -->
+        <div style="margin-bottom:1rem">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <span style="font-weight:700;color:#c62828;font-size:.88rem">🔴 Alto Risco</span>
+            <span style="font-size:.78rem;color:var(--txt-3)">— Atenção Ambulatorial Especializada</span>
+          </div>
+          <div class="h-check-grid">
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Hemoglobina Glicada &gt; 9% e &lt; 11% — insulinização basal para DM2</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Neuropatia periférica e/ou dor neuropática de difícil controle</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Escore de Risco Global (ERG): Homens &gt;20% ou Mulheres &gt; 10%</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Creatinina ≥ 2,5 mg/dL</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> DM2 e/ou HAS com Estratificadores de Risco* ou DASC*</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Hipertensão Arterial sistêmica com alto risco cardiovascular</label>
+            <label class="h-check-item" style="border-color:#ef9a9a;background:#fce4ec"><input type="checkbox" class="h-estrato-crit" data-nivel="3" onchange="hCalcularEstrato()" style="accent-color:#c62828;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Hipercolesterolemia familiar</label>
+          </div>
+        </div>
+
+        <!-- MUITO ALTO RISCO -->
+        <div style="margin-bottom:1.25rem">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <span style="font-weight:700;color:#4a148c;font-size:.88rem">🟣 Muito Alto Risco</span>
+            <span style="font-size:.78rem;color:var(--txt-3)">— Atenção Ambulatorial Especializada</span>
+          </div>
+          <div class="h-check-grid">
+            <label class="h-check-item" style="border-color:#ce93d8;background:#f3e5f5"><input type="checkbox" class="h-estrato-crit" data-nivel="4" onchange="hCalcularEstrato()" style="accent-color:#4a148c;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Doença aterosclerótica coronária, cerebrovascular ou vascular periférica com/sem eventos; obstrução ≥ 50%</label>
+            <label class="h-check-item" style="border-color:#ce93d8;background:#f3e5f5"><input type="checkbox" class="h-estrato-crit" data-nivel="4" onchange="hCalcularEstrato()" style="accent-color:#4a148c;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Hemoglobina glicada ≥ 11% — insulinização basal p/ DM2</label>
+            <label class="h-check-item" style="border-color:#ce93d8;background:#f3e5f5"><input type="checkbox" class="h-estrato-crit" data-nivel="4" onchange="hCalcularEstrato()" style="accent-color:#4a148c;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Lesão de pé Pré-ulcerativa</label>
+            <label class="h-check-item" style="border-color:#ce93d8;background:#f3e5f5"><input type="checkbox" class="h-estrato-crit" data-nivel="4" onchange="hCalcularEstrato()" style="accent-color:#4a148c;width:15px;height:15px;flex-shrink:0;margin-top:2px"> Diabetes Mellitus Insulinodependente – Tipo 1/LADA</label>
+          </div>
+        </div>
+
+        <!-- RESULTADO DO ESTRATO -->
+        <div id="h-estrato-result" style="display:none;border-radius:12px;padding:1rem 1.25rem;border:2px solid;transition:all .3s">
+          <div style="font-size:.78rem;font-weight:600;letter-spacing:.04em;margin-bottom:.3rem;opacity:.8" id="h-estrato-label">ESTRATO CALCULADO</div>
+          <div style="font-size:1.15rem;font-weight:800" id="h-estrato-valor"></div>
+          <div style="font-size:.78rem;margin-top:.3rem;opacity:.75" id="h-estrato-ponto"></div>
+        </div>
+
       </div>
     </div>
 
@@ -2310,12 +2318,28 @@ function hCalcIdade(){
   hCalcular();
 }
 
-function hEstratoCheck(selecionado){
-  const ids=['baixo','medio','alto','muito-alto'];
-  ids.forEach(id=>{
-    const el=document.getElementById('h-estrato-'+id);
-    if(el&&id!==selecionado)el.checked=false;
-  });
+function hCalcularEstrato(){
+  const crit=document.querySelectorAll('.h-estrato-crit:checked');
+  const res=document.getElementById('h-estrato-result');
+  const val=document.getElementById('h-estrato-valor');
+  const pt=document.getElementById('h-estrato-ponto');
+  if(!crit.length){res.style.display='none';return;}
+  let maxNivel=0;
+  crit.forEach(c=>{const n=parseInt(c.dataset.nivel)||0;if(n>maxNivel)maxNivel=n;});
+  const niveis=[
+    null,
+    {label:'🟢 Baixo Risco',ponto:'Atenção Primária em Saúde',bg:'#f1f8e9',border:'#66bb6a',color:'#1b5e20'},
+    {label:'🟡 Risco Médio',ponto:'Atenção Primária em Saúde',bg:'#fff8e1',border:'#ffa726',color:'#e65100'},
+    {label:'🔴 Alto Risco',ponto:'Atenção Ambulatorial Especializada',bg:'#fce4ec',border:'#ef5350',color:'#b71c1c'},
+    {label:'🟣 Muito Alto Risco',ponto:'Atenção Ambulatorial Especializada',bg:'#f3e5f5',border:'#ab47bc',color:'#4a148c'},
+  ];
+  const n=niveis[maxNivel];
+  res.style.display='block';
+  res.style.background=n.bg;
+  res.style.borderColor=n.border;
+  val.style.color=n.color;
+  val.textContent=n.label;
+  pt.textContent='Ponto de Atenção: '+n.ponto;
 }
 
 function hCalcImc(){
