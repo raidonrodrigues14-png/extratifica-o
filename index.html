@@ -2414,6 +2414,8 @@ function hCalcular(){
   const dascCount=document.querySelectorAll('.h-dasc:checked').length;
   const eventoCount=document.querySelectorAll('.h-evento:checked').length;
   const altoCritCount=document.querySelectorAll('.h-alto-crit:checked').length;
+  const fatorRiscoCount=document.querySelectorAll('.h-fator-risco:checked').length;
+  const condAltoCount=document.querySelectorAll('.h-cond-alto:checked').length;
   // ERG %
   const ergPctEl=document.getElementById('h-erg-pct-badge');
   let ergPct=0;
@@ -2423,6 +2425,7 @@ function hCalcular(){
   // ALTO RISCO
   const altoRisco=!muitoAlto&&(
     altoCritCount>0||erCount>0||dascCount>0||
+    fatorRiscoCount>0||condAltoCount>0||
     (sexo==='M'&&ergPct>=20)||(sexo==='F'&&ergPct>=10)||
     (creat>=2.5)||
     (hasDm&&hasHas)
@@ -2441,11 +2444,11 @@ function hCalcular(){
   else if(medioRisco)risco='Risco Médio';
   // Marcar radio
   document.querySelectorAll('input[name="h-risco"]').forEach(r=>r.checked=r.value===risco);
-  hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo);
+  hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo,fatorRiscoCount,condAltoCount);
   hMostrarPlano();
 }
 
-function hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo){
+function hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo,fatorRiscoCount,condAltoCount){
   const p=document.getElementById('h-painel');
   const cores={
     'Baixo Risco':{bg:'#e8f5e9',borda:'#4caf50',txt:'#2e7d32',emoji:'🟢'},
@@ -2457,8 +2460,10 @@ function hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,e
   const fatores=[];
   if(eventoCount>0)fatores.push(`${eventoCount} evento(s) clínico(s) do Quadro 5`);
   if(altoCritCount>0)fatores.push(`${altoCritCount} critério(s) adicional(is) de alto risco`);
-  if(erCount>0)fatores.push(`${erCount} estratificador(es) de risco (ER)`);
-  if(dascCount>0)fatores.push(`${dascCount} marcador(es) de DASC`);
+  if(erCount>0)fatores.push(`${erCount} estratificador(es) de risco — Quadro 2 (ER)`);
+  if(dascCount>0)fatores.push(`${dascCount} marcador(es) de DASC — Quadro 2`);
+  if(fatorRiscoCount>0)fatores.push(`${fatorRiscoCount} fator(es) de risco — Quadro 3`);
+  if(condAltoCount>0)fatores.push(`${condAltoCount} condição(ões) de alto risco — Quadro 4`);
   if(ergPct>0){
     if((sexo==='M'&&ergPct>=20)||(sexo==='F'&&ergPct>=10))fatores.push(`ERG elevado: ${ergPct}% em 10 anos`);
     else if((sexo==='M'&&ergPct>=5)||(sexo==='F'&&ergPct>=5))fatores.push(`ERG intermediário: ${ergPct}% em 10 anos`);
