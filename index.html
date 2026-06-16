@@ -2829,9 +2829,7 @@ async function editarHasDm(id){
   document.getElementById('h-diag-has').checked=diags.includes('HAS');
   document.getElementById('h-diag-dm').checked=diags.includes('DM');
   document.getElementById('h-diag-dm1').checked=diags.includes('DM Tipo 1/LADA');
-  if(data.risco_estratificado){const r=document.querySelector(`input[name="h-risco"][value="${data.risco_estratificado}"]`);if(r)r.checked=true;}
   document.getElementById('btn-salvar-hasdm').dataset.editId=id;
-  hMostrarPlano();
   document.getElementById('h-nome').scrollIntoView({behavior:'smooth'});
   showToast('Registro carregado para edição!');
 }
