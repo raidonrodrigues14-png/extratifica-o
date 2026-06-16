@@ -1462,22 +1462,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     </div>
 
 
-    <!-- RESULTADO -->
-    <div class="h-secao">
-      <div class="h-secao-titulo t-result">📋 Estratificação do Risco — Resultado</div>
-      <div class="h-secao-corpo">
-        <div class="h-risco-radios">
-          <label class="h-risco-radio h-baixo"><input type="radio" name="h-risco" value="Baixo Risco" onchange="hMostrarPlano()"> 🟢 Baixo Risco — APS</label>
-          <label class="h-risco-radio h-medio"><input type="radio" name="h-risco" value="Risco Médio" onchange="hMostrarPlano()"> 🟡 Risco Médio — APS</label>
-          <label class="h-risco-radio h-alto"><input type="radio" name="h-risco" value="Alto Risco" onchange="hMostrarPlano()"> 🔴 Alto Risco — AAE</label>
-          <label class="h-risco-radio h-muito"><input type="radio" name="h-risco" value="Muito Alto Risco" onchange="hMostrarPlano()"> 🟣 Muito Alto Risco — AAE</label>
-          <small style="display:block;width:100%;margin-top:.35rem;font-size:.72rem;color:var(--txt-3);font-style:italic">⚡ Calculado automaticamente. Pode ser ajustado manualmente.</small>
-        </div>
-        <div id="h-painel" style="display:none"></div>
-        <div id="h-plano" style="display:none"></div>
-      </div>
-    </div>
-
     <!-- OBSERVAÇÕES + AÇÕES -->
     <div class="h-secao">
       <div class="h-secao-corpo">
@@ -2632,14 +2616,6 @@ function hCalcular(){
     (ldl>=190)||(creat>=1.3&&creat<2.5)||
     (hba1c>6.5&&hba1c<9)
   );
-  let risco='Baixo Risco';
-  if(muitoAlto)risco='Muito Alto Risco';
-  else if(altoRisco)risco='Alto Risco';
-  else if(medioRisco)risco='Risco Médio';
-  // Marcar radio
-  document.querySelectorAll('input[name="h-risco"]').forEach(r=>r.checked=r.value===risco);
-  hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo,fatorRiscoCount,condAltoCount);
-  hMostrarPlano();
 }
 
 function hMostrarPainel(risco,muitoAlto,altoRisco,medioRisco,erCount,dascCount,eventoCount,altoCritCount,ergPct,sexo,fatorRiscoCount,condAltoCount){
@@ -2694,17 +2670,18 @@ function reiniciarHasDm(){
   document.querySelectorAll('#modulo-hasdm select').forEach(el=>el.selectedIndex=0);
   document.querySelectorAll('#modulo-hasdm textarea').forEach(el=>el.value='');
   const buscaH=document.getElementById('buscaHasDm');if(buscaH)buscaH.value='';
-  document.getElementById('h-painel').style.display='none';
-  document.getElementById('h-plano').style.display='none';
-  document.getElementById('h-erg-result').style.display='none';
+  const ergRes=document.getElementById('h-erg-result');if(ergRes)ergRes.style.display='none';
+  const hmRes=document.getElementById('hm-erg-result');if(hmRes)hmRes.style.display='none';
+  const mfRes=document.getElementById('mf-erg-result');if(mfRes)mfRes.style.display='none';
+  const estr=document.getElementById('h-estrato-result');if(estr)estr.style.display='none';
   preencherUbsHasDm();
 }
 
 async function salvarHasDm(){
   const nome=document.getElementById('h-nome').value.trim();
   if(!nome){showToast('Informe o nome do paciente!',true);return;}
-  const risc=document.querySelector('input[name="h-risco"]:checked');
-  if(!risc){showToast('Selecione ou calcule o risco antes de salvar!',true);return;}
+  const estratoValorEl=document.getElementById('h-estrato-valor');
+  const risc=estratoValorEl&&estratoValorEl.closest('#h-estrato-result')?.style.display!=='none'?estratoValorEl.textContent.trim():'';
   const btn=document.getElementById('btn-salvar-hasdm');
   btn.disabled=true;btn.textContent='Salvando...';
   const ergHmScore=document.getElementById('hm-erg-score')?.textContent||'';
@@ -2754,7 +2731,7 @@ async function salvarHasDm(){
     estratificadores_risco:erMarcados,
     dasc:dascMarcados,
     eventos_clinicos:eventosMarcados,
-    risco_estratificado:risc.value,
+    risco_estratificado:risc,
     observacoes:document.getElementById('h-obs').value,
     hist_familiar:document.getElementById('h-hist-familiar').value,
     hist_pessoal:document.getElementById('h-hist-pessoal').value
