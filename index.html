@@ -1085,6 +1085,76 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       </div>
     </div>
 
+    <!-- ESTRATO DE RISCO -->
+    <div class="h-secao">
+      <div class="h-secao-titulo t-clin">📋 Estrato de Risco</div>
+      <div class="h-secao-corpo">
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+            <thead>
+              <tr style="background:var(--surface-2)">
+                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700;min-width:130px">Estrato de Risco</th>
+                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700;min-width:160px">Ponto de Atenção</th>
+                <th style="padding:.6rem .75rem;text-align:center;border:1px solid var(--border);font-weight:700;width:80px">Marcar (X)</th>
+                <th style="padding:.6rem .75rem;text-align:left;border:1px solid var(--border);font-weight:700">Critérios de Risco</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- BAIXO RISCO -->
+              <tr style="vertical-align:top">
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#2e7d32;background:#f1f8e9">🟢 Baixo Risco</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Primária em Saúde</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-baixo" onchange="hEstratoCheck('baixo')" style="width:1.1rem;height:1.1rem"></label></td>
+                <td style="padding:.6rem .75rem;border:1px solid var(--border)">PAS &lt; 139mmHg e PAD &lt; 89mmHg</td>
+              </tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina – 0,5 mg/dL – 1,2 mg/dL</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">ECG Normal</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens e Mulheres &lt; 5%</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Glicemia em Jejum: ≤126mg/dl</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">HbA1c: ≤ 6,5%</td></tr>
+
+              <!-- RISCO MÉDIO -->
+              <tr style="vertical-align:top">
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#f57c00;background:#fff8e1">🟡 Risco Médio</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Primária em Saúde</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-medio" onchange="hEstratoCheck('medio')" style="width:1.1rem;height:1.1rem"></label></td>
+                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Estágio I: PAS=140 – 159mmHg e/ou PAD= 90 – 99mmHg</td>
+              </tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens 5-20% ou Mulheres 5-10%</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">DM2, sem ER, sem DASC e Homens 38-49 anos/Mulheres 46-56 anos</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">LDL ≥190 mg/dL (sem critérios adicionais de risco)</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina – 1,3 mg/dL – 2,4 mg/dL</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">HbA1c: &gt; 6,5% e &lt; 9%</td></tr>
+
+              <!-- ALTO RISCO -->
+              <tr style="vertical-align:top">
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#c62828;background:#fce4ec">🔴 Alto Risco</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Ambulatorial Especializada</td>
+                <td rowspan="6" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-alto" onchange="hEstratoCheck('alto')" style="width:1.1rem;height:1.1rem"></label></td>
+                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Hemoglobina Glicada &gt; 9% e &lt; 11% pelo menos com insulinização basal para usuários com DM2</td>
+              </tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Neuropatia periférica e/ou dor neuropática de difícil controle</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Escore de Risco Global (ERG): Homens &gt;20% ou Mulheres &gt; 10%</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Creatinina ≥ 2,5 mg/dL</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">DM2 e/ou HAS com Estratificadores de Risco* ou Doença Aterosclerótica Subclínica* (DASC)</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Hipertensão Arterial sistêmica com alto risco cardiovascular; Hipercolesterolemia familiar</td></tr>
+
+              <!-- MUITO ALTO RISCO -->
+              <tr style="vertical-align:top">
+                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);font-weight:700;color:#4a148c;background:#f3e5f5">🟣 Muito Alto Risco</td>
+                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);color:var(--txt-2)">Atenção Ambulatorial Especializada</td>
+                <td rowspan="5" style="padding:.6rem .75rem;border:1px solid var(--border);text-align:center"><label style="cursor:pointer"><input type="checkbox" id="h-estrato-muito-alto" onchange="hEstratoCheck('muito-alto')" style="width:1.1rem;height:1.1rem"></label></td>
+                <td style="padding:.6rem .75rem;border:1px solid var(--border)">Doença aterosclerótica coronária, cerebrovascular ou vascular periférica com ou sem eventos clínicos; obstrução ≥ 50% em qualquer território arterial</td>
+              </tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Hemoglobina glicada ≥ 11% - pelo menos com insulinização basal p/ usuários com DM2</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Lesão de pé Pré-ulcerativa</td></tr>
+              <tr style="vertical-align:top"><td style="padding:.6rem .75rem;border:1px solid var(--border)">Diabetes Mellitus Insulinodependente – Tipo 1/LADA</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- ERG FRAMINGHAM -->
     <div class="h-secao">
       <div class="h-secao-titulo t-erg">📊 Escore de Risco Global — ERG (Framingham revisado)</div>
@@ -2238,6 +2308,14 @@ function hCalcIdade(){
   if(hoje<new Date(hoje.getFullYear(),nascD.getMonth(),nascD.getDate()))idade--;
   document.getElementById('h-idade').value=idade;
   hCalcular();
+}
+
+function hEstratoCheck(selecionado){
+  const ids=['baixo','medio','alto','muito-alto'];
+  ids.forEach(id=>{
+    const el=document.getElementById('h-estrato-'+id);
+    if(el&&id!==selecionado)el.checked=false;
+  });
 }
 
 function hCalcImc(){
