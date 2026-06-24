@@ -132,7 +132,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .estatgeral-track{flex:1;height:11px;background:var(--surface-2);border-radius:7px;overflow:hidden}
 .estatgeral-bar{height:100%;border-radius:7px;width:0;transition:width 1s var(--ease-spring)}
 .estatgeral-pct{flex:0 0 48px;text-align:right;font-size:.76rem;font-weight:600;color:var(--txt-3)}
-.estatgeral-num{flex:0 0 42px;text-align:right;font-size:.95rem;font-weight:800;color:var(--txt-1)}
+.estatgeral-num{flex:0 0 62px;text-align:right;font-size:.95rem;font-weight:800;color:var(--txt-1)}
 
 /* ── APP HEADER ── */
 .app-header{background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;min-height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
@@ -513,7 +513,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div id="historico-conteudo"></div></div></div>
 <div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificação</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilância</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
 
-<div class="historico-overlay" id="modal-estat-geral"><div class="historico-box" style="max-width:540px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0">📊 Estratificação Geral por Programa</h3><button class="btn btn-nova" onclick="fecharEstatGeral()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div class="estatgeral-resumo">Total de pacientes estratificados: <strong>372</strong></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#c62828">Hipertensos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-his" style="background:linear-gradient(90deg,#c62828,#e53935)"></div></div><span class="estatgeral-pct">100%</span><span class="estatgeral-num">192</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#4a148c">Diabéticos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-dia" style="background:linear-gradient(90deg,#4a148c,#7b1fa2)"></div></div><span class="estatgeral-pct">100%</span><span class="estatgeral-num">88</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#b8860b">Crianças</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-cri" style="background:linear-gradient(90deg,#b8860b,#d4a017)"></div></div><span class="estatgeral-pct">100%</span><span class="estatgeral-num">77</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#2e7d32">Gestantes</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-ges" style="background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><span class="estatgeral-pct">100%</span><span class="estatgeral-num">15</span></div></div></div>
+<div class="historico-overlay" id="modal-estat-geral"><div class="historico-box" style="max-width:540px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0">📊 Estratificação Geral por Programa</h3><button class="btn btn-nova" onclick="fecharEstatGeral()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div class="estatgeral-resumo">Percentual já estratificado em relação ao total cadastrado de cada programa</div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#c62828">Hipertensos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-his" style="background:linear-gradient(90deg,#c62828,#e53935)"></div></div><span class="estatgeral-pct" id="eg-pct-his">—</span><span class="estatgeral-num" id="eg-num-his">—/192</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#4a148c">Diabéticos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-dia" style="background:linear-gradient(90deg,#4a148c,#7b1fa2)"></div></div><span class="estatgeral-pct" id="eg-pct-dia">—</span><span class="estatgeral-num" id="eg-num-dia">—/88</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#b8860b">Crianças</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-cri" style="background:linear-gradient(90deg,#b8860b,#d4a017)"></div></div><span class="estatgeral-pct" id="eg-pct-cri">—</span><span class="estatgeral-num" id="eg-num-cri">—/77</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#2e7d32">Gestantes</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-ges" style="background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><span class="estatgeral-pct" id="eg-pct-ges">—</span><span class="estatgeral-num" id="eg-num-ges">—/15</span></div></div></div>
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
@@ -2264,14 +2264,38 @@ function cToggleCheckbox(el){const cb=el.querySelector('input');if(event.target!
 function fecharModalCrianca(){document.getElementById('modal-editar-crianca').classList.remove('aberto');}
 function fecharModalGest(){document.getElementById('modal-editar-gest').classList.remove('aberto');}
 function fecharHistorico(){document.getElementById('modal-historico').classList.remove('aberto');}
+const EG_TOTAIS={his:192,dia:88,cri:77,ges:15};
 function abrirEstatGeral(){
   document.getElementById('modal-estat-geral').classList.add('aberto');
-  setTimeout(function(){
-    document.getElementById('eg-bar-his').style.width='100%';
-    document.getElementById('eg-bar-dia').style.width='100%';
-    document.getElementById('eg-bar-cri').style.width='100%';
-    document.getElementById('eg-bar-ges').style.width='100%';
-  },50);
+  ['his','dia','cri','ges'].forEach(function(id){document.getElementById('eg-pct-'+id).textContent='…';});
+  carregarEstatGeralReal();
+}
+async function carregarEstatGeralReal(){
+  try{
+    const[h,c,g]=await Promise.all([
+      supabaseClient.from('hasdm').select('nome,diagnostico'),
+      supabaseClient.from('extratifica').select('crianca'),
+      supabaseClient.from('gestantes').select('nome')
+    ]);
+    if(h.error)throw h.error;if(c.error)throw c.error;if(g.error)throw g.error;
+    const hasdmRows=h.data||[];
+    const hipertRows=hasdmRows.filter(r=>(r.diagnostico||'').toUpperCase().includes('HAS'));
+    const diabRows=hasdmRows.filter(r=>(r.diagnostico||'').toUpperCase().includes('DM'));
+    aplicarEstatGeral('his',contarNomesUnicos(hipertRows,r=>r.nome));
+    aplicarEstatGeral('dia',contarNomesUnicos(diabRows,r=>r.nome));
+    aplicarEstatGeral('cri',contarNomesUnicos(c.data,r=>r.crianca));
+    aplicarEstatGeral('ges',contarNomesUnicos(g.data,r=>r.nome));
+  }catch(e){
+    console.warn('estat geral real',e);
+    ['his','dia','cri','ges'].forEach(function(id){document.getElementById('eg-pct-'+id).textContent='erro';});
+  }
+}
+function aplicarEstatGeral(id,qtd){
+  const total=EG_TOTAIS[id];
+  const pct=total>0?(qtd/total*100):0;
+  document.getElementById('eg-num-'+id).textContent=qtd+'/'+total;
+  document.getElementById('eg-pct-'+id).textContent=pct.toFixed(1)+'%';
+  setTimeout(function(){document.getElementById('eg-bar-'+id).style.width=pct.toFixed(1)+'%';},50);
 }
 function fecharEstatGeral(){
   document.getElementById('modal-estat-geral').classList.remove('aberto');
