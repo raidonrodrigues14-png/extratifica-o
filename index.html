@@ -123,6 +123,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .geral .card-emoji-wrap{background:linear-gradient(135deg,#eceff1,#cfd8dc);border:1px solid #b0bec5}
 .portal-card.geral:hover{border-color:#90a4ae}
 .geral .card-arrow{color:#37474f}
+.portal-card.idoso::before{background:linear-gradient(90deg,#4a148c,var(--roxo));opacity:1}
+.idoso .card-emoji-wrap{background:linear-gradient(135deg,var(--roxo-cl),#e1bee7);border:1px solid #ce93d8}
+.portal-card.idoso:hover{border-color:#ce93d8}
+.idoso .card-arrow{color:var(--roxo)}
 
 /* ── ESTRATIFICAÇÃO GERAL (GRÁFICO) ── */
 .estatgeral-resumo{font-size:.78rem;color:var(--txt-3);margin-bottom:1.4rem}
@@ -348,6 +352,14 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .c-secao-titulo.t-inter{background:linear-gradient(90deg,#7a6010,var(--ocre));color:white}
 .c-secao-titulo.t-auto{background:linear-gradient(90deg,var(--roxo),#8a48b8);color:white}
 .c-secao-titulo.t-imc{background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white}
+.c-secao-titulo.t-ido-1{background:linear-gradient(90deg,#2d4a8a,#3d6aaa);color:white}
+.c-secao-titulo.t-ido-2{background:linear-gradient(90deg,#4a148c,var(--roxo));color:white}
+.c-secao-titulo.t-ido-3{background:linear-gradient(90deg,#6a1b9a,#8e24aa);color:white}
+.c-secao-titulo.t-ido-4{background:linear-gradient(90deg,#7a6010,var(--ocre));color:white}
+.c-secao-titulo.t-ido-5{background:linear-gradient(90deg,#2a3a4a,#3a5a78);color:white}
+.c-secao-titulo.t-ido-6{background:linear-gradient(90deg,var(--verm),var(--verm-md));color:white}
+.c-secao-titulo.t-ido-7{background:linear-gradient(90deg,#00695c,#00897b);color:white}
+.c-secao-titulo.t-ido-8{background:linear-gradient(90deg,#7f0000,#c62828);color:white}
 .c-secao-corpo{padding:1.25rem}
 .c-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .c-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
@@ -360,6 +372,14 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .c-check:hover{border-color:var(--border-md);transform:translateX(2px)}
 .c-check input{margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer;accent-color:var(--musgo)}
 .c-check span{font-size:.845rem;line-height:1.5;font-weight:400;color:var(--txt-2)}
+.i-pergunta{padding:.85rem 0;border-bottom:1px solid var(--surface-2)}
+.i-pergunta:last-child{border-bottom:none}
+.i-pergunta-texto{font-size:.85rem;font-weight:500;color:var(--txt-2);margin-bottom:.5rem;line-height:1.5;display:flex;align-items:flex-start;gap:.5rem}
+.i-pergunta-texto .i-score-badge{flex-shrink:0;background:var(--roxo-cl);color:var(--roxo);font-size:.62rem;font-weight:700;padding:.12rem .45rem;border-radius:20px;border:1px solid #ce93d8;white-space:nowrap}
+.i-subgrupo{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--roxo);margin:.9rem 0 .3rem;padding-top:.6rem;border-top:1.5px dashed var(--border)}
+.i-subgrupo:first-child{margin-top:0;padding-top:0;border-top:none}
+.i-opcoes{display:flex;gap:.6rem}
+.i-opcoes .c-check{flex:1;justify-content:center}
 .c-painel{border-radius:12px;padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1rem;font-weight:700;font-size:1rem;margin-bottom:1rem;transition:all .4s var(--ease)}
 .c-painel .p-icon{font-size:1.8rem;flex-shrink:0}
 .c-painel .p-text small{display:block;font-size:.73rem;font-weight:400;opacity:.8;margin-top:.15rem}
@@ -517,7 +537,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: crianças, gestantes, hipertensos e diabéticos.</p><div class="card-riscos"><span class="risco-pill vermelho">192 Hipertensos</span><span class="risco-pill laranja">88 Diabéticos</span><span class="risco-pill amarelo">77 Crianças</span><span class="risco-pill verde">15 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: crianças, gestantes, hipertensos e diabéticos.</p><div class="card-riscos"><span class="risco-pill vermelho">192 Hipertensos</span><span class="risco-pill laranja">88 Diabéticos</span><span class="risco-pill amarelo">77 Crianças</span><span class="risco-pill verde">15 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -1002,6 +1022,308 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
             <table class="tbl">
               <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
               <tbody id="criancasList"><tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modulo-idoso">
+  <div class="app-header" style="background:linear-gradient(135deg,#4a148c,var(--roxo))">
+    <div class="app-header-brand">
+      <div class="app-header-icon">🧓</div>
+      <div class="app-header-text">
+        <strong>Estratificação do Idoso — IVCF-20</strong>
+        <span>Índice de Vulnerabilidade Clínico-Funcional-20</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
+  </div>
+  <div class="cri-content">
+    <div class="c-secao">
+      <div class="c-secao-titulo t-id">👤 Identificação</div>
+      <div class="c-secao-corpo">
+        <div class="c-grid-2">
+          <div class="c-campo"><label>Nome do Idoso</label><input type="text" id="i-nome" placeholder="Nome completo"></div>
+          <div class="c-campo"><label>Telefone (WhatsApp)</label><input type="tel" id="i-telefone" placeholder="98991234567"></div>
+          <div class="c-campo"><label>CNS</label><input type="text" id="i-cns" placeholder="CNS"></div>
+          <div class="c-campo"><label>UBS</label><input type="text" id="i-ubs" placeholder="UBS"></div>
+          <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="i-nasc" onchange="ivcfCalcular()"></div>
+          <div class="c-campo"><label>Idade</label><input type="text" id="i-idade-calc" placeholder="Calculada automaticamente" readonly></div>
+          <div class="c-campo"><label>Microárea</label><input type="text" id="i-microarea" placeholder="Microárea"></div>
+          <div class="c-campo"><label>ACS Responsável</label><input type="text" id="i-acs" placeholder="ACS Responsável"></div>
+          <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="i-cel-acs" placeholder="98991234567"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-2">🩺 Percepção da Saúde <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 2 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Em geral, comparando com outras pessoas de sua idade, você diria que sua saúde é:</span><span class="i-score-badge">máx. 1 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-percepcao" value="0" onchange="ivcfCalcular()" checked><span>Excelente, muito boa ou boa</span></label>
+            <label class="c-check"><input type="radio" name="i-percepcao" value="1" onchange="ivcfCalcular()"><span>Regular ou ruim</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-3">🧹 Atividades de Vida Diária <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 3 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-subgrupo">AVD Instrumental — pontuação máxima deste bloco: 4 pontos, mesmo que "Sim" em todas as três</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Por causa de sua saúde ou condição física, você deixou de fazer compras?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-avd-compras" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-avd-compras" value="0" onchange="ivcfCalcular()" checked><span>Não ou não faz compras por outros motivos que não a saúde</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você deixou de controlar seu dinheiro, gastos ou pagar as contas de sua casa?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-avd-dinheiro" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-avd-dinheiro" value="0" onchange="ivcfCalcular()" checked><span>Não ou não controla o dinheiro por outros motivos que não a saúde</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você deixou de realizar pequenos trabalhos domésticos, como lavar a louça, arrumar a casa ou fazer limpeza leve?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-avd-domestico" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-avd-domestico" value="0" onchange="ivcfCalcular()" checked><span>Não ou não faz mais pequenos trabalhos domésticos por outros motivos que não a saúde</span></label>
+          </div>
+        </div>
+        <div class="i-subgrupo">AVD Básica</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Por causa de sua saúde ou condição física, você deixou de tomar banho sozinho?</span><span class="i-score-badge">máx. 6 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-avd-banho" value="6" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-avd-banho" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-2">🧠 Cognição <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 4 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Algum familiar ou amigo falou que você está ficando esquecido?</span><span class="i-score-badge">1 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-cog-esquecido" value="1" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-cog-esquecido" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem um esquecimento que está piorando nos últimos meses?</span><span class="i-score-badge">1 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-cog-piorando" value="1" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-cog-piorando" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem um esquecimento que está impedindo a realização de alguma atividade do cotidiano?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-cog-impede" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-cog-impede" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-5">😔 Humor <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 5 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>No último mês, você ficou com desânimo, tristeza ou desesperança?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-humor-desanimo" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-humor-desanimo" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você perdeu o interesse ou prazer em atividades anteriormente prazerosas?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-humor-interesse" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-humor-interesse" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-6">🚶 Mobilidade <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 6 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-subgrupo">Alcance, preensão e pinça</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você é incapaz de elevar os braços acima do nível do ombro?</span><span class="i-score-badge">1 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-bracos" value="1" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-bracos" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você é incapaz de manusear ou segurar pequenos objetos?</span><span class="i-score-badge">1 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-objetos" value="1" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-objetos" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-subgrupo">Capacidade aeróbica e/ou muscular — pontuação máxima deste bloco: 2 pontos, mesmo com "Sim" nas quatro</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você teve perda de peso não intencional de 4,5 kg ou 5% do peso corporal no último ano, 6 kg nos últimos 6 meses ou 3 kg no último mês?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-peso" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-peso" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem Índice de Massa Corporal (IMC) menor que 22 kg/m²?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-imc" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-imc" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem a circunferência (perímetro) da panturrilha menor que 31 centímetros?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-panturrilha" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-panturrilha" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Em um teste de velocidade da marcha, o tempo gasto pela pessoa idosa para percorrer 4 metros é maior do que 5 segundos?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-marcha4m" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-marcha4m" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-subgrupo">Marcha</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem dificuldade para caminhar que possa impedir a realização de alguma atividade do cotidiano?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-dificuldade" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-dificuldade" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você teve duas ou mais quedas no último ano?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-quedas" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-quedas" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-subgrupo">Continência esfincteriana</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você perde urina ou fezes, sem querer, em algum momento?</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-mob-continencia" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-mob-continencia" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-7">👁️ Comunicação <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 7 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-subgrupo">Visão</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem problemas de visão capazes de impedir a realização de alguma atividade do cotidiano? (É permitido o uso de óculos ou lentes de contato)</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-com-visao" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-com-visao" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-subgrupo">Audição</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem problemas de audição capazes de impedir a realização de alguma atividade do cotidiano? (É permitido o uso de aparelhos de audição)</span><span class="i-score-badge">2 pt</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-com-audicao" value="2" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-com-audicao" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-ido-8">💊 Comorbidade Múltipla <span style="margin-left:auto;font-size:.65rem;opacity:.85">Grupo 8 de 8</span></div>
+      <div class="c-secao-corpo">
+        <div class="i-subgrupo">Pontuação máxima deste bloco: 4 pontos, mesmo com "Sim" nas três</div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você tem cinco ou mais doenças crônicas?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-morb-doencas" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-morb-doencas" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você faz uso regular de cinco ou mais medicamentos diferentes todos os dias?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-morb-medicamentos" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-morb-medicamentos" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+        <div class="i-pergunta">
+          <div class="i-pergunta-texto"><span>Você teve alguma internação nos últimos 6 meses?</span></div>
+          <div class="i-opcoes">
+            <label class="c-check"><input type="radio" name="i-morb-internacao" value="4" onchange="ivcfCalcular()"><span>Sim</span></label>
+            <label class="c-check"><input type="radio" name="i-morb-internacao" value="0" onchange="ivcfCalcular()" checked><span>Não</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-secao">
+      <div class="c-secao-titulo t-auto">⚙️ Classificação e Retorno</div>
+      <div class="c-secao-corpo">
+        <div id="i-painel" class="c-painel c-habitual"><div class="p-icon">🟢</div><div class="p-text"><span>Pontuação IVCF-20: 0 / 40 — BAIXO RISCO</span><small>Baixa vulnerabilidade clínico-funcional · reavaliar em 6 meses</small></div></div>
+        <div id="i-dimensoes" style="display:none;background:var(--roxo-cl);border:1px solid #ce93d8;border-radius:12px;padding:.9rem 1.1rem;margin-bottom:1rem">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;color:#4a148c;margin-bottom:.55rem;letter-spacing:.5px">⚠️ Dimensões Alteradas</div>
+          <div id="i-dimensoes-lista" style="display:flex;flex-wrap:wrap;gap:.35rem"></div>
+        </div>
+        <div class="c-grid-2" style="margin-bottom:1rem">
+          <div class="c-campo"><label>Data da Avaliação</label><input type="date" id="i-data" onchange="ivcfCalcular()"></div>
+          <div class="c-campo"><label>Data do Retorno (automática)</label><input type="date" id="i-retorno" readonly></div>
+        </div>
+        <div class="wpp-grid">
+          <div class="wpp-wrap wpp-mae">
+            <div class="wpp-head">📱 Mensagem para o Idoso / Familiar</div>
+            <span class="wpp-label label-mae">👴 Para: Idoso / Familiar</span>
+            <div class="wpp-balao" id="i-wpp">Olá! Aqui é a UBS.<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsAppIdoso()">📱 Enviar para o Idoso</button>
+          </div>
+          <div class="wpp-wrap wpp-acs">
+            <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
+            <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
+            <div class="wpp-balao" id="i-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+            <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppAcsIdoso()">📱 Enviar para o ACS</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.25rem">
+          <button class="btn btn-salvar" id="btn-salvar-idoso" onclick="salvarIdoso()">💾 Salvar Avaliação</button>
+          <button class="btn btn-pdf" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-nova" onclick="reiniciarIdoso()">↺ Nova Ficha</button>
+          <button class="btn btn-nova" onclick="voltarPortal()">← Portal</button>
+        </div>
+        <div style="margin-top:1.75rem">
+          <div style="font-size:.8rem;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem">
+            📋 Registros Salvos
+            <button onclick="carregarIdosos()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
+          </div>
+          <div class="busca-wrap">
+            <input type="text" class="busca-input" id="buscaIdoso" placeholder="🔍 Buscar pelo nome do idoso...">
+            <button class="busca-btn" onclick="buscarIdosos()">Buscar</button>
+            <button class="busca-btn" onclick="carregarIdosos()" style="background:var(--txt-3)">Limpar</button>
+          </div>
+          <div class="tabela-wrap">
+            <table class="tbl">
+              <thead><tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Pontuação</th><th>Risco</th><th>Avaliado em</th><th>Ações</th></tr></thead>
+              <tbody id="idososList"><tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1699,17 +2021,18 @@ function ativarSessao(user,bemVindo){
   document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('h-ubs').value='UBS Ozima Batista Bezerra Vieia';
   document.getElementById('c-data').valueAsDate=new Date();
-  cCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
+  document.getElementById('i-data').valueAsDate=new Date();
+  cCalcular();ivcfCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
   const tela=sessionStorage.getItem('aps_tela')||'portal';
   if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
-  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
+  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
 function fazerLogout(){if(confirm('Deseja sair?')){sessionStorage.removeItem('aps_user');sessionStorage.removeItem('aps_tela');location.reload();}}
-function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
+function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
-async function carregarStatPortal(){try{const[g,c,b,h]=await Promise.all([supabaseClient.from('gestantes').select('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos(g.data,r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
-function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}}
+async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([supabaseClient.from('gestantes').select('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos(g.data,r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
+function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}}
 
 // ===== GESTANTE =====
 let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
@@ -1931,7 +2254,7 @@ async function buscarGestantes(){
 async function excluirGestante(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('gestantes').delete().eq('id',id);showToast('🗑️ Excluído');carregarGestantes();}catch(err){showToast('Erro',true);}}
 
 // ===== CRUD READ: ficha completa (todos os dados salvos) =====
-const gestMap={},criMap={};
+const gestMap={},criMap={},idoMap={};
 function fmtDataDet(d){if(!d)return '—';const s=String(d).substring(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return d;return s.split('-').reverse().join('/');}
 function detItem(label,valor){return '<div class="det-item"><span class="det-label">'+label+'</span><span class="det-valor">'+((valor===null||valor===undefined||valor==='')?'—':valor)+'</span></div>';}
 function parseErg(raw){try{const d=JSON.parse(raw);if(d&&typeof d==='object')return d;}catch(e){}return null;}
@@ -2264,6 +2587,221 @@ function cToggleCheckbox(el){const cb=el.querySelector('input');if(event.target!
 function fecharModalCrianca(){document.getElementById('modal-editar-crianca').classList.remove('aberto');}
 function fecharModalGest(){document.getElementById('modal-editar-gest').classList.remove('aberto');}
 function fecharHistorico(){document.getElementById('modal-historico').classList.remove('aberto');}
+
+// ===== IDOSO (IVCF-20) =====
+let iScoreAtual=0,iRiscoAtual='BAIXO',iDimensoesAtuais=[];
+
+function iVal(name){const el=document.querySelector('input[name="'+name+'"]:checked');return el?parseInt(el.value):0;}
+
+function iCalcIdadePontos(){
+  const nasc=document.getElementById('i-nasc').value;
+  const calcEl=document.getElementById('i-idade-calc');
+  if(!nasc){calcEl.value='';return 0;}
+  const hoje=new Date(),dn=new Date(nasc+'T00:00:00');
+  let anos=hoje.getFullYear()-dn.getFullYear();
+  const m=hoje.getMonth()-dn.getMonth();
+  if(m<0||(m===0&&hoje.getDate()<dn.getDate()))anos--;
+  calcEl.value=anos+' anos';
+  if(anos>=85)return 3;
+  if(anos>=75)return 1;
+  return 0;
+}
+
+function ivcfCalcular(){
+  if(!document.getElementById('i-painel'))return;
+  const idade=iCalcIdadePontos();
+  const percepcao=iVal('i-percepcao');
+  const avdi=Math.min(4,iVal('i-avd-compras')+iVal('i-avd-dinheiro')+iVal('i-avd-domestico'));
+  const avdb=iVal('i-avd-banho');
+  const cognicao=iVal('i-cog-esquecido')+iVal('i-cog-piorando')+iVal('i-cog-impede');
+  const humor=iVal('i-humor-desanimo')+iVal('i-humor-interesse');
+  const alcance=iVal('i-mob-bracos')+iVal('i-mob-objetos');
+  const aerobica=Math.min(2,iVal('i-mob-peso')+iVal('i-mob-imc')+iVal('i-mob-panturrilha')+iVal('i-mob-marcha4m'));
+  const marcha=iVal('i-mob-dificuldade')+iVal('i-mob-quedas');
+  const continencia=iVal('i-mob-continencia');
+  const visao=iVal('i-com-visao');
+  const audicao=iVal('i-com-audicao');
+  const comorbidade=Math.min(4,iVal('i-morb-doencas')+iVal('i-morb-medicamentos')+iVal('i-morb-internacao'));
+  const total=idade+percepcao+avdi+avdb+cognicao+humor+alcance+aerobica+marcha+continencia+visao+audicao+comorbidade;
+  iScoreAtual=total;
+
+  const dimensoes=[];
+  if(idade>0)dimensoes.push('Idade ≥75 anos');
+  if(percepcao>0)dimensoes.push('Percepção da saúde');
+  if(avdi>0)dimensoes.push('AVD instrumental');
+  if(avdb>0)dimensoes.push('AVD básica');
+  if(cognicao>0)dimensoes.push('Cognição');
+  if(humor>0)dimensoes.push('Humor');
+  if(alcance>0)dimensoes.push('Alcance, preensão e pinça');
+  if(aerobica>0)dimensoes.push('Capacidade aeróbica/muscular');
+  if(marcha>0)dimensoes.push('Marcha');
+  if(continencia>0)dimensoes.push('Continência esfincteriana');
+  if(visao>0)dimensoes.push('Visão');
+  if(audicao>0)dimensoes.push('Audição');
+  if(comorbidade>0)dimensoes.push('Comorbidade múltipla');
+  iDimensoesAtuais=dimensoes;
+
+  let dias=180;
+  if(total>=15){iRiscoAtual='ALTO';dias=30;}
+  else if(total>=7){iRiscoAtual='MODERADO';dias=90;}
+  else{iRiscoAtual='BAIXO';dias=180;}
+
+  const cfgs={
+    BAIXO:{cls:'c-habitual',icon:'🟢',txt:'BAIXO RISCO',sub:'Baixa vulnerabilidade clínico-funcional · reavaliar em 6 meses'},
+    MODERADO:{cls:'c-intermediario',icon:'🟡',txt:'MODERADO RISCO',sub:'Idoso pré-frágil · reavaliar em 3 meses'},
+    ALTO:{cls:'c-alto',icon:'🔴',txt:'ALTO RISCO',sub:'Idoso frágil · avaliação multidimensional prioritária em 30 dias'}
+  };
+  const cfg=cfgs[iRiscoAtual];
+  const painel=document.getElementById('i-painel');
+  painel.className='c-painel '+cfg.cls;
+  painel.innerHTML='<div class="p-icon">'+cfg.icon+'</div><div class="p-text"><span>Pontuação IVCF-20: '+total+' / 40 — '+cfg.txt+'</span><small>'+cfg.sub+'</small></div>';
+
+  const dimDiv=document.getElementById('i-dimensoes'),dimLista=document.getElementById('i-dimensoes-lista');
+  if(dimensoes.length){
+    dimDiv.style.display='block';
+    dimLista.innerHTML=dimensoes.map(d=>'<span style="display:inline-block;background:#f3e5f5;color:#4a148c;padding:.18rem .6rem;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid #ce93d8">'+d+'</span>').join('');
+  }else{
+    dimDiv.style.display='none';
+  }
+
+  const dataStr=document.getElementById('i-data').value;
+  if(dataStr){
+    const d=new Date(dataStr+'T12:00:00');d.setDate(d.getDate()+dias);
+    const dd=String(d.getDate()).padStart(2,'0'),mm=String(d.getMonth()+1).padStart(2,'0'),yy=d.getFullYear();
+    document.getElementById('i-retorno').value=yy+'-'+mm+'-'+dd;
+    atualizarPreviewWppIdoso(dd,mm,yy);
+    atualizarPreviewWppAcsIdoso(dd,mm,yy);
+  }
+}
+
+function atualizarPreviewWppIdoso(dd,mm,yy){
+  const nome=document.getElementById('i-nome').value||'[Idoso]',ubs=document.getElementById('i-ubs').value||'[UBS]',data=dd+'/'+mm+'/'+yy;
+  const extras={ALTO:'⚠️ ATENÇÃO: Risco ALTO de fragilização. Avaliação multidimensional recomendada.',MODERADO:'📌 Risco MODERADO de fragilização. Reavaliação em 3 meses.',BAIXO:'✅ Risco BAIXO. Reavaliação em 6 meses.'};
+  const msg='Olá, '+nome+'!\nSua avaliação de saúde (IVCF-20) foi concluída.\n📊 Pontuação: '+iScoreAtual+'/40\n📅 Próxima avaliação: '+data+'\n'+extras[iRiscoAtual]+'\nUBS '+ubs;
+  document.getElementById('i-wpp').innerHTML=msg.replace(/\n/g,'<br>')+'<span class="wpp-time">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' ✓✓</span>';
+}
+
+function atualizarPreviewWppAcsIdoso(dd,mm,yy){
+  const acs=document.getElementById('i-acs').value||'[ACS]',nome=document.getElementById('i-nome').value||'[Idoso]',ubs=document.getElementById('i-ubs').value||'[UBS]',microarea=document.getElementById('i-microarea').value||'[Microárea]',data=dd+'/'+mm+'/'+yy;
+  const riscoLabel={BAIXO:'🟢 BAIXO',MODERADO:'🟡 MODERADO',ALTO:'🔴 ALTO'};
+  const orientacoes={BAIXO:'Acompanhamento de rotina.',MODERADO:'Visita domiciliar recomendada · monitorar dimensões alteradas.',ALTO:'🚨 PRIORIDADE! Avaliação multidimensional e visita domiciliar urgente.'};
+  const msg='📋 NOTIFICAÇÃO - '+ubs+'\n\nACS '+acs+'\nIdoso: '+nome+'\nMicroárea: '+microarea+'\nPontuação IVCF-20: '+iScoreAtual+'/40\nClassificação: '+riscoLabel[iRiscoAtual]+'\nPróxima avaliação: '+data+'\nOrientação: '+orientacoes[iRiscoAtual];
+  document.getElementById('i-wpp-acs').innerHTML=msg.replace(/\n/g,'<br>')+'<span class="wpp-time">'+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' ✓✓</span>';
+}
+
+function enviarWhatsAppIdoso(){const t=document.getElementById('i-telefone').value.replace(/\D/g,'');if(!t){showToast('Telefone do idoso inválido',true);return;}window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById('i-wpp').innerText),'_blank');}
+function enviarWhatsAppAcsIdoso(){const t=document.getElementById('i-cel-acs').value.replace(/\D/g,'');if(!t){showToast('Telefone do ACS inválido',true);return;}window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById('i-wpp-acs').innerText),'_blank');}
+
+async function salvarIdoso(){
+  ivcfCalcular();
+  const nome=document.getElementById('i-nome').value.trim();
+  if(!nome){showToast('Informe o nome do idoso!',true);return;}
+  const respostas={};
+  document.querySelectorAll('#modulo-idoso input[type=radio]:checked').forEach(r=>respostas[r.name]=parseInt(r.value));
+  const data={
+    nome,
+    telefone:document.getElementById('i-telefone').value||null,
+    cns:document.getElementById('i-cns').value||null,
+    ubs:document.getElementById('i-ubs').value||null,
+    microarea:document.getElementById('i-microarea').value||null,
+    acs:document.getElementById('i-acs').value||null,
+    telefone_acs:document.getElementById('i-cel-acs').value||null,
+    nascimento:document.getElementById('i-nasc').value||null,
+    pontuacao:iScoreAtual,
+    risco:iRiscoAtual,
+    dimensoes_alteradas:iDimensoesAtuais,
+    respostas,
+    data_avaliacao:document.getElementById('i-data').value||null,
+    data_retorno:document.getElementById('i-retorno').value||null
+  };
+  const btn=document.getElementById('btn-salvar-idoso');btn.disabled=true;btn.textContent='⏳ Salvando...';
+  try{const{error}=await supabaseClient.from('idosos').insert([data]);if(error)throw error;showToast('✅ Avaliação salva!');carregarIdosos();}
+  catch(err){showToast('❌ Erro: '+err.message,true);}
+  finally{btn.disabled=false;btn.innerHTML='💾 Salvar Avaliação';}
+}
+
+function iRiscoBadges(){return{BAIXO:'<span class="badge-pill bp-verde">Baixo</span>',MODERADO:'<span class="badge-pill bp-amarelo">Moderado</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto</span>'};}
+function iLinhaTabela(i){
+  const rm=iRiscoBadges();
+  return `<tr><td><strong>${i.nome||'—'}</strong></td><td>${i.telefone||'—'}</td><td>${i.acs||'—'}</td><td>${i.pontuacao??'—'}/40</td><td>${rm[i.risco]||i.risco||'—'}</td><td>${i.data_avaliacao?String(i.data_avaliacao).substring(0,10).split('-').reverse().join('/'):(i.created_at?new Date(i.created_at).toLocaleDateString('pt-BR'):'—')}</td><td><button class="btn-ver" onclick="verIdoso(${i.id})">👁️ Ver</button><button class="btn-edit" onclick="editarIdosoFicha(${i.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirIdoso(${i.id})">🗑️ Excluir</button></td></tr>`;
+}
+
+async function carregarIdosos(){
+  const tbody=document.getElementById('idososList');if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="7">Carregando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('idosos').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhum idoso cadastrado</td></tr>';return;}
+    data.forEach(i=>idoMap[i.id]=i);
+    tbody.innerHTML=data.map(iLinhaTabela).join('');
+  }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
+}
+
+async function buscarIdosos(){
+  const termo=document.getElementById('buscaIdoso').value.trim();if(!termo){carregarIdosos();return;}
+  const tbody=document.getElementById('idososList');tbody.innerHTML='<tr><td colspan="7">Buscando...</td></tr>';
+  try{
+    const{data,error}=await supabaseClient.from('idosos').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhum idoso encontrado</td></tr>';return;}
+    data.forEach(i=>idoMap[i.id]=i);
+    tbody.innerHTML=data.map(iLinhaTabela).join('');
+  }catch(err){showToast('❌ Erro na busca',true);}
+}
+
+async function excluirIdoso(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('idosos').delete().eq('id',id);showToast('🗑️ Excluído');carregarIdosos();}catch(err){showToast('Erro',true);}}
+
+function reiniciarIdoso(){
+  if(!confirm('Limpar formulário?'))return;
+  document.querySelectorAll('#modulo-idoso input[type=text],#modulo-idoso input[type=tel],#modulo-idoso input[type=date]').forEach(el=>{if(!el.readOnly)el.value='';});
+  document.querySelectorAll('#modulo-idoso input[type=radio][value="0"]').forEach(r=>r.checked=true);
+  document.getElementById('i-idade-calc').value='';
+  document.getElementById('i-dimensoes').style.display='none';
+  document.getElementById('i-data').valueAsDate=new Date();
+  preencherUbsIdoso();
+  ivcfCalcular();
+  window.scrollTo(0,0);
+}
+
+function preencherUbsIdoso(){const u=document.getElementById('i-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';}
+
+function verIdoso(id){
+  const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
+  const rm={BAIXO:'🟢 Baixo Risco',MODERADO:'🟡 Moderado Risco',ALTO:'🔴 Alto Risco'};
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=detItem('Nome',i.nome)+detItem('Telefone',i.telefone)+detItem('CNS',i.cns)+detItem('UBS',i.ubs)+detItem('Data de Nascimento',fmtDataDet(i.nascimento))+detItem('Microárea',i.microarea)+detItem('ACS Responsável',i.acs)+detItem('Telefone do ACS',i.telefone_acs);
+  html+='</div><div class="det-sub">📊 IVCF-20</div><div class="det-grid">';
+  html+=detItem('Pontuação',(i.pontuacao??'—')+' / 40')+detItem('Classificação',rm[i.risco]||i.risco)+detItem('Data da Avaliação',fmtDataDet(i.data_avaliacao))+detItem('Próxima Avaliação',fmtDataDet(i.data_retorno))+detItem('Registrado em',fmtDataDet(i.created_at));
+  html+='</div>'+detLista('⚠️ Dimensões Alteradas',i.dimensoes_alteradas);
+  html+='<div class="det-btns"><button class="btn btn-salvar" onclick="editarIdosoFicha('+id+')">✏️ Editar Dados</button></div>';
+  abrirFicha('🧓 Ficha Completa — '+(i.nome||'Idoso'),html);
+}
+
+function editarIdosoFicha(id){
+  const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
+  const riscoOpc={BAIXO:'🟢 Baixo Risco',MODERADO:'🟡 Moderado Risco',ALTO:'🔴 Alto Risco'};
+  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
+  html+=editItem('Nome','ie-nome',i.nome)+editItem('Telefone','ie-telefone',i.telefone,'tel')+editItem('CNS','ie-cns',i.cns)+editItem('UBS','ie-ubs',i.ubs)+editItem('Data de Nascimento','ie-nasc',dataISO(i.nascimento),'date')+editItem('Microárea','ie-microarea',i.microarea)+editItem('ACS Responsável','ie-acs',i.acs)+editItem('Telefone do ACS','ie-telacs',i.telefone_acs,'tel');
+  html+='</div><div class="det-sub">📊 IVCF-20</div><div class="det-grid">';
+  html+=editItem('Pontuação','ie-pontuacao',i.pontuacao,'number')+editSelect('Classificação','ie-risco',i.risco||'BAIXO',riscoOpc)+editItem('Data da Avaliação','ie-data',dataISO(i.data_avaliacao),'date')+editItem('Próxima Avaliação','ie-retorno',dataISO(i.data_retorno),'date');
+  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ As respostas do questionário não são editáveis aqui. Para reavaliar, realize uma nova ficha.</p>';
+  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verIdoso('+id+')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaIdoso('+id+')">💾 Salvar Alterações</button></div>';
+  abrirFicha('✏️ Editar Ficha — '+(i.nome||'Idoso'),html);
+}
+
+async function salvarFichaIdoso(id){
+  const v=k=>document.getElementById(k).value.trim();
+  const dados={nome:v('ie-nome')||null,telefone:v('ie-telefone')||null,cns:v('ie-cns')||null,ubs:v('ie-ubs')||null,nascimento:v('ie-nasc')||null,microarea:v('ie-microarea')||null,acs:v('ie-acs')||null,telefone_acs:v('ie-telacs')||null,pontuacao:parseInt(v('ie-pontuacao'))||0,risco:v('ie-risco'),data_avaliacao:v('ie-data')||null,data_retorno:v('ie-retorno')||null};
+  if(!dados.nome){showToast('Informe o nome!',true);return;}
+  try{
+    const{error}=await supabaseClient.from('idosos').update(dados).eq('id',id);
+    if(error)throw error;
+    Object.assign(idoMap[id],dados);
+    showToast('✅ Dados atualizados!');fecharHistorico();carregarIdosos();
+  }catch(err){showToast('❌ Erro: '+err.message,true);}
+}
+
 const EG_TOTAIS={his:192,dia:88,cri:77,ges:15};
 function abrirEstatGeral(){
   document.getElementById('modal-estat-geral').classList.add('aberto');
