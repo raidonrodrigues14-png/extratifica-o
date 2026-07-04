@@ -1988,7 +1988,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 const SUPABASE_URL='https://kqielgdslxjtykgqjmfg.supabase.co';
 const SUPABASE_KEY='sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
 const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const USUARIOS={"Ionara Raquel":"123","Herica":"123"};
+const APS_EMAIL_DOMINIO='sistemaaps.local';
 
 // ===== FUNÇÕES GLOBAIS =====
 function showToast(msg,isError=false){
@@ -1998,20 +1998,35 @@ function showToast(msg,isError=false){
   setTimeout(()=>{t.style.display='none';},3200);
 }
 
-function fazerLogin(){
-  const user=document.getElementById('login-user').value.trim();
+function usuarioParaEmail(usuario){
+  const u=usuario.trim();
+  if(u.includes('@'))return u.toLowerCase();
+  return u.toLowerCase().replace(/\s+/g,'')+'@'+APS_EMAIL_DOMINIO;
+}
+
+function nomeExibicao(user){
+  if(!user)return'';
+  return(user.user_metadata&&user.user_metadata.nome)||user.email.split('@')[0];
+}
+
+async function fazerLogin(){
+  const userRaw=document.getElementById('login-user').value.trim();
   const pass=document.getElementById('login-senha').value;
   const err=document.getElementById('login-erro');
-  if(!user||!pass){err.textContent='Preencha usuário e senha';err.style.display='block';return;}
-  if(USUARIOS[user]&&USUARIOS[user]===pass){
-    err.style.display='none';
-    sessionStorage.setItem('aps_user',user);
-    sessionStorage.setItem('aps_tela','portal');
-    ativarSessao(user,true);
-  }else{
+  if(!userRaw||!pass){err.textContent='Preencha usuário e senha';err.style.display='block';return;}
+  const btn=document.getElementById('btn-login');
+  if(btn){btn.disabled=true;btn.textContent='Entrando...';}
+  const email=usuarioParaEmail(userRaw);
+  const{data,error}=await supabaseClient.auth.signInWithPassword({email,password:pass});
+  if(btn){btn.disabled=false;btn.textContent='Entrar no Sistema →';}
+  if(error||!data.user){
     err.textContent='Usuário ou senha incorretos';err.style.display='block';
     document.getElementById('login-senha').value='';
+    return;
   }
+  err.style.display='none';
+  sessionStorage.setItem('aps_tela','portal');
+  ativarSessao(nomeExibicao(data.user),true);
 }
 
 function ativarSessao(user,bemVindo){
@@ -2029,7 +2044,7 @@ function ativarSessao(user,bemVindo){
   else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
-function fazerLogout(){if(confirm('Deseja sair?')){sessionStorage.removeItem('aps_user');sessionStorage.removeItem('aps_tela');location.reload();}}
+function fazerLogout(){if(confirm('Deseja sair?')){supabaseClient.auth.signOut().then(()=>{sessionStorage.removeItem('aps_tela');location.reload();});}}
 function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
 async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([supabaseClient.from('gestantes').select('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos(g.data,r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
@@ -3728,11 +3743,13 @@ async function excluirHasDm(id){
 }
 
 // ===== INICIALIZAÇÃO =====
-window.addEventListener('load',()=>{
+window.addEventListener('load',async()=>{
   document.getElementById('login-user').value='';document.getElementById('login-senha').value='';
-  // Restaurar sessão ao atualizar página
-  const userSalvo=sessionStorage.getItem('aps_user');
-  if(userSalvo&&USUARIOS[userSalvo]){ativarSessao(userSalvo,false);}
+  // Restaurar sessão ao atualizar página (Supabase Auth mantém a sessão salva no navegador)
+  try{
+    const{data:{session}}=await supabaseClient.auth.getSession();
+    if(session&&session.user){ativarSessao(nomeExibicao(session.user),false);}
+  }catch(e){console.warn('restaurar sessão',e);}
   document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
   document.getElementById('b-data-avaliacao').valueAsDate=new Date();
   const nomesBucal=['b-escova','b-fio','b-acucar','b-fluor-creme','b-agua-fluor','b-carie-ult','b-perdeu-dente','b-restauracoes','b-dor','b-placa','b-sangramento','b-lesoes-carie','b-manchas','b-calculo'];
