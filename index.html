@@ -6,6 +6,7 @@
 <title>Portal APS - SECRETARIA DE SAÚDE - ALTO ALEGRE DO MARANHÃO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -49,6 +50,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 #tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(150deg,#0f2417 0%,var(--musgo-escuro) 40%,var(--musgo) 80%,#43a047 100%);position:relative;overflow:hidden}
 #tela-login::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(102,187,106,.18) 0%,transparent 65%);top:-250px;left:-250px;animation:blob 9s ease-in-out infinite}
 #tela-login::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(46,125,50,.25) 0%,transparent 65%);bottom:-150px;right:-150px;animation:blob 11s ease-in-out infinite reverse}
+#tela-assinatura-vencida{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;background:linear-gradient(150deg,#0f2417 0%,var(--musgo-escuro) 40%,var(--musgo) 80%,#43a047 100%);position:relative;overflow:hidden}
 .login-card{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-radius:24px;padding:2.5rem 2.25rem;width:100%;max-width:420px;box-shadow:0 32px 64px rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.4);position:relative;z-index:2;animation:cardUp .6s var(--ease-spring) both}
 .login-top{display:flex;align-items:center;gap:1rem;margin-bottom:1.75rem}
 .login-icon{width:52px;height:52px;flex-shrink:0;background:linear-gradient(135deg,var(--musgo-escuro),var(--musgo));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 6px 16px rgba(27,94,32,.4)}
@@ -537,6 +539,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <div class="historico-overlay" id="modal-estat-geral"><div class="historico-box" style="max-width:540px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0">📊 Estratificação Geral por Programa</h3><button class="btn btn-nova" onclick="fecharEstatGeral()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div class="estatgeral-resumo">Percentual já estratificado em relação ao total cadastrado de cada programa</div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#c62828">Hipertensos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-his" style="background:linear-gradient(90deg,#c62828,#e53935)"></div></div><span class="estatgeral-pct" id="eg-pct-his">—</span><span class="estatgeral-num" id="eg-num-his">—/192</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#4a148c">Diabéticos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-dia" style="background:linear-gradient(90deg,#4a148c,#7b1fa2)"></div></div><span class="estatgeral-pct" id="eg-pct-dia">—</span><span class="estatgeral-num" id="eg-num-dia">—/88</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#b8860b">Crianças</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-cri" style="background:linear-gradient(90deg,#b8860b,#d4a017)"></div></div><span class="estatgeral-pct" id="eg-pct-cri">—</span><span class="estatgeral-num" id="eg-num-cri">—/77</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#2e7d32">Gestantes</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-ges" style="background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><span class="estatgeral-pct" id="eg-pct-ges">—</span><span class="estatgeral-num" id="eg-num-ges">—/15</span></div><div style="margin-top:1rem;padding-top:.85rem;border-top:1.5px solid var(--border)"><div style="font-size:.85rem;font-weight:800;color:var(--txt-1);margin-bottom:.6rem">📊 Distribuição por Nível de Risco (pacientes únicos)</div><div id="eg-risco-detalhe" style="font-size:.8rem;color:var(--txt-3)">Carregando...</div></div></div></div>
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
+<div id="tela-assinatura-vencida" style="display:none"><div class="login-card"><div class="login-top"><div class="login-icon">💳</div><div class="login-title"><strong>Assinatura Vencida</strong><span>Renove seu acesso para continuar</span></div></div><div class="login-sep"></div><p style="text-align:center;font-size:.82rem;color:var(--txt-2);margin:.3rem 0 1rem;line-height:1.4">Seu acesso mensal (R$ 100,00) venceu em <strong id="pix-venc-data"></strong>. Escaneie o QR Code ou copie o código PIX abaixo para renovar. Seu acesso é liberado por mais 30 dias após a confirmação do pagamento.</p><div id="pix-qrcode" style="display:flex;justify-content:center;margin-bottom:1rem"></div><div class="f-group"><label class="f-label">PIX Copia e Cola</label><textarea class="f-input" id="pix-codigo" readonly style="font-size:.65rem;height:70px;resize:none"></textarea></div><button class="btn-login-submit" type="button" onclick="copiarCodigoPix()">Copiar código PIX</button><button class="btn-login-submit" type="button" style="background:#555;margin-top:.5rem" onclick="fazerLogout()">Sair</button></div></div>
 
 <div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: crianças, gestantes, hipertensos e diabéticos.</p><div class="card-riscos"><span class="risco-pill vermelho">192 Hipertensos</span><span class="risco-pill laranja">88 Diabéticos</span><span class="risco-pill amarelo">77 Crianças</span><span class="risco-pill verde">15 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
@@ -2009,6 +2012,65 @@ function nomeExibicao(user){
   return(user.user_metadata&&user.user_metadata.nome)||user.email.split('@')[0];
 }
 
+// ===== PIX (renovação de assinatura, R$100/30 dias) =====
+const PIX_CHAVE='99991723550';
+const PIX_NOME='RAIDON RODRIGUES';
+const PIX_CIDADE='ALTO ALEGRE MA';
+const PIX_VALOR='100.00';
+
+function pixCRC16(payload){
+  let polinomio=0x1021,resultado=0xFFFF;
+  for(let i=0;i<payload.length;i++){
+    resultado^=(payload.charCodeAt(i)<<8);
+    for(let j=0;j<8;j++){
+      resultado=(resultado&0x8000)?((resultado<<1)^polinomio)&0xFFFF:(resultado<<1)&0xFFFF;
+    }
+  }
+  return resultado.toString(16).toUpperCase().padStart(4,'0');
+}
+function pixCampo(id,valor){return id+String(valor.length).padStart(2,'0')+valor;}
+function gerarPayloadPix(){
+  const gui=pixCampo('00','BR.GOV.BCB.PIX');
+  const chave=pixCampo('01',PIX_CHAVE);
+  const conta=pixCampo('26',gui+chave);
+  const mcc=pixCampo('52','0000');
+  const moeda=pixCampo('53','986');
+  const valor=pixCampo('54',PIX_VALOR);
+  const pais=pixCampo('58','BR');
+  const nome=pixCampo('59',PIX_NOME.substring(0,25));
+  const cidade=pixCampo('60',PIX_CIDADE.substring(0,15));
+  const txid=pixCampo('62',pixCampo('05','***'));
+  const poi=pixCampo('01','11');
+  const formato=pixCampo('00','01');
+  const semCrc=formato+poi+conta+mcc+moeda+valor+pais+nome+cidade+txid+'6304';
+  return semCrc+pixCRC16(semCrc);
+}
+function copiarCodigoPix(){
+  const campo=document.getElementById('pix-codigo');
+  campo.select();
+  navigator.clipboard.writeText(campo.value).then(()=>showToast('Código PIX copiado!')).catch(()=>{document.execCommand('copy');showToast('Código PIX copiado!');});
+}
+function mostrarTelaVencida(venc){
+  document.getElementById('tela-login').style.display='none';
+  document.getElementById('tela-portal').style.display='none';
+  const codigo=gerarPayloadPix();
+  document.getElementById('pix-codigo').value=codigo;
+  document.getElementById('pix-venc-data').textContent=venc?new Date(venc+'T00:00:00').toLocaleDateString('pt-BR'):'-';
+  const qrDiv=document.getElementById('pix-qrcode');
+  qrDiv.innerHTML='';
+  if(window.QRCode)new QRCode(qrDiv,{text:codigo,width:200,height:200});
+  document.getElementById('tela-assinatura-vencida').style.display='flex';
+}
+async function verificarAssinatura(userId){
+  try{
+    const{data,error}=await supabaseClient.from('assinaturas').select('vencimento').eq('user_id',userId).maybeSingle();
+    if(error||!data)return{ok:true};
+    const hoje=new Date();hoje.setHours(0,0,0,0);
+    const venc=new Date(data.vencimento+'T00:00:00');
+    return{ok:venc>=hoje,vencimento:data.vencimento};
+  }catch(e){console.warn('verificar assinatura',e);return{ok:true};}
+}
+
 async function fazerLogin(){
   const userRaw=document.getElementById('login-user').value.trim();
   const pass=document.getElementById('login-senha').value;
@@ -2025,6 +2087,12 @@ async function fazerLogin(){
     return;
   }
   err.style.display='none';
+  const assinatura=await verificarAssinatura(data.user.id);
+  if(!assinatura.ok){
+    await supabaseClient.auth.signOut();
+    mostrarTelaVencida(assinatura.vencimento);
+    return;
+  }
   sessionStorage.setItem('aps_tela','portal');
   ativarSessao(nomeExibicao(data.user),true);
 }
@@ -3748,7 +3816,11 @@ window.addEventListener('load',async()=>{
   // Restaurar sessão ao atualizar página (Supabase Auth mantém a sessão salva no navegador)
   try{
     const{data:{session}}=await supabaseClient.auth.getSession();
-    if(session&&session.user){ativarSessao(nomeExibicao(session.user),false);}
+    if(session&&session.user){
+      const assinatura=await verificarAssinatura(session.user.id);
+      if(assinatura.ok){ativarSessao(nomeExibicao(session.user),false);}
+      else{await supabaseClient.auth.signOut();mostrarTelaVencida(assinatura.vencimento);}
+    }
   }catch(e){console.warn('restaurar sessão',e);}
   document.getElementById('c-data').valueAsDate=new Date();cCalcular();gPagAtual=1;gRenderPag();
   document.getElementById('b-data-avaliacao').valueAsDate=new Date();
