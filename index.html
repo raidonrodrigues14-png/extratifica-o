@@ -771,7 +771,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     </div>
     
     <div class="acao-buttons">
-      <button class="btn-acao btn-salvar-resultado" onclick="salvarGestante()">💾 Salvar</button>
+      <button class="btn-acao btn-salvar-resultado" id="btn-salvar-gestante" onclick="salvarGestante()">💾 Salvar</button>
       <button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button>
       <button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button>
       <button class="btn-acao btn-novo-resultado" onclick="reiniciarGestante()">↺ Nova</button>
@@ -2184,7 +2184,22 @@ async function salvarGestante(){
     fatores_risco:gMarcados,
     proxima_consulta: document.getElementById('g-wpp-data').value || null
   };
-  try{const{error}=await supabaseClient.from('gestantes').insert([data]);if(error)throw error;showToast('✅ Gestante salva!');carregarGestantes();}
+  const btn=document.getElementById('btn-salvar-gestante');
+  const editId=btn?btn.dataset.editId:null;
+  try{
+    let error;
+    if(editId){({error}=await supabaseClient.from('gestantes').update(data).eq('id',editId));}
+    else{({error}=await supabaseClient.from('gestantes').insert([data]));}
+    if(error)throw error;
+    if(editId){
+      if(gestMap[editId])Object.assign(gestMap[editId],data);
+      delete btn.dataset.editId;btn.textContent='💾 Salvar';
+      showToast('✅ Dados atualizados!');
+    }else{
+      showToast('✅ Gestante salva!');
+    }
+    carregarGestantes();
+  }
   catch(err){showToast('❌ Erro: '+err.message,true);}
 
 }
@@ -2400,63 +2415,82 @@ function editSelect(label,id,valor,opcoes){
 function dataISO(d){if(!d)return '';const s=String(d).substring(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(s)?s:'';}
 function editarGestanteFicha(id){
   const g=gestMap[id];if(!g){showToast('Registro não encontrado',true);return;}
-  const classifOpc={habitual:'🟢 Risco Habitual',vigilancia:'🟡 Habitual com Maior Vigilância',compartilhado:'🟠 Alto Risco Compartilhado',maternidade:'🔴 Alto Risco — Maternidade'};
-  const racaOpc={'':'— Não informado —',Branca:'Branca',Preta:'Preta',Parda:'Parda',Amarela:'Amarela','Indígena':'Indígena'};
-  const civilOpc={'':'— Não informado —',Solteira:'Solteira',Casada:'Casada','União Estável':'União Estável',Outro:'Outro'};
-  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=editItem('Nome','ge-nome',g.nome)+editItem('CNS','ge-cns',g.cns)+editItem('CPF','ge-cpf',g.cpf)+editItem('Idade','ge-idade',g.idade,'number')+editItem('Data de Nascimento','ge-data_nasc',dataISO(g.data_nasc),'date')+editSelect('Estado Civil','ge-estado_civil',g.estado_civil||'',civilOpc)+editSelect('Raça/Cor','ge-raca',g.raca_cor||'',racaOpc)+editItem('Telefone (WhatsApp)','ge-telefone',g.telefone,'tel');
-  html+='</div><div class="det-sub">🤰 Dados Obstétricos</div><div class="det-grid">';
-  html+=editItem('DUM','ge-dum',dataISO(g.dum),'date')+editItem('DPP','ge-dpp',dataISO(g.dpp),'date')+editItem('Gestações (G)','ge-gest',g.gestacoes,'number')+editItem('Abortos (A)','ge-abort',g.abortos,'number')+editItem('Partos Normais','ge-pn',g.partos_normais,'number')+editItem('Partos Cesáreos','ge-pc',g.partos_cesareos,'number');
-  html+='</div><div class="det-sub">🏥 Vinculação APS</div><div class="det-grid">';
-  html+=editItem('UBS','ge-ubs',g.ubs)+editItem('Equipe ESF','ge-equipe',g.equipe_esf)+editItem('ACS','ge-acs',g.acs);
-  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
-  html+=editSelect('Classificação','ge-classif',g.risco_classificacao||'habitual',classifOpc)+editItem('Próxima Consulta','ge-proxima',dataISO(g.proxima_consulta),'date');
-  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ Os fatores de risco não são editáveis aqui. Para reavaliá-los, realize uma nova estratificação.</p>';
-  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verGestante(\''+id+'\')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaGestante(\''+id+'\')">💾 Salvar Alterações</button></div>';
-  abrirFicha('✏️ Editar Ficha — '+(g.nome||'Gestante'),html);
-}
-async function salvarFichaGestante(id){
-  const v=i=>document.getElementById(i).value.trim();
-  const dados={nome:v('ge-nome')||null,cns:v('ge-cns')||null,cpf:v('ge-cpf')||null,idade:parseInt(v('ge-idade'))||null,data_nasc:v('ge-data_nasc')||null,estado_civil:v('ge-estado_civil')||null,raca_cor:v('ge-raca')||null,telefone:v('ge-telefone')||null,dum:v('ge-dum')||null,dpp:v('ge-dpp')||null,gestacoes:parseInt(v('ge-gest'))||0,abortos:parseInt(v('ge-abort'))||0,partos_normais:parseInt(v('ge-pn'))||0,partos_cesareos:parseInt(v('ge-pc'))||0,ubs:v('ge-ubs')||null,equipe_esf:v('ge-equipe')||null,acs:v('ge-acs')||null,risco_classificacao:v('ge-classif'),proxima_consulta:v('ge-proxima')||null};
-  if(!dados.nome){showToast('Informe o nome!',true);return;}
-  try{
-    const{error}=await supabaseClient.from('gestantes').update(dados).eq('id',id);
-    if(error)throw error;
-    Object.assign(gestMap[id],dados);
-    showToast('✅ Dados atualizados!');fecharHistorico();carregarGestantes();
-  }catch(err){showToast('❌ Erro: '+err.message,true);}
+  fecharHistorico();
+  document.getElementById('g-nome').value=g.nome||'';
+  document.getElementById('g-cns').value=g.cns||'';
+  document.getElementById('g-cpf').value=g.cpf||'';
+  document.getElementById('g-idade').value=g.idade||'';
+  document.getElementById('g-data_nasc').value=dataISO(g.data_nasc);
+  document.getElementById('g-estado_civil').value=g.estado_civil||'';
+  document.querySelectorAll('input[name="graca"]').forEach(r=>{r.checked=(r.value===g.raca_cor);});
+  document.getElementById('g-dum').value=dataISO(g.dum);
+  document.getElementById('g-dpp').value=dataISO(g.dpp);
+  document.getElementById('g-gest').value=(g.gestacoes===null||g.gestacoes===undefined)?1:g.gestacoes;
+  document.getElementById('g-abort').value=(g.abortos===null||g.abortos===undefined)?0:g.abortos;
+  document.getElementById('g-pn').value=(g.partos_normais===null||g.partos_normais===undefined)?0:g.partos_normais;
+  document.getElementById('g-pc').value=(g.partos_cesareos===null||g.partos_cesareos===undefined)?0:g.partos_cesareos;
+  document.getElementById('g-ubs').value=g.ubs||'';
+  document.getElementById('g-equipe').value=g.equipe_esf||'';
+  document.getElementById('g-acs').value=g.acs||'';
+  document.getElementById('g-cel').value=g.telefone||'';
+  document.getElementById('g-wpp-data').value=dataISO(g.proxima_consulta);
+  let fatores=g.fatores_risco;
+  if(typeof fatores==='string'){try{fatores=JSON.parse(fatores);}catch(e){fatores=[];}}
+  if(!Array.isArray(fatores))fatores=[];
+  // desmarca tudo primeiro (via clique real, para manter classes visuais e gMarcados em sincronia)
+  document.querySelectorAll('#modulo-gestante input[type=checkbox][data-label]:checked').forEach(cb=>{const lbl=cb.closest('.g-check');if(lbl)lbl.click();});
+  // marca os fatores salvos
+  const todos=Array.from(document.querySelectorAll('#modulo-gestante input[type=checkbox][data-label]'));
+  fatores.forEach(f=>{
+    const grupo=(f&&typeof f==='object')?f.grupo:null;
+    const label=(f&&typeof f==='object')?f.label:String(f);
+    const cb=todos.find(el=>el.dataset.label===label&&(!grupo||el.dataset.grupo===grupo));
+    if(cb&&!cb.checked){const lbl=cb.closest('.g-check');if(lbl)lbl.click();}
+  });
+  gPagAtual=1;gRenderPag();
+  processarGestante();
+  const btn=document.getElementById('btn-salvar-gestante');
+  if(btn){btn.dataset.editId=id;btn.textContent='💾 Salvar Alterações';}
+  showToast('Registro carregado para edição — revise e clique em Salvar Alterações!');
 }
 function editarCriancaFicha(id){
   const c=criMap[id];if(!c){showToast('Registro não encontrado',true);return;}
-  const riscoOpc={HABITUAL:'🟢 Risco Habitual',INTERMEDIARIO:'🟡 Risco Intermediário',ALTO:'🔴 Alto Risco'};
-  const pesoOpc={adequado:'Adequado (2500g–4500g)',baixo:'Baixo peso (<2500g)',muito_baixo:'Muito baixo (<1500g)',extremo_baixo:'Extremo baixo (<1000g)',excessivo:'Excessivo (>4500g)'};
-  const igOpc={termo_completo:'Termo completo (39–41 sem)',termo_precoce:'Termo precoce (37–38 sem)',pre_termo_tardio:'Pré-termo tardio (34–36 sem)',pre_termo_mod:'Pré-termo moderado (32–33 sem)',muito_prematuro:'Muito prematuro (28–31 sem)',extremo_prematuro:'Extremamente prematuro (<28 sem)',pos_termo:'Pós-termo (>42 sem)'};
-  const propOpc={AIG:'Adequado para IG (AIG)',PIG:'Pequeno para IG (PIG)',GIG:'Grande para IG (GIG)','simétrico':'Crescimento simétrico','assimétrico':'Crescimento assimétrico'};
-  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=editItem('Criança','ce-crianca',c.crianca)+editItem('Mãe','ce-mae',c.mae)+editItem('Telefone da Mãe','ce-telefone',c.telefone,'tel')+editItem('CNS','ce-cns',c.cns)+editItem('UBS','ce-ubs',c.ubs)+editItem('Data de Nascimento','ce-nasc',dataISO(c.nascimento),'date')+editItem('Microárea','ce-microarea',c.microarea)+editItem('ACS Responsável','ce-acs',c.acs)+editItem('Telefone do ACS','ce-telacs',c.telefone_acs,'tel');
-  html+='</div><div class="det-sub">👶 Classificação ao Nascer</div><div class="det-grid">';
-  html+=editSelect('Peso ao Nascer','ce-peso-nascer',c.peso_nascer||'adequado',pesoOpc)+editSelect('Idade Gestacional','ce-ig',c.idade_gestacional||'termo_completo',igOpc)+editSelect('Proporcionalidade','ce-prop',c.proporcionalidade||'AIG',propOpc);
-  html+='</div><div class="det-sub">⚖️ Medidas Atuais</div><div class="det-grid">';
-  html+=editItem('Peso Atual (kg)','ce-peso-atual',c.peso_atual,'number')+editItem('Altura (cm)','ce-altura',c.altura,'number');
-  html+='</div><div class="det-sub">📊 Estratificação</div><div class="det-grid">';
-  html+=editSelect('Risco','ce-risco',c.risco||'HABITUAL',riscoOpc)+editItem('Data de Retorno','ce-retorno',dataISO(c.data_retorno),'date');
-  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ Os fatores de risco não são editáveis aqui. Para reavaliá-los, realize uma nova estratificação.</p>';
-  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verCrianca('+id+')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaCrianca('+id+')">💾 Salvar Alterações</button></div>';
-  abrirFicha('✏️ Editar Ficha — '+(c.crianca||'Criança'),html);
-}
-async function salvarFichaCrianca(id){
-  const v=i=>document.getElementById(i).value.trim();
-  const dados={crianca:v('ce-crianca')||null,mae:v('ce-mae')||null,telefone:v('ce-telefone')||null,cns:v('ce-cns')||null,ubs:v('ce-ubs')||null,nascimento:v('ce-nasc')||null,microarea:v('ce-microarea')||null,acs:v('ce-acs')||null,telefone_acs:v('ce-telacs')||null,peso_atual:v('ce-peso-atual')||null,altura:v('ce-altura')||null,peso_nascer:v('ce-peso-nascer'),idade_gestacional:v('ce-ig'),proporcionalidade:v('ce-prop'),risco:v('ce-risco'),data_retorno:v('ce-retorno')||null};
-  if(!dados.crianca||!dados.mae){showToast('Informe nome da criança e da mãe!',true);return;}
-  try{
-    const{error}=await supabaseClient.from('extratifica').update(dados).eq('id',id);
-    if(error)throw error;
-    Object.assign(criMap[id],dados);
-    showToast('✅ Dados atualizados!');fecharHistorico();carregarCriancas();
-  }catch(err){showToast('❌ Erro: '+err.message,true);}
+  fecharHistorico();
+  document.getElementById('c-nome').value=c.crianca||'';
+  document.getElementById('c-mae').value=c.mae||'';
+  document.getElementById('c-cel-mae').value=c.telefone||'';
+  document.getElementById('c-cns').value=c.cns||'';
+  document.getElementById('c-ubs').value=c.ubs||'';
+  document.getElementById('c-nasc').value=dataISO(c.nascimento);
+  document.getElementById('c-microarea').value=c.microarea||'';
+  document.getElementById('c-acs').value=c.acs||'';
+  document.getElementById('c-cel-acs').value=c.telefone_acs||'';
+  document.getElementById('c-peso-atual').value=c.peso_atual||'';
+  document.getElementById('c-altura').value=c.altura||'';
+  document.getElementById('c-peso').value=c.peso_nascer||'adequado';
+  document.getElementById('c-ig').value=c.idade_gestacional||'termo_completo';
+  document.getElementById('c-prop').value=c.proporcionalidade||'AIG';
+  if(!document.getElementById('c-data').value)document.getElementById('c-data').valueAsDate=new Date();
+  const altoArr=Array.isArray(c.fatores_alto)?c.fatores_alto.map(f=>typeof f==='string'?f:(f&&f.label)||''):[];
+  const interArr=Array.isArray(c.fatores_inter)?c.fatores_inter.map(f=>typeof f==='string'?f:(f&&f.label)||''):[];
+  // desmarca tudo primeiro (via clique real, para manter estilos em sincronia)
+  document.querySelectorAll('#modulo-crianca .chk-alto:checked,#modulo-crianca .chk-inter:checked').forEach(cb=>{const lbl=cb.closest('.c-check');if(lbl)lbl.click();});
+  document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>{
+    const span=cb.closest('.c-check')?.querySelector('span');
+    const txt=span?span.textContent:'';
+    const deveMarcar=cb.classList.contains('chk-alto')?altoArr.includes(txt):interArr.includes(txt);
+    if(deveMarcar&&!cb.checked){const lbl=cb.closest('.c-check');if(lbl)lbl.click();}
+  });
+  calcIMC();
+  cCalcular();
+  document.getElementById('c-retorno').value=dataISO(c.data_retorno);
+  const btn=document.getElementById('btn-salvar-crianca');
+  btn.dataset.editId=id;btn.textContent='💾 Salvar Alterações';
+  showToast('Registro carregado para edição — revise e clique em Salvar Alterações!');
+  document.getElementById('c-nome').scrollIntoView({behavior:'smooth'});
 }
 
-function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);}
+function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);const btnG=document.getElementById('btn-salvar-gestante');if(btnG){delete btnG.dataset.editId;btnG.textContent='💾 Salvar';}}
 function exportarExcelGestante(){showToast('📊 Exportação em breve');}
 
 // ===== CRIANÇA =====
@@ -2512,9 +2546,23 @@ async function salvarCrianca(){
   const fatoresInter=Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked')).map(cb=>cb.closest('.c-check').querySelector('span').textContent);
   const data={crianca:nome,mae,telefone:document.getElementById('c-cel-mae').value||null,cns:document.getElementById('c-cns').value||null,ubs:document.getElementById('c-ubs').value||null,nascimento:document.getElementById('c-nasc').value||null,microarea:document.getElementById('c-microarea').value||null,acs:document.getElementById('c-acs').value||null,telefone_acs:document.getElementById('c-cel-acs').value||null,peso_atual:document.getElementById('c-peso-atual').value||null,altura:document.getElementById('c-altura').value||null,risco:cRiscoAtual,data_retorno:document.getElementById('c-retorno').value,peso_nascer:document.getElementById('c-peso').value,idade_gestacional:document.getElementById('c-ig').value,proporcionalidade:document.getElementById('c-prop').value,fatores_alto:fatoresAlto,fatores_inter:fatoresInter};
   const btn=document.getElementById('btn-salvar-crianca');btn.disabled=true;btn.textContent='⏳ Salvando...';
-  try{const{error}=await supabaseClient.from('extratifica').insert([data]);if(error)throw error;showToast('✅ Criança salva!');carregarCriancas();}
+  const editId=btn.dataset.editId;
+  try{
+    let error;
+    if(editId){({error}=await supabaseClient.from('extratifica').update(data).eq('id',editId));}
+    else{({error}=await supabaseClient.from('extratifica').insert([data]));}
+    if(error)throw error;
+    if(editId){
+      if(criMap[editId])Object.assign(criMap[editId],data);
+      delete btn.dataset.editId;
+      showToast('✅ Dados atualizados!');
+    }else{
+      showToast('✅ Criança salva!');
+    }
+    carregarCriancas();
+  }
   catch(err){showToast('❌ Erro: '+err.message,true);}
-  finally{btn.disabled=false;btn.innerHTML='💾 Salvar Registro';}
+  finally{btn.disabled=false;btn.innerHTML=editId?'💾 Salvar Registro':'💾 Salvar Registro';}
 }
 
 async function carregarCriancas(){
@@ -2545,7 +2593,7 @@ async function buscarCriancas(){
 
 async function excluirCrianca(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('extratifica').delete().eq('id',id);showToast('🗑️ Excluído');carregarCriancas();}catch(err){showToast('Erro',true);}}
 
-function reiniciarCrianca(){if(!confirm('Limpar formulário?'))return;document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.checked=false);document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));document.getElementById('c-proxima-consulta').style.display='none';document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';document.getElementById('c-imc').value='';document.getElementById('c-imc-classificacao').style.display='none';document.getElementById('c-data').valueAsDate=new Date();cCalcular();window.scrollTo(0,0);}
+function reiniciarCrianca(){if(!confirm('Limpar formulário?'))return;document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.checked=false);document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));document.getElementById('c-proxima-consulta').style.display='none';document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';document.getElementById('c-imc').value='';document.getElementById('c-imc-classificacao').style.display='none';document.getElementById('c-data').valueAsDate=new Date();cCalcular();window.scrollTo(0,0);const btnC=document.getElementById('btn-salvar-crianca');if(btnC){delete btnC.dataset.editId;btnC.innerHTML='💾 Salvar Registro';}}
 
 function calcIMC(){
   const peso=parseFloat(document.getElementById('c-peso-atual').value),altura=parseFloat(document.getElementById('c-altura').value);
@@ -2715,7 +2763,21 @@ async function salvarIdoso(){
     data_retorno:document.getElementById('i-retorno').value||null
   };
   const btn=document.getElementById('btn-salvar-idoso');btn.disabled=true;btn.textContent='⏳ Salvando...';
-  try{const{error}=await supabaseClient.from('idosos').insert([data]);if(error)throw error;showToast('✅ Avaliação salva!');carregarIdosos();}
+  const editId=btn.dataset.editId;
+  try{
+    let error;
+    if(editId){({error}=await supabaseClient.from('idosos').update(data).eq('id',editId));}
+    else{({error}=await supabaseClient.from('idosos').insert([data]));}
+    if(error)throw error;
+    if(editId){
+      if(idoMap[editId])Object.assign(idoMap[editId],data);
+      delete btn.dataset.editId;
+      showToast('✅ Avaliação atualizada!');
+    }else{
+      showToast('✅ Avaliação salva!');
+    }
+    carregarIdosos();
+  }
   catch(err){showToast('❌ Erro: '+err.message,true);}
   finally{btn.disabled=false;btn.innerHTML='💾 Salvar Avaliação';}
 }
@@ -2762,6 +2824,7 @@ function reiniciarIdoso(){
   preencherUbsIdoso();
   ivcfCalcular();
   window.scrollTo(0,0);
+  const btnI=document.getElementById('btn-salvar-idoso');if(btnI){delete btnI.dataset.editId;btnI.innerHTML='💾 Salvar Avaliação';}
 }
 
 function preencherUbsIdoso(){const u=document.getElementById('i-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';}
@@ -2780,26 +2843,32 @@ function verIdoso(id){
 
 function editarIdosoFicha(id){
   const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
-  const riscoOpc={BAIXO:'🟢 Baixo Risco',MODERADO:'🟡 Moderado Risco',ALTO:'🔴 Alto Risco'};
-  let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=editItem('Nome','ie-nome',i.nome)+editItem('Telefone','ie-telefone',i.telefone,'tel')+editItem('CNS','ie-cns',i.cns)+editItem('UBS','ie-ubs',i.ubs)+editItem('Data de Nascimento','ie-nasc',dataISO(i.nascimento),'date')+editItem('Microárea','ie-microarea',i.microarea)+editItem('ACS Responsável','ie-acs',i.acs)+editItem('Telefone do ACS','ie-telacs',i.telefone_acs,'tel');
-  html+='</div><div class="det-sub">📊 IVCF-20</div><div class="det-grid">';
-  html+=editItem('Pontuação','ie-pontuacao',i.pontuacao,'number')+editSelect('Classificação','ie-risco',i.risco||'BAIXO',riscoOpc)+editItem('Data da Avaliação','ie-data',dataISO(i.data_avaliacao),'date')+editItem('Próxima Avaliação','ie-retorno',dataISO(i.data_retorno),'date');
-  html+='</div><p style="font-size:.72rem;color:var(--txt-3);margin-top:.6rem">⚠️ As respostas do questionário não são editáveis aqui. Para reavaliar, realize uma nova ficha.</p>';
-  html+='<div class="det-btns"><button class="btn btn-nova" onclick="verIdoso('+id+')">Cancelar</button><button class="btn btn-salvar" onclick="salvarFichaIdoso('+id+')">💾 Salvar Alterações</button></div>';
-  abrirFicha('✏️ Editar Ficha — '+(i.nome||'Idoso'),html);
-}
-
-async function salvarFichaIdoso(id){
-  const v=k=>document.getElementById(k).value.trim();
-  const dados={nome:v('ie-nome')||null,telefone:v('ie-telefone')||null,cns:v('ie-cns')||null,ubs:v('ie-ubs')||null,nascimento:v('ie-nasc')||null,microarea:v('ie-microarea')||null,acs:v('ie-acs')||null,telefone_acs:v('ie-telacs')||null,pontuacao:parseInt(v('ie-pontuacao'))||0,risco:v('ie-risco'),data_avaliacao:v('ie-data')||null,data_retorno:v('ie-retorno')||null};
-  if(!dados.nome){showToast('Informe o nome!',true);return;}
-  try{
-    const{error}=await supabaseClient.from('idosos').update(dados).eq('id',id);
-    if(error)throw error;
-    Object.assign(idoMap[id],dados);
-    showToast('✅ Dados atualizados!');fecharHistorico();carregarIdosos();
-  }catch(err){showToast('❌ Erro: '+err.message,true);}
+  fecharHistorico();
+  document.getElementById('i-nome').value=i.nome||'';
+  document.getElementById('i-telefone').value=i.telefone||'';
+  document.getElementById('i-cns').value=i.cns||'';
+  document.getElementById('i-ubs').value=i.ubs||'';
+  document.getElementById('i-microarea').value=i.microarea||'';
+  document.getElementById('i-acs').value=i.acs||'';
+  document.getElementById('i-cel-acs').value=i.telefone_acs||'';
+  document.getElementById('i-nasc').value=dataISO(i.nascimento);
+  document.getElementById('i-data').value=dataISO(i.data_avaliacao)||i.data_avaliacao||'';
+  document.getElementById('i-retorno').value=dataISO(i.data_retorno);
+  let respostas=i.respostas;
+  if(typeof respostas==='string'){try{respostas=JSON.parse(respostas);}catch(e){respostas={};}}
+  if(!respostas||typeof respostas!=='object')respostas={};
+  // restaura cada resposta do questionário IVCF-20; sem resposta salva, mantém o padrão "0" (sem alteração)
+  document.querySelectorAll('#modulo-idoso input[type=radio][value="0"]').forEach(r=>{if(!(r.name in respostas))r.checked=true;});
+  Object.keys(respostas).forEach(name=>{
+    const val=respostas[name];
+    const grupo=document.querySelectorAll('#modulo-idoso input[type=radio][name="'+name+'"]');
+    grupo.forEach(r=>{r.checked=(parseInt(r.value)===parseInt(val));});
+  });
+  ivcfCalcular();
+  const btn=document.getElementById('btn-salvar-idoso');
+  btn.dataset.editId=id;btn.textContent='💾 Salvar Alterações';
+  showToast('Registro carregado para edição — revise e clique em Salvar Alterações!');
+  document.getElementById('i-nome').scrollIntoView({behavior:'smooth'});
 }
 
 const EG_TOTAIS={his:192,dia:88,cri:77,ges:15};
@@ -3363,6 +3432,8 @@ async function salvarHasDm(){
     estratificadores_risco:erMarcados,
     dasc:dascMarcados,
     eventos_clinicos:eventosMarcados,
+    fatores_risco:fatoresRiscoMarcados,
+    condicoes_alto_risco:condAltoMarcados,
     risco_estratificado:risc,
     observacoes:document.getElementById('h-obs').value,
     hist_familiar:document.getElementById('h-hist-familiar').value,
@@ -3461,9 +3532,27 @@ async function editarHasDm(id){
   document.getElementById('h-diag-has').checked=diags.includes('HAS');
   document.getElementById('h-diag-dm').checked=diags.includes('DM');
   document.getElementById('h-diag-dm1').checked=diags.includes('DM Tipo 1/LADA');
+  // restaura o Escore de Risco Global (ERG) calculado anteriormente
+  const erg=parseErg(data.erg_score);
+  if(erg){
+    if(erg.hm_score){
+      const s=document.getElementById('hm-erg-score'),p=document.getElementById('hm-erg-pct'),c=document.getElementById('hm-erg-classif'),r=document.getElementById('hm-erg-result');
+      if(s)s.textContent=erg.hm_score;if(p)p.textContent=erg.hm_pct;if(c)c.textContent=erg.hm_cl;if(r)r.style.display='block';
+    }
+    if(erg.mf_score){
+      const s=document.getElementById('mf-erg-score'),p=document.getElementById('mf-erg-pct'),c=document.getElementById('mf-erg-classif'),r=document.getElementById('mf-erg-result');
+      if(s)s.textContent=erg.mf_score;if(p)p.textContent=erg.mf_pct;if(c)c.textContent=erg.mf_cl;if(r)r.style.display='block';
+    }
+  }
+  // restaura o resultado do estrato de risco (Quadro 1)
+  if(data.risco_estratificado){
+    const res=document.getElementById('h-estrato-result'),val=document.getElementById('h-estrato-valor');
+    if(res&&val){val.textContent=data.risco_estratificado;res.style.display='block';}
+  }
   document.getElementById('btn-salvar-hasdm').dataset.editId=id;
+  document.getElementById('btn-salvar-hasdm').textContent='💾 Salvar Alterações';
   document.getElementById('h-nome').scrollIntoView({behavior:'smooth'});
-  showToast('Registro carregado para edição!');
+  showToast('Registro carregado para edição — revise e clique em Salvar Alterações!');
 }
 
 async function verHasDm(id){
