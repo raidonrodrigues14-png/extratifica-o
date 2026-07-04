@@ -3750,4 +3750,33 @@ window.addEventListener('load',()=>{
   const materCronicas=['Cardiopatia avançada','Nefropatia com diálise','Neoplasia','Doença psiquiátrica grave','Doenças genéticas','Tromboembolismo','Transplantes','Pneumopatia grave','Doença neurológica descompensada','Endocrinopatia descompensada','Doença hematológica grave','Doença autoimune sistêmica'];
   const intercorrenciasList=['Síndrome hipertensiva difícil controle','Diabetes difícil controle','Dengue/Zika/COVID grave','Sífilis terciária','Toxoplasmose IgM+ IgG+ baixa avidez','Toxoplasmose IgM+ IgG-','Anemia grave <9g/dL','Hemorragias 2º trimestre','Acretismo/placenta prévia','Colestase','Malformação fetal','Ginecopatias','Outras condições complexas','ITU repetição ≥3'];
   if(document.getElementById('altoRiscoList')) document.getElementById('altoRiscoList').innerHTML=altoItens.map(t=>`<label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="${t}"><span>${t}</span></label>`).join('');
-  if(document.getElementById('materHistList')) document.getElementById('materHistList').innerHTML=materHist.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_
+  if(document.getElementById('materHistList')) document.getElementById('materHistList').innerHTML=materHist.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
+  if(document.getElementById('materInterList')) document.getElementById('materInterList').innerHTML=materInter.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
+  if(document.getElementById('materCronicasList')) document.getElementById('materCronicasList').innerHTML=materCronicas.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
+  if(document.getElementById('intercorrenciasList')) document.getElementById('intercorrenciasList').innerHTML=intercorrenciasList.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
+  const altoPerinatal=['Baixo peso (<2500g)','Prematuridade (<37s)','PIG','GIG','Apgar ≤6','Hiperbilirrubinemia grave','Infecções ZTORCHS','Asfixia perinatal','Malformações graves','Cromossomopatias','Doenças metabólicas'];
+  const altoComplicacoes=['Doença pulmonar crônica','Retinopatia/cegueira','Surdez'];
+  const altoMaternos=['Dependência álcool/drogas','Depressão materna','Doenças maternas graves'];
+  const altoEvolutivos=['Asma moderada/grave','Diarreia crônica','Alergia alimentar grave','ITU','Cardiomiopatias','HIV/Aids','Leucemia/neoplasias','1+ internações/ano'];
+  const altoEspeciais=['Peso <2000g ou IG<34s','Malformações com repercussão','2+ internações/ano'];
+  const interSaude=['Termo precoce','Risco hiperbilirrubinemia','Risco desmame precoce','Risco sepse neonatal'];
+  const interNutricao=['Desmame AME antes 6 meses','Distanciamento do canal crescimento'];
+  const interCuidado=['Vacinação atrasada','Não comparecimento agenda','Higiene inadequada','Cuidador não habilitado'];
+  const interFamiliares=['Mãe adolescente','Baixa escolaridade mãe','Pré-natal incompleto','Vulnerabilidade socioeconômica','Violência','Negligência'];
+  const interAmbiente=['Exposição tabaco','Moradia desfavorável'];
+  const habitualC=['Riscos inerentes ao ciclo de vida'];
+  if(document.getElementById('altoPerinatal')) document.getElementById('altoPerinatal').innerHTML=altoPerinatal.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
+  if(document.getElementById('altoComplicacoes')) document.getElementById('altoComplicacoes').innerHTML=altoComplicacoes.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
+  if(document.getElementById('altoMaternos')) document.getElementById('altoMaternos').innerHTML=altoMaternos.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
+  if(document.getElementById('altoEvolutivos')) document.getElementById('altoEvolutivos').innerHTML=altoEvolutivos.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
+  if(document.getElementById('altoEspeciais')) document.getElementById('altoEspeciais').innerHTML=altoEspeciais.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
+  if(document.getElementById('interSaude')) document.getElementById('interSaude').innerHTML=interSaude.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
+  if(document.getElementById('interNutricao')) document.getElementById('interNutricao').innerHTML=interNutricao.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
+  if(document.getElementById('interCuidado')) document.getElementById('interCuidado').innerHTML=interCuidado.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
+  if(document.getElementById('interFamiliares')) document.getElementById('interFamiliares').innerHTML=interFamiliares.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
+  if(document.getElementById('interAmbiente')) document.getElementById('interAmbiente').innerHTML=interAmbiente.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
+  if(document.getElementById('habitualListC')) document.getElementById('habitualListC').innerHTML=habitualC.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-habitual"><span>${t}</span></label>`).join('');
+});
+</script>
+</body>
+</html>
