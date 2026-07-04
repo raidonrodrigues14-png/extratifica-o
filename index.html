@@ -533,7 +533,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div id="historico-conteudo"></div></div></div>
 <div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificação</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilância</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
 
-<div class="historico-overlay" id="modal-estat-geral"><div class="historico-box" style="max-width:540px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0">📊 Estratificação Geral por Programa</h3><button class="btn btn-nova" onclick="fecharEstatGeral()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div class="estatgeral-resumo">Percentual já estratificado em relação ao total cadastrado de cada programa</div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#c62828">Hipertensos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-his" style="background:linear-gradient(90deg,#c62828,#e53935)"></div></div><span class="estatgeral-pct" id="eg-pct-his">—</span><span class="estatgeral-num" id="eg-num-his">—/192</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#4a148c">Diabéticos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-dia" style="background:linear-gradient(90deg,#4a148c,#7b1fa2)"></div></div><span class="estatgeral-pct" id="eg-pct-dia">—</span><span class="estatgeral-num" id="eg-num-dia">—/88</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#b8860b">Crianças</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-cri" style="background:linear-gradient(90deg,#b8860b,#d4a017)"></div></div><span class="estatgeral-pct" id="eg-pct-cri">—</span><span class="estatgeral-num" id="eg-num-cri">—/77</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#2e7d32">Gestantes</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-ges" style="background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><span class="estatgeral-pct" id="eg-pct-ges">—</span><span class="estatgeral-num" id="eg-num-ges">—/15</span></div></div></div>
+<div class="historico-overlay" id="modal-estat-geral"><div class="historico-box" style="max-width:540px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><h3 style="margin:0">📊 Estratificação Geral por Programa</h3><button class="btn btn-nova" onclick="fecharEstatGeral()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div><div class="estatgeral-resumo">Percentual já estratificado em relação ao total cadastrado de cada programa</div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#c62828">Hipertensos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-his" style="background:linear-gradient(90deg,#c62828,#e53935)"></div></div><span class="estatgeral-pct" id="eg-pct-his">—</span><span class="estatgeral-num" id="eg-num-his">—/192</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#4a148c">Diabéticos</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-dia" style="background:linear-gradient(90deg,#4a148c,#7b1fa2)"></div></div><span class="estatgeral-pct" id="eg-pct-dia">—</span><span class="estatgeral-num" id="eg-num-dia">—/88</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#b8860b">Crianças</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-cri" style="background:linear-gradient(90deg,#b8860b,#d4a017)"></div></div><span class="estatgeral-pct" id="eg-pct-cri">—</span><span class="estatgeral-num" id="eg-num-cri">—/77</span></div><div class="estatgeral-row"><span class="estatgeral-label" style="color:#2e7d32">Gestantes</span><div class="estatgeral-track"><div class="estatgeral-bar" id="eg-bar-ges" style="background:linear-gradient(90deg,#2e7d32,#66bb6a)"></div></div><span class="estatgeral-pct" id="eg-pct-ges">—</span><span class="estatgeral-num" id="eg-num-ges">—/15</span></div><div style="margin-top:1rem;padding-top:.85rem;border-top:1.5px solid var(--border)"><div style="font-size:.85rem;font-weight:800;color:var(--txt-1);margin-bottom:.6rem">📊 Distribuição por Nível de Risco (pacientes únicos)</div><div id="eg-risco-detalhe" style="font-size:.8rem;color:var(--txt-3)">Carregando...</div></div></div></div>
 
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 
@@ -2875,16 +2875,46 @@ const EG_TOTAIS={his:192,dia:88,cri:77,ges:15};
 function abrirEstatGeral(){
   document.getElementById('modal-estat-geral').classList.add('aberto');
   ['his','dia','cri','ges'].forEach(function(id){document.getElementById('eg-pct-'+id).textContent='…';});
+  const detalheEl=document.getElementById('eg-risco-detalhe');
+  if(detalheEl)detalheEl.innerHTML='Carregando...';
   carregarEstatGeralReal();
+}
+function contarPorRisco(arr,getNome,getRisco){
+  const vistos=new Set();
+  const contagem={};
+  (arr||[]).forEach(r=>{
+    const nome=(getNome(r)||'').trim().toLowerCase();
+    if(!nome||vistos.has(nome))return;
+    vistos.add(nome);
+    const risco=getRisco(r);
+    const chave=(risco===null||risco===undefined||risco==='')?'Não informado':risco;
+    contagem[chave]=(contagem[chave]||0)+1;
+  });
+  return contagem;
+}
+function renderEgRiscoBloco(titulo,corTitulo,contagem,ordemLabels){
+  const total=Object.values(contagem).reduce((a,b)=>a+b,0);
+  if(total===0)return `<div style="margin-bottom:.7rem"><div style="font-weight:700;color:${corTitulo};margin-bottom:.3rem">${titulo}</div><div style="color:var(--txt-3);font-size:.78rem">Nenhum registro.</div></div>`;
+  const chaves=Object.keys(contagem).sort((a,b)=>{
+    const ia=ordemLabels.findIndex(o=>o.chave===a),ib=ordemLabels.findIndex(o=>o.chave===b);
+    return (ia===-1?999:ia)-(ib===-1?999:ib);
+  });
+  const pills=chaves.map(chave=>{
+    const cfg=ordemLabels.find(o=>o.chave===chave)||{label:chave,bg:'#f5f5f5',cor:'#333'};
+    return `<span style="display:inline-block;background:${cfg.bg};color:${cfg.cor};padding:.2rem .65rem;border-radius:20px;font-size:.75rem;font-weight:700;margin:.15rem .3rem .15rem 0">${cfg.label}: ${contagem[chave]}</span>`;
+  }).join('');
+  return `<div style="margin-bottom:.7rem"><div style="font-weight:700;color:${corTitulo};margin-bottom:.3rem">${titulo} <span style="font-weight:400;color:var(--txt-3)">(${total} paciente${total===1?'':'s'})</span></div><div>${pills}</div></div>`;
 }
 async function carregarEstatGeralReal(){
   try{
-    const[h,c,g]=await Promise.all([
-      supabaseClient.from('hasdm').select('nome,diagnostico'),
-      supabaseClient.from('extratifica').select('crianca'),
-      supabaseClient.from('gestantes').select('nome')
+    const[h,c,g,i,b]=await Promise.all([
+      supabaseClient.from('hasdm').select('nome,diagnostico,risco_estratificado').order('created_at',{ascending:false}),
+      supabaseClient.from('extratifica').select('crianca,risco').order('created_at',{ascending:false}),
+      supabaseClient.from('gestantes').select('nome,risco_classificacao').order('created_at',{ascending:false}),
+      supabaseClient.from('idosos').select('nome,risco').order('created_at',{ascending:false}),
+      supabaseClient.from('saudebucal').select('nome_civil,nome_social,risco').order('created_at',{ascending:false})
     ]);
-    if(h.error)throw h.error;if(c.error)throw c.error;if(g.error)throw g.error;
+    if(h.error)throw h.error;if(c.error)throw c.error;if(g.error)throw g.error;if(i.error)throw i.error;if(b.error)throw b.error;
     const hasdmRows=h.data||[];
     const hipertRows=hasdmRows.filter(r=>(r.diagnostico||'').toUpperCase().includes('HAS'));
     const diabRows=hasdmRows.filter(r=>(r.diagnostico||'').toUpperCase().includes('DM'));
@@ -2892,9 +2922,53 @@ async function carregarEstatGeralReal(){
     aplicarEstatGeral('dia',contarNomesUnicos(diabRows,r=>r.nome));
     aplicarEstatGeral('cri',contarNomesUnicos(c.data,r=>r.crianca));
     aplicarEstatGeral('ges',contarNomesUnicos(g.data,r=>r.nome));
+
+    // Distribuição por nível de risco, por programa (paciente único, registro mais recente)
+    const ordemGest=[
+      {chave:'habitual',label:'🟢 Habitual',bg:'#e8f5e9',cor:'#2e7d32'},
+      {chave:'vigilancia',label:'🟡 Vigilância',bg:'#fff8e1',cor:'#f57f17'},
+      {chave:'compartilhado',label:'🟠 Compartilhado',bg:'#fff3e0',cor:'#e65100'},
+      {chave:'maternidade',label:'🔴 Maternidade',bg:'#ffebee',cor:'#c62828'}
+    ];
+    const ordemCrianca=[
+      {chave:'HABITUAL',label:'🟢 Habitual',bg:'#e8f5e9',cor:'#2e7d32'},
+      {chave:'INTERMEDIARIO',label:'🟡 Intermediário',bg:'#fff8e1',cor:'#f57f17'},
+      {chave:'ALTO',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'}
+    ];
+    const ordemIdoso=[
+      {chave:'BAIXO',label:'🟢 Baixo',bg:'#e8f5e9',cor:'#2e7d32'},
+      {chave:'MODERADO',label:'🟡 Moderado',bg:'#fff8e1',cor:'#f57f17'},
+      {chave:'ALTO',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'}
+    ];
+    const ordemHasdm=[
+      {chave:'Baixo Risco',label:'🟢 Baixo',bg:'#e8f5e9',cor:'#2e7d32'},
+      {chave:'Risco Médio',label:'🟡 Médio',bg:'#fff8e1',cor:'#f57f17'},
+      {chave:'Alto Risco',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'},
+      {chave:'Muito Alto Risco',label:'🟣 Muito Alto',bg:'#fce4ec',cor:'#880e4f'}
+    ];
+    const ordemBucal=[
+      {chave:'Baixo Risco',label:'🟢 Baixo',bg:'#e8f5e9',cor:'#2e7d32'},
+      {chave:'Risco Moderado',label:'🟡 Moderado',bg:'#fff8e1',cor:'#f57f17'},
+      {chave:'Alto Risco',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'}
+    ];
+    const contGest=contarPorRisco(g.data,r=>r.nome,r=>r.risco_classificacao);
+    const contCri=contarPorRisco(c.data,r=>r.crianca,r=>r.risco);
+    const contIdo=contarPorRisco(i.data,r=>r.nome,r=>r.risco);
+    const contHas=contarPorRisco(hasdmRows,r=>r.nome,r=>r.risco_estratificado);
+    const contBuc=contarPorRisco(b.data,r=>r.nome_civil||r.nome_social,r=>r.risco);
+    let html='';
+    html+=renderEgRiscoBloco('🤰 Gestantes','#2e7d32',contGest,ordemGest);
+    html+=renderEgRiscoBloco('👶 Crianças','#b8860b',contCri,ordemCrianca);
+    html+=renderEgRiscoBloco('🧓 Idosos','#37474f',contIdo,ordemIdoso);
+    html+=renderEgRiscoBloco('❤️‍🩹 HAS / DM','#c62828',contHas,ordemHasdm);
+    html+=renderEgRiscoBloco('🦷 Saúde Bucal','#00838f',contBuc,ordemBucal);
+    const detalheEl=document.getElementById('eg-risco-detalhe');
+    if(detalheEl)detalheEl.innerHTML=html;
   }catch(e){
     console.warn('estat geral real',e);
     ['his','dia','cri','ges'].forEach(function(id){document.getElementById('eg-pct-'+id).textContent='erro';});
+    const detalheEl=document.getElementById('eg-risco-detalhe');
+    if(detalheEl)detalheEl.innerHTML='<span style="color:#c62828">Erro ao carregar distribuição de risco.</span>';
   }
 }
 function aplicarEstatGeral(id,qtd){
@@ -3676,33 +3750,4 @@ window.addEventListener('load',()=>{
   const materCronicas=['Cardiopatia avançada','Nefropatia com diálise','Neoplasia','Doença psiquiátrica grave','Doenças genéticas','Tromboembolismo','Transplantes','Pneumopatia grave','Doença neurológica descompensada','Endocrinopatia descompensada','Doença hematológica grave','Doença autoimune sistêmica'];
   const intercorrenciasList=['Síndrome hipertensiva difícil controle','Diabetes difícil controle','Dengue/Zika/COVID grave','Sífilis terciária','Toxoplasmose IgM+ IgG+ baixa avidez','Toxoplasmose IgM+ IgG-','Anemia grave <9g/dL','Hemorragias 2º trimestre','Acretismo/placenta prévia','Colestase','Malformação fetal','Ginecopatias','Outras condições complexas','ITU repetição ≥3'];
   if(document.getElementById('altoRiscoList')) document.getElementById('altoRiscoList').innerHTML=altoItens.map(t=>`<label class="g-check" onclick="gToggle(this,'m-laranja')"><input type="checkbox" data-grupo="alto_risco" data-label="${t}"><span>${t}</span></label>`).join('');
-  if(document.getElementById('materHistList')) document.getElementById('materHistList').innerHTML=materHist.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
-  if(document.getElementById('materInterList')) document.getElementById('materInterList').innerHTML=materInter.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
-  if(document.getElementById('materCronicasList')) document.getElementById('materCronicasList').innerHTML=materCronicas.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
-  if(document.getElementById('intercorrenciasList')) document.getElementById('intercorrenciasList').innerHTML=intercorrenciasList.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_maternidade" data-label="${t}"><span>${t}</span></label>`).join('');
-  const altoPerinatal=['Baixo peso (<2500g)','Prematuridade (<37s)','PIG','GIG','Apgar ≤6','Hiperbilirrubinemia grave','Infecções ZTORCHS','Asfixia perinatal','Malformações graves','Cromossomopatias','Doenças metabólicas'];
-  const altoComplicacoes=['Doença pulmonar crônica','Retinopatia/cegueira','Surdez'];
-  const altoMaternos=['Dependência álcool/drogas','Depressão materna','Doenças maternas graves'];
-  const altoEvolutivos=['Asma moderada/grave','Diarreia crônica','Alergia alimentar grave','ITU','Cardiomiopatias','HIV/Aids','Leucemia/neoplasias','1+ internações/ano'];
-  const altoEspeciais=['Peso <2000g ou IG<34s','Malformações com repercussão','2+ internações/ano'];
-  const interSaude=['Termo precoce','Risco hiperbilirrubinemia','Risco desmame precoce','Risco sepse neonatal'];
-  const interNutricao=['Desmame AME antes 6 meses','Distanciamento do canal crescimento'];
-  const interCuidado=['Vacinação atrasada','Não comparecimento agenda','Higiene inadequada','Cuidador não habilitado'];
-  const interFamiliares=['Mãe adolescente','Baixa escolaridade mãe','Pré-natal incompleto','Vulnerabilidade socioeconômica','Violência','Negligência'];
-  const interAmbiente=['Exposição tabaco','Moradia desfavorável'];
-  const habitualC=['Riscos inerentes ao ciclo de vida'];
-  if(document.getElementById('altoPerinatal')) document.getElementById('altoPerinatal').innerHTML=altoPerinatal.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
-  if(document.getElementById('altoComplicacoes')) document.getElementById('altoComplicacoes').innerHTML=altoComplicacoes.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
-  if(document.getElementById('altoMaternos')) document.getElementById('altoMaternos').innerHTML=altoMaternos.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
-  if(document.getElementById('altoEvolutivos')) document.getElementById('altoEvolutivos').innerHTML=altoEvolutivos.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
-  if(document.getElementById('altoEspeciais')) document.getElementById('altoEspeciais').innerHTML=altoEspeciais.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-alto"><span>${t}</span></label>`).join('');
-  if(document.getElementById('interSaude')) document.getElementById('interSaude').innerHTML=interSaude.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
-  if(document.getElementById('interNutricao')) document.getElementById('interNutricao').innerHTML=interNutricao.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
-  if(document.getElementById('interCuidado')) document.getElementById('interCuidado').innerHTML=interCuidado.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
-  if(document.getElementById('interFamiliares')) document.getElementById('interFamiliares').innerHTML=interFamiliares.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
-  if(document.getElementById('interAmbiente')) document.getElementById('interAmbiente').innerHTML=interAmbiente.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-inter"><span>${t}</span></label>`).join('');
-  if(document.getElementById('habitualListC')) document.getElementById('habitualListC').innerHTML=habitualC.map(t=>`<label class="c-check" onclick="cToggleCheckbox(this)"><input type="checkbox" class="chk-habitual"><span>${t}</span></label>`).join('');
-});
-</script>
-</body>
-</html>
+  if(document.getElementById('materHistList')) document.getElementById('materHistList').innerHTML=materHist.map(t=>`<label class="g-check" onclick="gToggle(this,'m-vermelho')"><input type="checkbox" data-grupo="alto_risco_
