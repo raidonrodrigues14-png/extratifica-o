@@ -1368,6 +1368,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <div class="h-campo"><label>CPF</label><input type="text" id="h-cpf" placeholder="CPF"></div>
         </div>
         <div class="h-grid-2" style="margin-bottom:.75rem">
+  <div class="h-campo"><label>📱 Telefone (WhatsApp)</label><input type="tel" id="h-telefone" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
+  <div></div>
+</div>
+        <div class="h-grid-2" style="margin-bottom:.75rem">
           <div class="h-campo"><label>Endereço</label><input type="text" id="h-endereco" placeholder="Endereço completo"></div>
           <div class="h-grid-2">
             <div class="h-campo"><label>Estado Civil</label><select id="h-estado-civil"><option value="">Selecione</option><option>Solteiro(a)</option><option>Casado(a)</option><option>União Estável</option><option>Divorciado(a)</option><option>Viúvo(a)</option></select></div>
@@ -1504,6 +1508,20 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
       </div>
     </div>
+
+    <div class="h-secao">
+  <div class="h-secao-titulo t-result">📅 Retorno e Periodicidade — Atenção Primária</div>
+  <div class="h-secao-corpo">
+    <div class="h-grid-2" style="margin-bottom:1rem">
+      <div class="h-campo"><label>Data da Consulta</label><input type="date" id="h-data-consulta" onchange="hAtualizarRetorno()"></div>
+      <div class="h-campo"><label>Data do Retorno (automática)</label><input type="date" id="h-data-retorno" readonly></div>
+    </div>
+    <div class="det-sub">Periodicidade das consultas</div>
+    <div id="h-periodo-consultas"></div>
+    <div class="det-sub">Periodicidade de solicitação de exames</div>
+    <div id="h-periodo-exames"></div>
+  </div>
+</div>
 
     <!-- ERG FRAMINGHAM — HOMENS -->
     <div class="h-secao">
@@ -3331,7 +3349,51 @@ function reiniciarBucal(){
 const ERG_M={'-3':1,'-2':1,'-1':1.4,'0':1.6,'1':1.9,'2':2.3,'3':2.8,'4':3.3,'5':3.9,'6':4.7,'7':5.6,'8':6.7,'9':7.9,'10':9.4,'11':11.2,'12':13.2,'13':15.6,'14':18.4,'15':21.6,'16':25.3,'17':29.4,'18':35};
 const ERG_F={'-2':1,'-1':1,'0':1.2,'1':1.5,'2':1.7,'3':2,'4':2.4,'5':2.8,'6':3.3,'7':3.9,'8':4.5,'9':5.3,'10':6.3,'11':7.3,'12':8.6,'13':10,'14':11.7,'15':13.7,'16':15.9,'17':18.5,'18':21.6,'19':24.8,'20':28.5,'21':35};
 
-function preencherUbsHasDm(){const u=document.getElementById('h-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';}
+let hNivelAtual=0; // 1 baixo, 2 médio, 3 alto, 4 muito alto
+const H_CONSULTAS={1:{medico:12,enf:6,dent:12},2:{medico:6,enf:4,dent:12},3:{medico:4,enf:3,dent:12},4:{medico:4,enf:3,dent:12}};
+const H_EXAMES=[['Glicose em jejum',12,6,4],['Glicose pós-prandial',12,6,4],['Hemoglobina glicada',12,6,6],['Creatinina',12,12,null],['Taxa de filtração glomerular (estimada)',12,12,12],['Colesterol total',12,12,12],['LDL-colesterol (cálculo)',12,12,12],['HDL-colesterol',12,12,12],['Triglicerídeos',12,12,12],['Potássio',12,12,12],['Rotina de urina',12,12,12],['Microalbuminúria (24h ou relação albumina/creatinina)',12,12,12],['Fundoscopia',12,12,12],['Eletrocardiograma',24,12,12]];
+const H_ROTULO={3:'Trimestral',4:'Quadrimestral',6:'Semestral',12:'Anual',24:'A cada 2 anos'};
+function hHojeISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function hFmtData(iso){if(!iso)return '—';const [y,m,d]=String(iso).slice(0,10).split('-');return d+'/'+m+'/'+y;}
+function hSomaMeses(iso,meses){
+  if(!iso)return '';
+  const [y,m,d]=iso.split('-').map(Number);
+  const t=(m-1)+meses,ny=y+Math.floor(t/12),nm=((t%12)+12)%12;
+  const ult=new Date(ny,nm+1,0).getDate();
+  return ny+'-'+String(nm+1).padStart(2,'0')+'-'+String(Math.min(d,ult)).padStart(2,'0');
+}
+function hMascaraTel(el){
+  let v=el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>10)v=v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+  else if(v.length>6)v=v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
+  else if(v.length>2)v=v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
+  else if(v.length>0)v='('+v;
+  el.value=v;
+}
+function hExamesAtuais(base){
+  const n=hNivelAtual;if(!n)return [];
+  const col=n===1?1:(n===2?2:3);
+  return H_EXAMES.filter(e=>e[col]!=null).map(e=>({exame:e[0],periodicidade:e[col],proxima:base?hSomaMeses(base,e[col]):''}));
+}
+function hAtualizarRetorno(){
+  const dc=document.getElementById('h-data-consulta'),dr=document.getElementById('h-data-retorno');
+  const pc=document.getElementById('h-periodo-consultas'),pe=document.getElementById('h-periodo-exames');
+  if(!dc||!dr||!pc||!pe)return;
+  const n=hNivelAtual;
+  if(!n){dr.value='';pc.innerHTML='<p style="font-size:12px;color:#888;margin:6px 0;">Marque os critérios do estrato de risco para calcular o retorno e a periodicidade.</p>';pe.innerHTML='';return;}
+  const c=H_CONSULTAS[n],base=dc.value;
+  dr.value=base?hSomaMeses(base,Math.min(c.medico,c.enf)):'';
+  const lin=(nome,m)=>'<tr><td style="padding:4px 8px;border:1px solid #ddd;">'+nome+'</td><td style="padding:4px 8px;border:1px solid #ddd;">'+(H_ROTULO[m]||('A cada '+m+' meses'))+' ('+m+' meses)</td><td style="padding:4px 8px;border:1px solid #ddd;">'+(base?hFmtData(hSomaMeses(base,m)):'—')+'</td></tr>';
+  const th='<tr style="background:#f1f5f9;"><th style="padding:4px 8px;border:1px solid #ddd;text-align:left;">'+'#1</th><th style="padding:4px 8px;border:1px solid #ddd;text-align:left;">Periodicidade</th><th style="padding:4px 8px;border:1px solid #ddd;text-align:left;">Próxima</th></tr>';
+  pc.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">'+th.replace('#1','Consultas')+lin('Médico',c.medico)+lin('Enfermeiro',c.enf)+lin('Dentista',c.dent)+'</table>';
+  const ex=hExamesAtuais(base);
+  pe.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">'+th.replace('#1','Solicitação de exames')+ex.map(e=>lin(e.exame,e.periodicidade)).join('')+'</table>';
+}
+function preencherUbsHasDm(){
+  const u=document.getElementById('h-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';
+  const d=document.getElementById('h-data-consulta');if(d&&!d.value)d.value=hHojeISO();
+  hAtualizarRetorno();
+}
 
 function hCalcIdade(){
   const nasc=document.getElementById('h-nasc').value;
@@ -3348,7 +3410,7 @@ function hCalcularEstrato(){
   const res=document.getElementById('h-estrato-result');
   const val=document.getElementById('h-estrato-valor');
   const pt=document.getElementById('h-estrato-ponto');
-  if(!crit.length){res.style.display='none';return;}
+  if(!crit.length){res.style.display='none';hNivelAtual=0;hAtualizarRetorno();return;}
   let maxNivel=0;
   crit.forEach(c=>{const n=parseInt(c.dataset.nivel)||0;if(n>maxNivel)maxNivel=n;});
   const niveis=[
@@ -3364,7 +3426,7 @@ function hCalcularEstrato(){
   res.style.borderColor=n.border;
   val.style.color=n.color;
   val.textContent=n.label;
-  pt.textContent='Ponto de Atenção: '+n.ponto;
+  pt.textContent='Ponto de Atenção: '+n.ponto;hNivelAtual=maxNivel;hAtualizarRetorno();
 }
 
 function hCalcImc(){
@@ -3525,7 +3587,7 @@ function hMostrarPlano(){
 
 function reiniciarHasDm(){
   if(!confirm('Deseja iniciar uma nova ficha? Os dados não salvos serão perdidos.'))return;
-  document.querySelectorAll('#modulo-hasdm input[type=text],#modulo-hasdm input[type=number],#modulo-hasdm input[type=date]').forEach(el=>el.value='');
+  document.querySelectorAll('#modulo-hasdm input[type=text],#modulo-hasdm input[type=number],#modulo-hasdm input[type=date],#modulo-hasdm input[type=tel]').forEach(el=>el.value='');
   document.querySelectorAll('#modulo-hasdm input[type=radio],#modulo-hasdm input[type=checkbox]').forEach(el=>el.checked=false);
   document.querySelectorAll('#modulo-hasdm select').forEach(el=>el.selectedIndex=0);
   document.querySelectorAll('#modulo-hasdm textarea').forEach(el=>el.value='');
@@ -3534,7 +3596,7 @@ function reiniciarHasDm(){
   const hmRes=document.getElementById('hm-erg-result');if(hmRes)hmRes.style.display='none';
   const mfRes=document.getElementById('mf-erg-result');if(mfRes)mfRes.style.display='none';
   const estr=document.getElementById('h-estrato-result');if(estr)estr.style.display='none';
-  preencherUbsHasDm();
+  hNivelAtual=0;preencherUbsHasDm();hAtualizarRetorno();
 }
 
 async function salvarHasDm(){
@@ -3596,6 +3658,10 @@ async function salvarHasDm(){
     risco_estratificado:risc,
     observacoes:document.getElementById('h-obs').value,
     hist_familiar:document.getElementById('h-hist-familiar').value,
+    telefone:document.getElementById('h-telefone').value||null,
+    data_consulta:document.getElementById('h-data-consulta').value||null,
+    data_retorno:document.getElementById('h-data-retorno').value||null,
+    periodicidade_exames:hExamesAtuais(document.getElementById('h-data-consulta').value),
     hist_pessoal:document.getElementById('h-hist-pessoal').value
   };
   const editId=document.getElementById('btn-salvar-hasdm').dataset.editId;
@@ -3708,6 +3774,10 @@ async function editarHasDm(id){
     const res=document.getElementById('h-estrato-result'),val=document.getElementById('h-estrato-valor');
     if(res&&val){val.textContent=data.risco_estratificado;res.style.display='block';}
   }
+  document.getElementById('h-telefone').value=data.telefone||'';
+  document.getElementById('h-data-consulta').value=data.data_consulta||hHojeISO();
+  {const rv=data.risco_estratificado||'';hNivelAtual=/Muito Alto/i.test(rv)?4:/Alto/i.test(rv)?3:/M[eé]dio/i.test(rv)?2:/Baixo/i.test(rv)?1:0;}
+  hAtualizarRetorno();
   document.getElementById('btn-salvar-hasdm').dataset.editId=id;
   document.getElementById('btn-salvar-hasdm').textContent='💾 Salvar Alterações';
   document.getElementById('h-nome').scrollIntoView({behavior:'smooth'});
@@ -3724,7 +3794,7 @@ async function verHasDm(id){
   html+='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
   html+=detItem('Nome',r.nome)+detItem('CNS',r.cns)+detItem('CPF',r.cpf)+detItem('Data de Nascimento',r.data_nasc?r.data_nasc.split('-').reverse().join('/'):'—')+detItem('Idade',r.idade?r.idade+' anos':'—')+detItem('Sexo',r.sexo||'—')+detItem('Estado Civil',r.estado_civil||'—')+detItem('Escolaridade',r.escolaridade||'—');
   html+='</div><div class="det-sub">📍 Vínculo APS</div><div class="det-grid">';
-  html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico);
+  html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico)+detItem('Telefone',r.telefone)+detItem('Data da Consulta',hFmtData(r.data_consulta))+detItem('Retorno',hFmtData(r.data_retorno));
   html+='</div><div class="det-sub">🩺 Dados Clínicos</div><div class="det-grid">';
   html+=detItem('PAS',r.pas?r.pas+' mmHg':'—')+detItem('PAD',r.pad?r.pad+' mmHg':'—')+detItem('Colesterol Total',r.colesterol?r.colesterol+' mg/dL':'—')+detItem('HDL-c',r.hdl?r.hdl+' mg/dL':'—')+detItem('LDL-c',r.ldl?r.ldl+' mg/dL':'—')+detItem('Triglicerídeos',r.triglicerideos?r.triglicerideos+' mg/dL':'—')+detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')+detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')+detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')+detItem('TFG',r.tfg?r.tfg+' mL/min':'—')+detItem('IMC',r.imc?r.imc+' kg/m²':'—')+detItem('Fumante',r.fumante||'—')+detItem('ECG',r.ecg||'—');
   html+='</div>';
