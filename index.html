@@ -1520,6 +1520,21 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     <div id="h-periodo-consultas"></div>
     <div class="det-sub">Periodicidade de solicitação de exames</div>
     <div id="h-periodo-exames"></div>
+    <div class="h-campo" style="margin:1rem 0 .75rem"><label>📱 Telefone do ACS (WhatsApp)</label><input type="tel" id="h-cel-acs" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
+    <div class="wpp-grid">
+      <div class="wpp-wrap wpp-mae">
+        <div class="wpp-head">📱 Mensagem para o Paciente</div>
+        <span class="wpp-label label-mae">🧑 Para: Paciente</span>
+        <div class="wpp-balao" id="h-wpp">Mensagem será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+        <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsAppHasDm()">📱 Enviar para o Paciente</button>
+      </div>
+      <div class="wpp-wrap wpp-acs">
+        <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
+        <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
+        <div class="wpp-balao" id="h-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+        <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppAcsHasDm()">📱 Enviar para o ACS</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3380,7 +3395,7 @@ function hAtualizarRetorno(){
   const pc=document.getElementById('h-periodo-consultas'),pe=document.getElementById('h-periodo-exames');
   if(!dc||!dr||!pc||!pe)return;
   const n=hNivelAtual;
-  if(!n){dr.value='';pc.innerHTML='<p style="font-size:12px;color:#888;margin:6px 0;">Marque os critérios do estrato de risco para calcular o retorno e a periodicidade.</p>';pe.innerHTML='';return;}
+  if(!n){dr.value='';pc.innerHTML='<p style="font-size:12px;color:#888;margin:6px 0;">Marque os critérios do estrato de risco para calcular o retorno e a periodicidade.</p>';pe.innerHTML='';hAtualizarWpp();return;}
   const c=H_CONSULTAS[n],base=dc.value;
   dr.value=base?hSomaMeses(base,Math.min(c.medico,c.enf)):'';
   const lin=(nome,m)=>'<tr><td style="padding:4px 8px;border:1px solid #ddd;">'+nome+'</td><td style="padding:4px 8px;border:1px solid #ddd;">'+(H_ROTULO[m]||('A cada '+m+' meses'))+' ('+m+' meses)</td><td style="padding:4px 8px;border:1px solid #ddd;">'+(base?hFmtData(hSomaMeses(base,m)):'—')+'</td></tr>';
@@ -3388,7 +3403,33 @@ function hAtualizarRetorno(){
   pc.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">'+th.replace('#1','Consultas')+lin('Médico',c.medico)+lin('Enfermeiro',c.enf)+lin('Dentista',c.dent)+'</table>';
   const ex=hExamesAtuais(base);
   pe.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">'+th.replace('#1','Solicitação de exames')+ex.map(e=>lin(e.exame,e.periodicidade)).join('')+'</table>';
+  hAtualizarWpp();
 }
+function hHora(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+' ✓✓';}
+function hAtualizarWpp(){
+  const pm=document.getElementById('h-wpp'),pa=document.getElementById('h-wpp-acs');
+  if(!pm||!pa)return;
+  const v=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const nome=v('h-nome')||'[Paciente]',ubs=v('h-ubs')||'[UBS]',acs=v('h-acs')||'[ACS]',micro=v('h-microarea')||'[Microárea]';
+  const n=hNivelAtual,ret=v('h-data-retorno');
+  const nomes={1:'🟢 BAIXO',2:'🟡 MÉDIO',3:'🔴 ALTO',4:'🟣 MUITO ALTO'};
+  const orient={1:'Acompanhamento de rotina.',2:'Acompanhamento regular · reforçar adesão ao tratamento.',3:'Prioridade: garantir comparecimento e verificar adesão ao tratamento.',4:'🚨 PRIORIDADE! Busca ativa se faltar à consulta.'};
+  const dataTxt=ret?hFmtData(ret):'[definir data]';
+  const ex=hExamesAtuais(v('h-data-consulta')).filter(e=>e.periodicidade<=(n===1?12:6));
+  const exTxt=n&&ex.length?'\n🧪 Traga seus exames em dia (solicitados nesta consulta).':'';
+  const msg1='Olá, '+nome+'!\nSua consulta de acompanhamento de hipertensão/diabetes foi concluída.\n📅 Próximo retorno: '+dataTxt+exTxt+'\nUBS '+ubs;
+  const msg2='📋 NOTIFICAÇÃO - '+ubs+'\n\nACS '+acs+'\nPaciente: '+nome+'\nMicroárea: '+micro+'\nClassificação: '+(nomes[n]||'[estratificar]')+'\nRetorno: '+dataTxt+'\nOrientação: '+(orient[n]||'Estratifique o risco para gerar a orientação.');
+  pm.innerHTML=msg1.replace(/\n/g,'<br>')+'<span class="wpp-time">'+hHora()+'</span>';
+  pa.innerHTML=msg2.replace(/\n/g,'<br>')+'<span class="wpp-time">'+hHora()+'</span>';
+}
+function hEnviarWpp(idTel,idMsg,quem){
+  const t=document.getElementById(idTel).value.replace(/\D/g,'');
+  if(t.length<10){showToast('Telefone '+quem+' inválido',true);return;}
+  window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(document.getElementById(idMsg).innerText),'_blank');
+}
+function enviarWhatsAppHasDm(){hAtualizarWpp();hEnviarWpp('h-telefone','h-wpp','do paciente');}
+function enviarWhatsAppAcsHasDm(){hAtualizarWpp();hEnviarWpp('h-cel-acs','h-wpp-acs','do ACS');}
+document.addEventListener('input',e=>{if(e.target&&e.target.id&&e.target.id.indexOf('h-')===0)hAtualizarWpp();});
 function preencherUbsHasDm(){
   const u=document.getElementById('h-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';
   const d=document.getElementById('h-data-consulta');if(d&&!d.value)d.value=hHojeISO();
@@ -3659,6 +3700,7 @@ async function salvarHasDm(){
     observacoes:document.getElementById('h-obs').value,
     hist_familiar:document.getElementById('h-hist-familiar').value,
     telefone:document.getElementById('h-telefone').value||null,
+    telefone_acs:document.getElementById('h-cel-acs').value||null,
     data_consulta:document.getElementById('h-data-consulta').value||null,
     data_retorno:document.getElementById('h-data-retorno').value||null,
     periodicidade_exames:hExamesAtuais(document.getElementById('h-data-consulta').value),
@@ -3775,6 +3817,7 @@ async function editarHasDm(id){
     if(res&&val){val.textContent=data.risco_estratificado;res.style.display='block';}
   }
   document.getElementById('h-telefone').value=data.telefone||'';
+  document.getElementById('h-cel-acs').value=data.telefone_acs||'';
   document.getElementById('h-data-consulta').value=data.data_consulta||hHojeISO();
   {const rv=data.risco_estratificado||'';hNivelAtual=/Muito Alto/i.test(rv)?4:/Alto/i.test(rv)?3:/M[eé]dio/i.test(rv)?2:/Baixo/i.test(rv)?1:0;}
   hAtualizarRetorno();
