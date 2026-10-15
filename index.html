@@ -1509,35 +1509,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       </div>
     </div>
 
-    <div class="h-secao">
-  <div class="h-secao-titulo t-result">📅 Retorno e Periodicidade — Atenção Primária</div>
-  <div class="h-secao-corpo">
-    <div class="h-grid-2" style="margin-bottom:1rem">
-      <div class="h-campo"><label>Data da Consulta</label><input type="date" id="h-data-consulta" onchange="hAtualizarRetorno()"></div>
-      <div class="h-campo"><label>Data do Retorno (automática)</label><input type="date" id="h-data-retorno" readonly></div>
-    </div>
-    <div class="det-sub">Periodicidade das consultas</div>
-    <div id="h-periodo-consultas"></div>
-    <div class="det-sub">Periodicidade de solicitação de exames</div>
-    <div id="h-periodo-exames"></div>
-    <div class="h-campo" style="margin:1rem 0 .75rem"><label>📱 Telefone do ACS (WhatsApp)</label><input type="tel" id="h-cel-acs" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
-    <div class="wpp-grid">
-      <div class="wpp-wrap wpp-mae">
-        <div class="wpp-head">📱 Mensagem para o Paciente</div>
-        <span class="wpp-label label-mae">🧑 Para: Paciente</span>
-        <div class="wpp-balao" id="h-wpp">Mensagem será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
-        <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsAppHasDm()">📱 Enviar para o Paciente</button>
-      </div>
-      <div class="wpp-wrap wpp-acs">
-        <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
-        <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
-        <div class="wpp-balao" id="h-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
-        <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppAcsHasDm()">📱 Enviar para o ACS</button>
-      </div>
-    </div>
-  </div>
-</div>
-
     <!-- ERG FRAMINGHAM — HOMENS -->
     <div class="h-secao">
       <div class="h-secao-titulo t-erg">📊 Tabela 1 — ERG Framingham: Homens</div>
@@ -1836,6 +1807,36 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       </div>
     </div>
 
+
+    <!-- RETORNO, PERIODICIDADE E MENSAGENS -->
+    <div class="h-secao">
+  <div class="h-secao-titulo t-result">📅 Retorno e Periodicidade — Atenção Primária</div>
+  <div class="h-secao-corpo">
+    <div class="h-grid-2" style="margin-bottom:1rem">
+      <div class="h-campo"><label>Data da Consulta</label><input type="date" id="h-data-consulta" onchange="hAtualizarRetorno()"></div>
+      <div class="h-campo"><label>Data do Retorno (automática)</label><input type="date" id="h-data-retorno" readonly></div>
+    </div>
+    <div class="det-sub">Periodicidade das consultas</div>
+    <div id="h-periodo-consultas"></div>
+    <div class="det-sub">Periodicidade de solicitação de exames</div>
+    <div id="h-periodo-exames"></div>
+    <div class="h-campo" style="margin:1rem 0 .75rem"><label>📱 Telefone do ACS (WhatsApp)</label><input type="tel" id="h-cel-acs" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
+    <div class="wpp-grid">
+      <div class="wpp-wrap wpp-mae">
+        <div class="wpp-head">📱 Mensagem para o Paciente</div>
+        <span class="wpp-label label-mae">🧑 Para: Paciente</span>
+        <div class="wpp-balao" id="h-wpp">Mensagem será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+        <button class="wpp-btn-enviar wpp-btn-mae" onclick="enviarWhatsAppHasDm()">📱 Enviar para o Paciente</button>
+      </div>
+      <div class="wpp-wrap wpp-acs">
+        <div class="wpp-head wpp-head-acs">📱 Mensagem para o ACS</div>
+        <span class="wpp-label label-acs">👷 Para: Agente Comunitário de Saúde</span>
+        <div class="wpp-balao" id="h-wpp-acs">Mensagem para o ACS será gerada automaticamente.<span class="wpp-time">09:41 ✓✓</span></div>
+        <button class="wpp-btn-enviar wpp-btn-acs" onclick="enviarWhatsAppAcsHasDm()">📱 Enviar para o ACS</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- OBSERVAÇÕES + AÇÕES -->
     <div class="h-secao">
