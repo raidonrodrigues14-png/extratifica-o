@@ -462,6 +462,67 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .busca-btn{background:var(--musgo);color:white;border:none;padding:.52rem 1.1rem;border-radius:9px;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.8rem;transition:all .2s;white-space:nowrap}
 .busca-btn:hover{background:var(--musgo-escuro);transform:translateY(-1px)}
 
+/* ── CUIDADOS PALIATIVOS ── */
+#modulo-paliativo{display:none;min-height:100vh;background:var(--bg)}
+.portal-card.palia::before{background:linear-gradient(90deg,#8a4a12,#c2610f);opacity:1}
+.palia .card-emoji-wrap{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:1px solid #ffcc80}
+.portal-card.palia:hover{border-color:#ffb74d}
+.palia .card-arrow{color:#a8530c}
+.pal-content{max-width:1100px;margin:0 auto;padding:1.25rem 1rem 3rem}
+.pal-topo{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.pal-topo input[type=text]{flex:1;min-width:200px;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font-body)}
+.pal-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin-bottom:1rem}
+.pal-kpi{--kc:#8a4a12;background:#fff;border:1.5px solid var(--border);border-left:4px solid var(--kc);border-radius:10px;padding:.7rem .9rem;text-align:left;font-family:var(--font-body);cursor:pointer}
+.pal-kpi b{display:block;font-size:1.5rem;color:var(--kc)}
+.pal-kpi span{font-size:.72rem;color:var(--txt-3)}
+.pal-kpi.ativa{background:#fff8ef;box-shadow:0 0 0 2px var(--kc) inset}
+.pal-kpi-info{cursor:default}
+.pal-tab{width:100%;border-collapse:collapse;font-size:.8rem;background:#fff}
+.pal-tab th{background:#fbe9d6;color:#6d3a0c;padding:.5rem;text-align:left;font-size:.72rem;white-space:nowrap}
+.pal-tab td{padding:.45rem .5rem;border-bottom:1px solid var(--border);vertical-align:top}
+.pal-s{font-size:.7rem;color:var(--txt-3)}
+.pal-pill{display:inline-block;padding:.15rem .55rem;border-radius:20px;font-size:.7rem;font-weight:700}
+.pal-pend{color:#b26a00;font-style:italic}
+.pal-pos{color:#6a1b9a;font-weight:700}
+.pal-td-acao{white-space:nowrap}
+.pal-mini{padding:.35rem .7rem;font-size:.75rem;margin-right:.25rem}
+.pal-vazio{padding:1.4rem;text-align:center;color:var(--txt-3);background:#fff;border:1.5px dashed var(--border);border-radius:10px}
+.pal-steps{display:flex;gap:.4rem;flex-wrap:wrap;margin:.2rem 0 1rem}
+.pal-step{flex:1;min-width:150px;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:.6rem .8rem;text-align:left;font-family:var(--font-body);font-size:.8rem;font-weight:600;color:var(--txt-3);cursor:pointer}
+.pal-step.ativa{border-color:#c2610f;background:#fff3e0;color:#8a4a12}
+.pal-sec-t{background:linear-gradient(135deg,#8a4a12,#c2610f)!important}
+.pal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
+.pal-full{grid-column:1/-1}
+.pal-campo textarea,.pal-campo input,.pal-campo select{width:100%;box-sizing:border-box}
+.pal-multi{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.45rem}
+.pal-uma-col{grid-template-columns:1fr}
+.pal-chk{display:flex;gap:.55rem;align-items:flex-start;padding:.5rem .65rem;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-size:.82rem;cursor:pointer}
+.pal-chk input{margin-top:.2rem;accent-color:#c2610f}
+.pal-chk:has(input:checked){background:#fff3e0;border-color:#c2610f}
+.pal-rot{font-weight:700;font-size:.82rem;color:#6d3a0c;margin:.7rem 0 .4rem}
+.pal-grupo{margin-bottom:.4rem}
+.pal-res{margin-top:.9rem;padding:.65rem .9rem;background:#fbe9d6;border-radius:8px;font-size:.82rem}
+.pal-aviso{background:#e3f2fd;border:1px solid #90caf9;color:#0d47a1;border-radius:8px;padding:.7rem .9rem;font-size:.82rem;margin-bottom:1rem}
+.pal-resumo{background:#fff;border:1.5px solid #ffcc80;border-radius:10px;padding:.7rem .9rem;margin-bottom:1rem;font-size:.85rem}
+.pal-resumo span{color:var(--txt-3);font-size:.78rem}
+.pal-curvas{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem}
+.pal-curva{background:#fff;border:2px solid var(--border);border-radius:10px;padding:.6rem;text-align:center;font-family:var(--font-body);cursor:pointer}
+.pal-curva svg{width:100%;height:80px}
+.pal-curva strong{display:block;font-size:.78rem;margin-top:.3rem}
+.pal-curva small{color:var(--txt-3);font-size:.7rem}
+.pal-curva.ativa{border-color:#c2610f;background:#fff3e0}
+.pal-det{margin-top:.9rem}
+.pal-det summary{cursor:pointer;font-weight:600;font-size:.82rem;color:#8a4a12}
+.pal-pps td,.pal-pps th{font-size:.7rem}
+.pal-fonte,.pal-sub,.pal-sub2{font-size:.75rem;color:var(--txt-3);margin:.3rem 0 .6rem}
+.pal-edm{min-width:900px}
+.pal-edm input,.pal-tab input,.pal-tab select{padding:.3rem;border:1px solid var(--border);border-radius:5px;font-size:.75rem;width:100%;box-sizing:border-box}
+.pal-edm input[type=number]{width:52px}
+.pal-outro{display:flex;gap:.25rem}
+.pal-x{background:none;border:none;color:#c62828;cursor:pointer;font-size:1rem}
+.pal-barra{position:sticky;bottom:0;background:#fffdf9;border-top:2px solid #ffcc80;padding:.7rem 1rem;display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem -1rem -3rem;z-index:5}
+@media(max-width:640px){.pal-content{padding:1rem .7rem 3rem}.pal-barra .btn{flex:1}}
+
 /* ── MODAIS ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.aberto{display:flex}
@@ -541,7 +602,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 <div id="tela-assinatura-vencida" style="display:none"><div class="login-card"><div class="login-top"><div class="login-icon">💳</div><div class="login-title"><strong>Assinatura Vencida</strong><span>Renove seu acesso para continuar</span></div></div><div class="login-sep"></div><p style="text-align:center;font-size:.82rem;color:var(--txt-2);margin:.3rem 0 1rem;line-height:1.4">Seu acesso mensal (R$ <span id="pix-valor-txt"></span>) venceu em <strong id="pix-venc-data"></strong>. Escaneie o QR Code ou copie o código PIX abaixo para renovar. Seu acesso é liberado por mais 30 dias após a confirmação do pagamento.</p><div id="pix-qrcode" style="display:flex;justify-content:center;margin-bottom:1rem"></div><div class="f-group"><label class="f-label">PIX Copia e Cola</label><textarea class="f-input" id="pix-codigo" readonly style="font-size:.65rem;height:70px;resize:none"></textarea></div><button class="btn-login-submit" type="button" onclick="copiarCodigoPix()">Copiar código PIX</button><button class="btn-login-submit" type="button" style="background:#555;margin-top:.5rem" onclick="fazerLogout()">Sair</button></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: crianças, gestantes, hipertensos e diabéticos.</p><div class="card-riscos"><span class="risco-pill vermelho">192 Hipertensos</span><span class="risco-pill laranja">88 Diabéticos</span><span class="risco-pill amarelo">77 Crianças</span><span class="risco-pill verde">15 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card palia" onclick="abrirModulo('paliativo')"><div class="card-emoji-wrap">🕊️</div><h2>Cuidados Paliativos</h2><p>Elegibilidade simplificada (ficha do ACS), aplicação do SPICT-BR e Folha de Registro da Abordagem Paliativa Completa.</p><div class="card-riscos"><span class="risco-pill amarelo">Elegibilidade</span><span class="risco-pill laranja">SPICT-BR</span><span class="risco-pill verde">Abordagem completa</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: crianças, gestantes, hipertensos e diabéticos.</p><div class="card-riscos"><span class="risco-pill vermelho">192 Hipertensos</span><span class="risco-pill laranja">88 Diabéticos</span><span class="risco-pill amarelo">77 Crianças</span><span class="risco-pill verde">15 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -1337,6 +1398,49 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 </div>
 
 <!-- MÓDULO HAS / DM -->
+<div id="modulo-paliativo">
+  <div class="app-header" style="background:linear-gradient(135deg,#6d3a0c,#c2610f)">
+    <div class="app-header-brand">
+      <div class="app-header-icon">🕊️</div>
+      <div class="app-header-text">
+        <strong>Cuidados Paliativos</strong>
+        <span>Elegibilidade · SPICT-BR · Abordagem paliativa completa</span>
+      </div>
+    </div>
+    <button class="btn-portal-voltar" onclick="palSair()">← Portal</button>
+  </div>
+  <div class="pal-content">
+    <div id="pal-lista-wrap">
+      <div class="pal-topo">
+        <input type="text" id="pal-busca" placeholder="Buscar por paciente, ACS, microárea ou SUS…">
+        <button type="button" class="btn btn-salvar" onclick="palNovo()">➕ Novo paciente</button>
+        <button type="button" class="btn btn-nova" onclick="palExportarCSV()">⬇️ Exportar CSV</button>
+      </div>
+      <div id="pal-kpis" class="pal-kpis"></div>
+      <div id="pal-lista"></div>
+    </div>
+    <div id="pal-ficha-wrap" style="display:none">
+      <div class="pal-topo">
+        <button type="button" class="btn btn-nova" onclick="palMostrarLista()">← Lista de pacientes</button>
+        <strong id="pal-titulo-ficha" style="font-size:1rem;color:#6d3a0c"></strong>
+      </div>
+      <div class="pal-steps">
+        <button type="button" id="pal-step1" class="pal-step ativa" onclick="palIr(1)">1 · Elegibilidade simplificada</button>
+        <button type="button" id="pal-step2" class="pal-step" onclick="palIr(2)">2 · SPICT-BR</button>
+        <button type="button" id="pal-step3" class="pal-step" onclick="palIr(3)">3 · Folha de abordagem completa</button>
+      </div>
+      <div id="pal-p1"></div>
+      <div id="pal-p2" style="display:none"></div>
+      <div id="pal-p3" style="display:none"></div>
+      <div class="pal-barra" id="pal-acoes">
+        <button type="button" class="btn btn-salvar" onclick="palSalvar('')">💾 Salvar</button>
+        <button type="button" class="btn btn-salvar" id="pal-btn-prox" onclick="palSalvar('proxima')">Salvar e avançar →</button>
+        <button type="button" class="btn btn-nova" id="pal-btn-outro" onclick="palSalvar('novo')">Salvar e cadastrar outro</button>
+        <button type="button" class="btn btn-nova" id="pal-btn-print" style="display:none" onclick="palImprimir()">🖨️ Imprimir folha</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="modulo-hasdm">
   <div class="app-header" style="background:linear-gradient(135deg,#7f0000,#c62828)">
     <div class="app-header-brand">
@@ -2047,10 +2151,10 @@ function nomeExibicao(user){
 }
 
 // ===== PIX (renovação de assinatura, R$100/30 dias) =====
-const PIX_CHAVE='+5599991723550';
-const PIX_NOME='RAIDON RODRIGUES';
+const PIX_CHAVE='00141017341';
+const PIX_NOME='IONARA RAQUEL';
 const PIX_CIDADE='ALTO ALEGRE MA';
-const PIX_VALOR='100.00'; // TESTE - trocar de volta para '100.00' depois de testar
+const PIX_VALOR='0.10'; // TESTE - trocar de volta para '100.00' depois de testar
 
 function pixCRC16(payload){
   let polinomio=0x1021,resultado=0xFFFF;
@@ -2144,14 +2248,406 @@ function ativarSessao(user,bemVindo){
   cCalcular();ivcfCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
   const tela=sessionStorage.getItem('aps_tela')||'portal';
   if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
-  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}}
+  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=tela==='paliativo'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(tela==='paliativo'){palAbrir();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
 function fazerLogout(){if(confirm('Deseja sair?')){supabaseClient.auth.signOut().then(()=>{sessionStorage.removeItem('aps_tela');location.reload();});}}
-function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
+function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
 async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([supabaseClient.from('gestantes').select('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos(g.data,r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
-function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}}
+function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=mod==='paliativo'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(mod==='paliativo'){palAbrir();}}
+
+// ===== CUIDADOS PALIATIVOS: Elegibilidade → SPICT-BR → Abordagem paliativa completa =====
+const PAL_TABELA='paliativos';
+const PAL_UBS='UBS Ozima Batista Bezerra Vieia';
+
+// --- 1) Ferramenta de elegibilidade simplificada (ACS) ---
+const PAL_ELEG=[
+  ['e_internacao','Internações não programadas.'],
+  ['e_funcional','Funcionalidade reduzida (pessoa passa na cama ou na cadeira mais de 50% do dia).'],
+  ['e_dependencia','Dependência para cuidados pessoais por problemas físicos e/ou de saúde mental.'],
+  ['e_sintomas','Sintomas persistentes.'],
+  ['e_qualidade','Paciente ou familiar solicitam foco na qualidade de vida.']
+];
+const PAL_COND=[['cancer','Câncer'],['demencia','Demência'],['neuro','Doença neurológica'],['cardio','Doença cardiovascular'],['pulmonar','Doença pulmonar'],['renal','Doença renal'],['hepatica','Doença hepática']];
+
+// --- 2) SPICT-BR ---
+const PAL_SPICT_GERAIS=[
+  ['g1','Internação(ões) hospitalar(es) não programada(s).'],
+  ['g2','Declínio funcional progressivo com limitada reversibilidade (ex.: a pessoa permanece na cama ou numa cadeira mais da metade do tempo).'],
+  ['g3','A pessoa depende de outros para cuidados pessoais devido ao aumento de problemas físicos e/ou de saúde mental. O cuidador necessita de mais ajuda e suporte.'],
+  ['g4','Perda de peso progressiva; permanece abaixo do peso; baixa massa muscular.'],
+  ['g5','Sintomas persistentes apesar do tratamento otimizado da(s) condição(ões) de base.'],
+  ['g6','A pessoa (ou a família) solicita cuidados paliativos; opta por reduzir, parar ou não fazer o tratamento; ou deseja focar na qualidade de vida.']
+];
+const PAL_SPICT_CLIN=[
+  {t:'Câncer',i:[['c1','Capacidade funcional em declínio devido à progressão do câncer.'],['c2','Muito debilitado(a) para o tratamento do câncer ou o tratamento tem finalidade de controle dos sintomas.']]},
+  {t:'Demência / fragilidade',i:[['d1','Incapaz de vestir-se, caminhar ou comer sem ajuda.'],['d2','Comendo e bebendo menos; dificuldade com a deglutição.'],['d3','Incontinência urinária e fecal.'],['d4','Incapaz de se comunicar através da fala; pouca interação social.'],['d5','Quedas frequentes; fratura de fêmur.'],['d6','Episódios frequentes de febre ou infecções; pneumonia aspirativa.']]},
+  {t:'Doença neurológica',i:[['n1','Deterioração progressiva da capacidade física e/ou da função cognitiva mesmo com terapia otimizada.'],['n2','Problema de fala com dificuldade crescente de comunicação e/ou dificuldade progressiva de deglutição.'],['n3','Pneumonia aspirativa recorrente; falta de ar ou insuficiência respiratória.'],['n4','Paralisia persistente após acidente vascular cerebral com perda significativa da funcionalidade e incapacidade contínua.']]},
+  {t:'Doença cardiovascular',i:[['v1','Insuficiência cardíaca ou doença arterial coronária extensa, refratárias ao tratamento otimizado; com falta de ar ou dor no peito em repouso ou ao mínimo esforço.'],['v2','Doença vascular periférica grave, inoperável.']]},
+  {t:'Doença respiratória',i:[['r1','Doença pulmonar crônica grave; com falta de ar em repouso ou ao mínimo esforço entre as exacerbações.'],['r2','Hipóxia persistente que necessita de oxigenioterapia contínua.'],['r3','Já precisou de ventilação invasiva para insuficiência respiratória ou a intubação orotraqueal é contraindicada.']]},
+  {t:'Doença renal',i:[['k1','Estágios 4 ou 5 de doença renal crônica (TFG < 30 ml/min) com deterioração da saúde.'],['k2','Insuficiência renal como fator complicador para outras condições limitantes ou tratamentos.'],['k3','Parar ou não iniciar diálise.']]},
+  {t:'Doença hepática',i:[['h1','Cirrose com uma ou mais complicações no último ano: ascite refratária a diuréticos; encefalopatia hepática; síndrome hepatorrenal; peritonite bacteriana; sangramentos recorrentes de varizes decorrentes de hipertensão portal.'],['h2','Transplante de fígado não é possível.']]},
+  {t:'Outras condições',i:[['o1','Deterioração com outras condições, múltiplas condições e/ou complicações irreversíveis; o melhor tratamento disponível resulta em um desfecho desfavorável.']]}
+];
+const PAL_SPICT_ACOES=[
+  ['a1','Revisar o tratamento e os medicamentos atuais para garantir que a pessoa receba o cuidado otimizado; diminuir a polifarmácia.'],
+  ['a2','Considerar o encaminhamento para avaliação por uma equipe de Cuidados Paliativos se os sintomas ou problemas forem complexos e difíceis de manejar.'],
+  ['a3','Elaborar um plano de cuidados para o momento atual e para o futuro com a pessoa e seus familiares/pessoas próximas. Apoiar os cuidadores.'],
+  ['a4','Planejar com antecedência caso seja provável a perda da capacidade de tomada de decisão.'],
+  ['a5','Registrar, compartilhar e revisar os planos de cuidados.']
+];
+
+// --- 3) Folha de abordagem completa ---
+const PAL_CURVAS=[
+  ['curta','Período curto de declínio evidente','Maioria dos cânceres','M4,10 L62,12 C80,13 88,34 104,50'],
+  ['intermitente','Limitações de longo prazo com episódios de agravos intermitentes','Principalmente insuficiência cardíaca e pulmonar','M4,12 L22,13 Q27,40 32,15 L50,19 Q55,42 60,22 L80,28 Q85,46 90,31 L100,36 L106,52'],
+  ['prolongada','Performance diminuída e incapacidade prolongadas','Principalmente fragilidade e demência','M4,14 Q12,30 22,28 T46,34 T70,40 T92,46 L106,52']
+];
+const PAL_SINT=[['dor','Dor'],['cansaco','Cansaço (falta de energia)'],['sonolencia','Sonolência'],['nausea','Náusea'],['apetite','Apetite'],['falta_ar','Falta de ar'],['depressao','Depressão (sentir-se triste)'],['ansiedade','Ansiedade (sentir-se nervoso)'],['bem_estar','Bem-estar']];
+const PAL_PPS=[
+  [100,'Completa','Atividade normal e trabalho; sem evidência de doença','Completo','Normal','Completo'],
+  [90,'Completa','Atividade normal e trabalho; alguma evidência de doença','Completo','Normal','Completo'],
+  [80,'Completa','Atividade normal com esforço; alguma evidência de doença','Completo','Normal ou reduzida','Completo'],
+  [70,'Reduzida','Incapaz para o trabalho; doença significativa','Completo','Normal ou reduzida','Completo'],
+  [60,'Reduzida','Incapaz para hobbies/trabalho doméstico; doença significativa','Assistência ocasional','Normal ou reduzida','Completo ou períodos de confusão'],
+  [50,'Maior parte do tempo sentado ou deitado','Incapaz para qualquer trabalho; doença extensa','Assistência considerável','Normal ou reduzida','Completo ou períodos de confusão'],
+  [40,'Maior parte do tempo acamado','Incapaz para a maioria das atividades; doença extensa','Assistência quase completa','Normal ou reduzida','Completo ou sonolência; +/- confusão'],
+  [30,'Totalmente acamado','Incapaz para qualquer atividade; doença extensa','Dependência completa','Normal ou reduzida','Completo ou sonolência; +/- confusão'],
+  [20,'Totalmente acamado','Incapaz para qualquer atividade; doença extensa','Dependência completa','Mínima a pequenos goles','Completo ou sonolência; +/- confusão'],
+  [10,'Totalmente acamado','Incapaz para qualquer atividade; doença extensa','Dependência completa','Cuidados com a boca','Sonolência ou coma; +/- confusão'],
+  [0,'Morte','','','','']
+];
+const PAL_PPS_OPT=PAL_PPS.map(r=>[String(r[0]),r[0]+'% — '+r[1]+(r[2]?' · '+r[2]:'')]);
+
+const PAL_SIMPLES=['nome','dt_nasc','sus','acs','microarea','endereco','telefone','data_acs','e_surpresa','s_data','s_prof','s_conclusao','s_obs','nome_social','genero','municipio','estrato_familiar','mora_com_alguem','mora_com','data_abordagem','profissional','biografia','indicadores','adoecimento','familia','socioeconomico','pps_atual','surpresa','psicologica','espiritual','fica','social_dim','fisica','planejamento','reflexoes'];
+const PAL_BOOLS=['e_internacao','e_funcional','e_dependencia','e_sintomas','e_qualidade'];
+const PAL_MULTIS=['e_cond','s_gerais','s_clin','s_acoes'];
+
+let palLista=[],palAtualId=null,palEtapa=1,palCurva='',palEdm=[],palPpsH=[],palFiltroEtapa='',palMontado=false;
+
+// ---------- utilidades ----------
+function palEsc(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function palEl(id){return document.getElementById(id);}
+function palHoje(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function palFmtData(iso){if(!iso)return '';const s=String(iso).slice(0,10).split('-');return s.length===3?s[2]+'/'+s[1]+'/'+s[0]:String(iso);}
+function palMascara(tipo,v){
+  v=String(v||'').replace(/\D/g,'');
+  if(tipo==='sus')return v.slice(0,15);
+  v=v.slice(0,11);
+  if(v.length>10)return v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+  if(v.length>6)return v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
+  if(v.length>2)return v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
+  return v.length?'('+v:'';
+}
+function palIdadeTxt(iso){
+  if(!iso)return '';
+  const a=new Date(iso+'T00:00:00'),b=new Date();
+  if(isNaN(a)||b<a)return '';
+  let anos=b.getFullYear()-a.getFullYear();
+  if(b.getMonth()<a.getMonth()||(b.getMonth()===a.getMonth()&&b.getDate()<a.getDate()))anos--;
+  if(anos>=1)return anos+(anos===1?' ano':' anos');
+  let m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth();if(b.getDate()<a.getDate())m--;
+  return Math.max(0,m)+(m===1?' mês':' meses');
+}
+function palIdadeAnos(iso){const t=palIdadeTxt(iso);const n=parseInt(t,10);return /ano/.test(t)?n:(t?0:null);}
+
+// ---------- montagem do formulário ----------
+function palC(id,label,tipo,x){
+  x=x||{};
+  let inp;
+  if(tipo==='area')inp='<textarea id="pal-'+id+'" rows="'+(x.rows||4)+'"'+(x.ph?' placeholder="'+palEsc(x.ph)+'"':'')+'></textarea>';
+  else if(tipo==='sel')inp='<select id="pal-'+id+'"><option value="">—</option>'+x.o.map(o=>'<option value="'+palEsc(o[0])+'">'+palEsc(o[1])+'</option>').join('')+'</select>';
+  else inp='<input type="'+(tipo||'text')+'" id="pal-'+id+'"'+(x.ph?' placeholder="'+palEsc(x.ph)+'"':'')+(x.mask?' data-mask="'+x.mask+'"':'')+(x.max?' maxlength="'+x.max+'"':'')+(x.ro?' readonly':'')+'>';
+  return '<div class="h-campo pal-campo'+(x.full||tipo==='area'?' pal-full':'')+'"><label>'+palEsc(label)+'</label>'+inp+'</div>';
+}
+function palChecks(id,items){
+  return '<div class="pal-multi" id="pal-'+id+'">'+items.map(i=>'<label class="pal-chk"><input type="checkbox" value="'+palEsc(i[0])+'"><span>'+palEsc(i[1])+'</span></label>').join('')+'</div>';
+}
+function palSec(titulo,corpo,sub){
+  return '<div class="h-secao"><div class="h-secao-titulo pal-sec-t">'+palEsc(titulo)+'</div><div class="h-secao-corpo">'+(sub?'<p class="pal-sub">'+sub+'</p>':'')+corpo+'</div></div>';
+}
+function palMontar(){
+  if(palMontado)return;palMontado=true;
+  const SN=[['sim','Sim'],['nao','Não']];
+  const p1=
+    palSec('Identificação do paciente — ficha entregue pelo ACS','<div class="pal-grid">'+
+      palC('nome','Nome do paciente *','text',{full:1})+palC('dt_nasc','Data de nascimento','date')+palC('idade','Idade','text',{ro:1})+
+      palC('sus','Cartão Nacional do SUS','text',{mask:'sus',max:15,ph:'15 dígitos'})+palC('telefone','Telefone / WhatsApp','tel',{mask:'tel',max:15,ph:'(98) 99123-4567'})+
+      palC('acs','Agente Comunitário de Saúde (quem entregou)','text')+palC('microarea','Microárea','text')+palC('data_acs','Data da entrega da ficha pelo ACS','date')+
+      palC('endereco','Endereço','text',{full:1})+'</div>')+
+    palSec('Elegibilidade simplificada para cuidados paliativos',
+      '<div class="pal-multi pal-uma-col">'+PAL_ELEG.map(i=>'<label class="pal-chk"><input type="checkbox" id="pal-'+i[0]+'"><span>'+palEsc(i[1])+'</span></label>').join('')+'</div>'+
+      '<div class="pal-rot">Alguma condição clínica avançada:</div>'+palChecks('e_cond',PAL_COND)+
+      '<div class="pal-grid" style="margin-top:.9rem">'+palC('e_surpresa','Pergunta surpresa: você ficaria surpreso se este paciente morresse ao longo do próximo ano?','sel',{full:1,o:[['sim','Sim, me surpreenderia'],['nao','Não me surpreenderia (pergunta surpresa POSITIVA)']]})+'</div>'+
+      '<div id="pal-eleg-res" class="pal-res"></div>');
+  const p2=
+    '<div class="pal-aviso">O SPICT-BR ajuda a identificar pessoas cuja saúde está deteriorando. Avalie as necessidades de suporte e cuidados paliativos não atendidas e faça o plano de cuidados. Marque os indicadores presentes.</div>'+
+    palSec('Indicadores gerais de saúde em deterioração',palChecks('s_gerais',PAL_SPICT_GERAIS))+
+    palSec('Indicadores clínicos de uma ou mais condições de saúde que limitam a vida',
+      PAL_SPICT_CLIN.map((g,ix)=>'<div class="pal-grupo"><div class="pal-rot">'+palEsc(g.t)+'</div><div class="pal-multi pal-uma-col pal-gclin" data-g="'+ix+'">'+g.i.map(i=>'<label class="pal-chk"><input type="checkbox" value="'+i[0]+'"><span>'+palEsc(i[1])+'</span></label>').join('')+'</div></div>').join('')+'<div id="pal-spict-res" class="pal-res"></div>')+
+    palSec('Revisar o cuidado atual e o plano de cuidados (marque o que foi feito/planejado)',palChecks('s_acoes',PAL_SPICT_ACOES))+
+    palSec('Aplicação do SPICT-BR','<div class="pal-grid">'+palC('s_data','Data da aplicação','date')+palC('s_prof','Profissional que aplicou','text')+
+      palC('s_conclusao','Conclusão','sel',{o:[['indicada','Indicada abordagem paliativa completa'],['acompanhar','Acompanhar e reavaliar'],['nao','Sem indicação no momento']]})+
+      palC('s_obs','Observações','area',{rows:3})+'</div>');
+  const p3=
+    '<div id="pal-resumo" class="pal-resumo"></div>'+
+    palSec('Identificação (complemento)','<div class="pal-grid">'+
+      palC('nome_social','Nome social','text')+palC('genero','Gênero','sel',{o:[['F','Feminino'],['M','Masculino'],['O','Outro / não informado']]})+
+      palC('municipio','Município','text')+palC('estrato_familiar','Estrato familiar (conforme estratificação de risco)','text',{ph:'ex.: R2'})+
+      palC('mora_com_alguem','Mora com alguém?','sel',{o:SN.map(o=>[o[0],o[1]])})+palC('mora_com','Se sim, com quem?','text')+
+      palC('data_abordagem','Data da abordagem paliativa completa','date')+palC('profissional','Profissional responsável','text')+'</div>')+
+    palSec('Biografia','<div class="pal-grid">'+palC('biografia','Informações objetivas e subjetivas sobre a pessoa','area',{rows:5})+'</div>')+
+    palSec('Indicadores SPICT-BR','<div class="pal-grid">'+palC('indicadores','Indicadores com resultados positivos na ferramenta de elegibilidade SPICT-BR','area',{rows:5})+'</div><button type="button" class="btn btn-nova pal-mini" onclick="palPreencherIndicadores(true)">↻ Preencher com os indicadores marcados na etapa 2</button>')+
+    palSec('História de adoecimento','<div class="pal-grid">'+palC('adoecimento','Diagnóstico principal, diagnósticos secundários e história da condição de saúde atual','area',{rows:5})+'</div>')+
+    palSec('Família e rede de apoio','<div class="pal-grid">'+palC('familia','Com quem mora, cuidador principal, aspectos familiares e rede de apoio (genograma/ecomapa, se a equipe usar)','area',{rows:5})+'</div>')+
+    palSec('Aspectos socioeconômicos','<div class="pal-grid">'+palC('socioeconomico','Condições de moradia, ocupação, renda familiar e benefícios recebidos','area',{rows:4})+'</div>')+
+    palSec('Trajetória da doença',
+      '<div class="pal-rot">Selecione a curva típica relacionada ao caso</div><div class="pal-curvas" id="pal-curvas">'+PAL_CURVAS.map(c=>'<button type="button" class="pal-curva" data-curva="'+c[0]+'"><svg viewBox="0 0 110 60" aria-hidden="true"><line x1="3" y1="4" x2="3" y2="56" stroke="#999"/><line x1="3" y1="56" x2="108" y2="56" stroke="#999"/><path d="'+c[3]+'" fill="none" stroke="#c62828" stroke-width="2"/></svg><strong>'+palEsc(c[1])+'</strong><small>'+palEsc(c[2])+'</small></button>').join('')+'</div>'+
+      '<div class="pal-grid" style="margin-top:.9rem">'+palC('pps_atual','PPS atual (Palliative Performance Scale)','sel',{o:PAL_PPS_OPT,full:1})+
+      palC('surpresa','Pergunta-surpresa: você se surpreenderia se essa pessoa morresse ao longo do próximo ano?','sel',{full:1,o:[['sim','Sim, me surpreenderia'],['nao','Não me surpreenderia']]})+'</div>'+
+      '<details class="pal-det"><summary>Ver tabela da Escala de Performance Paliativa (PPS)</summary><div class="tabela-wrap"><table class="pal-tab pal-pps"><thead><tr><th>PPS</th><th>Deambulação</th><th>Atividade e evidência de doença</th><th>Autocuidado</th><th>Ingesta</th><th>Nível de consciência</th></tr></thead><tbody>'+PAL_PPS.map(r=>'<tr><td><b>'+r[0]+'</b></td><td>'+palEsc(r[1])+'</td><td>'+palEsc(r[2])+'</td><td>'+palEsc(r[3])+'</td><td>'+palEsc(r[4])+'</td><td>'+palEsc(r[5])+'</td></tr>').join('')+'</tbody></table></div><p class="pal-fonte">Fonte: BRASIL, 2020.</p></details>')+
+    palSec('A pessoa e suas múltiplas dimensões','<div class="pal-grid">'+
+      palC('psicologica','Psicológica — principais fontes de sofrimento e ações propostas','area',{rows:4})+
+      palC('espiritual','Espiritual — fontes de sofrimento e ações propostas','area',{rows:4})+
+      palC('fica','FICA (Fé, Importância/Influência, Comunidade e Abordagem)','area',{rows:3})+
+      palC('social_dim','Familiar e social — fontes de sofrimento e ações propostas','area',{rows:4})+
+      palC('fisica','Física — fontes de sofrimento e ações propostas','area',{rows:4})+'</div>')+
+    palSec('Escala de Sintomas de Edmonton — progressão','<div class="pal-sub2">Notas de 0 a 10 para cada sintoma. Registre uma linha por avaliação.</div><div class="tabela-wrap"><div id="pal-edm"></div></div><button type="button" class="btn btn-nova pal-mini" style="margin-top:.6rem" onclick="palAddEdm()">➕ Adicionar avaliação</button>')+
+    palSec('Palliative Performance Scale (PPS) — progressão','<div id="pal-ppsh"></div><button type="button" class="btn btn-nova pal-mini" style="margin-top:.6rem" onclick="palAddPps()">➕ Adicionar avaliação</button>')+
+    palSec('Planejamento antecipado de cuidados e diretivas antecipadas de vontade','<div class="pal-grid">'+palC('planejamento','Informações obtidas pelas perguntas norteadoras do planejamento antecipado de cuidados; aspectos importantes a registrar como diretivas antecipadas de vontade','area',{rows:5})+'</div>')+
+    palSec('Reflexões da equipe','<div class="pal-grid">'+palC('reflexoes','Reflexões da equipe sobre a experiência de realizar a abordagem paliativa completa com a pessoa usuária','area',{rows:4})+'</div>');
+  palEl('pal-p1').innerHTML=p1;palEl('pal-p2').innerHTML=p2;palEl('pal-p3').innerHTML=p3;
+}
+
+// ---------- coleta / preenchimento ----------
+function palColetar(){
+  const d={};
+  PAL_SIMPLES.forEach(k=>{const e=palEl('pal-'+k);d[k]=e?(e.value||'').trim():'';});
+  PAL_BOOLS.forEach(k=>{const e=palEl('pal-'+k);d[k]=!!(e&&e.checked);});
+  PAL_MULTIS.forEach(k=>{
+    d[k]=[].map.call(document.querySelectorAll('#pal-'+k+' input:checked'),i=>i.value);
+  });
+  // indicadores clínicos ficam num único array (ids únicos)
+  d.s_clin=[].map.call(document.querySelectorAll('#pal-p2 .pal-gclin input:checked'),i=>i.value);
+  d.curva=palCurva;d.edmonton=JSON.parse(JSON.stringify(palEdm));d.pps_hist=JSON.parse(JSON.stringify(palPpsH));
+  return d;
+}
+function palPreencher(d){
+  d=d||{};
+  PAL_SIMPLES.forEach(k=>{const e=palEl('pal-'+k);if(e)e.value=d[k]||'';});
+  PAL_BOOLS.forEach(k=>{const e=palEl('pal-'+k);if(e)e.checked=!!d[k];});
+  PAL_MULTIS.forEach(k=>{const arr=d[k]||[];document.querySelectorAll('#pal-'+k+' input').forEach(i=>{i.checked=arr.indexOf(i.value)>=0;});});
+  const sc=d.s_clin||[];document.querySelectorAll('#pal-p2 .pal-gclin input').forEach(i=>{i.checked=sc.indexOf(i.value)>=0;});
+  palCurva=d.curva||'';palEdm=(d.edmonton||[]).map(x=>Object.assign({},x));palPpsH=(d.pps_hist||[]).map(x=>Object.assign({},x));
+  palMarcarCurva();palRenderEdm();palRenderPps();palAtualizarCalculos();
+}
+function palAtualizarCalculos(){
+  const ie=palEl('pal-idade'),dn=palEl('pal-dt_nasc');if(ie&&dn)ie.value=palIdadeTxt(dn.value);
+  const d=palColetar();
+  const n=palContarEleg(d);
+  const r1=palEl('pal-eleg-res');
+  if(r1)r1.innerHTML='<b>'+n+' de 7</b> critérios positivos'+(d.e_surpresa==='nao'?' · <span class="pal-pos">pergunta surpresa positiva</span>':'')+'. Siga para a etapa 2 e aplique o SPICT-BR.';
+  const r2=palEl('pal-spict-res');
+  if(r2)r2.innerHTML='Indicadores gerais: <b>'+d.s_gerais.length+' de '+PAL_SPICT_GERAIS.length+'</b> · Indicadores clínicos: <b>'+d.s_clin.length+'</b>'+(d.s_gerais.length&&d.s_clin.length?' · <span class="pal-pos">há indicadores gerais e clínicos</span>':'')+'. A conclusão é do profissional.';
+  const rs=palEl('pal-resumo');
+  if(rs)rs.innerHTML='<b>'+palEsc(d.nome||'Paciente sem nome')+'</b>'+(ie&&ie.value?' · '+palEsc(ie.value):'')+(d.acs?' · ACS: '+palEsc(d.acs):'')+(d.microarea?' · Microárea '+palEsc(d.microarea):'')+(d.sus?' · SUS '+palEsc(d.sus):'')+(d.endereco?'<br><span>'+palEsc(d.endereco)+'</span>':'')+'<br><span>Elegibilidade: '+n+'/7 critérios · SPICT-BR: '+d.s_gerais.length+' gerais, '+d.s_clin.length+' clínicos</span>';
+}
+function palContarEleg(d){
+  let n=0;PAL_BOOLS.forEach(k=>{if(d[k])n++;});
+  if((d.e_cond||[]).length)n++;
+  if(d.e_surpresa==='nao')n++;
+  return n;
+}
+function palTextoIndicadores(d){
+  const linhas=[];
+  PAL_SPICT_GERAIS.forEach(i=>{if((d.s_gerais||[]).indexOf(i[0])>=0)linhas.push('• Geral: '+i[1]);});
+  PAL_SPICT_CLIN.forEach(g=>g.i.forEach(i=>{if((d.s_clin||[]).indexOf(i[0])>=0)linhas.push('• '+g.t+': '+i[1]);}));
+  return linhas.join('\n');
+}
+function palPreencherIndicadores(forcar){
+  const d=palColetar(),e=palEl('pal-indicadores');if(!e)return;
+  if(forcar||!e.value.trim()){const t=palTextoIndicadores(d);if(t)e.value=t;else if(forcar)showToast('Nenhum indicador marcado na etapa 2',true);}
+}
+
+// ---------- curvas, Edmonton, PPS ----------
+function palMarcarCurva(){document.querySelectorAll('#pal-curvas .pal-curva').forEach(b=>b.classList.toggle('ativa',b.dataset.curva===palCurva));}
+function palRenderEdm(){
+  const box=palEl('pal-edm');if(!box)return;
+  if(!palEdm.length){box.innerHTML='<p class="pal-vazio">Nenhuma avaliação registrada.</p>';return;}
+  box.innerHTML='<table class="pal-tab pal-edm"><thead><tr><th>Data</th>'+PAL_SINT.map(s=>'<th>'+palEsc(s[1])+'</th>').join('')+'<th>Outro sintoma</th><th></th></tr></thead><tbody>'+
+    palEdm.map((r,i)=>'<tr><td><input type="date" data-edm="'+i+'" data-k="data" value="'+palEsc(r.data||'')+'"></td>'+PAL_SINT.map(s=>'<td><input type="number" min="0" max="10" step="1" data-edm="'+i+'" data-k="'+s[0]+'" value="'+palEsc(r[s[0]]===undefined?'':r[s[0]])+'"></td>').join('')+
+      '<td class="pal-outro"><input type="text" placeholder="qual?" data-edm="'+i+'" data-k="outro_nome" value="'+palEsc(r.outro_nome||'')+'"><input type="number" min="0" max="10" step="1" data-edm="'+i+'" data-k="outro" value="'+palEsc(r.outro===undefined?'':r.outro)+'"></td><td><button type="button" class="pal-x" data-rmedm="'+i+'" title="Remover">✕</button></td></tr>').join('')+'</tbody></table>';
+}
+function palAddEdm(){palEdm.push({data:palHoje()});palRenderEdm();}
+function palRenderPps(){
+  const box=palEl('pal-ppsh');if(!box)return;
+  if(!palPpsH.length){box.innerHTML='<p class="pal-vazio">Nenhuma avaliação registrada.</p>';return;}
+  box.innerHTML='<table class="pal-tab"><thead><tr><th>Data da avaliação</th><th>PPS</th><th></th></tr></thead><tbody>'+palPpsH.map((r,i)=>'<tr><td><input type="date" data-pps="'+i+'" data-k="data" value="'+palEsc(r.data||'')+'"></td><td><select data-pps="'+i+'" data-k="pps"><option value="">—</option>'+PAL_PPS_OPT.map(o=>'<option value="'+o[0]+'"'+(String(r.pps)===o[0]?' selected':'')+'>'+palEsc(o[1])+'</option>').join('')+'</select></td><td><button type="button" class="pal-x" data-rmpps="'+i+'" title="Remover">✕</button></td></tr>').join('')+'</tbody></table>';
+}
+function palAddPps(){palPpsH.push({data:palHoje(),pps:''});palRenderPps();}
+
+// ---------- navegação ----------
+function palAbrir(){palMontar();palMostrarLista();}
+function palSair(){voltarPortal();}
+function palMostrarLista(){
+  palEl('pal-ficha-wrap').style.display='none';palEl('pal-lista-wrap').style.display='block';
+  palCarregar();
+}
+function palIr(n){
+  palEtapa=n;
+  [1,2,3].forEach(i=>{palEl('pal-p'+i).style.display=(i===n)?'block':'none';palEl('pal-step'+i).classList.toggle('ativa',i===n);});
+  if(n===3){const d=palColetar();if(!palEl('pal-surpresa').value&&d.e_surpresa)palEl('pal-surpresa').value=d.e_surpresa;if(!palEl('pal-municipio').value)palEl('pal-municipio').value='Alto Alegre do Maranhão';palPreencherIndicadores(false);palAtualizarCalculos();}
+  palEl('pal-btn-prox').style.display=n<3?'':'none';
+  palEl('pal-btn-print').style.display=n===3?'':'none';
+  palEl('pal-btn-outro').style.display=n===1?'':'none';
+  window.scrollTo(0,0);
+}
+function palNovo(){
+  palMontar();palAtualId=null;palPreencher({});
+  palEl('pal-municipio').value='Alto Alegre do Maranhão';
+  palEl('pal-data_acs').value=palHoje();
+  palEl('pal-titulo-ficha').textContent='Novo paciente';
+  palEl('pal-lista-wrap').style.display='none';palEl('pal-ficha-wrap').style.display='block';palIr(1);
+  palAtualizarCalculos();
+}
+function palAbrirPaciente(id,etapa){
+  const r=palLista.find(x=>String(x.id)===String(id));if(!r)return;
+  palMontar();palAtualId=r.id;
+  const d=Object.assign({},r.dados||{});
+  ['nome','dt_nasc','sus','acs','microarea','endereco','telefone'].forEach(k=>{if(d[k]===undefined||d[k]==='')d[k]=r[k]||'';});
+  palPreencher(d);
+  palEl('pal-titulo-ficha').textContent=r.nome||'Paciente';
+  palEl('pal-lista-wrap').style.display='none';palEl('pal-ficha-wrap').style.display='block';
+  palIr(etapa||(r.etapa==='abordagem'?3:r.etapa==='spict'?3:2));
+}
+
+// ---------- salvar ----------
+function palValidar(d){
+  if(!d.nome){showToast('Informe o nome do paciente',true);palIr(1);palEl('pal-nome').focus();return false;}
+  const sus=(d.sus||'').replace(/\D/g,'');if(sus&&sus.length!==15){showToast('Cartão SUS deve ter 15 dígitos',true);palIr(1);palEl('pal-sus').focus();return false;}
+  const tel=(d.telefone||'').replace(/\D/g,'');if(tel&&tel.length<10){showToast('Telefone incompleto',true);palIr(1);palEl('pal-telefone').focus();return false;}
+  if(d.dt_nasc&&d.dt_nasc>palHoje()){showToast('Data de nascimento no futuro',true);palIr(1);return false;}
+  for(const r of d.edmonton){for(const s of PAL_SINT.map(x=>x[0]).concat(['outro'])){const v=r[s];if(v!==undefined&&v!==''&&(isNaN(+v)||+v<0||+v>10)){showToast('Edmonton: use notas de 0 a 10',true);return false;}}}
+  return true;
+}
+function palEtapaDe(d){
+  if(d.data_abordagem||d.biografia||d.adoecimento||d.curva||d.pps_atual||d.familia)return 'abordagem';
+  if(d.s_data||d.s_gerais.length||d.s_clin.length)return 'spict';
+  return 'elegibilidade';
+}
+async function palSalvar(modo){
+  const d=palColetar();if(!palValidar(d))return;
+  if((d.s_gerais.length||d.s_clin.length)&&!d.s_data){d.s_data=palHoje();palEl('pal-s_data').value=d.s_data;}
+  if(!palAtualId){
+    const dup=palLista.find(x=>(x.nome||'').trim().toLowerCase()===d.nome.toLowerCase()&&(x.dt_nasc||'')===(d.dt_nasc||''));
+    if(dup&&!confirm('Já existe um paciente com este nome e data de nascimento. Cadastrar mesmo assim?'))return;
+  }
+  const row={nome:d.nome,dt_nasc:d.dt_nasc||null,sus:d.sus||null,acs:d.acs||null,microarea:d.microarea||null,endereco:d.endereco||null,telefone:d.telefone||null,etapa:palEtapaDe(d),dados:d};
+  const btns=document.querySelectorAll('#pal-acoes button');btns.forEach(b=>b.disabled=true);
+  let res;
+  if(palAtualId)res=await supabaseClient.from(PAL_TABELA).update(row).eq('id',palAtualId).select().single();
+  else res=await supabaseClient.from(PAL_TABELA).insert(row).select().single();
+  btns.forEach(b=>b.disabled=false);
+  if(res.error){console.error(res.error);showToast('Erro ao salvar: '+(res.error.message||''),true);return;}
+  showToast('Paciente salvo!');
+  if(res.data){palAtualId=res.data.id;const i=palLista.findIndex(x=>x.id===res.data.id);if(i>=0)palLista[i]=res.data;else palLista.unshift(res.data);}
+  palEl('pal-titulo-ficha').textContent=d.nome;
+  if(modo==='novo'){palNovo();}
+  else if(modo==='proxima'){palIr(Math.min(3,palEtapa+1));}
+}
+async function palExcluir(id){
+  const r=palLista.find(x=>String(x.id)===String(id));if(!r)return;
+  if(!confirm('Excluir definitivamente o paciente '+r.nome+' e todas as etapas registradas?'))return;
+  const{error}=await supabaseClient.from(PAL_TABELA).delete().eq('id',r.id);
+  if(error){showToast('Não foi possível excluir',true);return;}
+  palLista=palLista.filter(x=>x.id!==r.id);palRenderLista();showToast('Paciente excluído');
+}
+
+// ---------- lista ----------
+async function palCarregar(){
+  const box=palEl('pal-lista');box.innerHTML='<p class="pal-vazio">Carregando…</p>';
+  const{data,error}=await supabaseClient.from(PAL_TABELA).select('*').order('nome',{ascending:true}).limit(2000);
+  if(error){box.innerHTML='<p class="pal-vazio">Erro ao carregar: '+palEsc(error.message||'')+' (o SQL do módulo de Cuidados Paliativos já foi executado no Supabase?)</p>';return;}
+  palLista=data||[];palRenderLista();
+}
+function palFiltrados(){
+  const q=(palEl('pal-busca').value||'').trim().toLowerCase();
+  return palLista.filter(r=>(!palFiltroEtapa||r.etapa===palFiltroEtapa)&&(!q||(r.nome||'').toLowerCase().indexOf(q)>=0||(r.acs||'').toLowerCase().indexOf(q)>=0||(r.microarea||'').toLowerCase().indexOf(q)>=0||(r.sus||'').indexOf(q)>=0));
+}
+function palRenderLista(){
+  const tot=palLista.length;
+  const pos=palLista.filter(r=>(r.dados||{}).e_surpresa==='nao').length;
+  const spict=palLista.filter(r=>r.etapa==='spict'||r.etapa==='abordagem').length;
+  const abord=palLista.filter(r=>r.etapa==='abordagem').length;
+  const kp=(f,n,l,c)=>'<button type="button" class="pal-kpi'+(palFiltroEtapa===f?' ativa':'')+'" data-etapa="'+f+'" style="--kc:'+c+'"><b>'+n+'</b><span>'+l+'</span></button>';
+  palEl('pal-kpis').innerHTML=kp('',tot,'Pacientes cadastrados','#8a4a12')+kp('elegibilidade',tot-spict,'Só com elegibilidade','#c2610f')+kp('spict',palLista.filter(r=>r.etapa==='spict').length,'SPICT-BR aplicado','#1565c0')+kp('abordagem',abord,'Abordagem completa','#2e7d32')+'<div class="pal-kpi pal-kpi-info" style="--kc:#6a1b9a"><b>'+pos+'</b><span>Pergunta surpresa positiva</span></div>';
+  const lista=palFiltrados(),box=palEl('pal-lista');
+  if(!lista.length){box.innerHTML='<p class="pal-vazio">'+(tot?'Nenhum paciente neste filtro.':'Nenhum paciente cadastrado. Clique em “Novo paciente” e registre a ficha entregue pelo ACS.')+'</p>';return;}
+  const et={elegibilidade:['Elegibilidade','#c2610f','#fff3e0'],spict:['SPICT-BR aplicado','#1565c0','#e3f2fd'],abordagem:['Abordagem completa','#2e7d32','#e8f5e9']};
+  box.innerHTML='<div class="tabela-wrap"><table class="pal-tab pal-lst"><thead><tr><th>Paciente</th><th>ACS / microárea</th><th>Elegibilidade</th><th>SPICT-BR</th><th>Abordagem</th><th>PPS</th><th></th></tr></thead><tbody>'+lista.map(r=>{
+    const d=r.dados||{},n=palContarEleg(Object.assign({e_cond:[]},d)),e=et[r.etapa]||et.elegibilidade;
+    const idade=palIdadeTxt(r.dt_nasc);
+    const sp=d.s_data?'G '+(d.s_gerais||[]).length+'/6 · C '+(d.s_clin||[]).length:'<span class="pal-pend">pendente</span>';
+    const ab=d.data_abordagem?palEsc(palFmtData(d.data_abordagem)):(r.etapa==='abordagem'?'em andamento':'<span class="pal-pend">pendente</span>');
+    return '<tr><td><strong>'+palEsc(r.nome)+'</strong><div class="pal-s">'+palEsc(idade)+(r.sus?' · SUS '+palEsc(r.sus):'')+'</div></td><td>'+palEsc(r.acs||'—')+'<div class="pal-s">'+(r.microarea?'Microárea '+palEsc(r.microarea):'')+'</div></td><td>'+n+'/7'+(d.e_surpresa==='nao'?' <span class="pal-pos" title="pergunta surpresa positiva">●</span>':'')+'</td><td>'+sp+'</td><td><span class="pal-pill" style="color:'+e[1]+';background:'+e[2]+'">'+e[0]+'</span><div class="pal-s">'+ab+'</div></td><td>'+(d.pps_atual!==undefined&&d.pps_atual!==''?palEsc(d.pps_atual)+'%':'—')+'</td><td class="pal-td-acao"><button class="btn btn-salvar pal-mini" data-pab="'+r.id+'">Abrir</button><button class="btn btn-nova pal-mini" data-pimp="'+r.id+'" title="Imprimir folha">🖨️</button><button class="btn btn-nova pal-mini" style="color:#c62828" data-pdel="'+r.id+'" title="Excluir">🗑️</button></td></tr>';}).join('')+'</tbody></table></div>';
+}
+function palExportarCSV(){
+  const lista=palFiltrados();if(!lista.length){showToast('Nada para exportar',true);return;}
+  const cab=['Paciente','Nascimento','Idade','SUS','Telefone','ACS','Microárea','Endereço','Critérios elegibilidade (de 7)','Pergunta surpresa positiva','SPICT gerais','SPICT clínicos','SPICT conclusão','Data abordagem','PPS atual','Etapa'];
+  const lin=lista.map(r=>{const d=r.dados||{};return [r.nome,palFmtData(r.dt_nasc),palIdadeTxt(r.dt_nasc),r.sus,r.telefone,r.acs,r.microarea,r.endereco,palContarEleg(Object.assign({e_cond:[]},d)),d.e_surpresa==='nao'?'Sim':'Não',(d.s_gerais||[]).length,(d.s_clin||[]).length,d.s_conclusao,palFmtData(d.data_abordagem),d.pps_atual,r.etapa].map(v=>'"'+String(v===undefined||v===null?'':v).replace(/"/g,'""')+'"').join(';');});
+  const blob=new Blob(['﻿'+[cab.join(';')].concat(lin).join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cuidados_paliativos_'+palHoje()+'.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+// ---------- impressão da folha ----------
+function palImprimir(id){
+  let nome,d,r=null;
+  if(id){r=palLista.find(x=>String(x.id)===String(id));if(!r)return;d=Object.assign({},r.dados||{});['nome','dt_nasc','sus','acs','microarea','endereco','telefone'].forEach(k=>{if(!d[k])d[k]=r[k]||'';});}
+  else d=palColetar();
+  nome=d.nome||'';
+  const E=palEsc,V=v=>E(v||'—'),P=t=>E(t||'').replace(/\n/g,'<br>');
+  const sec=(t,c)=>'<h2>'+E(t)+'</h2><div class="b">'+c+'</div>';
+  const curva=(PAL_CURVAS.find(c=>c[0]===d.curva)||[])[1]||'—';
+  const surp=d.surpresa==='sim'?'SIM (me surpreenderia)':d.surpresa==='nao'?'NÃO (não me surpreenderia)':'—';
+  const edm=(d.edmonton||[]).length?'<table><tr><th>Data</th>'+PAL_SINT.map(s=>'<th>'+E(s[1])+'</th>').join('')+'<th>Outro</th></tr>'+d.edmonton.map(x=>'<tr><td>'+E(palFmtData(x.data))+'</td>'+PAL_SINT.map(s=>'<td>'+E(x[s[0]]===undefined?'':x[s[0]])+'</td>').join('')+'<td>'+E((x.outro_nome||'')+(x.outro!==undefined&&x.outro!==''?': '+x.outro:''))+'</td></tr>').join('')+'</table>':'—';
+  const pps=(d.pps_hist||[]).length?'<table><tr><th>Data da avaliação</th><th>PPS</th></tr>'+d.pps_hist.map(x=>'<tr><td>'+E(palFmtData(x.data))+'</td><td>'+E(x.pps)+(x.pps!==''?'%':'')+'</td></tr>').join('')+'</table>':'—';
+  const w=window.open('','_blank');if(!w){showToast('Libere pop-ups para imprimir',true);return;}
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Folha de registro — abordagem paliativa completa</title><style>body{font-family:Arial,sans-serif;font-size:11.5px;color:#000;margin:0}.top{background:#b85c14;color:#fff;text-align:center;padding:16px;font-size:17px;font-weight:bold}.w{padding:14px 22px}h2{background:#b85c14;color:#fff;font-size:11.5px;text-align:center;margin:12px 0 0;padding:4px}.b{border:1px solid #999;border-top:0;padding:7px 9px;min-height:20px}.g{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #999;padding:3px 4px;font-size:10.5px;text-align:center}.ref{font-size:9px;margin-top:10px;color:#444}@media print{.top{-webkit-print-color-adjust:exact;print-color-adjust:exact}h2{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="top">FOLHA REGISTRO: ABORDAGEM PALIATIVA COMPLETA</div><div class="w">'+
+    sec('IDENTIFICAÇÃO','<div class="g"><div><b>Nome:</b> '+V(nome)+'</div><div><b>Gênero:</b> '+V(({F:'Feminino',M:'Masculino',O:'Outro / não informado'})[d.genero])+'</div><div><b>Nome social:</b> '+V(d.nome_social)+'</div><div><b>Data de nascimento:</b> '+V(palFmtData(d.dt_nasc))+' &nbsp; <b>Idade:</b> '+V(palIdadeTxt(d.dt_nasc))+'</div><div><b>Cartão SUS:</b> '+V(d.sus)+'</div><div><b>ACS:</b> '+V(d.acs)+'</div><div><b>Endereço:</b> '+V(d.endereco)+'</div><div><b>Município:</b> '+V(d.municipio)+'</div><div><b>Estrato familiar:</b> '+V(d.estrato_familiar)+'</div><div><b>Mora com alguém?</b> '+V(d.mora_com_alguem==='sim'?'Sim':d.mora_com_alguem==='nao'?'Não':'')+' — '+V(d.mora_com)+'</div><div><b>Data da abordagem:</b> '+V(palFmtData(d.data_abordagem))+'</div><div><b>Profissional:</b> '+V(d.profissional)+'</div></div>')+
+    sec('BIOGRAFIA',P(d.biografia))+sec('INDICADORES SPICT-BR',P(d.indicadores))+sec('HISTÓRIA DE ADOECIMENTO',P(d.adoecimento))+sec('FAMÍLIA E REDE DE APOIO',P(d.familia))+sec('ASPECTOS SOCIOECONÔMICOS',P(d.socioeconomico))+
+    sec('TRAJETÓRIA DA DOENÇA','<b>Curva selecionada:</b> '+E(curva)+'<br><b>PPS atual:</b> '+E(d.pps_atual!==undefined&&d.pps_atual!==''?d.pps_atual+'%':'—')+'<br><b>Pergunta-surpresa:</b> você se surpreenderia se essa pessoa morresse ao longo do próximo ano? '+E(surp))+
+    sec('A PESSOA E SUAS MÚLTIPLAS DIMENSÕES — Psicológica',P(d.psicologica))+sec('Espiritual',P(d.espiritual)+(d.fica?'<br><b>FICA:</b> '+P(d.fica):''))+sec('Familiar e social',P(d.social_dim))+sec('Física',P(d.fisica))+
+    sec('ESCALA DE SINTOMAS DE EDMONTON',edm)+sec('PALLIATIVE PERFORMANCE SCALE — PPS',pps)+
+    sec('PLANEJAMENTO ANTECIPADO DE CUIDADOS E DIRETIVAS ANTECIPADAS DE VONTADE',P(d.planejamento))+sec('REFLEXÕES DA EQUIPE',P(d.reflexoes))+
+    '<div class="ref">SPICT-BR: Supportive and Palliative Care Indicators Tool (versão brasileira); PPS: Palliative Performance Scale. FICA: Fé, Importância/Influência, Comunidade e Abordagem.</div></div></body></html>');
+  w.document.close();w.focus();setTimeout(()=>w.print(),350);
+}
+
+// ---------- eventos ----------
+document.addEventListener('click',function(e){
+  const t=e.target;if(!t||!t.closest)return;
+  const ab=t.closest('[data-pab]');if(ab){palAbrirPaciente(ab.dataset.pab);return;}
+  const im=t.closest('[data-pimp]');if(im){palImprimir(im.dataset.pimp);return;}
+  const de=t.closest('[data-pdel]');if(de){palExcluir(de.dataset.pdel);return;}
+  const kp=t.closest('.pal-kpi[data-etapa]');if(kp){palFiltroEtapa=kp.dataset.etapa||'';palRenderLista();return;}
+  const cv=t.closest('.pal-curva');if(cv){palCurva=(palCurva===cv.dataset.curva)?'':cv.dataset.curva;palMarcarCurva();return;}
+  const re=t.closest('[data-rmedm]');if(re){palEdm.splice(+re.dataset.rmedm,1);palRenderEdm();return;}
+  const rp=t.closest('[data-rmpps]');if(rp){palPpsH.splice(+rp.dataset.rmpps,1);palRenderPps();return;}
+});
+document.addEventListener('input',function(e){
+  const t=e.target;if(!t)return;
+  if(t.dataset&&t.dataset.mask&&t.id&&t.id.indexOf('pal-')===0)t.value=palMascara(t.dataset.mask,t.value);
+  if(t.id==='pal-busca'){palRenderLista();return;}
+  if(t.dataset&&t.dataset.edm!==undefined){const r=palEdm[+t.dataset.edm];if(r)r[t.dataset.k]=t.value;return;}
+  if(t.dataset&&t.dataset.pps!==undefined){const r=palPpsH[+t.dataset.pps];if(r)r[t.dataset.k]=t.value;return;}
+  if(t.closest&&t.closest('#pal-ficha-wrap'))palAtualizarCalculos();
+});
+document.addEventListener('change',function(e){
+  const t=e.target;if(!t)return;
+  if(t.dataset&&t.dataset.pps!==undefined){const r=palPpsH[+t.dataset.pps];if(r)r[t.dataset.k]=t.value;return;}
+  if(t.closest&&t.closest('#pal-ficha-wrap'))palAtualizarCalculos();
+});
 
 // ===== GESTANTE =====
 let gPagAtual=1,G_TOTAL=4,gMarcados=[],gRiscoAtual='habitual';
