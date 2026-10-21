@@ -574,6 +574,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .ag-cel.hoje .ag-dn{background:#0277bd;color:#fff}
 .ag-dn{display:inline-block;min-width:1.4rem;text-align:center;border-radius:50%;font-size:.72rem;font-weight:700}
 .ag-cel small{display:block;font-size:.62rem;margin-top:.15rem;padding:.05rem .3rem;border-radius:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.ag-leg{display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--txt-3);margin-top:.35rem;text-transform:none;letter-spacing:0;font-weight:500}
 .ag-sub{font-size:.75rem;color:var(--txt-3);margin:.2rem 0 .7rem}
 .ag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem}
 .ag-full{grid-column:1/-1}
@@ -2423,7 +2424,7 @@ const AG_TIPOS=['Consulta de enfermagem','Consulta médica','Consulta odontológ
 const AG_DIAS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
 const AG_MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
-let agLista=[],agModo='semana',agRef='',agEditId=null,agPac=null,agPacSel=null,agMontado=false,agKpiStatus='',agAtrasadasN=0,agRangeAtual=['',''];
+let agUidCache=null,agLegado=true,agLista=[],agModo='semana',agRef='',agEditId=null,agPac=null,agPacSel=null,agMontado=false,agKpiStatus='',agAtrasadasN=0,agRangeAtual=['',''];
 
 // ---------- utilidades ----------
 function agEsc(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2586,8 +2587,16 @@ function agWpp(id){
 }
 
 // ---------- pacientes estratificados ----------
+async function agUid(){
+  if(agUidCache)return agUidCache;
+  try{const r=await supabaseClient.auth.getUser();agUidCache=(r&&r.data&&r.data.user&&r.data.user.id)||null;}catch(e){}
+  return agUidCache;
+}
+// "Meus pacientes": cadastrados por mim; opcionalmente inclui cadastros antigos sem responsável
+function agVisivel(p){return !!p&&(p.dono===agUidCache||(agLegado&&!p.dono));}
 async function agCarregarPacientes(forcar){
   if(agPac&&!forcar)return agPac;
+  await agUid();
   const t=n=>supabaseClient.from(n).select('*').limit(3000);
   const[g,c,h,i,b,p]=await Promise.all([
     t('gestantes').order('created_at',{ascending:false}),t('extratifica').order('created_at',{ascending:false}),
@@ -2596,8 +2605,8 @@ async function agCarregarPacientes(forcar){
   const out=[],vistos={};
   const add=(prog,rows,m)=>{(rows&&rows.data||[]).forEach(r=>{
     const x=m(r);if(!x.nome)return;
-    const k=prog+'|'+agNorm(x.nome);if(vistos[k])return;vistos[k]=1;
-    out.push(Object.assign({programa:prog,id:String(r.id),telefone:'',ubs:'',microarea:'',acs:'',risco:'',retorno:''},x));});};
+    const k=prog+'|'+agNorm(x.nome)+'|'+(r.user_id||'');if(vistos[k])return;vistos[k]=1;
+    out.push(Object.assign({programa:prog,dono:r.user_id||null,id:String(r.id),telefone:'',ubs:'',microarea:'',acs:'',risco:'',retorno:''},x));});};
   add('gestante',g,r=>({nome:r.nome,telefone:r.telefone||'',ubs:r.ubs||'',acs:r.acs||'',risco:r.risco_classificacao||'',retorno:r.proxima_consulta||''}));
   add('crianca',c,r=>({nome:r.crianca,telefone:r.telefone||'',ubs:r.ubs||'',microarea:r.microarea||'',acs:r.acs||'',risco:r.risco||'',retorno:r.data_retorno||''}));
   add('hasdm',h,r=>({nome:r.nome,telefone:r.telefone||'',ubs:r.ubs||'',microarea:r.microarea||'',acs:r.acs||'',risco:r.risco_estratificado||'',retorno:r.data_retorno||''}));
@@ -2617,7 +2626,7 @@ function agMontarForm(r){
   const h=
     '<div class="ag-topo"><button type="button" class="btn btn-nova" onclick="agMostrarLista()">← Agenda</button><strong style="color:#01579b">'+(e?'Editar consulta':'Nova consulta')+'</strong></div>'+
     '<div class="h-secao"><div class="h-secao-titulo" style="background:#0277bd">Paciente (já estratificado)</div><div class="h-secao-corpo">'+
-      (e?'':'<div class="h-campo"><label>Buscar por nome</label><input type="text" id="ag-pq" placeholder="Digite 2 ou mais letras do nome…" autocomplete="off"></div><div id="ag-pres" class="ag-busca-res" style="display:none"></div>')+
+      (e?'':'<div class="h-campo"><label>Buscar por nome</label><input type="text" id="ag-pq" placeholder="Digite 2 ou mais letras do nome…" autocomplete="off"><label class="ag-leg"><input type="checkbox" id="ag-legado"'+(agLegado?' checked':'')+'> incluir cadastros antigos sem responsável definido</label></div><div id="ag-pres" class="ag-busca-res" style="display:none"></div>')+
       '<div id="ag-psel" class="ag-sel" style="'+(agPacSel?'':'display:none')+'"></div>'+
       '<div class="ag-grid" style="margin-top:.8rem">'+
         agC('Nome do paciente *','<input type="text" id="ag-nome" value="'+agEsc(r?r.paciente_nome:'')+'">',1)+
@@ -2675,9 +2684,9 @@ function agBuscarPac(){
   const q=agNorm(agEl('ag-pq').value),box=agEl('ag-pres');
   if(q.length<2){box.style.display='none';return;}
   if(!agPac){box.style.display='block';box.innerHTML='<div class="ag-res-i">Carregando pacientes…</div>';return;}
-  const res=agPac.filter(p=>agNorm(p.nome).indexOf(q)>=0).slice(0,30);
+  const res=agPac.filter(p=>agVisivel(p)&&agNorm(p.nome).indexOf(q)>=0).slice(0,30);
   box.style.display='block';
-  box.innerHTML=res.length?res.map((p,i)=>{const pg=AG_PROG[p.programa];return '<button type="button" class="ag-res-i" data-pi="'+agPac.indexOf(p)+'">'+pg[0]+' <b>'+agEsc(p.nome)+'</b> <small>'+agEsc(pg[1])+(p.risco?' · '+agEsc(p.risco):'')+(p.ubs?' · '+agEsc(p.ubs):'')+(p.retorno?' · retorno '+agEsc(agDataBR(p.retorno)):'')+'</small></button>';}).join(''):'<div class="ag-res-i">Nenhum paciente estratificado com esse nome. Você pode digitar o nome manualmente abaixo (programa “Outro”).</div>';
+  box.innerHTML=res.length?res.map((p,i)=>{const pg=AG_PROG[p.programa];return '<button type="button" class="ag-res-i" data-pi="'+agPac.indexOf(p)+'">'+pg[0]+' <b>'+agEsc(p.nome)+'</b> <small>'+agEsc(pg[1])+(p.risco?' · '+agEsc(p.risco):'')+(p.ubs?' · '+agEsc(p.ubs):'')+(p.retorno?' · retorno '+agEsc(agDataBR(p.retorno)):'')+'</small></button>';}).join(''):'<div class="ag-res-i">Nenhum paciente seu com esse nome. Você pode digitar o nome manualmente abaixo (programa “Outro”).</div>';
 }
 function agEscolherPac(i){
   const p=agPac[i];if(!p)return;agPacSel=p;
@@ -2790,14 +2799,14 @@ async function agAbrirImport(){
 function agFecharModal(){agEl('ag-overlay').classList.remove('aberto');}
 async function agRenderImport(dias){
   const hoje=agHoje(),lim=agAddDias(hoje,dias),ini=agAddDias(hoje,-30);
-  const cand=agPac.filter(p=>p.retorno&&String(p.retorno).slice(0,10)>=ini&&String(p.retorno).slice(0,10)<=lim);
+  const cand=agPac.filter(p=>agVisivel(p)&&p.retorno&&String(p.retorno).slice(0,10)>=ini&&String(p.retorno).slice(0,10)<=lim);
   const ex=await supabaseClient.from(AG_TABELA).select('programa,paciente_nome,data').gte('data',ini).lte('data',lim).limit(3000);
   const ja={};(ex.data||[]).forEach(x=>{ja[x.programa+'|'+agNorm(x.paciente_nome)+'|'+String(x.data).slice(0,10)]=1;});
   agImpLista=cand.filter(p=>!ja[p.programa+'|'+agNorm(p.nome)+'|'+String(p.retorno).slice(0,10)]).sort((a,b)=>String(a.retorno).localeCompare(String(b.retorno)));
   const opt=[30,60,90,180].map(d=>'<option value="'+d+'"'+(d===dias?' selected':'')+'>próximos '+d+' dias</option>').join('');
   agEl('ag-modal').innerHTML='<div class="ag-modal-t"><span>📥 Retornos previstos na estratificação</span><button class="ag-x" onclick="agFecharModal()">✕</button></div><div class="ag-modal-c">'+
     '<p class="ag-sub">Pacientes cujo último registro de estratificação tem data de retorno (gestante: próxima consulta; criança, idoso e HAS/DM: data de retorno) e que ainda não estão na agenda. Inclui retornos já vencidos nos últimos 30 dias.</p>'+
-    '<div class="ag-filtros"><select id="ag-imp-dias">'+opt+'</select><label style="font-size:.78rem;display:flex;align-items:center;gap:.3rem"><input type="checkbox" id="ag-imp-todos" checked> Selecionar todos</label></div>'+
+    '<div class="ag-filtros"><select id="ag-imp-dias">'+opt+'</select><label style="font-size:.78rem;display:flex;align-items:center;gap:.3rem"><input type="checkbox" id="ag-imp-todos" checked> Selecionar todos</label><label style="font-size:.78rem;display:flex;align-items:center;gap:.3rem"><input type="checkbox" id="ag-legado-imp"'+(agLegado?' checked':'')+'> incluir cadastros antigos sem responsável</label></div>'+
     (agImpLista.length?'<div class="tabela-wrap"><table class="ag-imp"><thead><tr><th></th><th>Retorno</th><th>Paciente</th><th>Programa</th><th>Risco</th><th>UBS</th></tr></thead><tbody>'+agImpLista.map((p,i)=>'<tr><td><input type="checkbox" class="ag-imp-ck" data-i="'+i+'" checked></td><td>'+agEsc(agDataBR(p.retorno))+(String(p.retorno).slice(0,10)<hoje?' <span class="ag-pill ag-atraso">vencido</span>':'')+'</td><td><b>'+agEsc(p.nome)+'</b></td><td>'+agEsc(AG_PROG[p.programa][0]+' '+AG_PROG[p.programa][1])+'</td><td>'+agEsc(p.risco)+'</td><td>'+agEsc(p.ubs)+'</td></tr>').join('')+'</tbody></table></div><div class="ag-topo" style="margin-top:.9rem"><button class="btn btn-salvar" id="ag-imp-ok" onclick="agConfirmarImport()">Adicionar à agenda como “programadas”</button><button class="btn btn-nova" onclick="agFecharModal()">Cancelar</button></div>':'<p class="ag-vazio">Nenhum retorno pendente de agendamento nesse período.</p>')+'</div>';
 }
 async function agConfirmarImport(){
@@ -2848,6 +2857,8 @@ document.addEventListener('change',function(e){
   if(t.id==='ag-f-programa'||t.id==='ag-f-status'||t.id==='ag-f-modalidade'){if(t.id==='ag-f-status')agKpiStatus='';agRender();}
   else if(t.name==='ag-mod'||t.name==='ag-rmodo'||t.id==='ag-uni'||t.id==='ag-programa'||t.classList.contains('ag-plan'))agAtualizarRec();
   else if(t.id==='ag-imp-dias')agRenderImport(+t.value);
+  else if(t.id==='ag-legado'){agLegado=t.checked;agBuscarPac();}
+  else if(t.id==='ag-legado-imp'){agLegado=t.checked;agRenderImport(+agEl('ag-imp-dias').value);}
   else if(t.id==='ag-imp-todos')document.querySelectorAll('.ag-imp-ck').forEach(c=>{c.checked=t.checked;});
 });
 
