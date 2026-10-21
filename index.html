@@ -1512,7 +1512,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
         <input type="text" id="ag-busca" placeholder="Buscar paciente, profissional ou UBS…">
         <select id="ag-f-programa"><option value="">Todos os programas</option></select>
         <select id="ag-f-status"><option value="">Todos os status</option></select>
-        <select id="ag-f-modalidade"><option value="">Todas as modalidades</option><option value="agendada">Agendadas</option><option value="programada">Programadas</option><option value="continuada">Continuadas</option></select>
+        <select id="ag-f-modalidade"><option value="">Todas as modalidades</option><option value="agendada">Retorno para consulta agendada</option><option value="prog_cont">Retorno programado / cuidado continuado</option></select>
       </div>
       <div id="ag-kpis" class="ag-kpis"></div>
       <div id="ag-corpo"></div>
@@ -2386,6 +2386,38 @@ const AG_PROG={gestante:['🤰','Gestante'],crianca:['👶','Criança'],hasdm:['
 const AG_STATUS={agendada:['Agendada','#1565c0','#e3f2fd'],confirmada:['Confirmada','#00695c','#e0f2f1'],realizada:['Realizada','#2e7d32','#e8f5e9'],faltou:['Faltou','#c62828','#ffebee'],cancelada:['Cancelada','#616161','#eeeeee']};
 const AG_PEND=['agendada','confirmada'];
 const AG_MOD={agendada:'Agendada',programada:'Programada',continuada:'Continuada'};
+const AG_CONDUTA={agendada:'Retorno para consulta agendada',programada:'Retorno para consulta programada / cuidado continuado',continuada:'Retorno para consulta programada / cuidado continuado'};
+// Protocolo de retorno por risco — usa as MESMAS regras já existentes nos módulos de estratificação
+function agProtocolo(prog,risco){
+  const r=agNorm(risco);
+  if(prog==='hasdm'){
+    const n=r.indexOf('muito alto')>=0?4:r.indexOf('alto')>=0?3:(r.indexOf('medio')>=0||r.indexOf('moderado')>=0)?2:r.indexOf('baixo')>=0?1:0;
+    if(!n||typeof H_CONSULTAS==='undefined')return null;
+    const c=H_CONSULTAS[n];
+    return {titulo:'HAS/DM — Nota Técnica Nº 01/2026',hor:12,planos:[
+      {rot:'Consulta médica',tipo:'Consulta médica',n:c.medico,u:'meses'},
+      {rot:'Consulta de enfermagem',tipo:'Consulta de enfermagem',n:c.enf,u:'meses'},
+      {rot:'Consulta odontológica',tipo:'Consulta odontológica',n:c.dent,u:'meses'}]};
+  }
+  if(prog==='crianca'){
+    const d=r.indexOf('alto')>=0?7:r.indexOf('intermedi')>=0?15:r.indexOf('habitual')>=0?30:0;
+    return d?{titulo:'Puericultura — retorno por risco da criança',hor:3,planos:[{rot:'Puericultura',tipo:'Puericultura',n:d,u:'dias'}]}:null;
+  }
+  if(prog==='idoso'){
+    const d=r.indexOf('alto')>=0?30:r.indexOf('moderado')>=0?90:r.indexOf('baixo')>=0?180:0;
+    return d?{titulo:'Idoso (IVCF-20) — retorno por risco',hor:12,planos:[{rot:'Consulta do idoso',tipo:'Consulta do idoso',n:d,u:'dias'}]}:null;
+  }
+  return null;
+}
+function agPlanoDatas(base,pl,horMeses){
+  const fim=agAddMeses(base,horMeses),out=[];
+  for(let k=1;k<=36;k++){
+    const d=pl.u==='dias'?agAddDias(base,pl.n*k):agAddMeses(base,pl.n*k);
+    if(d>fim&&out.length>=1)break;
+    out.push(d);
+  }
+  return out;
+}
 const AG_TIPO_PROG={gestante:'Pré-natal',crianca:'Puericultura',hasdm:'Consulta HAS/DM',idoso:'Consulta do idoso',bucal:'Consulta odontológica',paliativo:'Abordagem paliativa',outro:'Consulta'};
 const AG_TIPOS=['Consulta de enfermagem','Consulta médica','Consulta odontológica','Pré-natal','Puericultura','Consulta HAS/DM','Consulta do idoso','Abordagem paliativa','Visita domiciliar','Retorno / exames','Outro'];
 const AG_DIAS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
@@ -2467,7 +2499,7 @@ async function agCarregar(){
 }
 function agFiltrar(lista){
   const q=agNorm(agEl('ag-busca').value),p=agEl('ag-f-programa').value,s=agEl('ag-f-status').value,m=agEl('ag-f-modalidade').value;
-  return lista.filter(r=>(!p||r.programa===p)&&(!(s||agKpiStatus)||r.status===(s||agKpiStatus))&&(!m||r.modalidade===m)&&(!q||agNorm(r.paciente_nome+' '+(r.profissional||'')+' '+(r.ubs||'')+' '+(r.acs||'')).indexOf(q)>=0));
+  return lista.filter(r=>(!p||r.programa===p)&&(!(s||agKpiStatus)||r.status===(s||agKpiStatus))&&(!m||(m==='prog_cont'?(r.modalidade==='programada'||r.modalidade==='continuada'):r.modalidade===m))&&(!q||agNorm(r.paciente_nome+' '+(r.profissional||'')+' '+(r.ubs||'')+' '+(r.acs||'')).indexOf(q)>=0));
 }
 function agOrdenar(a,b){return (a.data+(a.hora||'99:99')).localeCompare(b.data+(b.hora||'99:99'));}
 
@@ -2490,7 +2522,7 @@ function agPillStatus(st){const s=AG_STATUS[st]||[st,'#444','#eee'];return '<spa
 function agItem(r){
   const pg=AG_PROG[r.programa]||AG_PROG.outro,atr=AG_PEND.indexOf(r.status)>=0&&r.data<agHoje();
   const meta=[pg[0]+' '+pg[1],r.tipo_atendimento,r.profissional,r.ubs,r.microarea?'Microárea '+r.microarea:'',r.risco?'Risco: '+r.risco:''].filter(Boolean).map(x=>'<span>'+agEsc(x)+'</span>').join('');
-  const serie=r.serie_id?'<span class="ag-pill ag-mod">Continuada '+(r.serie_seq||'')+'/'+(r.serie_total||'')+'</span>':(r.modalidade==='programada'?'<span class="ag-pill ag-mod">Programada</span>':'');
+  const serie=r.serie_id?'<span class="ag-pill ag-mod">Cuidado continuado '+(r.serie_seq||'')+'/'+(r.serie_total||'')+'</span>':(r.modalidade==='programada'?'<span class="ag-pill ag-mod">Programada / cuidado continuado</span>':'');
   const pend=AG_PEND.indexOf(r.status)>=0;
   return '<div class="ag-item"><div class="ag-hora">'+(agHoraTxt(r.hora)||'—')+(agModo==='atrasadas'?'<small>'+agEsc(agDataBR(r.data))+'</small>':'')+'</div><div><div class="ag-nome">'+agEsc(r.paciente_nome)+' '+agPillStatus(r.status)+' '+serie+(atr?' <span class="ag-pill ag-atraso">atrasada</span>':'')+'</div><div class="ag-meta">'+meta+(r.telefone?'<span>📞 '+agEsc(r.telefone)+'</span>':'')+'</div>'+(r.observacao?'<div class="ag-meta"><span>📝 '+agEsc(r.observacao)+'</span></div>':'')+'</div><div class="ag-acoes">'+
     (r.status==='agendada'?'<button class="ag-b" data-act="confirmada" data-id="'+r.id+'" title="Confirmar presença">✔️</button>':'')+
@@ -2576,7 +2608,7 @@ async function agCarregarPacientes(forcar){
 }
 
 // ---------- formulário ----------
-function agC(id,label,html,full){return '<div class="h-campo'+(full?' ag-full':'')+'"><label>'+label+'</label>'+html+'</div>';}
+function agC(label,html,full){return '<div class="h-campo'+(full?' ag-full':'')+'"><label>'+label+'</label>'+html+'</div>';}
 function agMontarForm(r){
   const e=!!r;
   const prog=r?r.programa:'outro';
@@ -2598,16 +2630,20 @@ function agMontarForm(r){
       '</div></div></div>'+
     '<div class="h-secao"><div class="h-secao-titulo" style="background:#0277bd">Consulta</div><div class="h-secao-corpo">'+
       (e?'':'<div class="ag-radios">'+
-        [['agendada','Agendada','Consulta pontual, em data e hora marcadas'],['programada','Programada','Retorno previsto na estratificação'],['continuada','Continuada','Acompanhamento recorrente (a cada X dias/semanas/meses)']].map(m=>'<label class="ag-radio"><input type="radio" name="ag-mod" value="'+m[0]+'"'+(m[0]===mod?' checked':'')+'><span><b>'+m[1]+'</b><small>'+m[2]+'</small></span></label>').join('')+'</div>')+
+        [['agendada','Retorno para consulta agendada','Consulta pontual, em data e hora marcadas'],['continuada','Retorno para consulta programada / cuidado continuado','Retornos programados e recorrentes, conforme o risco do paciente ou um intervalo definido por você']].map(m=>'<label class="ag-radio"><input type="radio" name="ag-mod" value="'+m[0]+'"'+(m[0]===mod?' checked':'')+'><span><b>'+m[1]+'</b><small>'+m[2]+'</small></span></label>').join('')+'</div>')+
       '<div class="ag-grid" style="margin-top:.8rem">'+
-        agC('Data *','<input type="date" id="ag-data" value="'+agEsc(r?r.data:agRef)+'">')+
+        agC('<span id="ag-lbl-data">Data *</span>','<input type="date" id="ag-data" value="'+agEsc(r?r.data:agRef)+'">')+
         agC('Hora','<input type="time" id="ag-hora" value="'+agEsc(r?agHoraTxt(r.hora):'')+'">')+
         agC('Tipo de atendimento','<select id="ag-tipo">'+AG_TIPOS.map(t=>'<option'+(r&&r.tipo_atendimento===t?' selected':'')+'>'+agEsc(t)+'</option>').join('')+'</select>')+
         agC('Profissional','<input type="text" id="ag-prof" placeholder="Nome do profissional" value="'+agEsc(r?r.profissional||'':'')+'">')+
         (e?agC('Status','<select id="ag-status">'+Object.keys(AG_STATUS).map(k=>'<option value="'+k+'"'+(r.status===k?' selected':'')+'>'+AG_STATUS[k][0]+'</option>').join('')+'</select>'):'')+
         agC('Observações','<textarea id="ag-obs" rows="3">'+agEsc(r?r.observacao||'':'')+'</textarea>',1)+
       '</div>'+
-      (e?'':'<div class="ag-rec" id="ag-rec" style="display:none"><b style="font-size:.82rem;color:#01579b">Recorrência</b><div class="ag-grid" style="margin-top:.6rem">'+
+      (e?'':'<div class="ag-rec" id="ag-rec" style="display:none"><b style="font-size:.82rem;color:#01579b">Cuidado continuado — programação dos retornos</b>'+
+        '<div id="ag-proto" style="display:none;margin-top:.6rem"><div class="ag-radios"><label class="ag-radio"><input type="radio" name="ag-rmodo" value="protocolo" checked><span><b>Seguir o protocolo do risco</b><small id="ag-proto-tit"></small></span></label><label class="ag-radio"><input type="radio" name="ag-rmodo" value="manual"><span><b>Definir o intervalo manualmente</b><small>Você escolhe a cada quanto tempo e quantas consultas</small></span></label></div>'+
+          '<div id="ag-plans" style="margin-top:.7rem"></div>'+
+          '<div class="ag-grid" style="margin-top:.5rem">'+agC('Gerar consultas para os próximos (meses)','<input type="number" id="ag-hor" min="1" max="36" value="12">')+'</div></div>'+
+        '<div id="ag-manual" class="ag-grid" style="margin-top:.6rem">'+
         agC('Repetir a cada','<input type="number" id="ag-int" min="1" max="60" value="1">')+
         agC('Unidade','<select id="ag-uni"><option value="dias">dias</option><option value="semanas">semanas</option><option value="meses" selected>meses</option></select>')+
         agC('Total de consultas (com a primeira)','<input type="number" id="ag-tot" min="2" max="36" value="6">')+
@@ -2649,20 +2685,47 @@ function agEscolherPac(i){
   agEl('ag-ubs').value=p.ubs;agEl('ag-micro').value=p.microarea;agEl('ag-acs').value=p.acs;agEl('ag-risco').value=p.risco;
   agEl('ag-tipo').value=AG_TIPO_PROG[p.programa]&&AG_TIPOS.indexOf(AG_TIPO_PROG[p.programa])>=0?AG_TIPO_PROG[p.programa]:'Outro';
   agEl('ag-pres').style.display='none';agEl('ag-pq').value='';
-  agAtualizarPsel();
+  agAtualizarPsel();agAtualizarRec();
 }
 function agModalidade(){const r=document.querySelector('input[name="ag-mod"]:checked');return r?r.value:'agendada';}
 function agDatasSerie(ini,n,uni,tot){
   const out=[];for(let i=0;i<tot;i++){out.push(uni==='dias'?agAddDias(ini,n*i):uni==='semanas'?agAddDias(ini,7*n*i):agAddMeses(ini,n*i));}return out;
 }
+function agModoRec(){const r=document.querySelector('input[name="ag-rmodo"]:checked');return r?r.value:'manual';}
+function agProtoAtual(){return agProtocolo(agEl('ag-programa').value,agEl('ag-risco').value);}
 function agAtualizarRec(){
   const rec=agEl('ag-rec');if(!rec)return;
   const c=agModalidade()==='continuada';rec.style.display=c?'block':'none';
-  if(!c)return;
-  const ini=agEl('ag-data').value,n=Math.max(1,parseInt(agEl('ag-int').value,10)||1),tot=Math.min(36,Math.max(2,parseInt(agEl('ag-tot').value,10)||2)),uni=agEl('ag-uni').value;
-  if(!ini){agEl('ag-prev').textContent='Informe a data da primeira consulta.';return;}
-  const ds=agDatasSerie(ini,n,uni,tot);
-  agEl('ag-prev').innerHTML='Serão criadas <b>'+tot+'</b> consultas: '+ds.slice(0,8).map(agDataBR).join(', ')+(ds.length>8?' … até '+agDataBR(ds[ds.length-1]):'')+'.';
+  const lbl=agEl('ag-lbl-data');
+  if(!c){if(lbl)lbl.textContent='Data *';return;}
+  const pr=agProtoAtual(),boxP=agEl('ag-proto');
+  boxP.style.display=pr?'block':'none';
+  const prot=pr&&agModoRec()==='protocolo';
+  agEl('ag-manual').style.display=prot?'none':'grid';
+  if(lbl)lbl.textContent=prot?'Data da consulta atual (as próximas seguem o protocolo) *':'Data da primeira consulta *';
+  const ini=agEl('ag-data').value;
+  if(pr){
+    agEl('ag-proto-tit').textContent=pr.titulo+' — risco: '+(agEl('ag-risco').value||'—');
+    const mar={};document.querySelectorAll('.ag-plan').forEach(x=>{mar[x.dataset.i]=x.checked;});
+    const pl=agEl('ag-plans');
+    if(pl.dataset.sig!==pr.titulo+'|'+agEl('ag-risco').value){
+      pl.dataset.sig=pr.titulo+'|'+agEl('ag-risco').value;
+      pl.innerHTML=pr.planos.map((x,i)=>'<label class="ag-radio" style="margin-bottom:.4rem"><input type="checkbox" class="ag-plan" data-i="'+i+'" checked><span><b>'+agEsc(x.rot)+'</b> — a cada '+x.n+' '+(x.u==='dias'?'dias':(x.n===1?'mês':'meses'))+'</span></label>').join('');
+      agEl('ag-hor').value=pr.hor;
+    }
+  }
+  const prev=agEl('ag-prev');
+  if(!ini){prev.textContent='Informe a data da consulta.';return;}
+  if(prot){
+    const hor=Math.min(36,Math.max(1,parseInt(agEl('ag-hor').value,10)||pr.hor));
+    const linhas=[];
+    document.querySelectorAll('.ag-plan:checked').forEach(x=>{const pl=pr.planos[+x.dataset.i],ds=agPlanoDatas(ini,pl,hor);linhas.push('<b>'+agEsc(pl.rot)+'</b>: '+ds.length+' consulta(s) — '+ds.slice(0,6).map(agDataBR).join(', ')+(ds.length>6?' … até '+agDataBR(ds[ds.length-1]):''));});
+    prev.innerHTML=linhas.length?linhas.join('<br>'):'Marque ao menos um tipo de consulta.';
+  }else{
+    const n=Math.max(1,parseInt(agEl('ag-int').value,10)||1),tot=Math.min(36,Math.max(2,parseInt(agEl('ag-tot').value,10)||2)),uni=agEl('ag-uni').value;
+    const ds=agDatasSerie(ini,n,uni,tot);
+    prev.innerHTML='Serão criadas <b>'+tot+'</b> consultas: '+ds.slice(0,8).map(agDataBR).join(', ')+(ds.length>8?' … até '+agDataBR(ds[ds.length-1]):'')+'.';
+  }
 }
 async function agSalvar(){
   const nome=agEl('ag-nome').value.trim(),data=agEl('ag-data').value;
@@ -2686,13 +2749,22 @@ async function agSalvar(){
       showToast('Consulta atualizada');
     }else{
       const mod=agModalidade();
-      if(base.hora){
+      if(base.hora&&!(mod==='continuada'&&agProtoAtual()&&agModoRec()==='protocolo')){
         const ch=await supabaseClient.from(AG_TABELA).select('id,paciente_nome,status,profissional').eq('data',data).eq('hora',base.hora);
         const c=(ch.data||[]).filter(x=>x.status!=='cancelada'&&(!base.profissional||!x.profissional||x.profissional===base.profissional));
         if(c.length&&!confirm('Já existe consulta nesse dia e horário ('+c[0].paciente_nome+'). Agendar mesmo assim?')){btn.disabled=false;return;}
       }
       let rows;
-      if(mod==='continuada'){
+      const prSv=agProtoAtual();
+      if(mod==='continuada'&&prSv&&agModoRec()==='protocolo'){
+        const hor=Math.min(36,Math.max(1,parseInt(agEl('ag-hor').value,10)||prSv.hor));
+        rows=[];
+        document.querySelectorAll('.ag-plan:checked').forEach(x=>{
+          const pl=prSv.planos[+x.dataset.i],ds=agPlanoDatas(data,pl,hor),sid=agUuid();
+          ds.forEach((d,i)=>rows.push(Object.assign({},base,{modalidade:'continuada',tipo_atendimento:pl.tipo,data:d,status:'agendada',serie_id:sid,serie_seq:i+1,serie_total:ds.length,regra:{protocolo:prSv.titulo,risco:base.risco,intervalo:pl.n,unidade:pl.u,horizonte_meses:hor}})));
+        });
+        if(!rows.length){showToast('Marque ao menos um tipo de consulta do protocolo',true);btn.disabled=false;return;}
+      }else if(mod==='continuada'){
         const n=Math.max(1,parseInt(agEl('ag-int').value,10)||1),tot=Math.min(36,Math.max(2,parseInt(agEl('ag-tot').value,10)||2)),uni=agEl('ag-uni').value;
         const sid=agUuid(),ds=agDatasSerie(data,n,uni,tot);
         rows=ds.map((d,i)=>Object.assign({},base,{modalidade:'continuada',data:d,status:'agendada',serie_id:sid,serie_seq:i+1,serie_total:tot,regra:{intervalo:n,unidade:uni,total:tot}}));
@@ -2744,8 +2816,8 @@ function agImprimir(){
   const lista=agFiltrar(agLista).sort(agOrdenar);
   if(!lista.length){showToast('Nada para imprimir neste período',true);return;}
   const w=window.open('','_blank');if(!w){showToast('Libere pop-ups para imprimir',true);return;}
-  const linhas=lista.map(r=>'<tr><td>'+agEsc(agDataBR(r.data))+'</td><td>'+agEsc(agHoraTxt(r.hora))+'</td><td><b>'+agEsc(r.paciente_nome)+'</b></td><td>'+agEsc((AG_PROG[r.programa]||AG_PROG.outro)[1])+'</td><td>'+agEsc(r.tipo_atendimento||'')+'</td><td>'+agEsc(r.profissional||'')+'</td><td>'+agEsc(r.telefone||'')+'</td><td>'+agEsc(r.ubs||'')+(r.microarea?' / '+agEsc(r.microarea):'')+'</td><td>'+agEsc((AG_STATUS[r.status]||[r.status])[0])+'</td></tr>').join('');
-  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Agenda de atendimento</title><style>body{font-family:Arial,sans-serif;font-size:11px;margin:18px}h1{font-size:16px;margin:0 0 4px}p{margin:0 0 10px;color:#444}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:4px 5px;text-align:left}th{background:#dceefb}</style></head><body><h1>Agenda de atendimento</h1><p>'+agEsc(agTituloTxt())+' · '+lista.length+' consulta(s) · emitido em '+agEsc(agDataBR(agHoje()))+'</p><table><tr><th>Data</th><th>Hora</th><th>Paciente</th><th>Programa</th><th>Atendimento</th><th>Profissional</th><th>Telefone</th><th>UBS / microárea</th><th>Status</th></tr>'+linhas+'</table></body></html>');
+  const linhas=lista.map(r=>'<tr><td>'+agEsc(agDataBR(r.data))+'</td><td>'+agEsc(agHoraTxt(r.hora))+'</td><td><b>'+agEsc(r.paciente_nome)+'</b></td><td>'+agEsc((AG_PROG[r.programa]||AG_PROG.outro)[1])+'</td><td>'+agEsc(AG_CONDUTA[r.modalidade]||'')+'</td><td>'+agEsc(r.tipo_atendimento||'')+'</td><td>'+agEsc(r.profissional||'')+'</td><td>'+agEsc(r.telefone||'')+'</td><td>'+agEsc(r.ubs||'')+(r.microarea?' / '+agEsc(r.microarea):'')+'</td><td>'+agEsc((AG_STATUS[r.status]||[r.status])[0])+'</td></tr>').join('');
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Agenda de atendimento</title><style>body{font-family:Arial,sans-serif;font-size:11px;margin:18px}h1{font-size:16px;margin:0 0 4px}p{margin:0 0 10px;color:#444}table{border-collapse:collapse;width:100%}th,td{border:1px solid #999;padding:4px 5px;text-align:left}th{background:#dceefb}</style></head><body><h1>Agenda de atendimento</h1><p>'+agEsc(agTituloTxt())+' · '+lista.length+' consulta(s) · emitido em '+agEsc(agDataBR(agHoje()))+'</p><table><tr><th>Data</th><th>Hora</th><th>Paciente</th><th>Programa</th><th>Conduta (e-SUS)</th><th>Atendimento</th><th>Profissional</th><th>Telefone</th><th>UBS / microárea</th><th>Status</th></tr>'+linhas+'</table></body></html>');
   w.document.close();w.focus();setTimeout(()=>w.print(),350);
 }
 
@@ -2769,12 +2841,12 @@ document.addEventListener('input',function(e){
   if(t.id==='ag-busca')agRender();
   else if(t.id==='ag-pq')agBuscarPac();
   else if(t.id==='ag-tel')t.value=agTel(t.value);
-  else if(t.id==='ag-data'||t.id==='ag-int'||t.id==='ag-tot')agAtualizarRec();
+  else if(t.id==='ag-data'||t.id==='ag-int'||t.id==='ag-tot'||t.id==='ag-hor'||t.id==='ag-risco')agAtualizarRec();
 });
 document.addEventListener('change',function(e){
   const t=e.target;if(!t||!t.closest||!t.closest('#modulo-agenda'))return;
   if(t.id==='ag-f-programa'||t.id==='ag-f-status'||t.id==='ag-f-modalidade'){if(t.id==='ag-f-status')agKpiStatus='';agRender();}
-  else if(t.name==='ag-mod'||t.id==='ag-uni')agAtualizarRec();
+  else if(t.name==='ag-mod'||t.name==='ag-rmodo'||t.id==='ag-uni'||t.id==='ag-programa'||t.classList.contains('ag-plan'))agAtualizarRec();
   else if(t.id==='ag-imp-dias')agRenderImport(+t.value);
   else if(t.id==='ag-imp-todos')document.querySelectorAll('.ag-imp-ck').forEach(c=>{c.checked=t.checked;});
 });
