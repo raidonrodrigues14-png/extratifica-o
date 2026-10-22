@@ -686,7 +686,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
 
-<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div class="g-campo"><label>📱 Telefone (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
+<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem"><div class="g-campo"><label>📱 Telefone da gestante (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-cel-acs" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
 <!-- PASSO 2: Risco Habitual + Vigilância -->
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
@@ -899,7 +899,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     <div class="whatsapp-section">
       <div class="whatsapp-header">
         <div class="whatsapp-icon">📱</div>
-        <div><div class="whatsapp-title">Notificação via WhatsApp</div><div class="whatsapp-sub">Envie o resultado da estratificação para a gestante</div></div>
+        <div><div class="whatsapp-title">Notificação via WhatsApp</div><div class="whatsapp-sub">Envie o resultado da estratificação para a gestante e avise o ACS da área</div></div>
       </div>
       <div class="whatsapp-grid">
         <div>
@@ -908,8 +908,18 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <button class="whatsapp-btn" onclick="enviarWhatsAppGestante()">📲 Enviar WhatsApp</button>
         </div>
         <div class="whatsapp-preview">
-          <div class="whatsapp-preview-header">💬 Prévia</div>
+          <div class="whatsapp-preview-header">💬 Prévia — mensagem para a gestante</div>
           <div class="whatsapp-balao" id="g-wpp-msg"></div>
+        </div>
+      </div>
+      <div class="whatsapp-grid" style="margin-top:1.1rem;padding-top:1.1rem;border-top:1.5px dashed #a5d6a7">
+        <div>
+          <div class="whatsapp-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-wpp-acs-cel" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div>
+          <button class="whatsapp-btn" onclick="enviarWhatsAppGestanteAcs()">📲 Enviar para o ACS</button>
+        </div>
+        <div class="whatsapp-preview">
+          <div class="whatsapp-preview-header">💬 Prévia — mensagem para o ACS</div>
+          <div class="whatsapp-balao" id="g-wpp-msg-acs"></div>
         </div>
       </div>
     </div>
@@ -3324,11 +3334,13 @@ function processarGestante(){
     ['👩‍⚕️','Equipe',document.getElementById('g-equipe').value||'—'],
     ['📅','DPP',dpp?dpp.split('-').reverse().join('/'):'—'],
     ['📱','Telefone',document.getElementById('g-cel').value||'—'],
+    ['👷','Contato do ACS',document.getElementById('g-cel-acs').value||'—'],
   ].map(([icon,label,val])=>`<div class="info-item"><div class="info-icon">${icon}</div><div class="info-col"><div class="info-label">${label}</div><div class="info-value">${val}</div></div></div>`).join('');
   const alertasDiv=document.getElementById('go-alertas');
   if(gMarcados.length===0){alertasDiv.innerHTML='<div class="sem-fatores">✅ Nenhum fator de risco identificado.</div>';}
   else{alertasDiv.innerHTML='<div class="fatores-lista">'+gMarcados.map(m=>`<div class="fator-item"><span class="fator-icon">⚠️</span><span class="fator-texto">${m.label}</span></div>`).join('')+'</div>';}
   document.getElementById('g-wpp-cel').value=document.getElementById('g-cel').value;
+  document.getElementById('g-wpp-acs-cel').value=document.getElementById('g-cel-acs').value;
   atualizarPreviewWppGestante();
   atualizarIMCResultado();
   for(let i=1;i<=G_TOTAL;i++){const p=document.getElementById('gpag-'+i);if(p)p.style.display='none';}
@@ -3368,6 +3380,34 @@ function atualizarPreviewWppGestante(){
   if(dataConsulta)msg+='📅 Próxima consulta: '+new Date(dataConsulta+'T12:00:00').toLocaleDateString('pt-BR')+'\n\n';
   msg+='💚 Atenção Primária à Saúde — Cuidando de você e do seu bebê!';
   document.getElementById('g-wpp-msg').innerHTML=msg.replace(/\n/g,'<br>');
+  atualizarPreviewWppGestanteAcs();
+}
+function gSyncAcsCel(el){
+  const v=el.value;
+  ['g-cel-acs','g-wpp-acs-cel'].forEach(id=>{const e=document.getElementById(id);if(e&&e!==el)e.value=v;});
+}
+function gTextoAcs(){
+  const v=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('pt-BR'):'';
+  const orient={habitual:'Acompanhamento pré-natal de rotina na UBS.',vigilancia:'Atenção: acompanhar de perto e garantir o comparecimento às consultas de pré-natal.',compartilhado:'Alto risco: garantir o comparecimento e a continuidade do acompanhamento compartilhado. Fazer busca ativa se faltar.',maternidade:'🚨 PRIORIDADE! Garantir o encaminhamento à maternidade de referência. Busca ativa se faltar.'};
+  const classificacao=document.getElementById('g-res-titulo').textContent||'—';
+  let m='📋 NOTIFICAÇÃO - '+(v('g-ubs')||'[UBS]')+'\n\nACS '+(v('g-acs')||'[ACS]')+'\nGestante: '+(v('g-nome')||'[Gestante]');
+  if(v('g-equipe'))m+='\nEquipe: '+v('g-equipe');
+  if(v('g-cel'))m+='\nTelefone da gestante: '+v('g-cel');
+  m+='\nClassificação: '+classificacao;
+  if(v('g-dpp'))m+='\nDPP: '+fmt(v('g-dpp'));
+  m+='\nPróxima consulta: '+(fmt(v('g-wpp-data'))||'[definir data]');
+  m+='\nOrientação: '+(orient[gRiscoAtual]||orient.habitual);
+  return m;
+}
+function atualizarPreviewWppGestanteAcs(){
+  const el=document.getElementById('g-wpp-msg-acs');if(!el)return;
+  el.innerHTML=gTextoAcs().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+function enviarWhatsAppGestanteAcs(){
+  const t=document.getElementById('g-wpp-acs-cel').value.replace(/\D/g,'');
+  if(!t||t.length<10){showToast('Informe o contato do ACS (com DDD)',true);return;}
+  window.open('https://api.whatsapp.com/send?phone=55'+t+'&text='+encodeURIComponent(gTextoAcs()),'_blank');
 }
 
 function enviarWhatsAppGestante(){
@@ -3420,6 +3460,7 @@ async function salvarGestante(){
     equipe_esf:document.getElementById('g-equipe').value||null,
     acs:document.getElementById('g-acs').value||null,
     telefone:document.getElementById('g-cel').value||null,
+    telefone_acs:document.getElementById('g-cel-acs').value||null,
     risco_classificacao:gRiscoAtual,
     fatores_risco:gMarcados,
     proxima_consulta: document.getElementById('g-wpp-data').value || null
@@ -3428,8 +3469,14 @@ async function salvarGestante(){
   const editId=btn?btn.dataset.editId:null;
   try{
     let error;
-    if(editId){({error}=await supabaseClient.from('gestantes').update(data).eq('id',editId));}
-    else{({error}=await supabaseClient.from('gestantes').insert([data]));}
+    const gravar=d=>editId?supabaseClient.from('gestantes').update(d).eq('id',editId):supabaseClient.from('gestantes').insert([d]);
+    ({error}=await gravar(data));
+    if(error&&/telefone_acs/i.test(error.message||'')){
+      // coluna ainda não criada no banco: salva o resto e avisa
+      const semAcs=Object.assign({},data);delete semAcs.telefone_acs;
+      ({error}=await gravar(semAcs));
+      if(!error)showToast('⚠️ Salvo, mas o contato do ACS não foi gravado: rode o SQL gestante_telefone_acs.sql no Supabase',true);
+    }
     if(error)throw error;
     if(editId){
       if(gestMap[editId])Object.assign(gestMap[editId],data);
@@ -3673,6 +3720,7 @@ function editarGestanteFicha(id){
   document.getElementById('g-equipe').value=g.equipe_esf||'';
   document.getElementById('g-acs').value=g.acs||'';
   document.getElementById('g-cel').value=g.telefone||'';
+  document.getElementById('g-cel-acs').value=g.telefone_acs||'';
   document.getElementById('g-wpp-data').value=dataISO(g.proxima_consulta);
   let fatores=g.fatores_risco;
   if(typeof fatores==='string'){try{fatores=JSON.parse(fatores);}catch(e){fatores=[];}}
