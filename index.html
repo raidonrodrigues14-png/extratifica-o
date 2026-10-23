@@ -603,7 +603,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .ag-imp{width:100%;border-collapse:collapse;font-size:.78rem}
 .ag-imp th{background:#e1f5fe;color:#01579b;padding:.4rem;text-align:left;font-size:.68rem}
 .ag-imp td{padding:.4rem;border-bottom:1px solid var(--border)}
-@media(max-width:640px){.ag-item{grid-template-columns:1fr}.ag-acoes{justify-content:flex-start}.ag-cel{min-height:62px}.ag-cel small{display:none}.ag-barra .btn{flex:1}}
+@media(max-width:480px){.b-check-grid{grid-template-columns:1fr}.ag-content{overflow-x:hidden}}
+@media(max-width:640px){.b-risco-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}.ag-nav,.ag-calbar{max-width:100%}.ag-calbar select,.ag-calbar input[type=date]{max-width:100%}.ag-item{grid-template-columns:1fr}.ag-acoes{justify-content:flex-start}.ag-cel{min-height:62px}.ag-cel small{display:none}.ag-barra .btn{flex:1}}
 
 /* ── MODAIS ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
