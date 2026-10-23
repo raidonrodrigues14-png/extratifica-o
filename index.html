@@ -510,6 +510,15 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .pal-curva svg{width:100%;height:80px}
 .pal-curva strong{display:block;font-size:.78rem;margin-top:.3rem}
 .pal-curva small{color:var(--txt-3);font-size:.7rem}
+.pal-pps-leg{font-size:.78rem;font-weight:700;color:#1565c0;margin-top:.5rem}
+.pal-curva svg{cursor:zoom-in}
+.pal-zoom{display:block;font-size:.66rem;color:#1565c0;font-weight:700;cursor:zoom-in;margin-top:.2rem}
+#pal-graf-modal .pal-graf-box{background:#fff;border-radius:16px;width:100%;max-width:980px;max-height:94vh;max-height:94dvh;overflow:auto;padding:1.1rem 1.25rem;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.pal-graf-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.6rem}
+.pal-graf-top h3{margin:0;font-size:1.05rem;color:#6d3a0c}.pal-graf-top small{color:var(--txt-3);font-size:.8rem}
+.pal-graf-svg{width:100%;height:auto;max-height:68vh;display:block;background:#fffdf8;border:1px solid var(--border);border-radius:10px}
+.pal-graf-leg{margin-top:.6rem;font-size:.85rem;font-weight:700;color:#1565c0}
+.pal-graf-nav{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
 .pal-curva.ativa{border-color:#c2610f;background:#fff3e0}
 .pal-det{margin-top:.9rem}
 .pal-det summary{cursor:pointer;font-weight:600;font-size:.82rem;color:#8a4a12}
@@ -670,6 +679,64 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
   .info-grid{grid-template-columns:1fr}
   .det-grid{grid-template-columns:1fr}
 }
+
+/* ===== RESPONSIVIDADE GERAL (tablet e celular) ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.g-campo,.c-campo,.h-campo,.b-campo,.pal-grid>*,.ag-grid>*{min-width:0}
+.det-valor,.ag-nome,td,th,.info-grid *{overflow-wrap:anywhere}
+img,svg,canvas{max-width:100%}
+@media(max-width:900px){
+  .g-grid-4,.h-grid-4{grid-template-columns:1fr 1fr}
+  .g-grid-3,.h-grid-3,.c-grid-3{grid-template-columns:1fr 1fr}
+  .app-header{padding:0 1rem}
+  .historico-box{max-width:94vw}
+}
+@media(max-width:640px){
+  .g-grid-2,.g-grid-3,.g-grid-4,.c-grid-2,.c-grid-3,.h-grid-2,.h-grid-3,.h-grid-4,.b-grid-id,.preec-grid,.whatsapp-grid,.wpp-grid,.det-grid{grid-template-columns:1fr!important}
+  /* campos: 16px evita o zoom automático do iPhone e facilita o toque */
+  input[type=text],input[type=tel],input[type=number],input[type=date],input[type=time],input[type=search],input[type=email],input[type=password],select,textarea{font-size:16px!important;min-height:44px}
+  textarea{min-height:88px}
+  input[type=radio],input[type=checkbox]{min-width:20px;min-height:20px}
+  .btn,.btn-acao,.wpp-btn-enviar,.nav-bottom .btn{min-height:44px;font-size:.9rem}
+  .btn-ver,.btn-edit,.btn-excluir,.ag-b,.ag-mini{min-height:40px;min-width:40px;font-size:.82rem}
+  .acao-buttons{display:flex;flex-wrap:wrap;gap:.5rem}
+  .acao-buttons .btn-acao{flex:1 1 calc(50% - .5rem)}
+  /* cabeçalhos */
+  .app-header{padding:.5rem .85rem;flex-wrap:wrap;gap:.5rem}
+  .app-header-text strong{font-size:.95rem}
+  .app-header-text span{font-size:.68rem}
+  .btn-portal-voltar{padding:.4rem .8rem;font-size:.78rem}
+  /* conteúdo */
+  .gest-content,.bucal-content,.crianca-content,.idoso-content,.hasdm-content,.ag-content{padding-left:.7rem;padding-right:.7rem}
+  /* janelas */
+  .modal{padding:1.25rem 1rem;border-radius:16px}
+  .historico-box{padding:1.1rem 1rem;border-radius:16px;max-width:96vw;max-height:92vh;max-height:92dvh}
+  .historico-overlay,.modal-overlay{padding:.6rem}
+  .det-btns{justify-content:stretch}.det-btns .btn{flex:1}
+  .ag-modal{margin:.5rem 0;border-radius:12px}
+  .login-card{padding:1.75rem 1.25rem;border-radius:20px}
+  /* barra de passos fixa na base: respeita a área segura do iPhone */
+  .nav-bottom{padding:.65rem .9rem calc(.65rem + env(safe-area-inset-bottom,0px));gap:.5rem}
+  .nav-bottom .btn{flex:1;padding-left:.6rem;padding-right:.6rem}
+  /* tabelas largas rolam para o lado dentro da própria caixa */
+  .tabela-wrap{-webkit-overflow-scrolling:touch}
+  .tabela-wrap table{min-width:520px}
+  .ag-calbar>*{flex:1 1 auto}
+  .ag-filtros select,.ag-filtros input{flex:1 1 100%;min-width:0;max-width:100%}
+  .ag-barra{margin:1rem -.7rem -3rem;padding:.7rem}
+  .ag-modos{width:100%;display:flex}.ag-modo{flex:1}
+  .ag-topo .btn{flex:1 1 100%}
+  .portal-hero{padding:2rem 1rem 3.5rem}
+}
+@media(max-width:380px){
+  .app-header-icon{display:none}
+  .portal-stat-card{flex:1 1 100%}
+  .acao-buttons .btn-acao{flex:1 1 100%}
+}
+@media(max-width:900px) and (orientation:landscape){
+  .historico-box{max-height:94vh}
+  .login-card{padding:1.25rem 1.5rem}
+}
 @media print{.nav-bottom,.btn-acao,.whatsapp-section,.wpp-grid,.app-header,.gest-progress,.acao-buttons,.busca-wrap,.tabela-wrap{display:none!important}}
 </style>
 </head>
@@ -677,6 +744,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <div class="toast" id="toast"></div>
 
 <div class="modal-overlay" id="modal-editar-crianca"><div class="modal"><h3>✏️ Editar Registro</h3><input type="hidden" id="edit-id"><div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div><div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div><div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div><div class="modal-campo"><label>Risco</label><select id="edit-risco"><option value="HABITUAL">Habitual</option><option value="INTERMEDIARIO">Intermediário</option><option value="ALTO">Alto</option></select></div><div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalCrianca()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">Salvar</button></div></div></div>
+<div class="historico-overlay" id="pal-graf-modal"><div class="pal-graf-box" id="pal-graf-box"></div></div>
 <div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><div style="display:flex;gap:.4rem"><button class="btn btn-pdf" onclick="imprimirFicha()" style="padding:.3rem .75rem;font-size:.78rem">🖨️ Imprimir folha</button><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div></div><div id="historico-conteudo"></div></div></div>
 <div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificação</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilância</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
 
@@ -3088,7 +3156,7 @@ function palMontar(){
     palSec('Família e rede de apoio','<div class="pal-grid">'+palC('familia','Com quem mora, cuidador principal, aspectos familiares e rede de apoio (genograma/ecomapa, se a equipe usar)','area',{rows:5})+'</div>')+
     palSec('Aspectos socioeconômicos','<div class="pal-grid">'+palC('socioeconomico','Condições de moradia, ocupação, renda familiar e benefícios recebidos','area',{rows:4})+'</div>')+
     palSec('Trajetória da doença',
-      '<div class="pal-rot">Selecione a curva típica relacionada ao caso</div><div class="pal-curvas" id="pal-curvas">'+PAL_CURVAS.map(c=>'<button type="button" class="pal-curva" data-curva="'+c[0]+'"><svg viewBox="0 0 110 60" aria-hidden="true"><line x1="3" y1="4" x2="3" y2="56" stroke="#999"/><line x1="3" y1="56" x2="108" y2="56" stroke="#999"/><path d="'+c[3]+'" fill="none" stroke="#c62828" stroke-width="2"/></svg><strong>'+palEsc(c[1])+'</strong><small>'+palEsc(c[2])+'</small></button>').join('')+'</div>'+
+      '<div class="pal-rot">Selecione a curva típica relacionada ao caso</div><div class="pal-curvas" id="pal-curvas">'+PAL_CURVAS.map(c=>'<button type="button" class="pal-curva" data-curva="'+c[0]+'"><svg viewBox="0 0 110 60" aria-hidden="true"><line x1="3" y1="4" x2="3" y2="56" stroke="#999"/><line x1="3" y1="56" x2="108" y2="56" stroke="#999"/><text x="5" y="8" font-size="4.5" fill="#888">100%</text><text x="5" y="54" font-size="4.5" fill="#888">0%</text><path d="'+c[3]+'" fill="none" stroke="#c62828" stroke-width="2"/><g class="pal-ppsg"></g></svg><span class="pal-zoom">🔍 clique no gráfico para ampliar</span><strong>'+palEsc(c[1])+'</strong><small>'+palEsc(c[2])+'</small></button>').join('')+'</div><div class="pal-pps-leg" id="pal-pps-leg"></div>'+
       '<div class="pal-grid" style="margin-top:.9rem">'+palC('pps_atual','PPS atual (Palliative Performance Scale)','sel',{o:PAL_PPS_OPT,full:1})+
       palC('surpresa','Pergunta-surpresa: você se surpreenderia se essa pessoa morresse ao longo do próximo ano?','sel',{full:1,o:[['sim','Sim, me surpreenderia'],['nao','Não me surpreenderia']]})+'</div>'+
       '<details class="pal-det"><summary>Ver tabela da Escala de Performance Paliativa (PPS)</summary><div class="tabela-wrap"><table class="pal-tab pal-pps"><thead><tr><th>PPS</th><th>Deambulação</th><th>Atividade e evidência de doença</th><th>Autocuidado</th><th>Ingesta</th><th>Nível de consciência</th></tr></thead><tbody>'+PAL_PPS.map(r=>'<tr><td><b>'+r[0]+'</b></td><td>'+palEsc(r[1])+'</td><td>'+palEsc(r[2])+'</td><td>'+palEsc(r[3])+'</td><td>'+palEsc(r[4])+'</td><td>'+palEsc(r[5])+'</td></tr>').join('')+'</tbody></table></div><p class="pal-fonte">Fonte: BRASIL, 2020.</p></details>')+
@@ -3128,6 +3196,7 @@ function palPreencher(d){
   palMarcarCurva();palRenderEdm();palRenderPps();palAtualizarCalculos();
 }
 function palAtualizarCalculos(){
+  palDesenharPps();
   const ie=palEl('pal-idade'),dn=palEl('pal-dt_nasc');if(ie&&dn)ie.value=palIdadeTxt(dn.value);
   const d=palColetar();
   const n=palContarEleg(d);
@@ -3156,7 +3225,46 @@ function palPreencherIndicadores(forcar){
 }
 
 // ---------- curvas, Edmonton, PPS ----------
-function palMarcarCurva(){document.querySelectorAll('#pal-curvas .pal-curva').forEach(b=>b.classList.toggle('ativa',b.dataset.curva===palCurva));}
+// PPS atual dentro do gráfico: linha tracejada na altura do PPS (0–100%) + etiqueta
+function palPpsMarca(pps){
+  const n=parseInt(pps,10);if(isNaN(n)||n<0||n>100)return '';
+  const y=(56-52*n/100).toFixed(1),ty=Math.min(Math.max(y-1.6,10),53.5);
+  return '<line x1="3" y1="'+y+'" x2="108" y2="'+y+'" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="3 2"/><rect x="73" y="'+(ty-5.2).toFixed(1)+'" width="34" height="8.4" rx="2.5" fill="#1565c0"/><text x="90" y="'+(ty+0.9).toFixed(1)+'" font-size="5.6" font-weight="700" fill="#fff" text-anchor="middle">PPS '+n+'%</text>';
+}
+function palDesenharPps(){
+  const el=palEl('pal-pps_atual');const m=palPpsMarca(el?el.value:'');
+  document.querySelectorAll('#pal-curvas .pal-ppsg').forEach(g=>{g.innerHTML=m;});
+  const leg=palEl('pal-pps-leg');if(leg)leg.textContent=m?'Linha azul tracejada = PPS atual ('+el.value+'%) sobre a curva de trajetória.':'Selecione o PPS atual abaixo para vê-lo dentro do gráfico.';
+}
+function palGrafImp(d){
+  const c=PAL_CURVAS.find(x=>x[0]===d.curva);if(!c)return '';
+  return '<svg viewBox="0 0 110 60" style="width:260px;height:140px;float:right;margin:0 0 6px 12px;border:1px solid #bbb"><line x1="3" y1="4" x2="3" y2="56" stroke="#999"/><line x1="3" y1="56" x2="108" y2="56" stroke="#999"/><text x="5" y="8" font-size="4.5" fill="#888">100%</text><text x="5" y="54" font-size="4.5" fill="#888">0%</text><path d="'+c[3]+'" fill="none" stroke="#c62828" stroke-width="2"/>'+palPpsMarca(d.pps_atual)+'</svg>';
+}
+// ---------- gráfico ampliado ----------
+function palGrafGrande(c,pps){
+  const X0=30,X1=212,Y0=10,Y1=112,sx=(X1-X0)/105,sy=(Y1-Y0)/52;
+  let grade='';
+  for(let n=0;n<=100;n+=10){const y=(Y1-(Y1-Y0)*n/100).toFixed(1);grade+='<line x1="'+X0+'" y1="'+y+'" x2="'+X1+'" y2="'+y+'" stroke="'+(n%50===0?'#d0d0d0':'#ececec')+'" stroke-width="0.4"/><text x="'+(X0-2)+'" y="'+(+y+1.3).toFixed(1)+'" font-size="3.6" fill="#777" text-anchor="end">'+n+'%</text>';}
+  const n=parseInt(pps,10),temPps=!isNaN(n)&&n>=0&&n<=100;
+  let marca='';
+  if(temPps){const y=(Y1-(Y1-Y0)*n/100).toFixed(1);marca='<line x1="'+X0+'" y1="'+y+'" x2="'+X1+'" y2="'+y+'" stroke="#1565c0" stroke-width="0.9" stroke-dasharray="3 2"/><rect x="'+(X1-40)+'" y="'+(Math.max(+y-9,Y0)).toFixed(1)+'" width="40" height="8" rx="2" fill="#1565c0"/><text x="'+(X1-20)+'" y="'+(Math.max(+y-9,Y0)+5.6).toFixed(1)+'" font-size="4.6" font-weight="700" fill="#fff" text-anchor="middle">PPS atual: '+n+'%</text>';}
+  return '<svg class="pal-graf-svg" viewBox="0 0 220 130" role="img" aria-label="Curva de trajetória da doença com o PPS atual">'+grade+
+    '<line x1="'+X0+'" y1="'+Y0+'" x2="'+X0+'" y2="'+Y1+'" stroke="#666" stroke-width="0.7"/><line x1="'+X0+'" y1="'+Y1+'" x2="'+X1+'" y2="'+Y1+'" stroke="#666" stroke-width="0.7"/>'+
+    '<g transform="translate('+(X0-3*sx)+','+(Y0-4*sy)+') scale('+sx+','+sy+')"><path d="'+c[3]+'" fill="none" stroke="#c62828" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/></g>'+marca+
+    '<text x="'+((X0+X1)/2)+'" y="124" font-size="4.2" fill="#555" text-anchor="middle">Tempo →</text>'+
+    '<text x="6" y="'+((Y0+Y1)/2)+'" font-size="4.2" fill="#555" text-anchor="middle" transform="rotate(-90 6 '+((Y0+Y1)/2)+')">Funcionalidade (PPS)</text></svg>';
+}
+function palAmpliarCurva(id){
+  const c=PAL_CURVAS.find(x=>x[0]===id);if(!c)return;
+  const el=palEl('pal-pps_atual'),v=el?el.value:'';
+  palEl('pal-graf-box').innerHTML='<div class="pal-graf-top"><div><h3>'+palEsc(c[1])+'</h3><small>'+palEsc(c[2])+'</small></div><button type="button" class="btn btn-nova" data-pal-graf-fechar="1" style="padding:.35rem .8rem;font-size:.8rem">✕ Fechar</button></div>'+
+    palGrafGrande(c,v)+'<div class="pal-graf-leg">'+(v!==''?'Linha azul tracejada = PPS atual ('+palEsc(v)+'%).':'PPS atual não informado — selecione-o no campo abaixo das curvas.')+'</div>'+
+    '<div class="pal-graf-nav">'+PAL_CURVAS.map(x=>'<button type="button" class="btn '+(x[0]===id?'btn-salvar':'btn-nova')+'" onclick="palCurva=\''+x[0]+'\';palMarcarCurva();palAmpliarCurva(\''+x[0]+'\')" style="padding:.35rem .8rem;font-size:.78rem">'+palEsc(x[1].split(' ').slice(0,3).join(' '))+'…</button>').join('')+'</div>';
+  palEl('pal-graf-modal').classList.add('aberto');
+}
+function palFecharGraf(){const m=palEl('pal-graf-modal');if(m)m.classList.remove('aberto');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')palFecharGraf();});
+function palMarcarCurva(){document.querySelectorAll('#pal-curvas .pal-curva').forEach(b=>b.classList.toggle('ativa',b.dataset.curva===palCurva));palDesenharPps();}
 function palRenderEdm(){
   const box=palEl('pal-edm');if(!box)return;
   if(!palEdm.length){box.innerHTML='<p class="pal-vazio">Nenhuma avaliação registrada.</p>';return;}
@@ -3321,7 +3429,7 @@ function palImprimir(id){
   w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Folha de registro — abordagem paliativa completa</title><style>body{font-family:Arial,sans-serif;font-size:11.5px;color:#000;margin:0}.top{background:#b85c14;color:#fff;text-align:center;padding:16px;font-size:17px;font-weight:bold}.w{padding:14px 22px}h2{background:#b85c14;color:#fff;font-size:11.5px;text-align:center;margin:12px 0 0;padding:4px}.b{border:1px solid #999;border-top:0;padding:7px 9px;min-height:20px}.g{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #999;padding:3px 4px;font-size:10.5px;text-align:center}.ref{font-size:9px;margin-top:10px;color:#444}@media print{.top{-webkit-print-color-adjust:exact;print-color-adjust:exact}h2{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="top">FOLHA REGISTRO: ABORDAGEM PALIATIVA COMPLETA</div><div class="w">'+
     sec('IDENTIFICAÇÃO','<div class="g"><div><b>Nome:</b> '+V(nome)+'</div><div><b>Gênero:</b> '+V(({F:'Feminino',M:'Masculino',O:'Outro / não informado'})[d.genero])+'</div><div><b>Nome social:</b> '+V(d.nome_social)+'</div><div><b>Data de nascimento:</b> '+V(palFmtData(d.dt_nasc))+' &nbsp; <b>Idade:</b> '+V(palIdadeTxt(d.dt_nasc))+'</div><div><b>Cartão SUS:</b> '+V(d.sus)+'</div><div><b>ACS:</b> '+V(d.acs)+'</div><div><b>Endereço:</b> '+V(d.endereco)+'</div><div><b>Município:</b> '+V(d.municipio)+'</div><div><b>Estrato familiar:</b> '+V(d.estrato_familiar)+'</div><div><b>Mora com alguém?</b> '+V(d.mora_com_alguem==='sim'?'Sim':d.mora_com_alguem==='nao'?'Não':'')+' — '+V(d.mora_com)+'</div><div><b>Data da abordagem:</b> '+V(palFmtData(d.data_abordagem))+'</div><div><b>Profissional:</b> '+V(d.profissional)+'</div></div>')+
     sec('BIOGRAFIA',P(d.biografia))+sec('INDICADORES SPICT-BR',P(d.indicadores))+sec('HISTÓRIA DE ADOECIMENTO',P(d.adoecimento))+sec('FAMÍLIA E REDE DE APOIO',P(d.familia))+sec('ASPECTOS SOCIOECONÔMICOS',P(d.socioeconomico))+
-    sec('TRAJETÓRIA DA DOENÇA','<b>Curva selecionada:</b> '+E(curva)+'<br><b>PPS atual:</b> '+E(d.pps_atual!==undefined&&d.pps_atual!==''?d.pps_atual+'%':'—')+'<br><b>Pergunta-surpresa:</b> você se surpreenderia se essa pessoa morresse ao longo do próximo ano? '+E(surp))+
+    sec('TRAJETÓRIA DA DOENÇA',palGrafImp(d)+'<b>Curva selecionada:</b> '+E(curva)+'<br><b>PPS atual:</b> '+E(d.pps_atual!==undefined&&d.pps_atual!==''?d.pps_atual+'%':'—')+'<br><b>Pergunta-surpresa:</b> você se surpreenderia se essa pessoa morresse ao longo do próximo ano? '+E(surp))+
     sec('A PESSOA E SUAS MÚLTIPLAS DIMENSÕES — Psicológica',P(d.psicologica))+sec('Espiritual',P(d.espiritual)+(d.fica?'<br><b>FICA:</b> '+P(d.fica):''))+sec('Familiar e social',P(d.social_dim))+sec('Física',P(d.fisica))+
     sec('ESCALA DE SINTOMAS DE EDMONTON',edm)+sec('PALLIATIVE PERFORMANCE SCALE — PPS',pps)+
     sec('PLANEJAMENTO ANTECIPADO DE CUIDADOS E DIRETIVAS ANTECIPADAS DE VONTADE',P(d.planejamento))+sec('REFLEXÕES DA EQUIPE',P(d.reflexoes))+
@@ -3336,7 +3444,8 @@ document.addEventListener('click',function(e){
   const im=t.closest('[data-pimp]');if(im){palImprimir(im.dataset.pimp);return;}
   const de=t.closest('[data-pdel]');if(de){palExcluir(de.dataset.pdel);return;}
   const kp=t.closest('.pal-kpi[data-etapa]');if(kp){palFiltroEtapa=kp.dataset.etapa||'';palRenderLista();return;}
-  const cv=t.closest('.pal-curva');if(cv){palCurva=(palCurva===cv.dataset.curva)?'':cv.dataset.curva;palMarcarCurva();return;}
+  const cv=t.closest('.pal-curva');if(cv){if(t.closest('svg')||t.closest('.pal-zoom')){palCurva=cv.dataset.curva;palMarcarCurva();palAmpliarCurva(cv.dataset.curva);return;}palCurva=(palCurva===cv.dataset.curva)?'':cv.dataset.curva;palMarcarCurva();return;}
+  if(t.closest('[data-pal-graf-fechar]')||t.id==='pal-graf-modal'){palFecharGraf();return;}
   const re=t.closest('[data-rmedm]');if(re){palEdm.splice(+re.dataset.rmedm,1);palRenderEdm();return;}
   const rp=t.closest('[data-rmpps]');if(rp){palPpsH.splice(+rp.dataset.rmpps,1);palRenderPps();return;}
 });
