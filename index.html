@@ -866,6 +866,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
       <div class="resultado-sub" id="g-res-sub">Acompanhamento na Atenção Primária</div>
     </div>
     
+    <div style="display:flex;justify-content:flex-end;margin:.25rem 0 .75rem"><button type="button" class="btn-acao" onclick="gEditarCampos()" style="background:#fff3e0;color:#e65100;border:2px solid #ffb74d;font-weight:800">✏️ Editar todos os campos</button></div>
     <div class="resultado-card">
       <div class="card-header"><span class="card-header-icon">👤</span><span class="card-header-title">Identificação da Gestante</span></div>
       <div class="card-content"><div class="info-grid" id="info-grid-gestante"></div></div>
@@ -926,6 +927,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
     
     <div class="acao-buttons">
       <button class="btn-acao btn-salvar-resultado" id="btn-salvar-gestante" onclick="salvarGestante()">💾 Salvar</button>
+      <button class="btn-acao" onclick="gEditarCampos()" style="background:#fff3e0;color:#e65100;border:2px solid #ffb74d">✏️ Editar campos</button>
       <button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button>
       <button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button>
       <button class="btn-acao btn-novo-resultado" onclick="reiniciarGestante()">↺ Nova</button>
@@ -3327,6 +3329,12 @@ function gRenderPag(){
   else{if(next)next.style.display='inline-flex';if(calc)calc.style.display='none';}
 }
 
+// Volta ao passo 1 (formulário completo) mantendo tudo preenchido; ao final, "Calcular" retorna ao resultado
+function gEditarCampos(){
+  gPagAtual=1;gRenderPag();window.scrollTo(0,0);
+  const btn=document.getElementById('btn-salvar-gestante');
+  showToast(btn&&btn.dataset.editId?'Edite os campos e avance até o final; depois salve as alterações.':'Edite os campos e avance até o final para recalcular.');
+}
 function gMudarPag(dir){gPagAtual=Math.max(1,Math.min(G_TOTAL,gPagAtual+dir));gRenderPag();window.scrollTo(0,0);}
 
 function gToggle(el,classe){
