@@ -542,6 +542,9 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .ag-modo{border:none;background:none;padding:.5rem .9rem;font-family:var(--font-body);font-size:.78rem;font-weight:600;color:var(--txt-3);cursor:pointer}
 .ag-modo.ativa{background:#0277bd;color:#fff}
 .ag-mini{padding:.35rem .75rem;font-size:.78rem;margin:0}
+.ag-calbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem;padding:.6rem .75rem;background:#e1f5fe;border:1px solid #81d4fa;border-radius:10px}
+.ag-calbar select,.ag-calbar input[type=date]{padding:.35rem .5rem;border:1px solid #81d4fa;border-radius:8px;font-family:var(--font-body);font-size:.82rem;background:#fff}
+.ag-ir-dia{font-size:.74rem;font-weight:700;color:#01579b;display:flex;align-items:center;gap:.35rem}
 .ag-filtros{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
 .ag-filtros input,.ag-filtros select{border:1.5px solid var(--border);border-radius:9px;padding:.5rem .8rem;font-family:var(--font-body);font-size:.8rem;background:#fff}
 .ag-filtros input{flex:1;min-width:190px}
@@ -1523,6 +1526,13 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <button type="button" class="ag-modo" data-modo="atrasadas">Atrasadas</button>
         </div>
       </div>
+      <div class="ag-calbar">
+        <button type="button" class="btn btn-nova ag-mini" onclick="agNavMes(-1)">« Mês anterior</button>
+        <select id="ag-sel-mes" title="Mês" onchange="agIrPara()"></select>
+        <select id="ag-sel-ano" title="Ano" onchange="agIrPara()"></select>
+        <label class="ag-ir-dia">Ir para o dia <input type="date" id="ag-sel-dia" onchange="agIrDia(this.value)"></label>
+        <button type="button" class="btn btn-nova ag-mini" onclick="agNavMes(1)">Próximo mês »</button>
+      </div>
       <div class="ag-filtros">
         <input type="text" id="ag-busca" placeholder="Buscar paciente, profissional ou UBS…">
         <select id="ag-f-programa"><option value="">Todos os programas</option></select>
@@ -2468,7 +2478,7 @@ const AG_TIPOS=['Consulta de enfermagem','Consulta médica','Consulta odontológ
 const AG_DIAS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
 const AG_MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
-let agUidCache=null,agLegado=true,agLista=[],agModo='semana',agRef='',agEditId=null,agPac=null,agPacSel=null,agMontado=false,agKpiStatus='',agAtrasadasN=0,agRangeAtual=['',''];
+let agUidCache=null,agLegado=true,agLista=[],agModo='mes',agRef='',agEditId=null,agPac=null,agPacSel=null,agMontado=false,agKpiStatus='',agAtrasadasN=0,agRangeAtual=['',''];
 
 // ---------- utilidades ----------
 function agEsc(v){return String(v===null||v===undefined?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -2528,11 +2538,36 @@ function agNavegar(n){
   agCarregar();
 }
 function agSetModo(m){agModo=m;agCarregar();}
+// ---------- calendário completo: qualquer mês, ano e dia ----------
+function agMontarSeletores(){
+  const sm=agEl('ag-sel-mes'),sa=agEl('ag-sel-ano');if(!sm||!sa)return;
+  if(!sm.options.length)sm.innerHTML=AG_MESES.map((m,i)=>'<option value="'+i+'">'+agCap(m)+'</option>').join('');
+  const d=agParse(agRef),ano=d.getFullYear(),h=new Date().getFullYear();
+  const ini=Math.min(2020,ano),fim=Math.max(h+10,ano);
+  if(sa.dataset.ini!==String(ini)||sa.dataset.fim!==String(fim)){
+    let o='';for(let y=ini;y<=fim;y++)o+='<option value="'+y+'">'+y+'</option>';
+    sa.innerHTML=o;sa.dataset.ini=ini;sa.dataset.fim=fim;
+  }
+  sm.value=String(d.getMonth());sa.value=String(ano);
+  const dd=agEl('ag-sel-dia');if(dd)dd.value=agRef;
+}
+function agNavMes(n){
+  agRef=agAddMeses(agRef,n);agModo='mes';agCarregar();
+}
+function agIrPara(){
+  const m=+agEl('ag-sel-mes').value,y=+agEl('ag-sel-ano').value,dia=agParse(agRef).getDate();
+  const ult=new Date(y,m+1,0).getDate();
+  agRef=agFmt(new Date(y,m,Math.min(dia,ult)));agModo='mes';agCarregar();
+}
+function agIrDia(v){
+  if(!v)return;
+  agRef=v;if(agModo==='atrasadas'||agModo==='mes')agModo='dia';agCarregar();
+}
 
 // ---------- carregar ----------
 async function agCarregar(){
   document.querySelectorAll('.ag-modo').forEach(b=>b.classList.toggle('ativa',b.dataset.modo===agModo));
-  agEl('ag-titulo').textContent=agTituloTxt();
+  agEl('ag-titulo').textContent=agTituloTxt();agMontarSeletores();
   const corpo=agEl('ag-corpo');corpo.innerHTML='<p class="ag-vazio">Carregando…</p>';
   let q=supabaseClient.from(AG_TABELA).select('*');
   if(agModo==='atrasadas'){q=q.lt('data',agHoje()).in('status',AG_PEND).order('data',{ascending:true}).limit(1000);}
