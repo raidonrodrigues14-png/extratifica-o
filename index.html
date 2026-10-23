@@ -686,7 +686,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
 
-<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem"><div class="g-campo"><label>📱 Telefone da gestante (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-cel-acs" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
+<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem"><div class="g-campo"><label>📱 Telefone da gestante (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-cel-acs" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
 <!-- PASSO 2: Risco Habitual + Vigilância -->
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
@@ -982,6 +982,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" placeholder="CNS"></div>
           <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" placeholder="UBS"></div>
           <div class="c-campo"><label>Data Nascimento</label><input type="date" id="c-nasc"></div>
+          <div class="c-campo"><label>Equipe ESF</label><select id="c-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="c-campo"><label>Microárea</label><input type="text" id="c-microarea" placeholder="Microárea"></div>
           <div class="c-campo"><label>ACS Responsável</label><input type="text" id="c-acs" placeholder="ACS Responsável"></div>
           <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="c-cel-acs" placeholder="98991234567"></div>
@@ -1208,6 +1209,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
           <div class="c-campo"><label>UBS</label><input type="text" id="i-ubs" placeholder="UBS"></div>
           <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="i-nasc" onchange="ivcfCalcular()"></div>
           <div class="c-campo"><label>Idade</label><input type="text" id="i-idade-calc" placeholder="Calculada automaticamente" readonly></div>
+          <div class="c-campo"><label>Equipe ESF</label><select id="i-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="c-campo"><label>Microárea</label><input type="text" id="i-microarea" placeholder="Microárea"></div>
           <div class="c-campo"><label>ACS Responsável</label><input type="text" id="i-acs" placeholder="ACS Responsável"></div>
           <div class="c-campo"><label>Telefone do ACS (WhatsApp)</label><input type="tel" id="i-cel-acs" placeholder="98991234567"></div>
@@ -1597,6 +1599,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
         <div class="h-campo" style="margin-bottom:.75rem"><label>Nome Completo</label><input type="text" id="h-nome" placeholder="Nome completo do paciente"></div>
         <div class="h-grid-4" style="margin-bottom:.75rem">
           <div class="h-campo"><label>UBS</label><input type="text" id="h-ubs" readonly style="font-weight:700;color:#c62828"></div>
+          <div class="h-campo"><label>Equipe ESF</label><select id="h-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="h-campo"><label>Microárea</label><input type="text" id="h-microarea" placeholder="Microárea"></div>
           <div class="h-campo"><label>Enfermeira</label><input type="text" id="h-enfermeira" placeholder="Enfermeira(o)"></div>
           <div class="h-campo"><label>ACS</label><input type="text" id="h-acs" placeholder="ACS Responsável"></div>
@@ -2148,6 +2151,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
         <div class="b-grid-id">
           <div class="b-campo"><label>UBS</label><input type="text" id="b-ubs" readonly style="font-weight:700;color:var(--musgo)"></div>
           <div class="b-campo"><label>ACS Responsável</label><input type="text" id="b-acs" placeholder="ACS Responsável"></div>
+          <div class="b-campo"><label>Equipe ESF</label><select id="b-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="b-campo"><label>Microárea</label><input type="text" id="b-microarea" placeholder="Ex.: 03"></div>
           <div class="b-campo"><label>📱 WhatsApp do Paciente</label><input type="tel" id="b-telefone" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
           <div class="b-campo"><label>📱 WhatsApp do ACS</label><input type="tel" id="b-telefone-acs" placeholder="(98) 99123-4567" oninput="hMascaraTel(this)"></div>
@@ -3730,7 +3734,7 @@ function verCrianca(id){
   let imc='—';const p=parseFloat(c.peso_atual),a=parseFloat(c.altura);
   if(p&&a&&a>0)imc=(p/((a/100)*(a/100))).toFixed(2)+' kg/m²';
   let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=detItem('Criança',c.crianca)+detItem('Mãe',c.mae)+detItem('Telefone da Mãe',c.telefone)+detItem('CNS',c.cns)+detItem('UBS',c.ubs)+detItem('Data de Nascimento',fmtDataDet(c.nascimento))+detItem('Microárea',c.microarea)+detItem('ACS Responsável',c.acs)+detItem('Telefone do ACS',c.telefone_acs);
+  html+=detItem('Criança',c.crianca)+detItem('Mãe',c.mae)+detItem('Telefone da Mãe',c.telefone)+detItem('CNS',c.cns)+detItem('UBS',c.ubs)+detItem('Equipe ESF',c.equipe_esf)+detItem('Data de Nascimento',fmtDataDet(c.nascimento))+detItem('Microárea',c.microarea)+detItem('ACS Responsável',c.acs)+detItem('Telefone do ACS',c.telefone_acs);
   html+='</div><div class="det-sub">👶 Classificação ao Nascer</div><div class="det-grid">';
   html+=detItem('Peso ao Nascer',pesoMap[c.peso_nascer]||c.peso_nascer)+detItem('Idade Gestacional',igMap[c.idade_gestacional]||c.idade_gestacional)+detItem('Proporcionalidade',c.proporcionalidade);
   html+='</div><div class="det-sub">⚖️ Medidas Atuais</div><div class="det-grid">';
@@ -3800,6 +3804,7 @@ function editarCriancaFicha(id){
   document.getElementById('c-ubs').value=c.ubs||'';
   document.getElementById('c-nasc').value=dataISO(c.nascimento);
   document.getElementById('c-microarea').value=c.microarea||'';
+  document.getElementById('c-equipe').value=c.equipe_esf||'';
   document.getElementById('c-acs').value=c.acs||'';
   document.getElementById('c-cel-acs').value=c.telefone_acs||'';
   document.getElementById('c-peso-atual').value=c.peso_atual||'';
@@ -3881,13 +3886,13 @@ async function salvarCrianca(){
   if(!nome||!mae){showToast('Informe nome da criança e mãe!',true);return;}
   const fatoresAlto=Array.from(document.querySelectorAll('#modulo-crianca .chk-alto:checked')).map(cb=>cb.closest('.c-check').querySelector('span').textContent);
   const fatoresInter=Array.from(document.querySelectorAll('#modulo-crianca .chk-inter:checked')).map(cb=>cb.closest('.c-check').querySelector('span').textContent);
-  const data={crianca:nome,mae,telefone:document.getElementById('c-cel-mae').value||null,cns:document.getElementById('c-cns').value||null,ubs:document.getElementById('c-ubs').value||null,nascimento:document.getElementById('c-nasc').value||null,microarea:document.getElementById('c-microarea').value||null,acs:document.getElementById('c-acs').value||null,telefone_acs:document.getElementById('c-cel-acs').value||null,peso_atual:document.getElementById('c-peso-atual').value||null,altura:document.getElementById('c-altura').value||null,risco:cRiscoAtual,data_retorno:document.getElementById('c-retorno').value,peso_nascer:document.getElementById('c-peso').value,idade_gestacional:document.getElementById('c-ig').value,proporcionalidade:document.getElementById('c-prop').value,fatores_alto:fatoresAlto,fatores_inter:fatoresInter};
+  const data={crianca:nome,mae,telefone:document.getElementById('c-cel-mae').value||null,cns:document.getElementById('c-cns').value||null,ubs:document.getElementById('c-ubs').value||null,nascimento:document.getElementById('c-nasc').value||null,microarea:document.getElementById('c-microarea').value||null,equipe_esf:document.getElementById('c-equipe').value||null,acs:document.getElementById('c-acs').value||null,telefone_acs:document.getElementById('c-cel-acs').value||null,peso_atual:document.getElementById('c-peso-atual').value||null,altura:document.getElementById('c-altura').value||null,risco:cRiscoAtual,data_retorno:document.getElementById('c-retorno').value,peso_nascer:document.getElementById('c-peso').value,idade_gestacional:document.getElementById('c-ig').value,proporcionalidade:document.getElementById('c-prop').value,fatores_alto:fatoresAlto,fatores_inter:fatoresInter};
   const btn=document.getElementById('btn-salvar-crianca');btn.disabled=true;btn.textContent='⏳ Salvando...';
   const editId=btn.dataset.editId;
   try{
     let error;
-    if(editId){({error}=await supabaseClient.from('extratifica').update(data).eq('id',editId));}
-    else{({error}=await supabaseClient.from('extratifica').insert([data]));}
+    if(editId){({error}=await eqGravar(d=>supabaseClient.from('extratifica').update(d).eq('id',editId),data));}
+    else{({error}=await eqGravar(d=>supabaseClient.from('extratifica').insert([d]),data));}
     if(error)throw error;
     if(editId){
       if(criMap[editId])Object.assign(criMap[editId],data);
@@ -3930,7 +3935,7 @@ async function buscarCriancas(){
 
 async function excluirCrianca(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('extratifica').delete().eq('id',id);showToast('🗑️ Excluído');carregarCriancas();}catch(err){showToast('Erro',true);}}
 
-function reiniciarCrianca(){if(!confirm('Limpar formulário?'))return;document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.checked=false);document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));document.getElementById('c-proxima-consulta').style.display='none';document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';document.getElementById('c-imc').value='';document.getElementById('c-imc-classificacao').style.display='none';document.getElementById('c-data').valueAsDate=new Date();cCalcular();window.scrollTo(0,0);const btnC=document.getElementById('btn-salvar-crianca');if(btnC){delete btnC.dataset.editId;btnC.innerHTML='💾 Salvar Registro';}}
+function reiniciarCrianca(){if(!confirm('Limpar formulário?'))return;document.getElementById('c-equipe').selectedIndex=0;document.querySelectorAll('#modulo-crianca input[type=text],#modulo-crianca input[type=tel],#modulo-crianca input[type=date],#modulo-crianca input[type=number]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter,#modulo-crianca .chk-habitual').forEach(cb=>cb.checked=false);document.querySelectorAll('.agenda-pill').forEach(p=>p.classList.remove('ativa'));document.getElementById('c-proxima-consulta').style.display='none';document.getElementById('c-peso').value='adequado';document.getElementById('c-ig').value='termo_completo';document.getElementById('c-prop').value='AIG';document.getElementById('c-imc').value='';document.getElementById('c-imc-classificacao').style.display='none';document.getElementById('c-data').valueAsDate=new Date();cCalcular();window.scrollTo(0,0);const btnC=document.getElementById('btn-salvar-crianca');if(btnC){delete btnC.dataset.editId;btnC.innerHTML='💾 Salvar Registro';}}
 
 function calcIMC(){
   const peso=parseFloat(document.getElementById('c-peso-atual').value),altura=parseFloat(document.getElementById('c-altura').value);
@@ -4089,6 +4094,7 @@ async function salvarIdoso(){
     cns:document.getElementById('i-cns').value||null,
     ubs:document.getElementById('i-ubs').value||null,
     microarea:document.getElementById('i-microarea').value||null,
+    equipe_esf:document.getElementById('i-equipe').value||null,
     acs:document.getElementById('i-acs').value||null,
     telefone_acs:document.getElementById('i-cel-acs').value||null,
     nascimento:document.getElementById('i-nasc').value||null,
@@ -4103,8 +4109,8 @@ async function salvarIdoso(){
   const editId=btn.dataset.editId;
   try{
     let error;
-    if(editId){({error}=await supabaseClient.from('idosos').update(data).eq('id',editId));}
-    else{({error}=await supabaseClient.from('idosos').insert([data]));}
+    if(editId){({error}=await eqGravar(d=>supabaseClient.from('idosos').update(d).eq('id',editId),data));}
+    else{({error}=await eqGravar(d=>supabaseClient.from('idosos').insert([d]),data));}
     if(error)throw error;
     if(editId){
       if(idoMap[editId])Object.assign(idoMap[editId],data);
@@ -4153,6 +4159,7 @@ async function excluirIdoso(id){if(!confirm('Excluir?'))return;try{await supabas
 
 function reiniciarIdoso(){
   if(!confirm('Limpar formulário?'))return;
+  document.getElementById('i-equipe').selectedIndex=0;
   document.querySelectorAll('#modulo-idoso input[type=text],#modulo-idoso input[type=tel],#modulo-idoso input[type=date]').forEach(el=>{if(!el.readOnly)el.value='';});
   document.querySelectorAll('#modulo-idoso input[type=radio][value="0"]').forEach(r=>r.checked=true);
   document.getElementById('i-idade-calc').value='';
@@ -4170,7 +4177,7 @@ function verIdoso(id){
   const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
   const rm={BAIXO:'🟢 Baixo Risco',MODERADO:'🟡 Moderado Risco',ALTO:'🔴 Alto Risco'};
   let html='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=detItem('Nome',i.nome)+detItem('Telefone',i.telefone)+detItem('CNS',i.cns)+detItem('UBS',i.ubs)+detItem('Data de Nascimento',fmtDataDet(i.nascimento))+detItem('Microárea',i.microarea)+detItem('ACS Responsável',i.acs)+detItem('Telefone do ACS',i.telefone_acs);
+  html+=detItem('Nome',i.nome)+detItem('Telefone',i.telefone)+detItem('CNS',i.cns)+detItem('UBS',i.ubs)+detItem('Equipe ESF',i.equipe_esf)+detItem('Data de Nascimento',fmtDataDet(i.nascimento))+detItem('Microárea',i.microarea)+detItem('ACS Responsável',i.acs)+detItem('Telefone do ACS',i.telefone_acs);
   html+='</div><div class="det-sub">📊 IVCF-20</div><div class="det-grid">';
   html+=detItem('Pontuação',(i.pontuacao??'—')+' / 40')+detItem('Classificação',rm[i.risco]||i.risco)+detItem('Data da Avaliação',fmtDataDet(i.data_avaliacao))+detItem('Próxima Avaliação',fmtDataDet(i.data_retorno))+detItem('Registrado em',fmtDataDet(i.created_at));
   html+='</div>'+detLista('⚠️ Dimensões Alteradas',i.dimensoes_alteradas);
@@ -4186,6 +4193,7 @@ function editarIdosoFicha(id){
   document.getElementById('i-cns').value=i.cns||'';
   document.getElementById('i-ubs').value=i.ubs||'';
   document.getElementById('i-microarea').value=i.microarea||'';
+  document.getElementById('i-equipe').value=i.equipe_esf||'';
   document.getElementById('i-acs').value=i.acs||'';
   document.getElementById('i-cel-acs').value=i.telefone_acs||'';
   document.getElementById('i-nasc').value=dataISO(i.nascimento);
@@ -4333,6 +4341,17 @@ document.getElementById('c-ig').addEventListener('change',cCalcular);
 document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
 ['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);atualizarPreviewWppACS(p[2],p[1],p[0]);}});});
 
+// Grava; se a coluna equipe_esf ainda não existir no banco, salva o restante e avisa
+async function eqGravar(op,dados){
+  let r=await op(dados);
+  if(r&&r.error&&/equipe_esf|column|schema cache/i.test(r.error.message||'')){
+    const d2={...dados};delete d2.equipe_esf;
+    r=await op(d2);
+    if(r&&!r.error)showToast('⚠️ Salvo, mas rode o SQL da Equipe ESF no Supabase para gravar a equipe.',true);
+  }
+  return r;
+}
+
 // ===== SAÚDE BUCAL =====
 function bGetRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'';}
 
@@ -4424,7 +4443,7 @@ document.addEventListener('change',e=>{
   if(n==='b-risco')bSugerirRetorno();
   bAtualizarWpp();
 });
-const B_COLS_NOVAS=['telefone','telefone_acs','data_retorno','microarea'];
+const B_COLS_NOVAS=['telefone','telefone_acs','data_retorno','microarea','equipe_esf'];
 async function bGravar(op,dados){
   let r=await op(dados);
   if(r.error&&/column|schema cache/i.test(r.error.message||'')){
@@ -4467,6 +4486,7 @@ async function salvarBucal(){
     ubs:document.getElementById('b-ubs').value||null,
     acs:document.getElementById('b-acs').value||null,
     microarea:document.getElementById('b-microarea').value||null,
+    equipe_esf:document.getElementById('b-equipe').value||null,
     telefone:document.getElementById('b-telefone').value.replace(/\D/g,'')||null,
     telefone_acs:document.getElementById('b-telefone-acs').value.replace(/\D/g,'')||null,
     data_retorno:document.getElementById('b-data-retorno').value||null,
@@ -4527,7 +4547,7 @@ async function verBucal(id){
   const sim='✅ Sim',nao='❌ Não';const yn=v=>v==='Sim'?sim:v==='Não'?nao:(v||'—');
   let html=`<div style="background:${rk.bg};border:2px solid ${rk.cor};border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1rem;font-size:1rem;font-weight:800;color:${rk.cor}">${rk.label}</div>`;
   html+='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
-  html+=detItem('Nome Civil',r.nome_civil)+detItem('Nome Social',r.nome_social)+detItem('Raça/Cor',r.raca_cor)+detItem('Sexo',r.sexo)+detItem('Data de Avaliação',r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—')+detItem('UBS',r.ubs)+detItem('ACS',r.acs)+detItem('Microárea',r.microarea)+detItem('WhatsApp paciente',r.telefone)+detItem('WhatsApp ACS',r.telefone_acs)+detItem('Retorno',r.data_retorno?r.data_retorno.split('-').reverse().join('/'):'—');
+  html+=detItem('Nome Civil',r.nome_civil)+detItem('Nome Social',r.nome_social)+detItem('Raça/Cor',r.raca_cor)+detItem('Sexo',r.sexo)+detItem('Data de Avaliação',r.data_avaliacao?r.data_avaliacao.split('-').reverse().join('/'):'—')+detItem('UBS',r.ubs)+detItem('ACS',r.acs)+detItem('Equipe ESF',r.equipe_esf)+detItem('Microárea',r.microarea)+detItem('WhatsApp paciente',r.telefone)+detItem('WhatsApp ACS',r.telefone_acs)+detItem('Retorno',r.data_retorno?r.data_retorno.split('-').reverse().join('/'):'—');
   html+='</div><div class="det-sub">🦷 Hábitos e História</div><div class="det-grid">';
   html+=detItem('Escova 2x/dia',yn(r.escova_2x))+detItem('Usa fio dental',yn(r.fio_dental))+detItem('Consome açúcar',yn(r.consume_acucar))+detItem('Creme dental c/ flúor',yn(r.creme_fluor))+detItem('Água fluoretada',yn(r.agua_fluoretada))+detItem('Cárie último ano',yn(r.carie_ultimo_ano))+detItem('Perdeu dente',yn(r.perdeu_dente))+detItem('Restaurações',yn(r.restauracoes))+detItem('Dor dentária',yn(r.dor_dentaria))+detItem('Placa bacteriana',yn(r.placa_bacteriana))+detItem('Sangramento gengival',yn(r.sangramento_gengival))+detItem('Lesões/cárie',yn(r.lesoes_carie))+detItem('Manchas brancas',yn(r.manchas_brancas))+detItem('Cálculo dental',yn(r.calculo_dental));
   html+='</div>';
@@ -4549,6 +4569,7 @@ async function editarBucal(id){
   document.getElementById('b-ubs').value=r.ubs||'';
   document.getElementById('b-acs').value=r.acs||'';
   document.getElementById('b-microarea').value=r.microarea||'';
+  document.getElementById('b-equipe').value=r.equipe_esf||'';
   const bt=String(r.telefone||'');document.getElementById('b-telefone').value=bt;if(bt)hMascaraTel(document.getElementById('b-telefone'));
   const bta=String(r.telefone_acs||'');document.getElementById('b-telefone-acs').value=bta;if(bta)hMascaraTel(document.getElementById('b-telefone-acs'));
   const bdr=document.getElementById('b-data-retorno');bdr.value=r.data_retorno||'';bdr.dataset.manual=r.data_retorno?'1':'';
@@ -4600,6 +4621,7 @@ async function atualizarBucal(id){
     ubs:document.getElementById('b-ubs').value||null,
     acs:document.getElementById('b-acs').value||null,
     microarea:document.getElementById('b-microarea').value||null,
+    equipe_esf:document.getElementById('b-equipe').value||null,
     telefone:document.getElementById('b-telefone').value.replace(/\D/g,'')||null,
     telefone_acs:document.getElementById('b-telefone-acs').value.replace(/\D/g,'')||null,
     data_retorno:document.getElementById('b-data-retorno').value||null,
@@ -4948,7 +4970,7 @@ async function salvarHasDm(){
   if(document.getElementById('h-diag-dm').checked)diag.push('DM');
   if(document.getElementById('h-diag-dm1').checked)diag.push('DM Tipo 1/LADA');
   const payload={
-    nome,ubs:document.getElementById('h-ubs').value,microarea:document.getElementById('h-microarea').value,
+    nome,ubs:document.getElementById('h-ubs').value,equipe_esf:document.getElementById('h-equipe').value||null,microarea:document.getElementById('h-microarea').value,
     enfermeira:document.getElementById('h-enfermeira').value,acs:document.getElementById('h-acs').value,
     data_nasc:document.getElementById('h-nasc').value,idade:parseInt(document.getElementById('h-idade').value)||null,
     cns:document.getElementById('h-cns').value,cpf:document.getElementById('h-cpf').value,
@@ -4987,8 +5009,8 @@ async function salvarHasDm(){
   };
   const editId=document.getElementById('btn-salvar-hasdm').dataset.editId;
   let res;
-  if(editId){res=await supabaseClient.from('hasdm').update(payload).eq('id',editId);}
-  else{res=await supabaseClient.from('hasdm').insert([payload]);}
+  if(editId){res=await eqGravar(d=>supabaseClient.from('hasdm').update(d).eq('id',editId),payload);}
+  else{res=await eqGravar(d=>supabaseClient.from('hasdm').insert([d]),payload);}
   btn.disabled=false;btn.textContent='💾 Salvar Registro';
   if(res.error){showToast('Erro ao salvar: '+res.error.message,true);}
   else{showToast('Registro salvo com sucesso!');delete btn.dataset.editId;reiniciarHasDm();carregarHasDm();}
@@ -5048,6 +5070,7 @@ async function editarHasDm(id){
   if(error||!data){showToast('Erro ao carregar registro!',true);return;}
   document.getElementById('h-nome').value=data.nome||'';
   document.getElementById('h-microarea').value=data.microarea||'';
+  document.getElementById('h-equipe').value=data.equipe_esf||'';
   document.getElementById('h-enfermeira').value=data.enfermeira||'';
   document.getElementById('h-acs').value=data.acs||'';
   document.getElementById('h-nasc').value=data.data_nasc||'';
@@ -5116,7 +5139,7 @@ async function verHasDm(id){
   html+='<div class="det-sub">👤 Identificação</div><div class="det-grid">';
   html+=detItem('Nome',r.nome)+detItem('CNS',r.cns)+detItem('CPF',r.cpf)+detItem('Data de Nascimento',r.data_nasc?r.data_nasc.split('-').reverse().join('/'):'—')+detItem('Idade',r.idade?r.idade+' anos':'—')+detItem('Sexo',r.sexo||'—')+detItem('Estado Civil',r.estado_civil||'—')+detItem('Escolaridade',r.escolaridade||'—');
   html+='</div><div class="det-sub">📍 Vínculo APS</div><div class="det-grid">';
-  html+=detItem('UBS',r.ubs)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico)+detItem('Telefone',r.telefone)+detItem('Data da Consulta',hFmtData(r.data_consulta))+detItem('Retorno',hFmtData(r.data_retorno));
+  html+=detItem('UBS',r.ubs)+detItem('Equipe ESF',r.equipe_esf)+detItem('Microárea',r.microarea)+detItem('Enfermeira',r.enfermeira)+detItem('ACS',r.acs)+detItem('Endereço',r.endereco)+detItem('Diagnóstico',r.diagnostico)+detItem('Telefone',r.telefone)+detItem('Data da Consulta',hFmtData(r.data_consulta))+detItem('Retorno',hFmtData(r.data_retorno));
   html+='</div><div class="det-sub">🩺 Dados Clínicos</div><div class="det-grid">';
   html+=detItem('PAS',r.pas?r.pas+' mmHg':'—')+detItem('PAD',r.pad?r.pad+' mmHg':'—')+detItem('Colesterol Total',r.colesterol?r.colesterol+' mg/dL':'—')+detItem('HDL-c',r.hdl?r.hdl+' mg/dL':'—')+detItem('LDL-c',r.ldl?r.ldl+' mg/dL':'—')+detItem('Triglicerídeos',r.triglicerideos?r.triglicerideos+' mg/dL':'—')+detItem('Creatinina',r.creatinina?r.creatinina+' mg/dL':'—')+detItem('HbA1c',r.hba1c?r.hba1c+'%':'—')+detItem('Glicemia',r.glicemia?r.glicemia+' mg/dL':'—')+detItem('TFG',r.tfg?r.tfg+' mL/min':'—')+detItem('IMC',r.imc?r.imc+' kg/m²':'—')+detItem('Fumante',r.fumante||'—')+detItem('ECG',r.ecg||'—');
   html+='</div>';
