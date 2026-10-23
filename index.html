@@ -3785,11 +3785,10 @@ function editarGestanteFicha(id){
     const cb=todos.find(el=>el.dataset.label===label&&(!grupo||el.dataset.grupo===grupo));
     if(cb&&!cb.checked){const lbl=cb.closest('.g-check');if(lbl)lbl.click();}
   });
-  gPagAtual=1;gRenderPag();
-  processarGestante();
+  gPagAtual=1;gRenderPag();window.scrollTo(0,0);
   const btn=document.getElementById('btn-salvar-gestante');
   if(btn){btn.dataset.editId=id;btn.textContent='💾 Salvar Alterações';}
-  showToast('Registro carregado para edição — revise e clique em Salvar Alterações!');
+  showToast('Editando no Passo 1 — avance até o final, clique em Calcular e depois em Salvar Alterações!');
 }
 function editarCriancaFicha(id){
   const c=criMap[id];if(!c){showToast('Registro não encontrado',true);return;}
