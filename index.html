@@ -3233,8 +3233,10 @@ function palPpsMarca(pps){
 }
 function palDesenharPps(){
   const el=palEl('pal-pps_atual');const m=palPpsMarca(el?el.value:'');
-  document.querySelectorAll('#pal-curvas .pal-ppsg').forEach(g=>{g.innerHTML=m;});
-  const leg=palEl('pal-pps-leg');if(leg)leg.textContent=m?'Linha azul tracejada = PPS atual ('+el.value+'%) sobre a curva de trajetória.':'Selecione o PPS atual abaixo para vê-lo dentro do gráfico.';
+  // o PPS aparece somente na curva escolhida (a que corresponde à doença do paciente)
+  document.querySelectorAll('#pal-curvas .pal-curva').forEach(b=>{const g=b.querySelector('.pal-ppsg');if(g)g.innerHTML=(b.dataset.curva===palCurva)?m:'';});
+  const leg=palEl('pal-pps-leg');
+  if(leg)leg.textContent=!palCurva?'Escolha a curva que corresponde à doença do paciente: o PPS atual aparecerá somente nela.':(m?'Linha azul tracejada = PPS atual ('+el.value+'%) na curva escolhida.':'Selecione o PPS atual abaixo para vê-lo na curva escolhida.');
 }
 function palGrafImp(d){
   const c=PAL_CURVAS.find(x=>x[0]===d.curva);if(!c)return '';
@@ -3258,7 +3260,7 @@ function palAmpliarCurva(id){
   const c=PAL_CURVAS.find(x=>x[0]===id);if(!c)return;
   const el=palEl('pal-pps_atual'),v=el?el.value:'';
   palEl('pal-graf-box').innerHTML='<div class="pal-graf-top"><div><h3>'+palEsc(c[1])+'</h3><small>'+palEsc(c[2])+'</small></div><button type="button" class="btn btn-nova" data-pal-graf-fechar="1" style="padding:.35rem .8rem;font-size:.8rem">✕ Fechar</button></div>'+
-    palGrafGrande(c,v)+'<div class="pal-graf-leg">'+(v!==''?'Linha azul tracejada = PPS atual ('+palEsc(v)+'%).':'PPS atual não informado — selecione-o no campo abaixo das curvas.')+'</div>'+
+    palGrafGrande(c,id===palCurva?v:'')+'<div class="pal-graf-leg">'+(id!==palCurva?'Esta curva não está escolhida para o paciente; o PPS aparece somente na curva escolhida.':v!==''?'Linha azul tracejada = PPS atual ('+palEsc(v)+'%).':'PPS atual não informado — selecione-o no campo abaixo das curvas.')+'</div>'+
     '<div class="pal-graf-nav">'+PAL_CURVAS.map(x=>'<button type="button" class="btn '+(x[0]===id?'btn-salvar':'btn-nova')+'" onclick="palCurva=\''+x[0]+'\';palMarcarCurva();palAmpliarCurva(\''+x[0]+'\')" style="padding:.35rem .8rem;font-size:.78rem">'+palEsc(x[1].split(' ').slice(0,3).join(' '))+'…</button>').join('')+'</div>';
   palEl('pal-graf-modal').classList.add('aberto');
 }
