@@ -4482,7 +4482,13 @@ async function carregarEstatGeralReal(){
     aplicarEstatGeral('dia',contarNomesUnicos(diabRows,r=>r.nome));
     aplicarEstatGeral('ido',contarNomesUnicos(i.data,r=>r.nome));
     aplicarEstatGeral('cri',contarNomesUnicos(c.data,r=>r.crianca));
-    aplicarEstatGeral('ges',contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome));
+    {
+      // meta dinâmica: quem foi para o puerpério (ou encerrou) deixa de contar na meta de gestantes
+      const gAll=g.data||[],ativosN=new Set(gAll.filter(gestAtiva).map(r=>(r.nome||'').trim().toLowerCase()).filter(Boolean));
+      const saiuN=new Set(gAll.filter(r=>!gestAtiva(r)).map(r=>(r.nome||'').trim().toLowerCase()).filter(n=>n&&!ativosN.has(n)));
+      const qAtivas=ativosN.size,metaDin=Math.max(EG_TOTAIS.ges-saiuN.size,qAtivas);
+      aplicarEstatGeral('ges',qAtivas,metaDin,saiuN.size?('Meta ajustada: '+EG_TOTAIS.ges+' − '+saiuN.size+' que saiu'+(saiuN.size>1?'ram':'')+' da gestação (puerpério/encerrada)'):'');
+    }
 
     // Distribuição por nível de risco, por programa (paciente único, registro mais recente)
     const ordemGest=[
@@ -4532,8 +4538,13 @@ async function carregarEstatGeralReal(){
     if(detalheEl)detalheEl.innerHTML='<span style="color:#c62828">Erro ao carregar distribuição de risco.</span>';
   }
 }
-function aplicarEstatGeral(id,qtd){
-  const total=EG_TOTAIS[id];
+function aplicarEstatGeral(id,qtd,totalDin,nota){
+  const total=(totalDin===undefined||totalDin===null)?EG_TOTAIS[id]:totalDin;
+  // nota explicativa (meta dinâmica) logo abaixo da linha do programa
+  const numEl=document.getElementById('eg-num-'+id);
+  if(numEl&&numEl.parentElement){let n=document.getElementById('eg-nota-'+id);
+    if(!n){n=document.createElement('div');n.id='eg-nota-'+id;n.style.cssText='font-size:.68rem;color:var(--txt-3);margin:-.35rem 0 .5rem;text-align:right';numEl.parentElement.insertAdjacentElement('afterend',n);}
+    n.textContent=nota||'';n.style.display=nota?'block':'none';}
   const pct=total>0?(qtd/total*100):0;
   document.getElementById('eg-num-'+id).textContent=qtd+'/'+total;
   document.getElementById('eg-pct-'+id).textContent=pct.toFixed(1)+'%';
