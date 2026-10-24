@@ -510,6 +510,16 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .pal-curva svg{width:100%;height:80px}
 .pal-curva strong{display:block;font-size:.78rem;margin-top:.3rem}
 .pal-curva small{color:var(--txt-3);font-size:.7rem}
+.g-abas{display:flex;gap:.4rem;flex-wrap:wrap;margin:.2rem 0 .8rem}
+.g-aba{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:.45rem .85rem;font-family:var(--font-body);font-size:.82rem;font-weight:700;cursor:pointer;color:var(--txt-2)}
+.g-aba b{background:#eceff1;border-radius:20px;padding:.05rem .5rem;margin-left:.25rem;font-size:.72rem}
+.g-aba.ativa{background:#e8f5e9;border-color:#66bb6a;color:#1b5e20}
+.g-aba[data-aba="puerperio"].ativa{background:#fce4ec;border-color:#f48fb1;color:#ad1457}
+.g-aba[data-aba="encerrada"].ativa{background:#eceff1;border-color:#90a4ae;color:#37474f}
+.g-sit-campo{margin:.7rem 0}.g-sit-campo label{display:block;font-size:.7rem;font-weight:700;color:var(--txt-2);text-transform:uppercase;margin-bottom:.25rem}
+.g-sit-campo input,.g-sit-campo select,.g-sit-campo textarea{width:100%;padding:.55rem .7rem;border:1.5px solid var(--border);border-radius:9px;font-family:var(--font-body);font-size:.9rem}
+.g-sit-btns{display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1rem}
+.g-dpp-venc{display:inline-block;background:#fff3e0;color:#e65100;border-radius:20px;padding:.05rem .45rem;font-size:.66rem;font-weight:700;margin-left:.3rem}
 .pal-pps-leg{font-size:.78rem;font-weight:700;color:#1565c0;margin-top:.5rem}
 .pal-curva svg{cursor:zoom-in}
 .pal-zoom{display:block;font-size:.66rem;color:#1565c0;font-weight:700;cursor:zoom-in;margin-top:.2rem}
@@ -745,6 +755,7 @@ img,svg,canvas{max-width:100%}
 
 <div class="modal-overlay" id="modal-editar-crianca"><div class="modal"><h3>✏️ Editar Registro</h3><input type="hidden" id="edit-id"><div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div><div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div><div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div><div class="modal-campo"><label>Risco</label><select id="edit-risco"><option value="HABITUAL">Habitual</option><option value="INTERMEDIARIO">Intermediário</option><option value="ALTO">Alto</option></select></div><div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalCrianca()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">Salvar</button></div></div></div>
 <div class="historico-overlay" id="pal-graf-modal"><div class="pal-graf-box" id="pal-graf-box"></div></div>
+<div class="historico-overlay" id="modal-gest-sit"><div class="historico-box" style="max-width:480px" id="gest-sit-box"></div></div>
 <div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><div style="display:flex;gap:.4rem"><button class="btn btn-pdf" onclick="imprimirFicha()" style="padding:.3rem .75rem;font-size:.78rem">🖨️ Imprimir folha</button><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div></div><div id="historico-conteudo"></div></div></div>
 <div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificação</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilância</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
 
@@ -999,6 +1010,8 @@ img,svg,canvas{max-width:100%}
     
     <div class="acao-buttons">
       <button class="btn-acao btn-salvar-resultado" id="btn-salvar-gestante" onclick="salvarGestante()">💾 Salvar</button>
+      <button class="btn-acao" id="g-btn-puerperio" onclick="gestAbrirSit(gGestSalvaId,'puerperio')" style="display:none;background:#fce4ec;color:#ad1457;border:2px solid #f48fb1;font-weight:800">🤱 Colocar no puerpério</button>
+      <button class="btn-acao" id="g-btn-encerrar" onclick="gestAbrirSit(gGestSalvaId,'encerrada')" style="display:none;background:#eceff1;color:#455a64;border:2px solid #b0bec5">🚪 Não está mais grávida</button>
       <button class="btn-acao" onclick="gEditarCampos()" style="background:#fff3e0;color:#e65100;border:2px solid #ffb74d">✏️ Editar campos</button>
       <button class="btn-acao btn-excel-resultado" onclick="exportarExcelGestante()">📊 Excel</button>
       <button class="btn-acao btn-pdf-resultado" onclick="window.print()">🖨️ PDF</button>
@@ -1011,6 +1024,11 @@ img,svg,canvas{max-width:100%}
         📋 Gestantes Registradas
         <button onclick="carregarGestantes()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
       </div>
+      <div class="g-abas" id="g-abas">
+        <button type="button" class="g-aba ativa" data-aba="gestante" onclick="gestAbaSet('gestante')">🤰 Gestantes <b id="g-n-gestante">0</b></button>
+        <button type="button" class="g-aba" data-aba="puerperio" onclick="gestAbaSet('puerperio')">🤱 Puerpério <b id="g-n-puerperio">0</b></button>
+        <button type="button" class="g-aba" data-aba="encerrada" onclick="gestAbaSet('encerrada')">📁 Encerradas <b id="g-n-encerrada">0</b></button>
+      </div>
       <div class="busca-wrap">
         <input type="text" class="busca-input" id="buscaGestante" placeholder="🔍 Buscar pelo nome...">
         <button class="busca-btn" onclick="buscarGestantes()">Buscar</button>
@@ -1018,7 +1036,7 @@ img,svg,canvas{max-width:100%}
       </div>
       <div class="tabela-wrap">
         <table class="tbl">
-          <thead>
+          <thead id="gestantesHead">
             <tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>ACS</th><th>Classificação</th><th>Data Retorno</th><th>Ações</th></tr>
           </thead>
           <tbody id="gestantesList">
@@ -2501,7 +2519,7 @@ function ativarSessao(user,bemVindo){
 function fazerLogout(){if(confirm('Deseja sair?')){supabaseClient.auth.signOut().then(()=>{sessionStorage.removeItem('aps_tela');location.reload();});}}
 function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo','modulo-agenda'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
-async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([supabaseClient.from('gestantes').select('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos(g.data,r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
+async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([gestSel('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
 function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=mod==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=mod==='agenda'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(mod==='paliativo'){palAbrir();}else if(mod==='agenda'){agAbrir();}}
 
 // ===== AGENDA DE ATENDIMENTO: agendadas · programadas (retornos) · continuadas (recorrentes) =====
@@ -2747,7 +2765,7 @@ async function agCarregarPacientes(forcar){
   await agUid();
   const t=n=>supabaseClient.from(n).select('*').limit(3000);
   const[g,c,h,i,b,p]=await Promise.all([
-    t('gestantes').order('created_at',{ascending:false}),t('extratifica').order('created_at',{ascending:false}),
+    t('gestantes').order('created_at',{ascending:false}).then(r=>Object.assign(r,{data:(r.data||[]).filter(gestAtiva)})),t('extratifica').order('created_at',{ascending:false}),
     t('hasdm').order('created_at',{ascending:false}),t('idosos').order('created_at',{ascending:false}),
     t('saudebucal').order('created_at',{ascending:false}),t('paliativos')]);
   const out=[],vistos={};
@@ -3656,15 +3674,16 @@ async function salvarGestante(){
   const editId=btn?btn.dataset.editId:null;
   try{
     let error;
-    const gravar=d=>editId?supabaseClient.from('gestantes').update(d).eq('id',editId):supabaseClient.from('gestantes').insert([d]);
-    ({error}=await gravar(data));
+    const gravar=d=>{if(editId)return supabaseClient.from('gestantes').update(d).eq('id',editId);const q=supabaseClient.from('gestantes').insert([d]);return (q&&typeof q.select==='function')?q.select('id'):q;};
+    let res=await gravar(data);error=res.error;
     if(error&&/telefone_acs/i.test(error.message||'')){
       // coluna ainda não criada no banco: salva o resto e avisa
       const semAcs=Object.assign({},data);delete semAcs.telefone_acs;
-      ({error}=await gravar(semAcs));
+      res=await gravar(semAcs);error=res.error;
       if(!error)showToast('⚠️ Salvo, mas o contato do ACS não foi gravado: rode o SQL gestante_telefone_acs.sql no Supabase',true);
     }
     if(error)throw error;
+    {const nid=editId||(res&&res.data&&(Array.isArray(res.data)?(res.data[0]||{}).id:res.data.id));if(nid){gGestSalvaId=String(nid);await gestRecarregarMapa();const pb=document.getElementById('g-btn-puerperio'),eb=document.getElementById('g-btn-encerrar');if(pb)pb.style.display='inline-flex';if(eb)eb.style.display='inline-flex';}}
     if(editId){
       if(gestMap[editId])Object.assign(gestMap[editId],data);
       delete btn.dataset.editId;btn.textContent='💾 Salvar';
@@ -3678,68 +3697,117 @@ async function salvarGestante(){
 
 }
 
-async function carregarGestantes(){
+// ---------- situação da gestante: gestante | puerperio | encerrada ----------
+let gestAba='gestante',gGestSalvaId=null,gestTodas=[];
+function gestSit(g){return (g&&g.situacao)||'gestante';}
+function gestAtiva(g){return gestSit(g)==='gestante';}
+// seleciona colunas da tabela de gestantes; se o banco ainda não tem "situacao", cai para sem ela
+async function gestSel(cols,extra){
+  const q=(c)=>{let r=supabaseClient.from('gestantes').select(c);return extra?extra(r):r;};
+  let r=await q(cols+(cols==='*'?'':',situacao'));
+  if(r.error&&/situacao/i.test(r.error.message||''))r=await q(cols);
+  return r;
+}
+async function gestRecarregarMapa(){const r=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});(r.data||[]).forEach(g=>{if(typeof g.fatores_risco==='string'){try{g.fatores_risco=JSON.parse(g.fatores_risco);}catch(e){g.fatores_risco=[];}}gestMap[g.id]=g;});}
+function gestFmt(d){return d?String(d).slice(0,10).split('-').reverse().join('/'):'—';}
+function gestHoje(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function gestDias(iso){if(!iso)return null;const a=new Date(String(iso).slice(0,10)+'T12:00:00'),b=new Date(gestHoje()+'T12:00:00');return Math.round((b-a)/86400000);}
+function gestAbaSet(a){gestAba=a;document.querySelectorAll('#g-abas .g-aba').forEach(b=>b.classList.toggle('ativa',b.dataset.aba===a));carregarGestantes();}
+function gestHead(){
+  const h=document.getElementById('gestantesHead');if(!h)return;
+  h.innerHTML=gestAba==='gestante'?'<tr><th>Gestante</th><th>CNS</th><th>UBS</th><th>ACS</th><th>Classificação</th><th>Data Retorno</th><th>Ações</th></tr>'
+   :gestAba==='puerperio'?'<tr><th>Puérpera</th><th>CNS</th><th>UBS</th><th>ACS</th><th>Data do parto</th><th>Dias de puerpério</th><th>Ações</th></tr>'
+   :'<tr><th>Paciente</th><th>CNS</th><th>UBS</th><th>ACS</th><th>Motivo</th><th>Data</th><th>Ações</th></tr>';
+}
+async function carregarGestantes(termo){
   const tbody=document.getElementById('gestantesList');if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="7">Carregando...<\/td><\/tr>';
+  if(typeof termo!=='string')termo='';
+  gestHead();
+  tbody.innerHTML='<tr><td colspan="7">'+(termo?'Buscando...':'Carregando...')+'<\/td><\/tr>';
   try{
     const{data,error}=await supabaseClient.from('gestantes').select('*').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<td><td colspan="7">Nenhuma gestante cadastrada<\/td><\/tr>';return;}
-    data.forEach(g=>{
+    gestTodas=data||[];
+    gestTodas.forEach(g=>{
       if(typeof g.fatores_risco==='string'){try{g.fatores_risco=JSON.parse(g.fatores_risco);}catch(e){g.fatores_risco=[];}}
       gestMap[g.id]=g;
     });
+    ['gestante','puerperio','encerrada'].forEach(a=>{const el=document.getElementById('g-n-'+a);if(el)el.textContent=gestTodas.filter(g=>gestSit(g)===a).length;});
+    const t=termo.trim().toLowerCase();
+    const lista=gestTodas.filter(g=>gestSit(g)===gestAba&&(!t||(g.nome||'').toLowerCase().includes(t)));
+    const vazio={gestante:'Nenhuma gestante cadastrada',puerperio:'Nenhuma paciente no puerpério. Use "🤱 Puerpério" na aba Gestantes.',encerrada:'Nenhum caso encerrado'};
+    if(!lista.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:1.2rem">'+(t?'Nenhum resultado encontrado':vazio[gestAba])+'<\/td><\/tr>';return;}
     const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
-    tbody.innerHTML=data.map(g=>{
-      let dataRetorno = '—';
-      if(g.proxima_consulta){
-        const data = new Date(g.proxima_consulta + 'T12:00:00');
-        dataRetorno = data.toLocaleDateString('pt-BR');
+    const E=x=>palEsc(x==null?'':String(x));
+    tbody.innerHTML=lista.map(g=>{
+      const base='<td><strong>'+E(g.nome||'—')+'<\/strong><\/td><td>'+E(g.cns||'—')+'<\/td><td>'+E(g.ubs||'—')+'<\/td><td>'+E(g.acs||'—')+'<\/td>';
+      const ver='<button class="btn-ver" onclick="verGestante(\''+g.id+'\')">👁️ Ver<\/button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verGestante(\''+g.id+'\'))">🖨️<\/button>';
+      if(gestAba==='gestante'){
+        const venc=g.dpp&&gestDias(g.dpp)>14?'<span class="g-dpp-venc" title="A data provável do parto já passou">DPP vencida</span>':'';
+        return '<tr>'+base+'<td>'+(cm[g.risco_classificacao]||E(g.risco_classificacao))+venc+'<\/td><td>'+gestFmt(g.proxima_consulta)+'<\/td><td>'+ver+
+          '<button class="btn-edit" onclick="editarGestanteFicha(\''+g.id+'\')">✏️ Editar<\/button>'+
+          '<button class="btn-ver" style="background:#fce4ec;color:#ad1457;border-color:#f48fb1" title="Parto realizado: colocar no puerpério" onclick="gestAbrirSit(\''+g.id+'\',\'puerperio\')">🤱 Puerpério<\/button>'+
+          '<button class="btn-ver" style="background:#eceff1;color:#455a64;border-color:#b0bec5" title="Não está mais grávida (aborto, mudança, etc.)" onclick="gestAbrirSit(\''+g.id+'\',\'encerrada\')">🚪 Não grávida<\/button>'+
+          '<button class="btn-excluir" onclick="excluirGestante(\''+g.id+'\')">🗑️ Excluir<\/button><\/td><\/tr>';
       }
-      return `<tr>
-        <td><strong>${g.nome||'—'}</strong><\/td>
-        <td>${g.cns||'—'}<\/td>
-        <td>${g.ubs||'—'}<\/td>
-        <td>${g.acs||'—'}<\/td>
-        <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
-        <td>${dataRetorno}<\/td>
-        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verGestante('${g.id}'))">🖨️<\/button><button class="btn-edit" onclick="editarGestanteFicha('${g.id}')">✏️ Editar<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
-      <\/tr>`;
-    }).join('');
-  }catch(err){tbody.innerHTML='<td><td colspan="7">Erro ao carregar<\/td><\/tr>';}
-}
-
-async function buscarGestantes(){
-  const termo=document.getElementById('buscaGestante').value.trim();if(!termo){carregarGestantes();return;}
-  const tbody=document.getElementById('gestantesList');tbody.innerHTML='<tr><td colspan="7">Buscando...<\/td><\/tr>';
-  try{
-    const{data,error}=await supabaseClient.from('gestantes').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
-    if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma gestante encontrada<\/td><\/tr>';return;}
-    data.forEach(g=>{
-      if(typeof g.fatores_risco==='string'){try{g.fatores_risco=JSON.parse(g.fatores_risco);}catch(e){g.fatores_risco=[];}}
-      gestMap[g.id]=g;
-    });
-    const cm={habitual:'<span class="badge-pill bp-verde">Habitual</span>',vigilancia:'<span class="badge-pill bp-amarelo">Vigilância</span>',compartilhado:'<span class="badge-pill bp-vermelho">Compartilhado</span>',maternidade:'<span class="badge-pill bp-vermelho">Maternidade</span>'};
-    tbody.innerHTML=data.map(g=>{
-      let dataRetorno = '—';
-      if(g.proxima_consulta){
-        const data = new Date(g.proxima_consulta + 'T12:00:00');
-        dataRetorno = data.toLocaleDateString('pt-BR');
+      if(gestAba==='puerperio'){
+        const d=gestDias(g.puerperio_inicio),txt=d==null?'—':(d<0?'—':d+' dia'+(d===1?'':'s')+(d>42?' <span class="g-dpp-venc">passou de 42 dias</span>':' / 42'));
+        return '<tr>'+base+'<td>'+gestFmt(g.puerperio_inicio)+(g.tipo_parto?' · '+E(g.tipo_parto):'')+'<\/td><td>'+txt+'<\/td><td>'+ver+
+          '<button class="btn-ver" title="Voltar para a lista de gestantes" onclick="gestMudarSit(\''+g.id+'\',\'gestante\')">↩️ Voltar p/ gestação<\/button>'+
+          '<button class="btn-ver" style="background:#e8f5e9;color:#2e7d32" title="Alta do puerpério" onclick="gestAbrirSit(\''+g.id+'\',\'encerrada\')">✅ Alta<\/button><\/td><\/tr>';
       }
-      return `<tr>
-        <td><strong>${g.nome||'—'}</strong><\/td>
-        <td>${g.cns||'—'}<\/td>
-        <td>${g.ubs||'—'}<\/td>
-        <td>${g.acs||'—'}<\/td>
-        <td>${cm[g.risco_classificacao]||g.risco_classificacao}<\/td>
-        <td>${dataRetorno}<\/td>
-        <td><button class="btn-ver" onclick="verGestante('${g.id}')">👁️ Ver<\/button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verGestante('${g.id}'))">🖨️<\/button><button class="btn-edit" onclick="editarGestanteFicha('${g.id}')">✏️ Editar<\/button><button class="btn-excluir" onclick="excluirGestante('${g.id}')">🗑️ Excluir<\/button><\/td>
-      <\/tr>`;
+      return '<tr>'+base+'<td>'+E(g.desfecho||'—')+'<\/td><td>'+gestFmt(g.data_desfecho)+'<\/td><td>'+ver+
+        '<button class="btn-ver" title="Reativar como gestante" onclick="gestMudarSit(\''+g.id+'\',\'gestante\')">↩️ Reativar<\/button><button class="btn-excluir" onclick="excluirGestante(\''+g.id+'\')">🗑️<\/button><\/td><\/tr>';
     }).join('');
-  }catch(err){showToast('❌ Erro na busca',true);}
+  }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar<\/td><\/tr>';}
 }
+function buscarGestantes(){carregarGestantes((document.getElementById('buscaGestante')||{value:''}).value);}
 
+// ---------- mudar situação (puerpério / encerrada / voltar) ----------
+function gestFecharSit(){document.getElementById('modal-gest-sit').classList.remove('aberto');}
+function gestAbrirSit(id,tipo){
+  const g=gestMap[id];if(!g){showToast('Salve a gestante primeiro',true);return;}
+  const hoje=gestHoje();
+  const puer=tipo==='puerperio';
+  document.getElementById('gest-sit-box').innerHTML=
+    '<h3 style="margin:0 0 .2rem">'+(puer?'🤱 Colocar no puerpério':(gestSit(g)==='puerperio'?'✅ Alta do puerpério':'🚪 Não está mais grávida'))+'<\/h3>'+
+    '<div style="font-size:.85rem;color:var(--txt-2)"><b>'+palEsc(g.nome||'')+'<\/b><\/div>'+
+    (puer?'<div style="font-size:.76rem;color:var(--txt-3);margin-top:.4rem">Ao confirmar, ela <b>sai da lista de gestantes</b> automaticamente e passa a ser acompanhada no puerpério (até 42 dias).<\/div>':'<div style="font-size:.76rem;color:var(--txt-3);margin-top:.4rem">Ela sai da lista de gestantes e fica guardada na aba Encerradas, sem apagar o histórico.<\/div>')+
+    '<div class="g-sit-campo"><label>'+(puer?'Data do parto':'Data')+'<\/label><input type="date" id="gs-data" value="'+hoje+'" max="'+hoje+'"><\/div>'+
+    (puer?'<div class="g-sit-campo"><label>Tipo de parto<\/label><select id="gs-tipo"><option value="">Não informado<\/option><option>Parto normal<\/option><option>Parto cesáreo<\/option><option>Parto fórceps<\/option><\/select><\/div>'
+         :'<div class="g-sit-campo"><label>Motivo<\/label><select id="gs-motivo">'+(gestSit(g)==='puerperio'?'<option>Alta do puerpério<\/option>':'')+'<option>Aborto / perda gestacional<\/option><option>Óbito fetal<\/option><option>Mudou de município<\/option><option>Cadastro duplicado ou errado<\/option><option>Outro<\/option><\/select><\/div>')+
+    '<div class="g-sit-campo"><label>Observação (opcional)<\/label><textarea id="gs-obs" rows="2"><\/textarea><\/div>'+
+    '<div class="g-sit-btns"><button type="button" class="btn btn-nova" onclick="gestFecharSit()">Cancelar<\/button><button type="button" class="btn btn-salvar" id="gs-ok" onclick="gestConfirmarSit(\''+id+'\',\''+tipo+'\')">Confirmar<\/button><\/div>';
+  document.getElementById('modal-gest-sit').classList.add('aberto');
+}
+async function gestMudarSit(id,sit,extra){
+  const upd=Object.assign({situacao:sit},extra||{});
+  if(sit==='gestante'){Object.assign(upd,{puerperio_inicio:null,data_desfecho:null,desfecho:null,tipo_parto:null});}
+  const{error}=await supabaseClient.from('gestantes').update(upd).eq('id',id);
+  if(error){
+    showToast(/situacao|column|schema/i.test(error.message||'')?'Rode o SQL gestante_puerperio.sql no Supabase para usar o puerpério.':'Erro: '+(error.message||''),true);
+    return false;
+  }
+  if(gestMap[id])Object.assign(gestMap[id],upd);
+  showToast(sit==='puerperio'?'🤱 Colocada no puerpério — saiu da lista de gestantes':sit==='encerrada'?'📁 Caso encerrado — saiu da lista de gestantes':'↩️ Voltou para a lista de gestantes');
+  carregarGestantes();carregarStatPortal();
+  return true;
+}
+async function gestConfirmarSit(id,tipo){
+  const data=document.getElementById('gs-data').value||gestHoje(),obs=(document.getElementById('gs-obs').value||'').trim()||null;
+  let ok;
+  if(tipo==='puerperio'){
+    ok=await gestMudarSit(id,'puerperio',{puerperio_inicio:data,tipo_parto:document.getElementById('gs-tipo').value||null,desfecho:'Parto',data_desfecho:data,desfecho_obs:obs});
+  }else{
+    ok=await gestMudarSit(id,'encerrada',{desfecho:document.getElementById('gs-motivo').value,data_desfecho:data,desfecho_obs:obs});
+  }
+  if(ok){
+    gestFecharSit();
+    if(tipo==='puerperio'){gestAba='puerperio';document.querySelectorAll('#g-abas .g-aba').forEach(b=>b.classList.toggle('ativa',b.dataset.aba===gestAba));}
+    const pb=document.getElementById('g-btn-puerperio'),eb=document.getElementById('g-btn-encerrar');if(pb)pb.style.display='none';if(eb)eb.style.display='none';
+    carregarGestantes();
+  }
+}
 async function excluirGestante(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('gestantes').delete().eq('id',id);showToast('🗑️ Excluído');carregarGestantes();}catch(err){showToast('Erro',true);}}
 
 // ===== CRUD READ: ficha completa (todos os dados salvos) =====
@@ -3979,7 +4047,7 @@ function editarCriancaFicha(id){
   document.getElementById('c-nome').scrollIntoView({behavior:'smooth'});
 }
 
-function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);const btnG=document.getElementById('btn-salvar-gestante');if(btnG){delete btnG.dataset.editId;btnG.textContent='💾 Salvar';}}
+function reiniciarGestante(){if(!confirm('Limpar tudo?'))return;gGestSalvaId=null;['g-btn-puerperio','g-btn-encerrar'].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display='none';});document.querySelectorAll('#modulo-gestante input[type=text],#modulo-gestante input[type=number],#modulo-gestante input[type=date],#modulo-gestante input[type=tel]').forEach(i=>{if(!i.readOnly)i.value='';});document.querySelectorAll('#modulo-gestante input[type=checkbox]').forEach(c=>{c.checked=false;const el=c.closest('.g-check');if(el)el.className='g-check';});document.querySelectorAll('#modulo-gestante input[type=radio]').forEach(r=>r.checked=false);document.querySelectorAll('#modulo-gestante input[value="nao"]').forEach(r=>r.checked=true);document.getElementById('g-equipe').value='';document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';document.getElementById('g-gest').value='1';document.getElementById('g-abort').value='0';document.getElementById('g-pn').value='0';document.getElementById('g-pc').value='0';gPagAtual=1;gMarcados=[];document.getElementById('gpag-resultado').style.display='none';gRenderPag();window.scrollTo(0,0);const btnG=document.getElementById('btn-salvar-gestante');if(btnG){delete btnG.dataset.editId;btnG.textContent='💾 Salvar';}}
 function exportarExcelGestante(){showToast('📊 Exportação em breve');}
 
 // ===== CRIANÇA =====
@@ -4402,7 +4470,7 @@ async function carregarEstatGeralReal(){
     const[h,c,g,i,b]=await Promise.all([
       supabaseClient.from('hasdm').select('nome,diagnostico,risco_estratificado').order('created_at',{ascending:false}),
       supabaseClient.from('extratifica').select('crianca,risco').order('created_at',{ascending:false}),
-      supabaseClient.from('gestantes').select('nome,risco_classificacao').order('created_at',{ascending:false}),
+      gestSel('nome,risco_classificacao',q=>q.order('created_at',{ascending:false})),
       supabaseClient.from('idosos').select('nome,risco').order('created_at',{ascending:false}),
       supabaseClient.from('saudebucal').select('nome_civil,nome_social,risco').order('created_at',{ascending:false})
     ]);
@@ -4414,7 +4482,7 @@ async function carregarEstatGeralReal(){
     aplicarEstatGeral('dia',contarNomesUnicos(diabRows,r=>r.nome));
     aplicarEstatGeral('ido',contarNomesUnicos(i.data,r=>r.nome));
     aplicarEstatGeral('cri',contarNomesUnicos(c.data,r=>r.crianca));
-    aplicarEstatGeral('ges',contarNomesUnicos(g.data,r=>r.nome));
+    aplicarEstatGeral('ges',contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome));
 
     // Distribuição por nível de risco, por programa (paciente único, registro mais recente)
     const ordemGest=[
@@ -4444,7 +4512,7 @@ async function carregarEstatGeralReal(){
       {chave:'Risco Moderado',label:'🟡 Moderado',bg:'#fff8e1',cor:'#f57f17'},
       {chave:'Alto Risco',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'}
     ];
-    const contGest=contarPorRisco(g.data,r=>r.nome,r=>r.risco_classificacao);
+    const contGest=contarPorRisco((g.data||[]).filter(gestAtiva),r=>r.nome,r=>r.risco_classificacao);
     const contCri=contarPorRisco(c.data,r=>r.crianca,r=>r.risco);
     const contIdo=contarPorRisco(i.data,r=>r.nome,r=>r.risco);
     const contHas=contarPorRisco(hasdmRows,r=>r.nome,r=>r.risco_estratificado);
