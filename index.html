@@ -755,6 +755,7 @@ img,svg,canvas{max-width:100%}
 
 <div class="modal-overlay" id="modal-editar-crianca"><div class="modal"><h3>✏️ Editar Registro</h3><input type="hidden" id="edit-id"><div class="modal-campo"><label>Nome da Criança</label><input type="text" id="edit-crianca"></div><div class="modal-campo"><label>Nome da Mãe</label><input type="text" id="edit-mae"></div><div class="modal-campo"><label>Telefone</label><input type="tel" id="edit-telefone"></div><div class="modal-campo"><label>Risco</label><select id="edit-risco"><option value="HABITUAL">Habitual</option><option value="INTERMEDIARIO">Intermediário</option><option value="ALTO">Alto</option></select></div><div class="modal-campo"><label>Data de Retorno</label><input type="date" id="edit-retorno"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalCrianca()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoCrianca()">Salvar</button></div></div></div>
 <div class="historico-overlay" id="pal-graf-modal"><div class="pal-graf-box" id="pal-graf-box"></div></div>
+<div class="historico-overlay" id="modal-ido-sit"><div class="historico-box" style="max-width:480px" id="ido-sit-box"></div></div>
 <div class="historico-overlay" id="modal-gest-sit"><div class="historico-box" style="max-width:480px" id="gest-sit-box"></div></div>
 <div class="historico-overlay" id="modal-historico"><div class="historico-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem"><h3 id="historico-titulo">Histórico</h3><div style="display:flex;gap:.4rem"><button class="btn btn-pdf" onclick="imprimirFicha()" style="padding:.3rem .75rem;font-size:.78rem">🖨️ Imprimir folha</button><button class="btn btn-nova" onclick="fecharHistorico()" style="padding:.3rem .75rem;font-size:.78rem">✕ Fechar</button></div></div><div id="historico-conteudo"></div></div></div>
 <div class="modal-overlay" id="modal-editar-gest"><div class="modal"><h3>✏️ Editar Registro da Gestante</h3><input type="hidden" id="gedit-id"><div class="modal-campo"><label>Nome da Gestante</label><input type="text" id="gedit-nome"></div><div class="modal-campo"><label>CNS</label><input type="text" id="gedit-cns"></div><div class="modal-campo"><label>Classificação</label><select id="gedit-classif"><option value="habitual">Risco Habitual</option><option value="vigilancia">Risco Habitual com Maior Vigilância</option><option value="compartilhado">Alto Risco Compartilhado</option><option value="maternidade">Alto Risco - Maternidade</option></select></div><div class="modal-campo"><label>DPP</label><input type="date" id="gedit-dpp"></div><div class="modal-btns"><button class="btn btn-nova" onclick="fecharModalGest()">Cancelar</button><button class="btn btn-salvar" onclick="salvarEdicaoGest()">Salvar</button></div></div></div>
@@ -1260,6 +1261,10 @@ img,svg,canvas{max-width:100%}
             📋 Registros Salvos
             <button onclick="carregarCriancas()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
           </div>
+          <div class="g-abas" id="c-abas">
+            <button type="button" class="g-aba ativa" data-aba="ativa" onclick="criAbaSet('ativa')">🧒 Crianças (0 a 5 anos) <b id="c-n-ativa">0</b></button>
+            <button type="button" class="g-aba" data-aba="fora" onclick="criAbaSet('fora')">🎓 Completaram 6 anos <b id="c-n-fora">0</b></button>
+          </div>
           <div class="busca-wrap">
             <input type="text" class="busca-input" id="buscaCrianca" placeholder="🔍 Buscar pelo nome da criança...">
             <button class="busca-btn" onclick="buscarCriancas()">Buscar</button>
@@ -1267,7 +1272,7 @@ img,svg,canvas{max-width:100%}
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
-              <thead><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
+              <thead id="criancasHead"><tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr></thead>
               <tbody id="criancasList"><tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
             </table>
           </div>
@@ -1563,6 +1568,11 @@ img,svg,canvas{max-width:100%}
             📋 Registros Salvos
             <button onclick="carregarIdosos()" style="background:var(--surface-2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;cursor:pointer;font-size:.68rem;font-weight:700">↻</button>
           </div>
+          <div class="g-abas" id="i-abas">
+            <button type="button" class="g-aba ativa" data-aba="ativo" onclick="idoAbaSet('ativo')">👴 Idosos <b id="i-n-ativo">0</b></button>
+            <button type="button" class="g-aba" data-aba="obito" onclick="idoAbaSet('obito')">🕯️ Óbitos <b id="i-n-obito">0</b></button>
+            <button type="button" class="g-aba" data-aba="saida" onclick="idoAbaSet('saida')">📁 Fora da lista <b id="i-n-saida">0</b></button>
+          </div>
           <div class="busca-wrap">
             <input type="text" class="busca-input" id="buscaIdoso" placeholder="🔍 Buscar pelo nome do idoso...">
             <button class="busca-btn" onclick="buscarIdosos()">Buscar</button>
@@ -1570,7 +1580,7 @@ img,svg,canvas{max-width:100%}
           </div>
           <div class="tabela-wrap">
             <table class="tbl">
-              <thead><tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Pontuação</th><th>Risco</th><th>Avaliado em</th><th>Ações</th></tr></thead>
+              <thead id="idososHead"><tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Pontuação</th><th>Risco</th><th>Avaliado em</th><th>Ações</th></tr></thead>
               <tbody id="idososList"><tr><td colspan="7" style="text-align:center;padding:1.5rem">Carregando...</td></tr></tbody>
             </table>
           </div>
@@ -2519,7 +2529,7 @@ function ativarSessao(user,bemVindo){
 function fazerLogout(){if(confirm('Deseja sair?')){supabaseClient.auth.signOut().then(()=>{sessionStorage.removeItem('aps_tela');location.reload();});}}
 function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo','modulo-agenda'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
-async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([gestSel('nome'),supabaseClient.from('extratifica').select('crianca'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),supabaseClient.from('idosos').select('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos(c.data,r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos(i.data,r=>r.nome);}catch(e){console.warn('stat portal',e);}}
+async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([gestSel('nome'),supabaseClient.from('extratifica').select('crianca,nascimento'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),idoSel('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos((c.data||[]).filter(criAtiva),r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos((i.data||[]).filter(idoAtivo),r=>r.nome);}catch(e){console.warn('stat portal',e);}}
 function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=mod==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=mod==='agenda'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(mod==='paliativo'){palAbrir();}else if(mod==='agenda'){agAbrir();}}
 
 // ===== AGENDA DE ATENDIMENTO: agendadas · programadas (retornos) · continuadas (recorrentes) =====
@@ -2765,8 +2775,8 @@ async function agCarregarPacientes(forcar){
   await agUid();
   const t=n=>supabaseClient.from(n).select('*').limit(3000);
   const[g,c,h,i,b,p]=await Promise.all([
-    t('gestantes').order('created_at',{ascending:false}).then(r=>Object.assign(r,{data:(r.data||[]).filter(gestAtiva)})),t('extratifica').order('created_at',{ascending:false}),
-    t('hasdm').order('created_at',{ascending:false}),t('idosos').order('created_at',{ascending:false}),
+    t('gestantes').order('created_at',{ascending:false}).then(r=>Object.assign(r,{data:(r.data||[]).filter(gestAtiva)})),t('extratifica').order('created_at',{ascending:false}).then(r=>Object.assign(r,{data:(r.data||[]).filter(criAtiva)})),
+    t('hasdm').order('created_at',{ascending:false}),t('idosos').order('created_at',{ascending:false}).then(r=>Object.assign(r,{data:(r.data||[]).filter(idoAtivo)})),
     t('saudebucal').order('created_at',{ascending:false}),t('paliativos')]);
   const out=[],vistos={};
   const add=(prog,rows,m)=>{(rows&&rows.data||[]).forEach(r=>{
@@ -4122,31 +4132,49 @@ async function salvarCrianca(){
   finally{btn.disabled=false;btn.innerHTML=editId?'💾 Salvar Registro':'💾 Salvar Registro';}
 }
 
-async function carregarCriancas(){
+// ---------- criança: sai da lista ao completar 6 anos (automático, pela data de nascimento) ----------
+let criAba='ativa',criTodas=[];
+function criIdadeAnos(nasc){
+  if(!nasc)return null;const n=new Date(String(nasc).slice(0,10)+'T12:00:00');if(isNaN(n))return null;
+  const h=new Date();let a=h.getFullYear()-n.getFullYear();
+  if(h.getMonth()<n.getMonth()||(h.getMonth()===n.getMonth()&&h.getDate()<n.getDate()))a--;return a;
+}
+function criAtiva(c){const a=criIdadeAnos(c&&c.nascimento);return a===null||a<6;}
+function criSeisAnos(nasc){const d=String(nasc||'').slice(0,10).split('-');return d.length===3?d[2]+'/'+d[1]+'/'+(+d[0]+6):'—';}
+function criAbaSet(a){criAba=a;document.querySelectorAll('#c-abas .g-aba').forEach(b=>b.classList.toggle('ativa',b.dataset.aba===a));carregarCriancas();}
+function criHead(){
+  const h=document.getElementById('criancasHead');if(!h)return;
+  h.innerHTML=criAba==='ativa'?'<tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Risco</th><th>Retorno</th><th>Ações</th></tr>'
+   :'<tr><th>Criança</th><th>Mãe</th><th>Telefone</th><th>ACS</th><th>Nascimento</th><th>Completou 6 anos em</th><th>Ações</th></tr>';
+}
+function criLinha(c){
+  const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
+  const nm=palEsc(c.crianca||'—');
+  const base='<td><strong>'+nm+'</strong></td><td>'+palEsc(c.mae||'—')+'</td><td>'+palEsc(c.telefone||'—')+'</td><td>'+palEsc(c.acs||'—')+'</td>';
+  const btns='<button class="btn-ver" onclick="verCrianca('+c.id+')">👁️ Ver</button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verCrianca('+c.id+'))">🖨️</button><button class="btn-hist" onclick="verHistoricoCrianca('+JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')+')">📋 Histórico</button><button class="btn-edit" onclick="editarCriancaFicha('+c.id+')">✏️ Editar</button><button class="btn-excluir" onclick="excluirCrianca('+c.id+')">🗑️ Excluir</button>';
+  if(criAba==='ativa')return '<tr>'+base+'<td>'+(cm[c.risco]||palEsc(c.risco||''))+'</td><td>'+(c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—')+'</td><td>'+btns+'</td></tr>';
+  return '<tr>'+base+'<td>'+gestFmt(c.nascimento)+' ('+criIdadeAnos(c.nascimento)+' anos)</td><td>'+criSeisAnos(c.nascimento)+'</td><td>'+btns+'</td></tr>';
+}
+async function carregarCriancas(termo){
   const tbody=document.getElementById('criancasList');if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="7">Carregando...</td></tr>';
+  if(typeof termo!=='string')termo='';
+  criHead();
+  tbody.innerHTML='<tr><td colspan="7">'+(termo?'Buscando...':'Carregando...')+'</td></tr>';
   try{
     const{data,error}=await supabaseClient.from('extratifica').select('*').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança cadastrada</td></tr>';return;}
-    data.forEach(c=>criMap[c.id]=c);
-    const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verCrianca(${c.id}))">🖨️</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-edit" onclick="editarCriancaFicha(${c.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
+    criTodas=data||[];criTodas.forEach(c=>criMap[c.id]=c);
+    // conta crianças únicas (pelo nome) em cada aba
+    const un=f=>{const v=new Set();criTodas.filter(f).forEach(c=>{const n=(c.crianca||'').trim().toLowerCase();if(n)v.add(n);});return v.size;};
+    const na=document.getElementById('c-n-ativa'),nf=document.getElementById('c-n-fora');
+    if(na)na.textContent=un(criAtiva);if(nf)nf.textContent=un(c=>!criAtiva(c));
+    const t=termo.trim().toLowerCase();
+    const lista=criTodas.filter(c=>(criAba==='ativa'?criAtiva(c):!criAtiva(c))&&(!t||(c.crianca||'').toLowerCase().includes(t)));
+    if(!lista.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:1.2rem">'+(t?'Nenhuma criança encontrada':criAba==='ativa'?'Nenhuma criança cadastrada':'Nenhuma criança completou 6 anos ainda')+'</td></tr>';return;}
+    tbody.innerHTML=lista.map(criLinha).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
 }
-
-async function buscarCriancas(){
-  const termo=document.getElementById('buscaCrianca').value.trim();if(!termo){carregarCriancas();return;}
-  const tbody=document.getElementById('criancasList');tbody.innerHTML='<tr><td colspan="7">Buscando...</td></tr>';
-  try{
-    const{data,error}=await supabaseClient.from('extratifica').select('*').ilike('crianca','%'+termo+'%').order('created_at',{ascending:false});
-    if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhuma criança encontrada</td></tr>';return;}
-    data.forEach(c=>criMap[c.id]=c);
-    const cm={HABITUAL:'<span class="badge-pill bp-verde">Habitual</span>',INTERMEDIARIO:'<span class="badge-pill bp-amarelo">Intermediário</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto Risco</span>'};
-    tbody.innerHTML=data.map(c=>`<tr><td><strong>${c.crianca||'—'}</strong></td><td>${c.mae||'—'}</td><td>${c.telefone||'—'}</td><td>${c.acs||'—'}</td><td>${cm[c.risco]||c.risco}</td><td>${c.data_retorno?c.data_retorno.split('-').reverse().join('/'):'—'}</td><td><button class="btn-ver" onclick="verCrianca(${c.id})">👁️ Ver</button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verCrianca(${c.id}))">🖨️</button><button class="btn-hist" onclick="verHistoricoCrianca(${JSON.stringify(c.crianca||'').replace(/"/g,'&quot;')})">📋 Histórico</button><button class="btn-edit" onclick="editarCriancaFicha(${c.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirCrianca(${c.id})">🗑️ Excluir</button></td></tr>`).join('');
-  }catch(err){showToast('❌ Erro na busca',true);}
-}
+function buscarCriancas(){carregarCriancas((document.getElementById('buscaCrianca')||{value:''}).value);}
 
 async function excluirCrianca(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('extratifica').delete().eq('id',id);showToast('🗑️ Excluído');carregarCriancas();}catch(err){showToast('Erro',true);}}
 
@@ -4341,33 +4369,90 @@ async function salvarIdoso(){
 }
 
 function iRiscoBadges(){return{BAIXO:'<span class="badge-pill bp-verde">Baixo</span>',MODERADO:'<span class="badge-pill bp-amarelo">Moderado</span>',ALTO:'<span class="badge-pill bp-vermelho">Alto</span>'};}
-function iLinhaTabela(i){
-  const rm=iRiscoBadges();
-  return `<tr><td><strong>${i.nome||'—'}</strong></td><td>${i.telefone||'—'}</td><td>${i.acs||'—'}</td><td>${i.pontuacao??'—'}/40</td><td>${rm[i.risco]||i.risco||'—'}</td><td>${i.data_avaliacao?String(i.data_avaliacao).substring(0,10).split('-').reverse().join('/'):(i.created_at?new Date(i.created_at).toLocaleDateString('pt-BR'):'—')}</td><td><button class="btn-ver" onclick="verIdoso(${i.id})">👁️ Ver</button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verIdoso(${i.id}))">🖨️</button><button class="btn-edit" onclick="editarIdosoFicha(${i.id})">✏️ Editar</button><button class="btn-excluir" onclick="excluirIdoso(${i.id})">🗑️ Excluir</button></td></tr>`;
+let idoAba='ativo',idoTodos=[];
+function idoSit(i){return (i&&i.situacao)||'ativo';}
+function idoAtivo(i){return idoSit(i)==='ativo';}
+async function idoSel(cols,extra){
+  const q=c=>{let r=supabaseClient.from('idosos').select(c);return extra?extra(r):r;};
+  let r=await q(cols+(cols==='*'?'':',situacao'));
+  if(r.error&&/situacao/i.test(r.error.message||''))r=await q(cols);
+  return r;
 }
-
-async function carregarIdosos(){
+function idoAbaSet(a){idoAba=a;document.querySelectorAll('#i-abas .g-aba').forEach(b=>b.classList.toggle('ativa',b.dataset.aba===a));carregarIdosos();}
+function idoHead(){
+  const h=document.getElementById('idososHead');if(!h)return;
+  h.innerHTML=idoAba==='ativo'?'<tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Pontuação</th><th>Risco</th><th>Avaliado em</th><th>Ações</th></tr>'
+   :idoAba==='obito'?'<tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Data do óbito</th><th>Observação</th><th>Idade ao óbito</th><th>Ações</th></tr>'
+   :'<tr><th>Idoso</th><th>Telefone</th><th>ACS</th><th>Motivo</th><th>Data</th><th>Observação</th><th>Ações</th></tr>';
+}
+function iLinhaTabela(i){
+  const rm=iRiscoBadges(),E=x=>palEsc(x==null?'':String(x));
+  const base='<td><strong>'+E(i.nome||'—')+'</strong></td><td>'+E(i.telefone||'—')+'</td><td>'+E(i.acs||'—')+'</td>';
+  const ver='<button class="btn-ver" onclick="verIdoso('+i.id+')">👁️ Ver</button><button class="btn-ver" title="Imprimir folha do histórico" onclick="imprimirRegistro(()=>verIdoso('+i.id+'))">🖨️</button>';
+  if(idoAba==='ativo'){
+    const dt=i.data_avaliacao?String(i.data_avaliacao).substring(0,10).split('-').reverse().join('/'):(i.created_at?new Date(i.created_at).toLocaleDateString('pt-BR'):'—');
+    return '<tr>'+base+'<td>'+(i.pontuacao??'—')+'/40</td><td>'+(rm[i.risco]||E(i.risco||'—'))+'</td><td>'+dt+'</td><td>'+ver+
+      '<button class="btn-edit" onclick="editarIdosoFicha('+i.id+')">✏️ Editar</button>'+
+      '<button class="btn-ver" style="background:#eceff1;color:#37474f;border-color:#90a4ae" title="Registrar óbito" onclick="idoAbrirSit('+i.id+',\'obito\')">🕯️ Óbito</button>'+
+      '<button class="btn-ver" style="background:#fff3e0;color:#e65100;border-color:#ffcc80" title="Tirar da lista (mudou de município, duplicado...)" onclick="idoAbrirSit('+i.id+',\'saida\')">🚪 Sair da lista</button>'+
+      '<button class="btn-excluir" onclick="excluirIdoso('+i.id+')">🗑️ Excluir</button></td></tr>';
+  }
+  const rv='<button class="btn-ver" title="Voltar para a lista de idosos" onclick="idoMudarSit('+i.id+',\'ativo\')">↩️ Reativar</button><button class="btn-excluir" onclick="excluirIdoso('+i.id+')">🗑️</button>';
+  if(idoAba==='obito'){
+    const ia=(i.nascimento&&i.data_obito)?Math.floor((new Date(String(i.data_obito).slice(0,10)+'T12:00:00')-new Date(String(i.nascimento).slice(0,10)+'T12:00:00'))/31557600000):null;
+    return '<tr>'+base+'<td>'+gestFmt(i.data_obito)+'</td><td>'+E(i.saida_obs||'—')+'</td><td>'+(ia!=null&&ia>=0?ia+' anos':'—')+'</td><td>'+ver+rv+'</td></tr>';
+  }
+  return '<tr>'+base+'<td>'+E(i.motivo_saida||'—')+'</td><td>'+gestFmt(i.data_saida)+'</td><td>'+E(i.saida_obs||'—')+'</td><td>'+ver+rv+'</td></tr>';
+}
+async function carregarIdosos(termo){
   const tbody=document.getElementById('idososList');if(!tbody)return;
-  tbody.innerHTML='<tr><td colspan="7">Carregando...</td></tr>';
+  if(typeof termo!=='string')termo='';
+  idoHead();
+  tbody.innerHTML='<tr><td colspan="7">'+(termo?'Buscando...':'Carregando...')+'</td></tr>';
   try{
     const{data,error}=await supabaseClient.from('idosos').select('*').order('created_at',{ascending:false});
     if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhum idoso cadastrado</td></tr>';return;}
-    data.forEach(i=>idoMap[i.id]=i);
-    tbody.innerHTML=data.map(iLinhaTabela).join('');
+    idoTodos=data||[];idoTodos.forEach(i=>idoMap[i.id]=i);
+    ['ativo','obito','saida'].forEach(a=>{const el=document.getElementById('i-n-'+a);if(el)el.textContent=idoTodos.filter(i=>idoSit(i)===a).length;});
+    const t=termo.trim().toLowerCase();
+    const lista=idoTodos.filter(i=>idoSit(i)===idoAba&&(!t||(i.nome||'').toLowerCase().includes(t)));
+    const vazio={ativo:'Nenhum idoso cadastrado',obito:'Nenhum óbito registrado',saida:'Nenhum idoso fora da lista'};
+    if(!lista.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:1.2rem">'+(t?'Nenhum idoso encontrado':vazio[idoAba])+'</td></tr>';return;}
+    tbody.innerHTML=lista.map(iLinhaTabela).join('');
   }catch(err){tbody.innerHTML='<tr><td colspan="7">Erro ao carregar</td></tr>';}
 }
+function buscarIdosos(){carregarIdosos((document.getElementById('buscaIdoso')||{value:''}).value);}
 
-async function buscarIdosos(){
-  const termo=document.getElementById('buscaIdoso').value.trim();if(!termo){carregarIdosos();return;}
-  const tbody=document.getElementById('idososList');tbody.innerHTML='<tr><td colspan="7">Buscando...</td></tr>';
-  try{
-    const{data,error}=await supabaseClient.from('idosos').select('*').ilike('nome','%'+termo+'%').order('created_at',{ascending:false});
-    if(error)throw error;
-    if(!data||data.length===0){tbody.innerHTML='<tr><td colspan="7">Nenhum idoso encontrado</td></tr>';return;}
-    data.forEach(i=>idoMap[i.id]=i);
-    tbody.innerHTML=data.map(iLinhaTabela).join('');
-  }catch(err){showToast('❌ Erro na busca',true);}
+// ---------- idoso: óbito / sair da lista / reativar ----------
+function idoFecharSit(){document.getElementById('modal-ido-sit').classList.remove('aberto');}
+function idoAbrirSit(id,tipo){
+  const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
+  const hoje=gestHoje(),ob=tipo==='obito';
+  document.getElementById('ido-sit-box').innerHTML=
+    '<h3 style="margin:0 0 .2rem">'+(ob?'🕯️ Registrar óbito':'🚪 Tirar da lista de idosos')+'</h3>'+
+    '<div style="font-size:.85rem;color:var(--txt-2)"><b>'+palEsc(i.nome||'')+'</b></div>'+
+    '<div style="font-size:.76rem;color:var(--txt-3);margin-top:.4rem">'+(ob?'Ela(e) <b>sai da lista de idosos</b> e a meta é ajustada automaticamente. O histórico fica guardado na aba Óbitos.':'Sai da lista de idosos e a meta é ajustada. O histórico fica na aba Fora da lista; dá para reativar depois.')+'</div>'+
+    '<div class="g-sit-campo"><label>'+(ob?'Data do óbito *':'Data')+'</label><input type="date" id="is-data" value="'+hoje+'" max="'+hoje+'"></div>'+
+    (ob?'':'<div class="g-sit-campo"><label>Motivo</label><select id="is-motivo"><option>Mudou de município</option><option>Cadastro duplicado ou errado</option><option>Institucionalizado (ILPI)</option><option>Outro</option></select></div>')+
+    '<div class="g-sit-campo"><label>Observação (opcional)</label><textarea id="is-obs" rows="2"></textarea></div>'+
+    '<div class="g-sit-btns"><button type="button" class="btn btn-nova" onclick="idoFecharSit()">Cancelar</button><button type="button" class="btn btn-salvar" onclick="idoConfirmarSit('+id+',\''+tipo+'\')">Confirmar</button></div>';
+  document.getElementById('modal-ido-sit').classList.add('aberto');
+}
+async function idoMudarSit(id,sit,extra){
+  const upd=Object.assign({situacao:sit},extra||{});
+  if(sit==='ativo')Object.assign(upd,{data_obito:null,data_saida:null,motivo_saida:null,saida_obs:null});
+  const{error}=await supabaseClient.from('idosos').update(upd).eq('id',id);
+  if(error){showToast(/situacao|column|schema/i.test(error.message||'')?'Rode o SQL idoso_obito.sql no Supabase para usar óbito/saída da lista.':'Erro: '+(error.message||''),true);return false;}
+  if(idoMap[id])Object.assign(idoMap[id],upd);
+  showToast(sit==='obito'?'🕯️ Óbito registrado — saiu da lista de idosos':sit==='saida'?'📁 Saiu da lista de idosos':'↩️ Voltou para a lista de idosos');
+  carregarIdosos();carregarStatPortal();
+  return true;
+}
+async function idoConfirmarSit(id,tipo){
+  const data=document.getElementById('is-data').value,obs=(document.getElementById('is-obs').value||'').trim()||null;
+  if(tipo==='obito'&&!data){showToast('Informe a data do óbito',true);return;}
+  const ok=tipo==='obito'?await idoMudarSit(id,'obito',{data_obito:data,saida_obs:obs}):await idoMudarSit(id,'saida',{data_saida:data||gestHoje(),motivo_saida:document.getElementById('is-motivo').value,saida_obs:obs});
+  if(ok){idoFecharSit();idoAba=tipo==='obito'?'obito':'saida';document.querySelectorAll('#i-abas .g-aba').forEach(b=>b.classList.toggle('ativa',b.dataset.aba===idoAba));carregarIdosos();}
 }
 
 async function excluirIdoso(id){if(!confirm('Excluir?'))return;try{await supabaseClient.from('idosos').delete().eq('id',id);showToast('🗑️ Excluído');carregarIdosos();}catch(err){showToast('Erro',true);}}
@@ -4469,9 +4554,9 @@ async function carregarEstatGeralReal(){
   try{
     const[h,c,g,i,b]=await Promise.all([
       supabaseClient.from('hasdm').select('nome,diagnostico,risco_estratificado').order('created_at',{ascending:false}),
-      supabaseClient.from('extratifica').select('crianca,risco').order('created_at',{ascending:false}),
+      supabaseClient.from('extratifica').select('crianca,risco,nascimento').order('created_at',{ascending:false}),
       gestSel('nome,risco_classificacao',q=>q.order('created_at',{ascending:false})),
-      supabaseClient.from('idosos').select('nome,risco').order('created_at',{ascending:false}),
+      idoSel('nome,risco',q=>q.order('created_at',{ascending:false})),
       supabaseClient.from('saudebucal').select('nome_civil,nome_social,risco').order('created_at',{ascending:false})
     ]);
     if(h.error)throw h.error;if(c.error)throw c.error;if(g.error)throw g.error;if(i.error)throw i.error;if(b.error)throw b.error;
@@ -4480,8 +4565,14 @@ async function carregarEstatGeralReal(){
     const diabRows=hasdmRows.filter(r=>(r.diagnostico||'').toUpperCase().includes('DM'));
     aplicarEstatGeral('his',contarNomesUnicos(hipertRows,r=>r.nome));
     aplicarEstatGeral('dia',contarNomesUnicos(diabRows,r=>r.nome));
-    aplicarEstatGeral('ido',contarNomesUnicos(i.data,r=>r.nome));
-    aplicarEstatGeral('cri',contarNomesUnicos(c.data,r=>r.crianca));
+    {
+      // metas dinâmicas: quem saiu da lista (6 anos / óbito / saída) deixa de contar na meta
+      const unic=(arr,get)=>new Set(arr.map(r=>(get(r)||'').trim().toLowerCase()).filter(Boolean));
+      const cAll=c.data||[],cAt=unic(cAll.filter(criAtiva),r=>r.crianca),cFora=[...unic(cAll.filter(r=>!criAtiva(r)),r=>r.crianca)].filter(n=>!cAt.has(n)).length;
+      aplicarEstatGeral('cri',cAt.size,Math.max(EG_TOTAIS.cri-cFora,cAt.size),cFora?('Meta ajustada: '+EG_TOTAIS.cri+' − '+cFora+(cFora>1?' que completaram 6 anos':' que completou 6 anos')):'');
+      const iAll=i.data||[],iAt=unic(iAll.filter(idoAtivo),r=>r.nome),iFora=[...unic(iAll.filter(r=>!idoAtivo(r)),r=>r.nome)].filter(n=>!iAt.has(n)).length;
+      aplicarEstatGeral('ido',iAt.size,Math.max(EG_TOTAIS.ido-iFora,iAt.size),iFora?('Meta ajustada: '+EG_TOTAIS.ido+' − '+iFora+' (óbito/saída da lista)'):'');
+    }
     {
       // meta dinâmica: quem foi para o puerpério (ou encerrou) deixa de contar na meta de gestantes
       const gAll=g.data||[],ativosN=new Set(gAll.filter(gestAtiva).map(r=>(r.nome||'').trim().toLowerCase()).filter(Boolean));
@@ -4519,8 +4610,8 @@ async function carregarEstatGeralReal(){
       {chave:'Alto Risco',label:'🔴 Alto',bg:'#ffebee',cor:'#c62828'}
     ];
     const contGest=contarPorRisco((g.data||[]).filter(gestAtiva),r=>r.nome,r=>r.risco_classificacao);
-    const contCri=contarPorRisco(c.data,r=>r.crianca,r=>r.risco);
-    const contIdo=contarPorRisco(i.data,r=>r.nome,r=>r.risco);
+    const contCri=contarPorRisco((c.data||[]).filter(criAtiva),r=>r.crianca,r=>r.risco);
+    const contIdo=contarPorRisco((i.data||[]).filter(idoAtivo),r=>r.nome,r=>r.risco);
     const contHas=contarPorRisco(hasdmRows,r=>r.nome,r=>r.risco_estratificado);
     const contBuc=contarPorRisco(b.data,r=>r.nome_civil||r.nome_social,r=>r.risco);
     let html='';
