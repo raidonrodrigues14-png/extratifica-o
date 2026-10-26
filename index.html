@@ -548,8 +548,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .pal-tag-n{background:#eceff1;color:#455a64;border-color:#cfd8dc}
 /* ── AGENDA DE ATENDIMENTO ── */
 #modulo-agenda{display:none;min-height:100vh;background:var(--bg)}
-.portal-card.gestor::before{background:linear-gradient(90deg,#263238,#607d8b);opacity:1}
-.portal-card.gestor:hover{border-color:#90a4ae}
 .portal-card.agenda::before{background:linear-gradient(90deg,#01579b,#0288d1);opacity:1}
 .agenda .card-emoji-wrap{background:linear-gradient(135deg,#e1f5fe,#b3e5fc);border:1px solid #81d4fa}
 .portal-card.agenda:hover{border-color:#4fc3f7}
@@ -749,45 +747,6 @@ img,svg,canvas{max-width:100%}
   .historico-box{max-height:94vh}
   .login-card{padding:1.25rem 1.5rem}
 }
-/* ===== PAINEL DO GESTOR ===== */
-#modulo-gestor{display:none;min-height:100vh;background:var(--bg)}
-.gst-content{max-width:1180px;margin:0 auto;padding:1.25rem 1rem 3rem}
-.gst-filtros{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.9rem}
-.gst-filtros select{padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:9px;font-family:var(--font-body);font-size:.82rem;background:#fff}
-.gst-aviso{font-size:.74rem;color:var(--txt-3);margin:.2rem 0 .8rem}
-.gst-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.65rem;margin-bottom:1rem}
-.gst-kpi{background:#fff;border:1px solid var(--border);border-top:4px solid var(--kc,#455a64);border-radius:12px;padding:.7rem .85rem;text-align:left;font-family:var(--font-body);cursor:pointer;transition:transform .15s,box-shadow .15s}
-.gst-kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
-.gst-kpi b{display:block;font-size:1.65rem;line-height:1.1;color:var(--kc,#263238)}
-.gst-kpi span{font-size:.72rem;color:var(--txt-2);font-weight:600}
-.gst-kpi small{display:block;font-size:.66rem;color:var(--txt-3);margin-top:.15rem}
-.gst-card{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:1rem;overflow:hidden}
-.gst-card>h3{margin:0;padding:.7rem 1rem;background:#eceff1;color:#263238;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
-.gst-card-c{padding:.9rem 1rem}
-.gst-barra{display:grid;grid-template-columns:150px 1fr 92px;gap:.6rem;align-items:center;margin:.45rem 0;font-size:.8rem}
-.gst-trilho{background:#eceff1;border-radius:20px;height:16px;position:relative;overflow:hidden}
-.gst-fill{height:100%;border-radius:20px;transition:width .5s}
-.gst-barra small{color:var(--txt-3);font-size:.7rem;text-align:right}
-.gst-tab{width:100%;border-collapse:collapse;font-size:.8rem}
-.gst-tab th{background:#f5f7f8;color:#37474f;text-align:right;padding:.5rem .6rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;position:sticky;top:0}
-.gst-tab th:first-child,.gst-tab td:first-child{text-align:left}
-.gst-tab td{padding:.5rem .6rem;border-top:1px solid var(--border);text-align:right;white-space:nowrap}
-.gst-tab tr.gst-sub td{background:#fafafa;font-weight:700}
-.gst-tab td button{background:none;border:none;color:#0277bd;font-weight:800;cursor:pointer;font-family:var(--font-body);font-size:.82rem;padding:0 .2rem}
-.gst-pill{display:inline-block;padding:.12rem .55rem;border-radius:20px;font-size:.7rem;font-weight:700}
-.gst-ok{background:#e8f5e9;color:#2e7d32}.gst-med{background:#fff8e1;color:#f57f17}.gst-ruim{background:#ffebee;color:#c62828}.gst-nd{background:#eceff1;color:#607d8b}
-.gst-metas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem}
-.gst-metas label{font-size:.68rem;font-weight:700;color:var(--txt-2);text-transform:uppercase;display:block;margin-bottom:.2rem}
-.gst-metas input{width:100%;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:.85rem}
-.gst-vazio{color:var(--txt-3);font-size:.82rem;padding:1rem;text-align:center}
-.gst-ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
-.gst-ov.aberto{display:flex}
-.gst-modal{background:#fff;border-radius:16px;width:100%;max-width:980px;max-height:92vh;max-height:92dvh;overflow:auto;padding:1.1rem 1.25rem}
-.gst-modal-top{display:flex;justify-content:space-between;gap:.7rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:.7rem}
-.gst-modal-top h3{margin:0;font-size:1rem;color:#263238}
-.gst-modal-top div{display:flex;gap:.4rem;flex-wrap:wrap}
-@media(max-width:640px){.gst-barra{grid-template-columns:1fr;gap:.2rem}.gst-barra small{text-align:left}.gst-kpi b{font-size:1.4rem}.gst-filtros select{flex:1 1 45%}.gst-modal{padding:.9rem .8rem}}
-
 @media print{.nav-bottom,.btn-acao,.whatsapp-section,.wpp-grid,.app-header,.gest-progress,.acao-buttons,.busca-wrap,.tabela-wrap{display:none!important}}
 </style>
 </head>
@@ -806,7 +765,7 @@ img,svg,canvas{max-width:100%}
 <div id="tela-login"><div class="login-card"><div class="login-top"><div class="login-icon">🏥</div><div class="login-title"><strong>Secretaria de Saúde<br>de Alto Alegre do Maranhão</strong><span>Estratificação de Risco — Acesso Seguro</span></div></div><div class="login-sep"></div><div class="login-erro" id="login-erro"></div><div class="f-group"><label class="f-label">Usuário</label><input class="f-input" type="text" id="login-user" autocomplete="off" placeholder="Digite seu usuário"></div><div class="f-group"><label class="f-label">Senha</label><input class="f-input" type="password" id="login-senha" autocomplete="new-password" placeholder="Digite sua senha"></div><button class="btn-login-submit" id="btn-login">Entrar no Sistema →</button><p class="login-note">Acesso restrito à equipe de saúde autorizada</p></div></div>
 <div id="tela-assinatura-vencida" style="display:none"><div class="login-card"><div class="login-top"><div class="login-icon">💳</div><div class="login-title"><strong>Assinatura Vencida</strong><span>Renove seu acesso para continuar</span></div></div><div class="login-sep"></div><p style="text-align:center;font-size:.82rem;color:var(--txt-2);margin:.3rem 0 1rem;line-height:1.4">Seu acesso mensal (R$ <span id="pix-valor-txt"></span>) venceu em <strong id="pix-venc-data"></strong>. Escaneie o QR Code ou copie o código PIX abaixo para renovar. Seu acesso é liberado por mais 30 dias após a confirmação do pagamento.</p><div id="pix-qrcode" style="display:flex;justify-content:center;margin-bottom:1rem"></div><div class="f-group"><label class="f-label">PIX Copia e Cola</label><textarea class="f-input" id="pix-codigo" readonly style="font-size:.65rem;height:70px;resize:none"></textarea></div><button class="btn-login-submit" type="button" onclick="copiarCodigoPix()">Copiar código PIX</button><button class="btn-login-submit" type="button" style="background:#555;margin-top:.5rem" onclick="fazerLogout()">Sair</button></div></div>
 
-<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card agenda" onclick="abrirModulo('agenda')"><div class="card-emoji-wrap">📅</div><h2>Agenda de Atendimento</h2><p>Consultas agendadas, programadas (retornos da estratificação) e continuadas (recorrentes) dos pacientes já estratificados.</p><div class="card-riscos"><span class="risco-pill azul" style="background:#e3f2fd;color:#0d47a1;border-color:#90caf9">Agendadas</span><span class="risco-pill amarelo">Programadas</span><span class="risco-pill verde">Continuadas</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card gestor" onclick="abrirModulo('gestor')"><div class="card-emoji-wrap">📊</div><h2>Painel do Gestor</h2><p>Cobertura, retornos em atraso, faltosos e metas por equipe e microárea — indicadores prontos para a coordenação.</p><div class="card-riscos"><span class="risco-pill azul" style="background:#eceff1;color:#263238;border-color:#b0bec5">Cobertura</span><span class="risco-pill amarelo">Atrasos</span><span class="risco-pill verde">Metas</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card palia" onclick="abrirModulo('paliativo')"><div class="card-emoji-wrap">🕊️</div><h2>Cuidados Paliativos</h2><p>Elegibilidade simplificada (ficha do ACS), aplicação do SPICT-BR e Folha de Registro da Abordagem Paliativa Completa.</p><div class="card-riscos"><span class="risco-pill amarelo">Elegibilidade</span><span class="risco-pill laranja">SPICT-BR</span><span class="risco-pill verde">Abordagem completa</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: hipertensos, diabéticos, idosos, crianças e gestantes.</p><div class="card-riscos"><span class="risco-pill vermelho">233 Hipertensos</span><span class="risco-pill laranja">112 Diabéticos</span><span class="risco-pill azul" style="background:#e0f2f1;color:#00695c;border-color:#80cbc4">397 Idosos</span><span class="risco-pill amarelo">191 Crianças</span><span class="risco-pill verde">28 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
+<div id="tela-portal"><div class="portal-hero"><div class="portal-logo-box"><div class="portal-logo-icon">🏥</div><div class="portal-logo-text"><strong>Sistema APS — Alto Alegre do Maranhão</strong><span>Atenção Primária à Saúde — Estratificação de Risco</span></div></div><div><div class="portal-ubs-info" id="portal-ubs-badge"><span>🏥</span><span id="portal-ubs-nome">UBS</span><small id="portal-usuario-info"></small><button class="btn-logout" onclick="fazerLogout()">Sair</button></div></div><h1>Portal de <em>Estratificação</em><br>de Risco APS</h1><p>Selecione o módulo de atendimento para iniciar</p></div><div class="portal-stats" id="portal-stats"><div class="portal-stat-card"><span class="pstat-num" id="pstat-gest">—</span><span class="pstat-lab">Gestantes</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-cri">—</span><span class="pstat-lab">Crianças</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-buc">—</span><span class="pstat-lab">Saúde Bucal</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-has">—</span><span class="pstat-lab">HAS / DM</span></div><div class="portal-stat-card"><span class="pstat-num" id="pstat-ido">—</span><span class="pstat-lab">Idosos</span></div></div><div class="portal-cards-wrap"><div class="portal-cards-label">Módulos disponíveis</div><div class="portal-cards"><div class="portal-card gestante" onclick="abrirModulo('gestante')"><div class="card-emoji-wrap">🤰</div><h2>Estratificação da Gestante</h2><p>Ficha completa de monitoramento e estratificação de risco obstétrico baseada na Ficha ER v4.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Vigilância</span><span class="risco-pill laranja">Compartilhado</span><span class="risco-pill vermelho">Maternidade</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card crianca" onclick="abrirModulo('crianca')"><div class="card-emoji-wrap">👶</div><h2>Estratificação da Criança</h2><p>Ficha de estratificação de risco 0–5 anos com cálculo automático de retorno e envio via WhatsApp.</p><div class="card-riscos"><span class="risco-pill verde">Habitual</span><span class="risco-pill amarelo">Intermediário</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card bucal" onclick="abrirModulo('bucal')"><div class="card-emoji-wrap">🦷</div><h2>Estratificação em Saúde Bucal</h2><p>Ficha de estratificação de risco bucal com avaliação de hábitos, histórico clínico e plano de cuidados individualizado.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Risco Moderado</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card hasdm" onclick="abrirModulo('hasdm')"><div class="card-emoji-wrap">❤️‍🩹</div><h2>Estratificação HAS / DM</h2><p>Ficha de estratificação de risco para Hipertensão Arterial Sistêmica e Diabetes Mellitus — Nota Técnica Nº 01/2026.</p><div class="card-riscos"><span class="risco-pill verde">Baixo</span><span class="risco-pill amarelo">Médio</span><span class="risco-pill vermelho">Alto</span><span class="risco-pill vermelho" style="background:#fce4ec;color:#880e4f;border-color:#f48fb1">Muito Alto</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card idoso" onclick="abrirModulo('idoso')"><div class="card-emoji-wrap">🧓</div><h2>Estratificação do Idoso (IVCF-20)</h2><p>Índice de Vulnerabilidade Clínico-Funcional-20 — triagem de fragilidade da pessoa idosa em 8 dimensões.</p><div class="card-riscos"><span class="risco-pill verde">Baixo Risco</span><span class="risco-pill amarelo">Moderado Risco</span><span class="risco-pill vermelho">Alto Risco</span></div><div class="card-arrow">Iniciar ficha →</div></div><div class="portal-card agenda" onclick="abrirModulo('agenda')"><div class="card-emoji-wrap">📅</div><h2>Agenda de Atendimento</h2><p>Consultas agendadas, programadas (retornos da estratificação) e continuadas (recorrentes) dos pacientes já estratificados.</p><div class="card-riscos"><span class="risco-pill azul" style="background:#e3f2fd;color:#0d47a1;border-color:#90caf9">Agendadas</span><span class="risco-pill amarelo">Programadas</span><span class="risco-pill verde">Continuadas</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card palia" onclick="abrirModulo('paliativo')"><div class="card-emoji-wrap">🕊️</div><h2>Cuidados Paliativos</h2><p>Elegibilidade simplificada (ficha do ACS), aplicação do SPICT-BR e Folha de Registro da Abordagem Paliativa Completa.</p><div class="card-riscos"><span class="risco-pill amarelo">Elegibilidade</span><span class="risco-pill laranja">SPICT-BR</span><span class="risco-pill verde">Abordagem completa</span></div><div class="card-arrow">Abrir →</div></div><div class="portal-card geral" onclick="abrirEstatGeral()"><div class="card-emoji-wrap">📊</div><h2>Estratificação Geral</h2><p>Visão consolidada da quantidade de pacientes estratificados por programa: hipertensos, diabéticos, idosos, crianças e gestantes.</p><div class="card-riscos"><span class="risco-pill vermelho">233 Hipertensos</span><span class="risco-pill laranja">112 Diabéticos</span><span class="risco-pill azul" style="background:#e0f2f1;color:#00695c;border-color:#80cbc4">397 Idosos</span><span class="risco-pill amarelo">191 Crianças</span><span class="risco-pill verde">28 Gestantes</span></div><div class="card-arrow">Ver gráfico →</div></div></div></div><div class="portal-footer">Sistema APS Criança e Gestante · Secretaria de Saúde de Alto Alegre do Maranhão</div></div>
 
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
@@ -1683,31 +1642,6 @@ img,svg,canvas{max-width:100%}
     <div id="ag-form-wrap" style="display:none"></div>
   </div>
   <div class="ag-overlay" id="ag-overlay"><div class="ag-modal" id="ag-modal"></div></div>
-</div>
-<div id="modulo-gestor">
-  <div class="app-header" style="background:linear-gradient(135deg,#263238,#455a64)">
-    <div class="app-header-brand">
-      <div class="app-header-icon">📊</div>
-      <div class="app-header-text">
-        <strong>Painel do Gestor</strong>
-        <span>Cobertura · atrasos · faltosos · retornos · metas</span>
-      </div>
-    </div>
-    <button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button>
-  </div>
-  <div class="gst-content">
-    <div class="gst-filtros">
-      <select id="gst-f-prog" title="Programa" onchange="gstRender()"><option value="">Todos os programas</option></select>
-      <select id="gst-f-equipe" title="Equipe" onchange="gstRender()"><option value="">Todas as equipes</option></select>
-      <select id="gst-f-micro" title="Microárea" onchange="gstRender()"><option value="">Todas as microáreas</option></select>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstCarregar()">↻ Atualizar</button>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstImprimir()">🖨️ Imprimir painel</button>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstExportar('todos')">📥 Exportar Excel</button>
-    </div>
-    <div class="gst-aviso" id="gst-aviso">Carregando…</div>
-    <div id="gst-corpo"><p class="gst-vazio">Carregando indicadores…</p></div>
-  </div>
-  <div class="gst-ov" id="gst-ov"><div class="gst-modal" id="gst-modal"></div></div>
 </div>
 <div id="modulo-paliativo">
   <div class="app-header" style="background:linear-gradient(135deg,#6d3a0c,#c2610f)">
@@ -2589,14 +2523,14 @@ function ativarSessao(user,bemVindo){
   cCalcular();ivcfCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
   const tela=sessionStorage.getItem('aps_tela')||'portal';
   if(tela==='portal'||!tela){document.getElementById('tela-portal').style.display='flex';}
-  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=tela==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=tela==='agenda'?'block':'none';document.getElementById('modulo-gestor').style.display=tela==='gestor'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(tela==='paliativo'){palAbrir();}else if(tela==='agenda'){agAbrir();}else if(tela==='gestor'){gstAbrir();}}
+  else{document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=tela==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=tela==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=tela==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=tela==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=tela==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=tela==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=tela==='agenda'?'block':'none';if(tela==='gestante'){gPagAtual=1;gRenderPag();}else if(tela==='bucal'){preencherUbsBucal();carregarBucal();}else if(tela==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(tela==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(tela==='paliativo'){palAbrir();}else if(tela==='agenda'){agAbrir();}}
   if(bemVindo)showToast('Bem-vindo(a), '+user+'!');
 }
 function fazerLogout(){if(confirm('Deseja sair?')){supabaseClient.auth.signOut().then(()=>{sessionStorage.removeItem('aps_tela');location.reload();});}}
-function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo','modulo-agenda','modulo-gestor'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
+function voltarPortal(){['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo','modulo-agenda'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById('tela-portal').style.display='flex';sessionStorage.setItem('aps_tela','portal');carregarStatPortal();}
 function contarNomesUnicos(arr,getNome){const set=new Set();(arr||[]).forEach(r=>{const n=(getNome(r)||'').trim().toLowerCase();if(n)set.add(n);});return set.size;}
 async function carregarStatPortal(){try{const[g,c,b,h,i]=await Promise.all([gestSel('nome'),supabaseClient.from('extratifica').select('crianca,nascimento'),supabaseClient.from('saudebucal').select('nome_civil,nome_social'),supabaseClient.from('hasdm').select('nome'),idoSel('nome')]);document.getElementById('pstat-gest').textContent=contarNomesUnicos((g.data||[]).filter(gestAtiva),r=>r.nome);document.getElementById('pstat-cri').textContent=contarNomesUnicos((c.data||[]).filter(criAtiva),r=>r.crianca);document.getElementById('pstat-buc').textContent=contarNomesUnicos(b.data,r=>r.nome_civil||r.nome_social);document.getElementById('pstat-has').textContent=contarNomesUnicos(h.data,r=>r.nome);document.getElementById('pstat-ido').textContent=contarNomesUnicos((i.data||[]).filter(idoAtivo),r=>r.nome);}catch(e){console.warn('stat portal',e);}}
-function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=mod==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=mod==='agenda'?'block':'none';document.getElementById('modulo-gestor').style.display=mod==='gestor'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(mod==='paliativo'){palAbrir();}else if(mod==='agenda'){agAbrir();}else if(mod==='gestor'){gstAbrir();}}
+function abrirModulo(mod){sessionStorage.setItem('aps_tela',mod);document.getElementById('tela-portal').style.display='none';document.getElementById('modulo-gestante').style.display=mod==='gestante'?'block':'none';document.getElementById('modulo-crianca').style.display=mod==='crianca'?'block':'none';document.getElementById('modulo-bucal').style.display=mod==='bucal'?'block':'none';document.getElementById('modulo-hasdm').style.display=mod==='hasdm'?'block':'none';document.getElementById('modulo-idoso').style.display=mod==='idoso'?'block':'none';document.getElementById('modulo-paliativo').style.display=mod==='paliativo'?'block':'none';document.getElementById('modulo-agenda').style.display=mod==='agenda'?'block':'none';if(mod==='gestante'){gPagAtual=1;gRenderPag();carregarGestantes();}else if(mod==='crianca')carregarCriancas();else if(mod==='bucal'){preencherUbsBucal();carregarBucal();}else if(mod==='hasdm'){preencherUbsHasDm();carregarHasDm();}else if(mod==='idoso'){preencherUbsIdoso();carregarIdosos();}else if(mod==='paliativo'){palAbrir();}else if(mod==='agenda'){agAbrir();}}
 
 // ===== AGENDA DE ATENDIMENTO: agendadas · programadas (retornos) · continuadas (recorrentes) =====
 const AG_TABELA='agenda_consultas';
@@ -4723,231 +4657,6 @@ document.getElementById('c-peso').addEventListener('change',cCalcular);
 document.getElementById('c-ig').addEventListener('change',cCalcular);
 document.querySelectorAll('#modulo-crianca .chk-alto,#modulo-crianca .chk-inter').forEach(cb=>cb.addEventListener('change',cCalcular));
 ['c-nome','c-mae','c-ubs','c-acs','c-microarea'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const r=document.getElementById('c-retorno').value;if(r){const p=r.split('-');atualizarPreviewWpp(p[2],p[1],p[0]);atualizarPreviewWppACS(p[2],p[1],p[0]);}});});
-
-// ===== PAINEL DO GESTOR =====
-const GST_PROG={gestante:['🤰','Gestantes'],crianca:['🧒','Crianças'],hasdm:['❤️','HAS / DM'],idoso:['👴','Idosos'],bucal:['🦷','Saúde Bucal']};
-let gstRaw=null,gstRecs=[],gstAg=[],gstMontado=false,gstListaAtual=[];
-const GST_METAS_PAD={his:EG_TOTAIS.his,dia:EG_TOTAIS.dia,ido:EG_TOTAIS.ido,cri:EG_TOTAIS.cri,ges:EG_TOTAIS.ges,buc:0,emdia:90,cobertura:80};
-function gstMetas(){
-  let m={};try{m=JSON.parse(localStorage.getItem('aps_gestor_metas')||'{}')||{};}catch(e){}
-  return Object.assign({},GST_METAS_PAD,m);
-}
-function gstSalvarMetas(){
-  const m={};Object.keys(GST_METAS_PAD).forEach(k=>{const el=document.getElementById('gst-m-'+k);if(el&&el.value!==''){const n=parseFloat(el.value);if(!isNaN(n)&&n>=0)m[k]=n;}});
-  try{localStorage.setItem('aps_gestor_metas',JSON.stringify(m));}catch(e){}
-  showToast('🎯 Metas salvas neste aparelho');gstRender();
-}
-function gstResetMetas(){try{localStorage.removeItem('aps_gestor_metas');}catch(e){}gstRender();}
-function gstEsc(x){return palEsc(x==null?'':String(x));}
-function gstRiscoNorm(v){
-  const t=String(v||'').toLowerCase();
-  if(!t)return '';
-  if(/muito|alto|compartilhad|maternidad/.test(t))return 'alto';
-  if(/intermedi|moder|m[eé]dio|vigil/.test(t))return 'medio';
-  if(/habitual|baixo/.test(t))return 'baixo';
-  return '';
-}
-const GST_RISCO_TXT={alto:'Alto',medio:'Médio',baixo:'Baixo','':'—'};
-async function gstTudo(tab){
-  let out=[],de=0;
-  for(;;){
-    const r=await supabaseClient.from(tab).select('*').order('id',{ascending:true}).range(de,de+999);
-    if(r.error)return {data:out,error:r.error};
-    const d=r.data||[];out=out.concat(d);
-    if(d.length<1000)break;de+=1000;
-  }
-  return {data:out};
-}
-// uma ficha por paciente (a mais recente entre as ativas); quem não está ativo fica de fora
-function gstPorPaciente(rows,getNome,ativo,fn){
-  const mapa={},fora={};
-  rows.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))||(+b.id||0)-(+a.id||0)).forEach(r=>{
-    const n=(getNome(r)||'').trim().toLowerCase();if(!n)return;
-    if(ativo(r)){if(!mapa[n])mapa[n]=fn(r);}else fora[n]=1;
-  });
-  const saiu=Object.keys(fora).filter(n=>!mapa[n]).length;
-  return {lista:Object.keys(mapa).map(k=>mapa[k]),saiu};
-}
-function gstConstruir(){
-  const R=gstRaw,rec=(prog,r,nome,equipe,micro,risco,ret,extra)=>Object.assign({prog,id:String(r.id),nome,equipe:equipe||'Sem equipe',micro:micro||'—',risco:gstRiscoNorm(risco),retorno:r?String(ret||'').slice(0,10):''},extra||{});
-  const g=gstPorPaciente(R.gestantes,r=>r.nome,gestAtiva,r=>rec('gestante',r,r.nome,r.equipe_esf,'',r.risco_classificacao,r.proxima_consulta));
-  const c=gstPorPaciente(R.extratifica,r=>r.crianca,criAtiva,r=>rec('crianca',r,r.crianca,r.equipe_esf,r.microarea,r.risco,r.data_retorno));
-  const h=gstPorPaciente(R.hasdm,r=>r.nome,()=>true,r=>rec('hasdm',r,r.nome,r.equipe_esf,r.microarea,r.risco_estratificado,r.data_retorno,{diag:String(r.diagnostico||'').toUpperCase()}));
-  const i=gstPorPaciente(R.idosos,r=>r.nome,idoAtivo,r=>rec('idoso',r,r.nome,r.equipe_esf,r.microarea,r.risco,r.data_retorno));
-  const b=gstPorPaciente(R.saudebucal,r=>r.nome_civil||r.nome_social,()=>true,r=>rec('bucal',r,r.nome_civil||r.nome_social,r.equipe_esf,r.microarea,r.risco,r.data_retorno));
-  gstRecs=[].concat(g.lista,c.lista,h.lista,i.lista,b.lista);
-  gstSaiu={ges:g.saiu,cri:c.saiu,ido:i.saiu};
-  // equipe/microárea de cada paciente (para ligar a agenda)
-  const eq={};
-  const reg=(prog,rows,fe)=>rows.forEach(r=>{eq[prog+':'+r.id]={equipe:r.equipe_esf||'Sem equipe',micro:fe?fe(r):(r.microarea||'—')};});
-  reg('gestante',R.gestantes,()=>'—');reg('crianca',R.extratifica);reg('hasdm',R.hasdm);reg('idoso',R.idosos);reg('bucal',R.saudebucal);
-  const hoje=gestHoje();
-  gstAg=(R.agenda||[]).filter(a=>a.status==='faltou'||((a.status==='agendada'||a.status==='confirmada')&&String(a.data).slice(0,10)<hoje)).map(a=>{
-    const e=eq[(a.programa||'')+':'+a.paciente_id]||{};
-    return {prog:a.programa||'outro',id:String(a.id),nome:a.paciente_nome,equipe:e.equipe||'Sem equipe',micro:e.micro||a.microarea||'—',risco:gstRiscoNorm(a.risco),retorno:String(a.data||'').slice(0,10),ag:a.status==='faltou'?'faltou':'atrasada',status:a.status};
-  });
-}
-let gstSaiu={ges:0,cri:0,ido:0};
-function gstClasse(r,hoje){
-  if(!r.retorno)return 'semdata';
-  if(r.retorno<hoje)return 'atraso';
-  const lim=gstSomaDias(hoje,30);
-  return r.retorno<=lim?'prox':'emdia';
-}
-function gstSomaDias(iso,n){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function gstFiltrar(lista){
-  const p=gstEl('gst-f-prog').value,e=gstEl('gst-f-equipe').value,m=gstEl('gst-f-micro').value;
-  return lista.filter(r=>(!p||r.prog===p)&&(!e||r.equipe===e)&&(!m||r.micro===m));
-}
-function gstEl(id){return document.getElementById(id);}
-function gstOpcoes(){
-  const eqs=[...new Set(gstRecs.concat(gstAg).map(r=>r.equipe))].sort(),ms=[...new Set(gstRecs.concat(gstAg).map(r=>r.micro))].sort((a,b)=>String(a).localeCompare(String(b),'pt',{numeric:true}));
-  const f=(id,vals,todas)=>{const el=gstEl(id),v=el.value;el.innerHTML='<option value="">'+todas+'</option>'+vals.map(x=>'<option>'+gstEsc(x)+'</option>').join('');if(vals.indexOf(v)>=0)el.value=v;};
-  f('gst-f-equipe',eqs,'Todas as equipes');f('gst-f-micro',ms,'Todas as microáreas');
-  const pr=gstEl('gst-f-prog'),pv=pr.value;pr.innerHTML='<option value="">Todos os programas</option>'+Object.keys(GST_PROG).map(k=>'<option value="'+k+'">'+GST_PROG[k][0]+' '+GST_PROG[k][1]+'</option>').join('');pr.value=pv;
-}
-async function gstAbrir(){
-  if(!gstMontado){gstMontado=true;
-    document.addEventListener('click',e=>{
-      const t=e.target;if(!t||!t.closest)return;
-      const b=t.closest('[data-gst]');if(b&&t.closest('#modulo-gestor')){e.preventDefault();gstDetalhe(b.dataset.gst,b.dataset.eq||'',b.dataset.mi||'');return;}
-      if(t.id==='gst-ov'||t.closest('[data-gst-fechar]'))gstFechar();
-    });
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')gstFechar();});
-  }
-  await gstCarregar();
-}
-async function gstCarregar(){
-  gstEl('gst-aviso').textContent='Carregando dados…';
-  gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Carregando indicadores…</p>';
-  try{
-    const tabs=['gestantes','extratifica','hasdm','idosos','saudebucal','agenda_consultas'];
-    const rs=await Promise.all(tabs.map(gstTudo));
-    const erro=rs.slice(0,5).find(r=>r.error);
-    if(erro){gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Erro ao carregar: '+gstEsc(erro.error.message||'')+'</p>';return;}
-    gstRaw={gestantes:rs[0].data,extratifica:rs[1].data,hasdm:rs[2].data,idosos:rs[3].data,saudebucal:rs[4].data,agenda:rs[5].error?[]:rs[5].data};
-    gstConstruir();gstOpcoes();gstRender();
-  }catch(err){gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Erro ao montar o painel: '+gstEsc(err.message||'')+'</p>';}
-}
-function gstPct(a,b){return b>0?Math.round(a/b*1000)/10:null;}
-function gstSem(p,meta){if(p===null)return '<span class="gst-pill gst-nd">sem dados</span>';return '<span class="gst-pill '+(p>=meta?'gst-ok':p>=meta-15?'gst-med':'gst-ruim')+'">'+p.toLocaleString('pt-BR')+'%</span>';}
-function gstNum(n,kind,eq,mi){return n?'<button type="button" data-gst="'+kind+'" data-eq="'+gstEsc(eq||'')+'" data-mi="'+gstEsc(mi||'')+'">'+n+'</button>':'0';}
-function gstStats(recs,ag,hoje){
-  const s={tot:recs.length,alto:0,atraso:0,prox:0,semdata:0,emdia:0,comdata:0,faltou:0,agatraso:0};
-  recs.forEach(r=>{if(r.risco==='alto')s.alto++;const c=gstClasse(r,hoje);s[c]++;if(c!=='semdata')s.comdata++;});
-  ag.forEach(a=>{if(a.ag==='faltou')s.faltou++;else s.agatraso++;});
-  s.emdiaPct=gstPct(s.comdata-s.atraso,s.comdata);
-  return s;
-}
-function gstRender(){
-  if(!gstRaw)return;
-  const hoje=gestHoje(),M=gstMetas();
-  const recs=gstFiltrar(gstRecs),ag=gstFiltrar(gstAg),S=gstStats(recs,ag,hoje);
-  const filtrado=!!(gstEl('gst-f-equipe').value||gstEl('gst-f-micro').value||gstEl('gst-f-prog').value);
-  gstEl('gst-aviso').textContent='Atualizado em '+new Date().toLocaleString('pt-BR')+' · pacientes: todos os cadastros visíveis ao seu login · agenda (faltosos e consultas atrasadas): apenas a agenda do seu login · retorno em atraso = data de retorno da última ficha já passou.';
-  // KPIs
-  const kp=(n,l,c,kind,sub)=>'<button type="button" class="gst-kpi" style="--kc:'+c+'" data-gst="'+kind+'"><b>'+n+'</b><span>'+l+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</button>';
-  let h='<div class="gst-kpis">'+
-    kp(S.tot,'Estratificados','#455a64','todos','pacientes ativos')+
-    kp(S.alto,'Alto risco','#c62828','alto',S.tot?gstPct(S.alto,S.tot)+'% do total':'')+
-    kp(S.atraso,'Retornos em atraso','#e65100','atraso','data de retorno vencida')+
-    kp(S.prox,'Retornos em 30 dias','#0277bd','prox','pendentes')+
-    kp(S.semdata,'Sem data de retorno','#78909c','semdata','completar a ficha')+
-    kp(S.faltou,'Faltosos (agenda)','#ad1457','faltou','busca ativa')+
-    kp(S.agatraso,'Consultas atrasadas (agenda)','#6a1b9a','agatraso','agendadas já vencidas')+
-    '</div>';
-  // Retornos em dia vs meta
-  h+='<div class="gst-card"><h3>✅ Retornos em dia <span>'+gstSem(S.emdiaPct,M.emdia)+' <small style="font-weight:400">meta '+M.emdia+'%</small></span></h3><div class="gst-card-c">'+
-    '<div class="gst-trilho"><div class="gst-fill" style="width:'+(S.emdiaPct||0)+'%;background:'+(S.emdiaPct===null?'#b0bec5':S.emdiaPct>=M.emdia?'#43a047':S.emdiaPct>=M.emdia-15?'#fbc02d':'#e53935')+'"></div></div>'+
-    '<div class="gst-aviso" style="margin-top:.4rem">'+(S.comdata-S.atraso)+' de '+S.comdata+' pacientes com data de retorno estão em dia (não vencida).</div></div></div>';
-  // Cobertura
-  const cob=(lbl,cor,n,base,meta,saiu,nota)=>{
-    const metaDin=Math.max(meta-(saiu||0),n),p=meta>0?gstPct(n,metaDin):null;
-    return '<div class="gst-barra"><b style="color:'+cor+'">'+lbl+'</b><div class="gst-trilho"><div class="gst-fill" style="width:'+Math.min(100,p||0)+'%;background:'+cor+'"></div></div><small>'+(meta>0&&!filtrado?(n+'/'+metaDin+' · '+gstSem(p,M.cobertura)):n+' estratificado'+(n===1?'':'s'))+'</small></div>'+(saiu&&!filtrado?'<div class="gst-aviso" style="margin:-.2rem 0 .3rem 150px">'+nota+'</div>':'');
-  };
-  const todos=gstFiltrar(gstRecs);
-  const cnt=f=>todos.filter(f).length;
-  h+='<div class="gst-card"><h3>📈 Cobertura da estratificação <small style="font-weight:400">'+(filtrado?'(com filtro: só contagem — a meta é do município)':'meta de cobertura: '+M.cobertura+'%')+'</small></h3><div class="gst-card-c">'+
-    cob('Hipertensos','#c62828',cnt(r=>r.prog==='hasdm'&&r.diag.includes('HAS')),0,M.his)+
-    cob('Diabéticos','#6a1b9a',cnt(r=>r.prog==='hasdm'&&r.diag.includes('DM')),0,M.dia)+
-    cob('Idosos','#00796b',cnt(r=>r.prog==='idoso'),0,M.ido,gstSaiu.ido,'Meta ajustada: − '+gstSaiu.ido+' (óbito/saída da lista)')+
-    cob('Crianças','#b8860b',cnt(r=>r.prog==='crianca'),0,M.cri,gstSaiu.cri,'Meta ajustada: − '+gstSaiu.cri+' (completaram 6 anos)')+
-    cob('Gestantes','#2e7d32',cnt(r=>r.prog==='gestante'),0,M.ges,gstSaiu.ges,'Meta ajustada: − '+gstSaiu.ges+' (puerpério/encerradas)')+
-    cob('Saúde bucal','#1565c0',cnt(r=>r.prog==='bucal'),0,M.buc)+
-    '</div></div>';
-  // por equipe e por microárea
-  const agrup=(chave,rot)=>{
-    const m={};
-    recs.forEach(r=>{const k=chave(r);(m[k]=m[k]||{eq:r.equipe,mi:r.micro,r:[],a:[]}).r.push(r);});
-    ag.forEach(a=>{const k=chave(a);(m[k]=m[k]||{eq:a.equipe,mi:a.micro,r:[],a:[]}).a.push(a);});
-    return Object.keys(m).map(k=>{const x=m[k];x.nome=rot(x);x.s=gstStats(x.r,x.a,hoje);return x;}).sort((a,b)=>b.s.atraso-a.s.atraso||b.s.tot-a.s.tot);
-  };
-  const tabela=(titulo,linhas,porMicro)=>{
-    if(!linhas.length)return '<div class="gst-card"><h3>'+titulo+'</h3><div class="gst-card-c gst-vazio">Sem dados para os filtros escolhidos.</div></div>';
-    const tt=gstStats(recs,ag,hoje);
-    const linha=(x,sub)=>{const s=x.s,eq=x.eq,mi=porMicro?x.mi:'';
-      return '<tr class="'+(sub?'gst-sub':'')+'"><td>'+gstEsc(x.nome)+'</td><td>'+gstNum(s.tot,'todos',eq,mi)+'</td><td>'+gstNum(s.alto,'alto',eq,mi)+'</td><td>'+gstNum(s.atraso,'atraso',eq,mi)+'</td><td>'+gstNum(s.prox,'prox',eq,mi)+'</td><td>'+gstNum(s.semdata,'semdata',eq,mi)+'</td><td>'+gstNum(s.faltou,'faltou',eq,mi)+'</td><td>'+gstSem(s.emdiaPct,M.emdia)+'</td></tr>';};
-    return '<div class="gst-card"><h3>'+titulo+'</h3><div class="tabela-wrap" style="border:0;border-radius:0;max-height:480px;overflow:auto"><table class="gst-tab"><thead><tr><th>'+(porMicro?'Equipe · Microárea':'Equipe')+'</th><th>Estratif.</th><th>Alto risco</th><th>Em atraso</th><th>Próx. 30 d</th><th>Sem data</th><th>Faltosos</th><th>Em dia</th></tr></thead><tbody>'+
-      linhas.map(x=>linha(x,false)).join('')+linha({nome:'Total',eq:'',mi:'',s:tt},true)+'</tbody></table></div></div>';
-  };
-  h+=tabela('👩‍⚕️ Por equipe',agrup(r=>r.equipe,x=>x.eq),false);
-  h+=tabela('🗺️ Por microárea',agrup(r=>r.equipe+'|'+r.micro,x=>x.eq+' · '+(x.mi==='—'?'sem microárea':'Microárea '+x.mi)),true);
-  // metas
-  h+='<div class="gst-card"><h3>🎯 Metas (população-alvo e indicadores) <small style="font-weight:400">salvas neste aparelho</small></h3><div class="gst-card-c"><div class="gst-metas">'+
-    [['his','Hipertensos (população-alvo)'],['dia','Diabéticos (população-alvo)'],['ido','Idosos (população-alvo)'],['cri','Crianças (população-alvo)'],['ges','Gestantes (população-alvo)'],['buc','Saúde bucal (população-alvo; 0 = sem meta)'],['emdia','Meta de retornos em dia (%)'],['cobertura','Meta de cobertura (%)']].map(x=>'<div><label>'+x[1]+'</label><input type="number" min="0" id="gst-m-'+x[0]+'" value="'+M[x[0]]+'"></div>').join('')+
-    '</div><div style="display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap"><button type="button" class="btn btn-salvar" onclick="gstSalvarMetas()">💾 Salvar metas</button><button type="button" class="btn btn-nova" onclick="gstResetMetas()">↺ Restaurar padrão</button></div></div></div>';
-  gstEl('gst-corpo').innerHTML=h;
-}
-// ---------- detalhe (lista de pacientes) ----------
-function gstDetalhe(kind,eq,mi){
-  const hoje=gestHoje();
-  let base=gstFiltrar(gstRecs),bag=gstFiltrar(gstAg);
-  if(eq){base=base.filter(r=>r.equipe===eq);bag=bag.filter(r=>r.equipe===eq);}
-  if(mi){base=base.filter(r=>r.micro===mi);bag=bag.filter(r=>r.micro===mi);}
-  const T={todos:['Estratificados',()=>true],alto:['Alto risco',r=>r.risco==='alto'],atraso:['Retornos em atraso',r=>gstClasse(r,hoje)==='atraso'],prox:['Retornos nos próximos 30 dias',r=>gstClasse(r,hoje)==='prox'],semdata:['Sem data de retorno',r=>gstClasse(r,hoje)==='semdata']};
-  let lista,titulo;
-  if(kind==='faltou'||kind==='agatraso'){lista=bag.filter(a=>a.ag===(kind==='faltou'?'faltou':'atrasada'));titulo=kind==='faltou'?'Faltosos (agenda)':'Consultas atrasadas (agenda)';}
-  else{const t=T[kind]||T.todos;lista=base.filter(t[1]);titulo=t[0];}
-  lista=lista.slice().sort((a,b)=>(a.retorno||'9999').localeCompare(b.retorno||'9999')||String(a.nome).localeCompare(String(b.nome)));
-  gstListaAtual=lista;
-  const escopo=[eq,mi&&mi!=='—'?'Microárea '+mi:''].filter(Boolean).join(' · ');
-  const linhas=lista.map(r=>{
-    const d=r.retorno?gstDias(r.retorno):null,at=r.retorno&&r.retorno<hoje;
-    const pg=GST_PROG[r.prog]||['','Outro'];
-    return '<tr data-n="'+gstEsc((r.nome||'').toLowerCase())+'"><td><b>'+gstEsc(r.nome)+'</b></td><td>'+pg[0]+' '+pg[1]+'</td><td>'+gstEsc(r.equipe)+'</td><td>'+gstEsc(r.micro)+'</td><td>'+gstEsc(GST_RISCO_TXT[r.risco])+'</td><td>'+(r.retorno?gstEsc(gestFmt(r.retorno)):'—')+'</td><td>'+(r.ag?gstEsc(r.status):(at?'<span class="gst-pill gst-ruim">'+d+' d de atraso</span>':(r.retorno?'em dia':'—')))+'</td></tr>';
-  }).join('');
-  gstEl('gst-modal').innerHTML='<div class="gst-modal-top"><div><h3>'+gstEsc(titulo)+' — '+lista.length+'</h3><small style="color:var(--txt-3)">'+gstEsc(escopo||'Todas as equipes')+'</small></div><div><input type="text" id="gst-busca" placeholder="🔍 Buscar nome…" oninput="gstBuscarLista(this.value)" style="padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:8px"><button type="button" class="btn btn-nova ag-mini" onclick="gstExportar(\'lista\')">📥 Excel</button><button type="button" class="btn btn-nova ag-mini" onclick="gstImprimirLista(\''+gstEsc(titulo)+'\')">🖨️ Imprimir</button><button type="button" class="btn btn-nova ag-mini" data-gst-fechar="1">✕ Fechar</button></div></div>'+
-    (lista.length?'<div class="tabela-wrap" style="max-height:62vh;overflow:auto"><table class="gst-tab" id="gst-tab-lista"><thead><tr><th>Paciente</th><th>Programa</th><th>Equipe</th><th>Microárea</th><th>Risco</th><th>'+(kind==='faltou'||kind==='agatraso'?'Data da consulta':'Retorno')+'</th><th>Situação</th></tr></thead><tbody>'+linhas+'</tbody></table></div>':'<p class="gst-vazio">Nenhum paciente nesta situação 🎉</p>');
-  gstEl('gst-ov').classList.add('aberto');
-}
-function gstDias(iso){return gestDias(iso)==null?0:Math.abs(gestDias(iso));}
-function gstBuscarLista(v){const t=(v||'').toLowerCase();document.querySelectorAll('#gst-tab-lista tbody tr').forEach(tr=>{tr.style.display=!t||tr.dataset.n.indexOf(t)>=0?'':'none';});}
-function gstFechar(){const o=gstEl('gst-ov');if(o)o.classList.remove('aberto');}
-// ---------- exportar / imprimir ----------
-function gstBaixar(nome,mime,txt){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:mime}));a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
-function gstLinhaPac(r){return [r.nome,(GST_PROG[r.prog]||['','Outro'])[1],r.equipe,r.micro,GST_RISCO_TXT[r.risco],r.retorno?gestFmt(r.retorno):'',r.ag?r.status:(r.retorno&&r.retorno<gestHoje()?gstDias(r.retorno)+' dias de atraso':(r.retorno?'em dia':'sem data'))];}
-function gstExportar(kind){
-  if(!gstRaw)return;
-  const cab=['Paciente','Programa','Equipe','Microárea','Risco','Data','Situação'];
-  const hoje=gestHoje(),recs=gstFiltrar(gstRecs),ag=gstFiltrar(gstAg);
-  const abas=kind==='lista'?[['Lista',gstListaAtual]]:[['Estratificados',recs],['Em atraso',recs.filter(r=>gstClasse(r,hoje)==='atraso')],['Proximos 30 dias',recs.filter(r=>gstClasse(r,hoje)==='prox')],['Sem data de retorno',recs.filter(r=>gstClasse(r,hoje)==='semdata')],['Faltosos agenda',ag.filter(a=>a.ag==='faltou')],['Atrasadas agenda',ag.filter(a=>a.ag==='atrasada')]];
-  const nome='painel-gestor-'+hoje+'.';
-  if(window.XLSX&&XLSX.utils){
-    const wb=XLSX.utils.book_new();
-    abas.forEach(a=>XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([cab].concat(a[1].map(gstLinhaPac))),a[0].slice(0,31)));
-    XLSX.writeFile(wb,nome+'xlsx');
-  }else{
-    const csv=abas.map(a=>'## '+a[0]+'\n'+[cab].concat(a[1].map(gstLinhaPac)).map(l=>l.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(';')).join('\n')).join('\n\n');
-    gstBaixar(nome+'csv','text/csv;charset=utf-8','﻿'+csv);
-  }
-}
-function gstJanelaImp(titulo,corpo){
-  const w=window.open('','_blank');if(!w){showToast('Libere pop-ups para imprimir',true);return;}
-  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>'+gstEsc(titulo)+'</title><style>body{font-family:Arial,sans-serif;font-size:11px;color:#000;padding:16px 22px}h1{font-size:16px;margin:0}small{color:#555}table{border-collapse:collapse;width:100%;margin:8px 0}td,th{border:1px solid #999;padding:3px 5px;text-align:left}th{background:#eee}.gst-card{margin:10px 0;break-inside:avoid}.gst-card>h3{background:#eceff1;margin:0;padding:5px 8px;font-size:12px}.gst-kpis{display:flex;flex-wrap:wrap;gap:6px}.gst-kpi{border:1px solid #999;padding:5px 8px;border-top:3px solid #455a64;min-width:110px;background:#fff}.gst-kpi b{display:block;font-size:18px}.gst-barra{display:grid;grid-template-columns:120px 1fr 120px;gap:6px;margin:3px 0;align-items:center}.gst-trilho{background:#eee;height:10px;border-radius:5px}.gst-fill{height:10px;border-radius:5px}.gst-pill{font-weight:bold}.gst-metas,button[onclick],.gst-card:last-child{display:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body><h1>Secretaria de Saúde de Alto Alegre do Maranhão — '+gstEsc(titulo)+'</h1><small>Emitido em '+new Date().toLocaleString('pt-BR')+'</small>'+corpo+'<script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');
-  w.document.close();
-}
-function gstImprimir(){gstJanelaImp('Painel do Gestor',gstEl('gst-corpo').innerHTML.replace(/<button[^>]*>(.*?)<\/button>/g,'$1'));}
-function gstImprimirLista(t){const tb=gstEl('gst-tab-lista');gstJanelaImp(t,tb?tb.outerHTML:'<p>Nenhum paciente.</p>');}
 
 // Grava; se a coluna equipe_esf ainda não existir no banco, salva o restante e avisa
 async function eqGravar(op,dados){
