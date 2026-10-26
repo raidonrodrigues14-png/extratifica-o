@@ -2,13 +2,13 @@
   "version": 2,
   "builds": [
     { "src": "*.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "gestor.html", "use": "@vercel/static" }
+    { "src": "*.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/apicrianca", "dest": "/apicrianca.js" },
     { "src": "/api/apigestante", "dest": "/apigestante.js" },
     { "src": "/api/apireports", "dest": "/apireports.js" },
+    { "src": "/gestor", "dest": "/gestor.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
