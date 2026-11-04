@@ -2466,6 +2466,7 @@ function copiarCodigoPix(){
 function mostrarTelaVencida(venc){
   document.getElementById('tela-login').style.display='none';
   document.getElementById('tela-portal').style.display='none';
+  ['modulo-gestante','modulo-crianca','modulo-bucal','modulo-hasdm','modulo-idoso','modulo-paliativo','modulo-agenda'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
   const codigo=gerarPayloadPix();
   document.getElementById('pix-codigo').value=codigo;
   document.getElementById('pix-valor-txt').textContent=Number(PIX_VALOR).toFixed(2).replace('.',',');
@@ -2478,13 +2479,29 @@ function mostrarTelaVencida(venc){
 async function verificarAssinatura(userId){
   try{
     const{data,error}=await supabaseClient.from('assinaturas').select('vencimento').eq('user_id',userId).maybeSingle();
-    if(error||!data)return{ok:true};
+    if(error)return{ok:true};
+    if(!data)return{ok:false,vencimento:null};
     const hoje=new Date();hoje.setHours(0,0,0,0);
     const venc=new Date(data.vencimento+'T00:00:00');
     return{ok:venc>=hoje,vencimento:data.vencimento};
   }catch(e){console.warn('verificar assinatura',e);return{ok:true};}
 }
 
+// Cobrança individual: confere o vencimento de cada login a cada 5 min e ao voltar para a aba
+let _assinMonT=null,_assinMonLive=false;
+async function conferirAssinaturaAgora(){
+  if(!_assinMonLive)return;
+  try{
+    const{data:{session}}=await supabaseClient.auth.getSession();
+    if(!session||!session.user)return;
+    const a=await verificarAssinatura(session.user.id);
+    if(!a.ok){_assinMonLive=false;clearInterval(_assinMonT);await supabaseClient.auth.signOut();mostrarTelaVencida(a.vencimento);}
+  }catch(e){}
+}
+function iniciarMonitorAssinatura(){
+  _assinMonLive=true;clearInterval(_assinMonT);_assinMonT=setInterval(conferirAssinaturaAgora,5*60*1000);
+  if(!iniciarMonitorAssinatura._v){iniciarMonitorAssinatura._v=1;document.addEventListener('visibilitychange',()=>{if(!document.hidden)conferirAssinaturaAgora();});}
+}
 async function fazerLogin(){
   const userRaw=document.getElementById('login-user').value.trim();
   const pass=document.getElementById('login-senha').value;
@@ -2512,6 +2529,7 @@ async function fazerLogin(){
 }
 
 function ativarSessao(user,bemVindo){
+  iniciarMonitorAssinatura();
   document.getElementById('tela-login').style.display='none';
   document.getElementById('portal-usuario-info').innerHTML=' · '+user;
   document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
