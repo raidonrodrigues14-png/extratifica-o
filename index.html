@@ -2480,13 +2480,39 @@ async function verificarAssinatura(userId){
   try{
     const{data,error}=await supabaseClient.from('assinaturas').select('vencimento').eq('user_id',userId).maybeSingle();
     if(error)return{ok:true};
-    if(!data)return{ok:false,vencimento:null};
+    if(!data)return{ok:true};
     const hoje=new Date();hoje.setHours(0,0,0,0);
     const venc=new Date(data.vencimento+'T00:00:00');
     return{ok:venc>=hoje,vencimento:data.vencimento};
   }catch(e){console.warn('verificar assinatura',e);return{ok:true};}
 }
 
+// ===== UBS e equipes por grupo (padrão: UBS Ozima, equipes originais) =====
+let APS_UBS='UBS Ozima Batista Bezerra Vieia';
+const APS_EQUIPES_PADRAO=['Equipe ESF- Tucum 1','Equipe ESF- Tucum 2','Equipe ESF - 28 de Maio'];
+function aplicarUbs(){
+  const pn=document.getElementById('portal-ubs-nome');if(pn)pn.innerText=APS_UBS;
+  ['g-ubs','b-ubs','h-ubs'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=APS_UBS;});
+  const ci=document.getElementById('c-ubs');if(ci&&!ci.value)ci.value=APS_UBS;
+}
+function aplicarEquipes(lista){
+  ['g-equipe','c-equipe','i-equipe','h-equipe','b-equipe'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;const v=el.value;
+    el.innerHTML='<option value="">Selecione</option>'+lista.map(x=>'<option>'+String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>').join('');
+    if(v&&lista.indexOf(v)<0)el.insertAdjacentHTML('beforeend','<option>'+String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>');
+    el.value=v;
+  });
+}
+async function carregarUbsDoGrupo(){
+  try{
+    const r=await supabaseClient.rpc('minha_ubs');
+    const d=r&&r.data;if(r.error||!d||!d.nome)return;
+    APS_UBS='UBS '+String(d.nome).replace(/^UBS\s+/i,'');
+    ['g-ubs','b-ubs','h-ubs','i-ubs','c-ubs'].forEach(id=>{const e=document.getElementById(id);if(e&&(!e.value||e.value==='UBS Ozima Batista Bezerra Vieia'))e.value=APS_UBS;});
+    const pn=document.getElementById('portal-ubs-nome');if(pn)pn.innerText=APS_UBS;
+    if(Array.isArray(d.equipes)&&d.equipes.length)aplicarEquipes(d.equipes);
+  }catch(e){console.warn('ubs do grupo',e);}
+}
 // Cobrança individual: confere o vencimento de cada login a cada 5 min e ao voltar para a aba
 let _assinMonT=null,_assinMonLive=false;
 async function conferirAssinaturaAgora(){
@@ -2532,10 +2558,7 @@ function ativarSessao(user,bemVindo){
   iniciarMonitorAssinatura();
   document.getElementById('tela-login').style.display='none';
   document.getElementById('portal-usuario-info').innerHTML=' · '+user;
-  document.getElementById('portal-ubs-nome').innerText='UBS Ozima Batista Bezerra Vieia';
-  document.getElementById('g-ubs').value='UBS Ozima Batista Bezerra Vieia';
-  document.getElementById('b-ubs').value='UBS Ozima Batista Bezerra Vieia';
-  document.getElementById('h-ubs').value='UBS Ozima Batista Bezerra Vieia';
+  aplicarUbs();carregarUbsDoGrupo();
   document.getElementById('c-data').valueAsDate=new Date();
   document.getElementById('i-data').valueAsDate=new Date();
   cCalcular();ivcfCalcular();carregarGestantes();carregarCriancas();gPagAtual=1;gRenderPag();carregarStatPortal();
@@ -3058,7 +3081,7 @@ document.addEventListener('change',function(e){
 
 // ===== CUIDADOS PALIATIVOS: Elegibilidade → SPICT-BR → Abordagem paliativa completa =====
 const PAL_TABELA='paliativos';
-const PAL_UBS='UBS Ozima Batista Bezerra Vieia';
+const PAL_UBS=APS_UBS;
 
 // --- 1) Ferramenta de elegibilidade simplificada (ACS) ---
 const PAL_ELEG=[
@@ -4489,7 +4512,7 @@ function reiniciarIdoso(){
   const btnI=document.getElementById('btn-salvar-idoso');if(btnI){delete btnI.dataset.editId;btnI.innerHTML='💾 Salvar Avaliação';}
 }
 
-function preencherUbsIdoso(){const u=document.getElementById('i-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';}
+function preencherUbsIdoso(){const u=document.getElementById('i-ubs');if(u)u.value=APS_UBS;}
 
 function verIdoso(id){
   const i=idoMap[id];if(!i){showToast('Registro não encontrado',true);return;}
@@ -5067,7 +5090,7 @@ function enviarWhatsAppHasDm(){hAtualizarWpp();hEnviarWpp('h-telefone','h-wpp','
 function enviarWhatsAppAcsHasDm(){hAtualizarWpp();hEnviarWpp('h-cel-acs','h-wpp-acs','do ACS');}
 document.addEventListener('input',e=>{if(e.target&&e.target.id&&e.target.id.indexOf('h-')===0)hAtualizarWpp();});
 function preencherUbsHasDm(){
-  const u=document.getElementById('h-ubs');if(u)u.value='UBS Ozima Batista Bezerra Vieia';
+  const u=document.getElementById('h-ubs');if(u)u.value=APS_UBS;
   const d=document.getElementById('h-data-consulta');if(d&&!d.value)d.value=hHojeISO();
   hAtualizarRetorno();
 }
