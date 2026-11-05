@@ -770,7 +770,7 @@ img,svg,canvas{max-width:100%}
 <!-- MÓDULO GESTANTE -->
 <div id="modulo-gestante"><div class="app-header"><div class="app-header-brand"><div class="app-header-icon">🤰</div><div class="app-header-text"><strong>Estratificação da Gestante</strong><span>Ficha ER v4 — Monitoramento e Risco Obstétrico</span></div></div><button class="btn-portal-voltar" onclick="voltarPortal()">← Portal</button></div><div class="gest-progress"><div class="gest-steps"><div class="gest-step ativo" id="gs-1"></div><div class="gest-step" id="gs-2"></div><div class="gest-step" id="gs-3"></div><div class="gest-step" id="gs-4"></div></div><span class="gest-step-label" id="gs-label">Passo 1 de 4</span></div>
 
-<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><input type="text" id="g-ubs" readonly style="font-weight:700;color:var(--musgo)"></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem"><div class="g-campo"><label>📱 Telefone da gestante (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-cel-acs" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
+<div class="gest-content" id="gpag-1"><div class="g-secao"><div class="g-secao-titulo t-id">👤 Identificação Cadastral da Gestante</div><div class="g-secao-corpo"><div class="g-campo" style="margin-bottom:.75rem"><label>Nome completo</label><input type="text" id="g-nome" placeholder="Nome completo" autocomplete="off"></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>CNS</label><input type="text" id="g-cns" autocomplete="off"></div><div class="g-campo"><label>CPF</label><input type="text" id="g-cpf" autocomplete="off"></div><div class="g-campo"><label>Idade</label><input type="number" id="g-idade"></div><div class="g-campo"><label>Nascimento</label><input type="date" id="g-data_nasc"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>Estado Civil</label><select id="g-estado_civil"><option value="">Selecione</option><option>Solteira</option><option>Casada</option><option>União Estável</option><option>Outro</option></select></div><div class="g-campo"><label>DUM</label><input type="date" id="g-dum"></div><div class="g-campo"><label>DPP</label><input type="date" id="g-dpp"></div></div><div style="margin-bottom:.75rem"><label style="font-size:.65rem;font-weight:700;color:var(--txt-3);text-transform:uppercase;display:block;margin-bottom:.4rem;letter-spacing:.7px">Raça / Cor</label><div class="g-raca"><label><input type="radio" name="graca" value="Branca"> Branca</label><label><input type="radio" name="graca" value="Preta"> Preta</label><label><input type="radio" name="graca" value="Parda"> Parda</label><label><input type="radio" name="graca" value="Amarela"> Amarela</label><label><input type="radio" name="graca" value="Indígena"> Indígena</label></div></div><div class="g-grid-4" style="margin-bottom:.75rem"><div class="g-campo"><label>Gestações (G)</label><input type="number" id="g-gest" value="1"></div><div class="g-campo"><label>Abortos (A)</label><input type="number" id="g-abort" value="0"></div><div class="g-campo"><label>Partos Normais</label><input type="number" id="g-pn" value="0"></div><div class="g-campo"><label>Partos Cesáreos</label><input type="number" id="g-pc" value="0"></div></div><div class="g-grid-3" style="margin-bottom:.75rem"><div class="g-campo"><label>UBS</label><select id="g-ubs" style="font-weight:700;color:var(--musgo)"></select></div><div class="g-campo"><label>Equipe ESF</label><select id="g-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div><div class="g-campo"><label>ACS</label><input type="text" id="g-acs" autocomplete="off"></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem"><div class="g-campo"><label>📱 Telefone da gestante (WhatsApp)</label><input type="tel" id="g-cel" placeholder="98991234567"></div><div class="g-campo"><label>👷 Contato do ACS (WhatsApp)</label><input type="tel" id="g-cel-acs" placeholder="98991234567" oninput="gSyncAcsCel(this)"></div></div><div class="g-secao" style="margin-top:1rem"><div class="g-secao-titulo t-imc" style="background:linear-gradient(90deg,var(--musgo-medio),var(--musgo));color:white">⚖️ Avaliação Nutricional da Gestante</div><div class="g-secao-corpo"><div class="g-grid-3"><div class="g-campo"><label>Peso Pré-gestacional (kg)</label><input type="number" id="g-peso-pre" step="0.1" min="30" max="200" placeholder="ex: 65.5" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Peso Atual (kg)</label><input type="number" id="g-peso-atual" step="0.1" min="30" max="200" placeholder="ex: 72.0" oninput="calcIMCGestante()"></div><div class="g-campo"><label>Altura (m)</label><input type="number" id="g-altura" step="0.01" min="1.00" max="2.50" placeholder="ex: 1.60" oninput="calcIMCGestante()"></div></div><div id="g-imc-resultado" class="imc-result" style="display:none; margin-top:0.5rem;"></div><div id="g-ganho-peso" class="imc-result" style="display:none; background:var(--menta-cl); margin-top:0.5rem;"></div></div></div></div></div></div>
 <!-- PASSO 2: Risco Habitual + Vigilância -->
   <div class="gest-content" id="gpag-2" style="display:none">
     <div class="g-secao">
@@ -1071,7 +1071,7 @@ img,svg,canvas{max-width:100%}
           <div class="c-campo"><label>Nome da Mãe</label><input type="text" id="c-mae" placeholder="Nome da mãe"></div>
           <div class="c-campo"><label>Telefone da mãe (WhatsApp)</label><input type="tel" id="c-cel-mae" placeholder="98991234567"></div>
           <div class="c-campo"><label>CNS</label><input type="text" id="c-cns" placeholder="CNS"></div>
-          <div class="c-campo"><label>UBS</label><input type="text" id="c-ubs" placeholder="UBS"></div>
+          <div class="c-campo"><label>UBS</label><select id="c-ubs"></select></div>
           <div class="c-campo"><label>Data Nascimento</label><input type="date" id="c-nasc"></div>
           <div class="c-campo"><label>Equipe ESF</label><select id="c-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="c-campo"><label>Microárea</label><input type="text" id="c-microarea" placeholder="Microárea"></div>
@@ -1301,7 +1301,7 @@ img,svg,canvas{max-width:100%}
           <div class="c-campo"><label>Nome do Idoso</label><input type="text" id="i-nome" placeholder="Nome completo"></div>
           <div class="c-campo"><label>Telefone (WhatsApp)</label><input type="tel" id="i-telefone" placeholder="98991234567"></div>
           <div class="c-campo"><label>CNS</label><input type="text" id="i-cns" placeholder="CNS"></div>
-          <div class="c-campo"><label>UBS</label><input type="text" id="i-ubs" placeholder="UBS"></div>
+          <div class="c-campo"><label>UBS</label><select id="i-ubs"></select></div>
           <div class="c-campo"><label>Data de Nascimento</label><input type="date" id="i-nasc" onchange="ivcfCalcular()"></div>
           <div class="c-campo"><label>Idade</label><input type="text" id="i-idade-calc" placeholder="Calculada automaticamente" readonly></div>
           <div class="c-campo"><label>Equipe ESF</label><select id="i-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
@@ -1705,7 +1705,7 @@ img,svg,canvas{max-width:100%}
       <div class="h-secao-corpo">
         <div class="h-campo" style="margin-bottom:.75rem"><label>Nome Completo</label><input type="text" id="h-nome" placeholder="Nome completo do paciente"></div>
         <div class="h-grid-4" style="margin-bottom:.75rem">
-          <div class="h-campo"><label>UBS</label><input type="text" id="h-ubs" readonly style="font-weight:700;color:#c62828"></div>
+          <div class="h-campo"><label>UBS</label><select id="h-ubs" style="font-weight:700;color:#c62828"></select></div>
           <div class="h-campo"><label>Equipe ESF</label><select id="h-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="h-campo"><label>Microárea</label><input type="text" id="h-microarea" placeholder="Microárea"></div>
           <div class="h-campo"><label>Enfermeira</label><input type="text" id="h-enfermeira" placeholder="Enfermeira(o)"></div>
@@ -2256,7 +2256,7 @@ img,svg,canvas{max-width:100%}
           </div>
         </div>
         <div class="b-grid-id">
-          <div class="b-campo"><label>UBS</label><input type="text" id="b-ubs" readonly style="font-weight:700;color:var(--musgo)"></div>
+          <div class="b-campo"><label>UBS</label><select id="b-ubs" style="font-weight:700;color:var(--musgo)"></select></div>
           <div class="b-campo"><label>ACS Responsável</label><input type="text" id="b-acs" placeholder="ACS Responsável"></div>
           <div class="b-campo"><label>Equipe ESF</label><select id="b-equipe"><option value="">Selecione</option><option>Equipe ESF- Tucum 1</option><option>Equipe ESF- Tucum 2</option><option>Equipe ESF - 28 de Maio</option></select></div>
           <div class="b-campo"><label>Microárea</label><input type="text" id="b-microarea" placeholder="Ex.: 03"></div>
@@ -2489,11 +2489,28 @@ async function verificarAssinatura(userId){
 
 // ===== UBS e equipes por grupo (padrão: UBS Ozima, equipes originais) =====
 let APS_UBS='UBS Ozima Batista Bezerra Vieia';
+// Todas as UBS do município (o nome da Ozima segue como já está gravado nos cadastros)
+const APS_UBS_LISTA=['UBS Maria Beatriz da Conceição (Mulher)','UBS Ozima Batista Bezerra Vieia','UBS Dico Veiga','UBS Alto Alegre Vile','UBS Raimunda Batista Bezerra Vieira','UBS Inácio Pereira da Silva','UBS Antônio Valdenir de Oliveira','UBS Duruteu Sampaio de Souza','UBS Antônio Lopes de Oliveira','UBS Maria José de Nascimento'];
+function apsNomeUbs(n){n=String(n||'').trim();if(!n)return '';n=/^UBS\s/i.test(n)?n:'UBS '+n;return /^UBS Ozima Batista Bezerra Vieir?a$/i.test(n)?'UBS Ozima Batista Bezerra Vieia':n;}
+function prepararSelectsUbs(){
+  const desc=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value');
+  ['g-ubs','c-ubs','i-ubs','h-ubs','b-ubs'].forEach(id=>{
+    const el=document.getElementById(id);if(!el||el.tagName!=='SELECT'||el._ubsOk)return;el._ubsOk=1;
+    el.innerHTML='<option value="">Selecione a UBS</option>'+APS_UBS_LISTA.map(n=>'<option>'+n.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>').join('');
+    // cadastros antigos com UBS fora da lista continuam aparecendo ao editar
+    Object.defineProperty(el,'value',{configurable:true,get(){return desc.get.call(this);},set(v){
+      v=v==null?'':String(v);
+      if(v&&![...this.options].some(o=>o.value===v)){const o=document.createElement('option');o.textContent=v;this.appendChild(o);}
+      desc.set.call(this,v);}});
+  });
+}
 const APS_EQUIPES_PADRAO=['Equipe ESF- Tucum 1','Equipe ESF- Tucum 2','Equipe ESF - 28 de Maio'];
 function aplicarUbs(){
+  prepararSelectsUbs();
   const pn=document.getElementById('portal-ubs-nome');if(pn)pn.innerText=APS_UBS;
   ['g-ubs','b-ubs','h-ubs'].forEach(id=>{const e=document.getElementById(id);if(e&&!e.value)e.value=APS_UBS;});
   const ci=document.getElementById('c-ubs');if(ci&&!ci.value)ci.value=APS_UBS;
+  const ii=document.getElementById('i-ubs');if(ii&&!ii.value)ii.value=APS_UBS;
 }
 function aplicarEquipes(lista){
   ['g-equipe','c-equipe','i-equipe','h-equipe','b-equipe'].forEach(id=>{
@@ -2507,12 +2524,14 @@ async function carregarUbsDoGrupo(){
   try{
     const r=await supabaseClient.rpc('minha_ubs');
     const d=r&&r.data;if(r.error||!d||!d.nome)return;
-    APS_UBS='UBS '+String(d.nome).replace(/^UBS\s+/i,'');
+    APS_UBS=apsNomeUbs(d.nome);prepararSelectsUbs();
     ['g-ubs','b-ubs','h-ubs','i-ubs','c-ubs'].forEach(id=>{const e=document.getElementById(id);if(e&&(!e.value||e.value==='UBS Ozima Batista Bezerra Vieia'))e.value=APS_UBS;});
     const pn=document.getElementById('portal-ubs-nome');if(pn)pn.innerText=APS_UBS;
     if(Array.isArray(d.equipes)&&d.equipes.length)aplicarEquipes(d.equipes);
   }catch(e){console.warn('ubs do grupo',e);}
 }
+document.addEventListener('DOMContentLoaded',prepararSelectsUbs);
+if(document.readyState!=='loading')prepararSelectsUbs();
 // Cobrança individual: confere o vencimento de cada login a cada 5 min e ao voltar para a aba
 let _assinMonT=null,_assinMonLive=false;
 async function conferirAssinaturaAgora(){
