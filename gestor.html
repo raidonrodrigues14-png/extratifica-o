@@ -40,47 +40,144 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 .lg-rodape{margin-top:1.1rem;font-size:.7rem;color:var(--txt-3);text-align:center}
 #tela-painel-g{display:none}
 @media(max-width:640px){.app-header{padding:.5rem .85rem}.app-header-text strong{font-size:.95rem}.lg-card{padding:1.75rem 1.25rem}input,select,textarea{font-size:16px!important}.btn,.btn-portal-voltar{min-height:44px}.toast{left:1rem;right:1rem;bottom:1rem}}
-/* ===== PAINEL DO GESTOR ===== */
-#modulo-gestor{display:block;min-height:100vh;background:var(--bg)}
-.gst-content{max-width:1180px;margin:0 auto;padding:1.25rem 1rem 3rem}
-.gst-filtros{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.9rem}
-.gst-filtros select{padding:.5rem .7rem;border:1.5px solid var(--border);border-radius:9px;font-family:var(--font-body);font-size:.82rem;background:#fff}
-.gst-aviso{font-size:.74rem;color:var(--txt-3);margin:.2rem 0 .8rem}
-.gst-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.65rem;margin-bottom:1rem}
-.gst-kpi{background:#fff;border:1px solid var(--border);border-top:4px solid var(--kc,#455a64);border-radius:12px;padding:.7rem .85rem;text-align:left;font-family:var(--font-body);cursor:pointer;transition:transform .15s,box-shadow .15s}
-.gst-kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
-.gst-kpi b{display:block;font-size:1.65rem;line-height:1.1;color:var(--kc,#263238)}
-.gst-kpi span{font-size:.72rem;color:var(--txt-2);font-weight:600}
-.gst-kpi small{display:block;font-size:.66rem;color:var(--txt-3);margin-top:.15rem}
-.gst-card{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:1rem;overflow:hidden}
-.gst-card>h3{margin:0;padding:.7rem 1rem;background:#eceff1;color:#263238;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
-.gst-card-c{padding:.9rem 1rem}
-.gst-barra{display:grid;grid-template-columns:150px 1fr 92px;gap:.6rem;align-items:center;margin:.45rem 0;font-size:.8rem}
-.gst-trilho{background:#eceff1;border-radius:20px;height:16px;position:relative;overflow:hidden}
-.gst-fill{height:100%;border-radius:20px;transition:width .5s}
-.gst-barra small{color:var(--txt-3);font-size:.7rem;text-align:right}
-.gst-tab{width:100%;border-collapse:collapse;font-size:.8rem}
-.gst-tab th{background:#f5f7f8;color:#37474f;text-align:right;padding:.5rem .6rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;position:sticky;top:0}
-.gst-tab th:first-child,.gst-tab td:first-child{text-align:left}
-.gst-tab td{padding:.5rem .6rem;border-top:1px solid var(--border);text-align:right;white-space:nowrap}
-.gst-tab tr.gst-sub td{background:#fafafa;font-weight:700}
-.gst-tab td button{background:none;border:none;color:#0277bd;font-weight:800;cursor:pointer;font-family:var(--font-body);font-size:.82rem;padding:0 .2rem}
-.gst-pill{display:inline-block;padding:.12rem .55rem;border-radius:20px;font-size:.7rem;font-weight:700}
-.gst-ok{background:#e8f5e9;color:#2e7d32}.gst-med{background:#fff8e1;color:#f57f17}.gst-ruim{background:#ffebee;color:#c62828}.gst-nd{background:#eceff1;color:#607d8b}
-.gst-metas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem}
-.gst-metas label{font-size:.68rem;font-weight:700;color:var(--txt-2);text-transform:uppercase;display:block;margin-bottom:.2rem}
-.gst-metas input{width:100%;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font-body);font-size:.85rem}
-.gst-vazio{color:var(--txt-3);font-size:.82rem;padding:1rem;text-align:center}
+/* ===== PAINEL DO GESTOR (dashboard) ===== */
+#modulo-gestor{
+  color-scheme:light;
+  --g-plane:#f4f4f1;--g-surf:#fcfcfb;--g-ink:#0b0b0b;--g-ink2:#52514e;--g-muted:#6f6d67;
+  --g-grid:#e8e7e0;--g-axis:#c3c2b7;--g-ring:rgba(11,11,11,.10);--g-soft:#f1f0ec;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;
+  --st-good:#0ca30c;--st-warn:#fab219;--st-serious:#ec835a;--st-crit:#d03b3b;--st-none:#b8b6ad;
+  --o1:#86b6ef;--o2:#3987e5;--o3:#184f95;--o0:#d9d8d0;
+  --sq1:#cde2fb;--sq2:#9ec5f4;--sq3:#6da7ec;--sq4:#3987e5;--sq5:#256abf;--sq6:#184f95;--sq7:#0d366b;
+  --g-good-txt:#006300;--g-crit-txt:#b02a2a;--g-warn-txt:#8a5a00;
+  display:block;min-height:100vh;background:var(--g-plane);color:var(--g-ink);font-family:var(--font-body),system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) #modulo-gestor{
+  color-scheme:dark;--g-plane:#0d0d0d;--g-surf:#1a1a19;--g-ink:#f0efec;--g-ink2:#c3c2b7;--g-muted:#9a988f;
+  --g-grid:#2c2c2a;--g-axis:#383835;--g-ring:rgba(255,255,255,.10);--g-soft:#242422;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--st-none:#4a4945;--o0:#383835;
+  --g-good-txt:#0ca30c;--g-crit-txt:#ee6b6b;--g-warn-txt:#fab219;}}
+:root[data-theme="dark"] #modulo-gestor{
+  color-scheme:dark;--g-plane:#0d0d0d;--g-surf:#1a1a19;--g-ink:#f0efec;--g-ink2:#c3c2b7;--g-muted:#9a988f;
+  --g-grid:#2c2c2a;--g-axis:#383835;--g-ring:rgba(255,255,255,.10);--g-soft:#242422;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--st-none:#4a4945;--o0:#383835;
+  --g-good-txt:#0ca30c;--g-crit-txt:#ee6b6b;--g-warn-txt:#fab219;}
+#modulo-gestor .g-top{position:sticky;top:0;z-index:200;background:var(--g-surf);border-bottom:1px solid var(--g-ring);padding:.6rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+#modulo-gestor .g-brand{display:flex;align-items:center;gap:.7rem}
+#modulo-gestor .g-logo{width:36px;height:36px;border-radius:10px;background:var(--s1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem}
+#modulo-gestor .g-brand strong{display:block;font-size:1rem;letter-spacing:-.01em}
+#modulo-gestor .g-brand span{font-size:.74rem;color:var(--g-muted)}
+#modulo-gestor .g-top-r{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--g-ink2)}
+.g-btn{background:var(--g-surf);color:var(--g-ink);border:1px solid var(--g-axis);border-radius:8px;padding:.42rem .8rem;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;line-height:1.2}
+.g-btn:hover{background:var(--g-soft)}
+.g-btn.pri{background:var(--g-ink);color:var(--g-surf);border-color:var(--g-ink)}
+.g-btn:focus-visible,#modulo-gestor select:focus-visible,#modulo-gestor input:focus-visible,#modulo-gestor summary:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+#modulo-gestor .g-wrap{max-width:1240px;margin:0 auto;padding:1.1rem 1.25rem 3rem;transition:opacity .2s}
+#gst-corpo.carregando{opacity:.55}
+.g-filtros{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.4rem}
+.g-filtros select{padding:.45rem .65rem;border:1px solid var(--g-axis);border-radius:8px;font-family:inherit;font-size:.8rem;background:var(--g-surf);color:var(--g-ink);max-width:210px}
+.g-filtros .sp{flex:1}
+.g-sub{font-size:.72rem;color:var(--g-muted);margin:.2rem 0 1rem}
+.g-h2{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted);margin:1.4rem 0 .6rem}
+.g-kpis{display:grid;grid-template-columns:minmax(260px,1.15fr) 3fr;gap:.8rem}
+.g-hero{background:var(--g-surf);border:1px solid var(--g-ring);border-radius:14px;padding:1rem 1.15rem;display:flex;flex-direction:column;gap:.35rem}
+.g-hero .lbl{font-size:.78rem;color:var(--g-ink2);font-weight:600}
+.g-hero .big{font-size:3.4rem;font-weight:700;line-height:1;letter-spacing:-.03em}
+.g-hero .meta{font-size:.76rem;color:var(--g-muted)}
+.g-meter{height:10px;border-radius:6px;background:var(--sq1);position:relative;overflow:hidden;margin:.3rem 0}
+.g-meter i{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+.g-meter b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--g-ink)}
+.g-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem}
+@media(min-width:1000px){.g-tiles{grid-template-columns:repeat(4,1fr)}}
+.g-tile{background:var(--g-surf);border:1px solid var(--g-ring);border-radius:14px;padding:.8rem .95rem;text-align:left;font-family:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:.15rem;min-height:104px}
+.g-tile:hover{border-color:var(--g-axis);background:var(--g-soft)}
+.g-tile .lbl{font-size:.74rem;color:var(--g-ink2);font-weight:600}
+.g-tile .val{font-size:1.75rem;font-weight:650;line-height:1.1;letter-spacing:-.02em}
+.g-tile .dl{font-size:.7rem;color:var(--g-muted)}
+.g-tile .dl.up{color:var(--g-good-txt)}.g-tile .dl.bad{color:var(--g-crit-txt)}
+.g-tile svg{margin-top:auto}
+.g-ins{background:var(--g-surf);border:1px solid var(--g-ring);border-radius:14px;padding:.35rem 1rem}
+.g-ins li{list-style:none;padding:.6rem 0;border-top:1px solid var(--g-grid);font-size:.84rem;line-height:1.45;display:flex;gap:.6rem}
+.g-ins li:first-child{border-top:0}
+.g-ins li i{font-style:normal;flex:none;width:1.3rem;text-align:center}
+.g-ins b{font-weight:650}
+.g-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:.8rem}
+.g-c{background:var(--g-surf);border:1px solid var(--g-ring);border-radius:14px;padding:.9rem 1rem 1rem;min-width:0}
+.g-c.w12{grid-column:span 12}.g-c.w8{grid-column:span 8}.g-c.w7{grid-column:span 7}.g-c.w6{grid-column:span 6}.g-c.w5{grid-column:span 5}.g-c.w4{grid-column:span 4}
+.g-ch{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.6rem}
+.g-ch h3{font-size:.9rem;margin:0;font-weight:650;letter-spacing:-.005em}
+.g-ch p{font-size:.72rem;color:var(--g-muted);margin:.15rem 0 0}
+.g-tv-btn{background:none;border:1px solid var(--g-axis);color:var(--g-ink2);border-radius:6px;font-family:inherit;font-size:.68rem;padding:.2rem .5rem;cursor:pointer;flex:none}
+.g-tv-btn[aria-pressed="true"]{background:var(--g-ink);color:var(--g-surf);border-color:var(--g-ink)}
+.g-chart .g-tv{display:none}
+.g-chart.tv .g-viz{display:none}.g-chart.tv .g-tv{display:block;max-height:340px;overflow:auto}
+.g-leg{display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-size:.72rem;color:var(--g-ink2);margin-top:.55rem}
+.g-leg span{display:inline-flex;align-items:center;gap:.35rem}
+.g-leg i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.g-svg text{font-family:inherit;fill:var(--g-muted);font-size:10.5px}
+.g-svg .ax{stroke:var(--g-axis);stroke-width:1}.g-svg .gr{stroke:var(--g-grid);stroke-width:1}
+.g-svg .lbl-in{fill:#fff;font-size:10.5px;font-weight:600}
+.g-svg [data-tip]{cursor:default}
+.g-svg [data-tip]:hover,.g-svg [data-tip]:focus{filter:brightness(1.08);outline:none}
+.g-rank{display:grid;grid-template-columns:minmax(80px,140px) 1fr auto;gap:.2rem .6rem;align-items:center;font-size:.78rem}
+.g-rank button{all:unset;display:contents;cursor:pointer}
+.g-rank .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--g-ink)}
+.g-rank .bar{height:14px;background:var(--g-soft);border-radius:4px;position:relative}
+.g-rank .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--s1);border-radius:0 4px 4px 0}
+.g-rank .v{font-variant-numeric:tabular-nums;color:var(--g-ink2);font-size:.74rem;text-align:right;white-space:nowrap}
+.g-rank > *{padding:.22rem 0}
+.g-cov{display:grid;grid-template-columns:110px 1fr auto;gap:.5rem .7rem;align-items:center;font-size:.8rem;margin:.5rem 0}
+.g-cov .bar{height:10px;background:var(--sq1);border-radius:6px;position:relative;overflow:hidden}
+.g-cov .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+.g-cov .v{font-size:.74rem;color:var(--g-ink2);text-align:right;white-space:nowrap}
+.g-note{font-size:.7rem;color:var(--g-muted);margin:-.2rem 0 .2rem 120px}
+.g-pill{display:inline-flex;align-items:center;gap:.25rem;padding:.1rem .5rem;border-radius:20px;font-size:.7rem;font-weight:650;background:var(--g-soft);white-space:nowrap}
+.g-pill.ok{color:var(--g-good-txt)}.g-pill.warn{color:var(--g-warn-txt)}.g-pill.bad{color:var(--g-crit-txt)}.g-pill.nd{color:var(--g-muted)}
+.g-heat{border-collapse:separate;border-spacing:2px;width:100%;font-size:.76rem}
+.g-heat th{font-weight:600;color:var(--g-ink2);font-size:.68rem;padding:.2rem .3rem;text-align:center;white-space:nowrap}
+.g-heat th.rw{text-align:left;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.g-heat td{text-align:center;border-radius:4px;padding:.5rem .2rem;font-variant-numeric:tabular-nums;font-weight:600;min-width:52px}
+.g-heat td button{all:unset;cursor:pointer;display:block;width:100%}
+.g-scale{display:flex;align-items:center;gap:.4rem;font-size:.68rem;color:var(--g-muted);margin-top:.5rem}
+.g-scale i{display:block;width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--sq1),var(--sq4),var(--sq7))}
+.g-tabs{display:flex;gap:.25rem;margin-bottom:.6rem;flex-wrap:wrap}
+.g-tabs button{background:none;border:0;border-bottom:2px solid transparent;font-family:inherit;font-size:.8rem;font-weight:600;color:var(--g-muted);padding:.35rem .6rem;cursor:pointer}
+.g-tabs button[aria-selected="true"]{color:var(--g-ink);border-bottom-color:var(--s1)}
+.g-tb{width:100%;border-collapse:collapse;font-size:.78rem}
+.g-tb th{color:var(--g-muted);font-weight:650;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;text-align:right;padding:.45rem .55rem;white-space:nowrap;border-bottom:1px solid var(--g-axis);cursor:pointer;position:sticky;top:0;background:var(--g-surf)}
+.g-tb th:first-child,.g-tb td:first-child{text-align:left}
+.g-tb td{padding:.45rem .55rem;border-top:1px solid var(--g-grid);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.g-tb tr.tot td{font-weight:700;border-top:1px solid var(--g-axis)}
+.g-tb td button{all:unset;cursor:pointer;color:var(--s1);font-weight:700;padding:0 .15rem;border-radius:4px}
+.g-tb td button:hover{text-decoration:underline}
+.g-tb td.db{background:linear-gradient(90deg,color-mix(in srgb,var(--st-crit) 22%,transparent) var(--w,0%),transparent var(--w,0%))}
+.g-scroll{overflow:auto;max-height:430px;border-radius:8px}
+.g-metas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin-top:.7rem}
+.g-metas label{font-size:.66rem;font-weight:700;color:var(--g-ink2);text-transform:uppercase;display:block;margin-bottom:.2rem}
+.g-metas input{width:100%;padding:.45rem .6rem;border:1px solid var(--g-axis);border-radius:8px;font-family:inherit;font-size:.85rem;background:var(--g-surf);color:var(--g-ink)}
+#modulo-gestor details summary{cursor:pointer;font-weight:650;font-size:.88rem}
+.g-vazio{color:var(--g-muted);font-size:.82rem;padding:1rem;text-align:center}
+#gst-tip{position:fixed;z-index:3000;pointer-events:none;background:var(--g-surf,#fcfcfb);color:var(--g-ink,#0b0b0b);border:1px solid var(--g-axis,#c3c2b7);border-radius:8px;padding:.45rem .6rem;font-size:.74rem;box-shadow:0 6px 20px rgba(0,0,0,.15);display:none;max-width:260px}
+#gst-tip .t{font-weight:700;margin-bottom:.2rem}
+#gst-tip .r{display:flex;align-items:center;gap:.4rem;margin:.1rem 0}
+#gst-tip .r u{width:12px;height:3px;border-radius:2px;display:inline-block;text-decoration:none}
+#gst-tip .r b{font-weight:700}#gst-tip .r span{color:var(--g-ink2,#52514e)}
 .gst-ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem}
 .gst-ov.aberto{display:flex}
-.gst-modal{background:#fff;border-radius:16px;width:100%;max-width:980px;max-height:92vh;max-height:92dvh;overflow:auto;padding:1.1rem 1.25rem}
+.gst-modal{background:var(--g-surf);color:var(--g-ink);border-radius:16px;width:100%;max-width:1040px;max-height:92vh;max-height:92dvh;overflow:auto;padding:1.1rem 1.25rem}
 .gst-modal-top{display:flex;justify-content:space-between;gap:.7rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:.7rem}
-.gst-modal-top h3{margin:0;font-size:1rem;color:#263238}
+.gst-modal-top h3{margin:0;font-size:1rem}
 .gst-modal-top div{display:flex;gap:.4rem;flex-wrap:wrap}
-@media(max-width:640px){.gst-barra{grid-template-columns:1fr;gap:.2rem}.gst-barra small{text-align:left}.gst-kpi b{font-size:1.4rem}.gst-filtros select{flex:1 1 45%}.gst-modal{padding:.9rem .8rem}}
-
-
-@media print{.app-header,.gst-filtros{display:none!important}}
+.gst-tab{width:100%;border-collapse:collapse;font-size:.78rem}
+.gst-tab th{color:var(--g-muted);text-align:left;padding:.45rem .55rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;position:sticky;top:0;background:var(--g-surf);border-bottom:1px solid var(--g-axis)}
+.gst-tab td{padding:.45rem .55rem;border-top:1px solid var(--g-grid);white-space:nowrap}
+.gst-pill{display:inline-block;padding:.1rem .5rem;border-radius:20px;font-size:.7rem;font-weight:650;background:var(--g-soft)}
+.gst-ruim{color:var(--g-crit-txt)}
+.tabela-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--g-grid)}
+@media(max-width:900px){.g-kpis{grid-template-columns:1fr}.g-c.w8,.g-c.w7,.g-c.w6,.g-c.w5,.g-c.w4{grid-column:span 12}}
+@media(max-width:640px){#modulo-gestor .g-wrap{padding:.8rem .8rem 2.5rem}.g-filtros select{flex:1 1 44%;max-width:none}.g-hero .big{font-size:2.8rem}.g-cov{grid-template-columns:1fr auto}.g-cov .bar{grid-column:1/-1;order:3}.g-note{margin-left:0}.g-top{padding:.5rem .8rem}.g-btn{min-height:40px}}
+@page{size:A4 landscape;margin:10mm}
+@media print{body{background:#fff}.g-top .g-top-r,.g-filtros,.g-tv-btn,.g-tabs,#gst-tip,details{display:none!important}.g-top{position:static}#modulo-gestor{--g-plane:#fff}.g-c,.g-tile,.g-hero,.g-ins{break-inside:avoid}.g-c.w6,.g-c.w5,.g-c.w4,.g-c.w7,.g-c.w8{grid-column:span 12}}
 </style>
 </head>
 <body>
@@ -103,31 +200,29 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--txt-1);font-s
 
 <div id="tela-painel-g">
 <div id="modulo-gestor">
-  <div class="app-header" style="background:linear-gradient(135deg,#263238,#455a64)">
-    <div class="app-header-brand">
-      <div class="app-header-icon">📊</div>
-      <div class="app-header-text">
-        <strong>Painel do Gestor</strong>
-        <span>Cobertura · atrasos · faltosos · retornos · metas</span>
-      </div>
-    </div>
-    <div class="gst-user"><span id="gst-nome-user"></span><button class="btn-portal-voltar" onclick="gstSair()">Sair</button></div>
-  </div>
-  <div class="gst-content">
-    <div class="gst-filtros">
+  <header class="g-top">
+    <div class="g-brand"><div class="g-logo" aria-hidden="true">APS</div><div><strong>Painel de Gestão</strong><span>Atenção Primária · Alto Alegre do Maranhão</span></div></div>
+    <div class="g-top-r"><span id="gst-nome-user"></span><button type="button" class="g-btn" id="gst-tema" onclick="gstTema()" aria-label="Alternar tema claro/escuro">Tema</button><button type="button" class="g-btn" onclick="gstSair()">Sair</button></div>
+  </header>
+  <main class="g-wrap">
+    <div class="g-filtros" role="group" aria-label="Filtros">
       <select id="gst-f-prog" title="Programa" onchange="gstRender()"><option value="">Todos os programas</option></select>
+      <select id="gst-f-ubs" title="UBS" onchange="gstRender()"><option value="">Todas as UBS</option></select>
       <select id="gst-f-equipe" title="Equipe" onchange="gstRender()"><option value="">Todas as equipes</option></select>
+      <select id="gst-f-acs" title="ACS" onchange="gstRender()"><option value="">Todos os ACS</option></select>
       <select id="gst-f-micro" title="Microárea" onchange="gstRender()"><option value="">Todas as microáreas</option></select>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstCarregar()">↻ Atualizar</button>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstImprimir()">🖨️ Imprimir painel</button>
-      <button type="button" class="btn btn-nova ag-mini" onclick="gstExportar('todos')">📥 Exportar Excel</button>
+      <button type="button" class="g-btn" id="gst-limpar" onclick="gstLimparFiltros()" style="display:none">Limpar filtros</button>
+      <span class="sp"></span>
+      <button type="button" class="g-btn" onclick="gstCarregar()">Atualizar</button>
+      <button type="button" class="g-btn" onclick="gstImprimir()">Imprimir</button>
+      <button type="button" class="g-btn pri" onclick="gstExportar('todos')">Exportar Excel</button>
     </div>
-    <div class="gst-aviso" id="gst-aviso">Carregando…</div>
-    <div id="gst-corpo"><p class="gst-vazio">Carregando indicadores…</p></div>
-  </div>
+    <div class="g-sub" id="gst-aviso">Carregando…</div>
+    <div id="gst-corpo"><p class="g-vazio">Carregando indicadores…</p></div>
+  </main>
   <div class="gst-ov" id="gst-ov"><div class="gst-modal" id="gst-modal"></div></div>
+  <div id="gst-tip" role="tooltip"></div>
 </div>
-
 </div>
 
 <script>
@@ -154,7 +249,11 @@ function idoSit(i){return (i&&i.situacao)||'ativo';}
 function idoAtivo(i){return idoSit(i)==='ativo';}
 // ===== PAINEL DO GESTOR =====
 const GST_PROG={gestante:['🤰','Gestantes'],crianca:['🧒','Crianças'],hasdm:['❤️','HAS / DM'],idoso:['👴','Idosos'],bucal:['🦷','Saúde Bucal']};
-let gstRaw=null,gstRecs=[],gstAg=[],gstMontado=false,gstListaAtual=[];
+// ordem fixa = ordem das cores (a cor segue o programa, nunca a posição no ranking)
+const GST_ORDEM=['hasdm','idoso','crianca','gestante','bucal'];
+const GST_COR={hasdm:'var(--s1)',idoso:'var(--s2)',crianca:'var(--s3)',gestante:'var(--s4)',bucal:'var(--s5)'};
+const GST_MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+let gstRaw=null,gstRecs=[],gstAg=[],gstMontado=false,gstListaAtual=[],gstTab='equipe',gstSort={col:'atraso',dir:-1},gstCtx=null;
 const GST_METAS_PAD={his:EG_TOTAIS.his,dia:EG_TOTAIS.dia,ido:EG_TOTAIS.ido,cri:EG_TOTAIS.cri,ges:EG_TOTAIS.ges,buc:0,emdia:90,cobertura:80};
 function gstMetas(){
   let m={};try{m=JSON.parse(localStorage.getItem('aps_gestor_metas')||'{}')||{};}catch(e){}
@@ -186,18 +285,29 @@ async function gstTudo(tab){
   }
   return {data:out};
 }
-// uma ficha por paciente (a mais recente entre as ativas); quem não está ativo fica de fora
+// uma ficha por paciente (a mais recente entre as ativas); guarda também a data do 1º cadastro
 function gstPorPaciente(rows,getNome,ativo,fn){
-  const mapa={},fora={};
+  const mapa={},fora={},prim={};
   rows.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))||(+b.id||0)-(+a.id||0)).forEach(r=>{
     const n=(getNome(r)||'').trim().toLowerCase();if(!n)return;
+    const d=String(r.created_at||'').slice(0,10);if(d&&(!prim[n]||d<prim[n]))prim[n]=d;
     if(ativo(r)){if(!mapa[n])mapa[n]=fn(r);}else fora[n]=1;
   });
+  Object.keys(mapa).forEach(n=>{mapa[n].primeiro=prim[n]||'';});
   const saiu=Object.keys(fora).filter(n=>!mapa[n]).length;
   return {lista:Object.keys(mapa).map(k=>mapa[k]),saiu};
 }
+function gstUbsNome(u){u=String(u||'').trim().replace(/^UBS\s+/i,'');return u||'Sem UBS';}
+// nomes de ACS digitados à mão: junta as variações de grafia dos agentes já conhecidos
+const GST_ACS_CANON=[[/silv[a-z]*\s+helena/i,'Silvia Helena'],[/magno/i,'Magno'],[/creuza/i,'Maria Creuza'],[/raimundinha/i,'Raimundinha'],[/(^|[^a-z])cida([^a-z]|$)/i,'Cida'],[/simone/i,'Simone'],[/esmeraldina/i,'Esmeraldina']];
+function gstAcsNome(a){
+  a=String(a||'').trim().replace(/\s+/g,' ');
+  if(!a||/^[0-9 ]+$/.test(a))return 'Sem ACS';
+  for(let i=0;i<GST_ACS_CANON.length;i++)if(GST_ACS_CANON[i][0].test(a))return GST_ACS_CANON[i][1];
+  return a.toLowerCase().replace(/(^|\s)\S/g,c=>c.toUpperCase());
+}
 function gstConstruir(){
-  const R=gstRaw,rec=(prog,r,nome,equipe,micro,risco,ret,extra)=>Object.assign({prog,id:String(r.id),nome,equipe:equipe||'Sem equipe',micro:micro||'—',risco:gstRiscoNorm(risco),retorno:r?String(ret||'').slice(0,10):''},extra||{});
+  const R=gstRaw,rec=(prog,r,nome,equipe,micro,risco,ret,extra)=>Object.assign({prog,id:String(r.id),nome,equipe:equipe||'Sem equipe',micro:micro||'—',risco:gstRiscoNorm(risco),retorno:r?String(ret||'').slice(0,10):'',ubs:gstUbsNome(r&&r.ubs),acs:gstAcsNome(r&&r.acs)},extra||{});
   const g=gstPorPaciente(R.gestantes,r=>r.nome,gestAtiva,r=>rec('gestante',r,r.nome,r.equipe_esf,'',r.risco_classificacao,r.proxima_consulta));
   const c=gstPorPaciente(R.extratifica,r=>r.crianca,criAtiva,r=>rec('crianca',r,r.crianca,r.equipe_esf,r.microarea,r.risco,r.data_retorno));
   const h=gstPorPaciente(R.hasdm,r=>r.nome,()=>true,r=>rec('hasdm',r,r.nome,r.equipe_esf,r.microarea,r.risco_estratificado,r.data_retorno,{diag:String(r.diagnostico||'').toUpperCase()}));
@@ -205,14 +315,14 @@ function gstConstruir(){
   const b=gstPorPaciente(R.saudebucal,r=>r.nome_civil||r.nome_social,()=>true,r=>rec('bucal',r,r.nome_civil||r.nome_social,r.equipe_esf,r.microarea,r.risco,r.data_retorno));
   gstRecs=[].concat(g.lista,c.lista,h.lista,i.lista,b.lista);
   gstSaiu={ges:g.saiu,cri:c.saiu,ido:i.saiu};
-  // equipe/microárea de cada paciente (para ligar a agenda)
+  // equipe/microárea/ACS de cada paciente (para ligar a agenda)
   const eq={};
-  const reg=(prog,rows,fe)=>rows.forEach(r=>{eq[prog+':'+r.id]={equipe:r.equipe_esf||'Sem equipe',micro:fe?fe(r):(r.microarea||'—')};});
+  const reg=(prog,rows,fe)=>rows.forEach(r=>{eq[prog+':'+r.id]={equipe:r.equipe_esf||'Sem equipe',micro:fe?fe(r):(r.microarea||'—'),ubs:gstUbsNome(r.ubs),acs:gstAcsNome(r.acs)};});
   reg('gestante',R.gestantes,()=>'—');reg('crianca',R.extratifica);reg('hasdm',R.hasdm);reg('idoso',R.idosos);reg('bucal',R.saudebucal);
   const hoje=gestHoje();
   gstAg=(R.agenda||[]).filter(a=>a.status==='faltou'||((a.status==='agendada'||a.status==='confirmada')&&String(a.data).slice(0,10)<hoje)).map(a=>{
     const e=eq[(a.programa||'')+':'+a.paciente_id]||{};
-    return {prog:a.programa||'outro',id:String(a.id),nome:a.paciente_nome,equipe:e.equipe||'Sem equipe',micro:e.micro||a.microarea||'—',risco:gstRiscoNorm(a.risco),retorno:String(a.data||'').slice(0,10),ag:a.status==='faltou'?'faltou':'atrasada',status:a.status};
+    return {prog:a.programa||'outro',id:String(a.id),nome:a.paciente_nome,equipe:e.equipe||'Sem equipe',ubs:e.ubs||'Sem UBS',acs:e.acs||'Sem ACS',micro:e.micro||a.microarea||'—',risco:gstRiscoNorm(a.risco),retorno:String(a.data||'').slice(0,10),ag:a.status==='faltou'?'faltou':'atrasada',status:a.status==='faltou'?'Faltou':'Consulta atrasada'};
   });
 }
 let gstSaiu={ges:0,cri:0,ido:0};
@@ -223,43 +333,54 @@ function gstClasse(r,hoje){
   return r.retorno<=lim?'prox':'emdia';
 }
 function gstSomaDias(iso,n){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function gstFiltrar(lista){
-  const p=gstEl('gst-f-prog').value,e=gstEl('gst-f-equipe').value,m=gstEl('gst-f-micro').value;
-  return lista.filter(r=>(!p||r.prog===p)&&(!e||r.equipe===e)&&(!m||r.micro===m));
-}
+const GST_FILTROS=[['gst-f-prog','prog'],['gst-f-ubs','ubs'],['gst-f-equipe','equipe'],['gst-f-acs','acs'],['gst-f-micro','micro']];
 function gstEl(id){return document.getElementById(id);}
+function gstFiltrar(lista){
+  const f=GST_FILTROS.map(x=>[x[1],gstEl(x[0])?gstEl(x[0]).value:'']).filter(x=>x[1]);
+  return f.length?lista.filter(r=>f.every(x=>r[x[0]]===x[1])):lista;
+}
+function gstFiltroAtivo(){return GST_FILTROS.some(x=>gstEl(x[0])&&gstEl(x[0]).value);}
+function gstLimparFiltros(){GST_FILTROS.forEach(x=>{if(gstEl(x[0]))gstEl(x[0]).value='';});gstRender();}
 function gstOpcoes(){
-  const eqs=[...new Set(gstRecs.concat(gstAg).map(r=>r.equipe))].sort(),ms=[...new Set(gstRecs.concat(gstAg).map(r=>r.micro))].sort((a,b)=>String(a).localeCompare(String(b),'pt',{numeric:true}));
+  const all=gstRecs.concat(gstAg),uniq=k=>[...new Set(all.map(r=>r[k]))].sort((a,b)=>String(a).localeCompare(String(b),'pt',{numeric:true}));
   const f=(id,vals,todas)=>{const el=gstEl(id),v=el.value;el.innerHTML='<option value="">'+todas+'</option>'+vals.map(x=>'<option>'+gstEsc(x)+'</option>').join('');if(vals.indexOf(v)>=0)el.value=v;};
-  f('gst-f-equipe',eqs,'Todas as equipes');f('gst-f-micro',ms,'Todas as microáreas');
-  const pr=gstEl('gst-f-prog'),pv=pr.value;pr.innerHTML='<option value="">Todos os programas</option>'+Object.keys(GST_PROG).map(k=>'<option value="'+k+'">'+GST_PROG[k][0]+' '+GST_PROG[k][1]+'</option>').join('');pr.value=pv;
+  f('gst-f-ubs',uniq('ubs'),'Todas as UBS');f('gst-f-equipe',uniq('equipe'),'Todas as equipes');f('gst-f-acs',uniq('acs'),'Todos os ACS');f('gst-f-micro',uniq('micro'),'Todas as microáreas');
+  const pr=gstEl('gst-f-prog'),pv=pr.value;pr.innerHTML='<option value="">Todos os programas</option>'+GST_ORDEM.map(k=>'<option value="'+k+'">'+GST_PROG[k][0]+' '+GST_PROG[k][1]+'</option>').join('');pr.value=pv;
 }
 async function gstAbrir(){
   if(!gstMontado){gstMontado=true;
     document.addEventListener('click',e=>{
       const t=e.target;if(!t||!t.closest)return;
-      const b=t.closest('[data-gst]');if(b&&t.closest('#modulo-gestor')){e.preventDefault();gstDetalhe(b.dataset.gst,b.dataset.eq||'',b.dataset.mi||'');return;}
+      const b=t.closest('[data-gst]');if(b&&t.closest('#modulo-gestor')){e.preventDefault();const d=b.dataset;gstDetalhe(d.gst,{eq:d.eq||'',mi:d.mi||'',ac:d.ac||'',ub:d.ub||'',pg:d.pg||''});return;}
+      const tv=t.closest('[data-tv]');if(tv){const c=document.querySelector('.g-chart[data-chart="'+tv.dataset.tv+'"]');if(c){const on=c.classList.toggle('tv');tv.setAttribute('aria-pressed',on?'true':'false');tv.textContent=on?'Gráfico':'Tabela';}return;}
+      const tb=t.closest('[data-tab]');if(tb){gstTab=tb.dataset.tab;gstRender();return;}
+      const th=t.closest('[data-sort]');if(th){const c=th.dataset.sort;gstSort=gstSort.col===c?{col:c,dir:-gstSort.dir}:{col:c,dir:c==='nome'?1:-1};gstRender();return;}
       if(t.id==='gst-ov'||t.closest('[data-gst-fechar]'))gstFechar();
     });
     document.addEventListener('keydown',e=>{if(e.key==='Escape')gstFechar();});
+    let rt=null;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(gstRaw&&gstCtx)gstPintar();},160);});
+    gstTooltip();
   }
   await gstCarregar();
 }
 async function gstCarregar(){
+  const w=gstEl('gst-corpo');w.classList.add('carregando');
   gstEl('gst-aviso').textContent='Carregando dados…';
-  gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Carregando indicadores…</p>';
   try{
     const tabs=['gestantes','extratifica','hasdm','idosos','saudebucal','agenda_consultas'];
     const rs=await Promise.all(tabs.map(gstTudo));
     const erro=rs.slice(0,5).find(r=>r.error);
-    if(erro){gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Erro ao carregar: '+gstEsc(erro.error.message||'')+'</p>';return;}
+    if(erro){w.innerHTML='<p class="g-vazio">Erro ao carregar: '+gstEsc(erro.error.message||'')+'</p>';w.classList.remove('carregando');return;}
     gstRaw={gestantes:rs[0].data,extratifica:rs[1].data,hasdm:rs[2].data,idosos:rs[3].data,saudebucal:rs[4].data,agenda:rs[5].error?[]:rs[5].data};
     gstConstruir();gstOpcoes();gstRender();
-  }catch(err){gstEl('gst-corpo').innerHTML='<p class="gst-vazio">Erro ao montar o painel: '+gstEsc(err.message||'')+'</p>';}
+  }catch(err){w.innerHTML='<p class="g-vazio">Erro ao montar o painel: '+gstEsc(err.message||'')+'</p>';}
+  w.classList.remove('carregando');
 }
 function gstPct(a,b){return b>0?Math.round(a/b*1000)/10:null;}
-function gstSem(p,meta){if(p===null)return '<span class="gst-pill gst-nd">sem dados</span>';return '<span class="gst-pill '+(p>=meta?'gst-ok':p>=meta-15?'gst-med':'gst-ruim')+'">'+p.toLocaleString('pt-BR')+'%</span>';}
-function gstNum(n,kind,eq,mi){return n?'<button type="button" data-gst="'+kind+'" data-eq="'+gstEsc(eq||'')+'" data-mi="'+gstEsc(mi||'')+'">'+n+'</button>':'0';}
+function gstFmtPct(p){return p===null?'—':p.toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';}
+function gstStatus(p,meta){return p===null?'nd':(p>=meta?'ok':(p>=meta-15?'warn':'bad'));}
+function gstPill(p,meta){const s=gstStatus(p,meta),ic={ok:'✓',warn:'!',bad:'▲',nd:'–'}[s];return '<span class="g-pill '+s+'" title="meta '+meta+'%">'+ic+' '+gstFmtPct(p)+'</span>';}
+function gstNum(n,kind,att){return n?'<button type="button" data-gst="'+kind+'"'+(att||'')+'>'+n+'</button>':'0';}
 function gstStats(recs,ag,hoje){
   const s={tot:recs.length,alto:0,atraso:0,prox:0,semdata:0,emdia:0,comdata:0,faltou:0,agatraso:0};
   recs.forEach(r=>{if(r.risco==='alto')s.alto++;const c=gstClasse(r,hoje);s[c]++;if(c!=='semdata')s.comdata++;});
@@ -267,96 +388,297 @@ function gstStats(recs,ag,hoje){
   s.emdiaPct=gstPct(s.comdata-s.atraso,s.comdata);
   return s;
 }
+function gstGrupo(recs,ag,hoje,chave,rot){
+  const m={};
+  recs.forEach(r=>{const k=chave(r);(m[k]=m[k]||{ex:r,r:[],a:[]}).r.push(r);});
+  ag.forEach(a=>{const k=chave(a);(m[k]=m[k]||{ex:a,r:[],a:[]}).a.push(a);});
+  return Object.keys(m).map(k=>{const x=m[k];x.nome=rot(x.ex);x.s=gstStats(x.r,x.a,hoje);return x;});
+}
+
+// ---------- utilidades de gráfico ----------
+function gstNice(v){if(!(v>0))return 1;const p=Math.pow(10,Math.floor(Math.log10(v))),f=v/p;return (f<=1?1:f<=2?2:f<=5?5:10)*p;}
+function gstTipAttr(titulo,rows){return ' data-tip="'+gstEsc([titulo].concat(rows.map(r=>r.join('|'))).join('\n'))+'"';}
+function gstTooltip(){
+  const tip=gstEl('gst-tip');
+  const mostrar=(t,x,y)=>{
+    const L=String(t.dataset.tip||'').split('\n');tip.textContent='';
+    const h=document.createElement('div');h.className='t';h.textContent=L[0];tip.appendChild(h);
+    L.slice(1).forEach(l=>{const p=l.split('|'),r=document.createElement('div');r.className='r';
+      const u=document.createElement('u');u.style.background=p[2]||'transparent';r.appendChild(u);
+      const b=document.createElement('b');b.textContent=p[1]||'';r.appendChild(b);
+      const s=document.createElement('span');s.textContent=p[0]||'';r.appendChild(s);tip.appendChild(r);});
+    tip.style.display='block';
+    const w=tip.offsetWidth,hh=tip.offsetHeight;
+    let left=x+14,top=y+14;if(left+w>innerWidth-8)left=x-w-14;if(top+hh>innerHeight-8)top=y-hh-14;
+    tip.style.left=Math.max(8,left)+'px';tip.style.top=Math.max(8,top)+'px';
+  };
+  document.addEventListener('pointermove',e=>{const t=e.target&&e.target.closest?e.target.closest('[data-tip]'):null;if(!t){tip.style.display='none';return;}mostrar(t,e.clientX,e.clientY);});
+  document.addEventListener('focusin',e=>{const t=e.target&&e.target.closest?e.target.closest('[data-tip]'):null;if(!t)return;const r=t.getBoundingClientRect();mostrar(t,r.left+r.width/2,r.top);});
+  document.addEventListener('focusout',()=>{tip.style.display='none';});
+  document.addEventListener('scroll',()=>{tip.style.display='none';},{passive:true});
+}
+function gstBarra(x,y,w,h,r,topo,estilo,att){
+  r=Math.max(0,Math.min(r,h,w/2));
+  if(!topo||!r)return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" style="'+estilo+'"'+(att||'')+'/>';
+  return '<path d="M'+x+','+(y+h)+' L'+x+','+(y+r)+' Q'+x+','+y+' '+(x+r)+','+y+' L'+(x+w-r)+','+y+' Q'+(x+w)+','+y+' '+(x+w)+','+(y+r)+' L'+(x+w)+','+(y+h)+' Z" style="'+estilo+'"'+(att||'')+'/>';
+}
+function gstLegenda(itens){return '<div class="g-leg">'+itens.map(i=>'<span><i style="background:'+i[1]+'"></i>'+gstEsc(i[0])+'</span>').join('')+'</div>';}
+function gstTabelaHtml(cab,linhas){return '<table class="g-tb"><thead><tr>'+cab.map(c=>'<th style="cursor:default">'+gstEsc(c)+'</th>').join('')+'</tr></thead><tbody>'+linhas.map(l=>'<tr>'+l.map(c=>'<td>'+gstEsc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';}
+function gstSpark(v,aria){
+  const W=96,H=26,n=v.length;if(n<2)return '';
+  const mx=Math.max.apply(null,v),mn=Math.min.apply(null,v),rg=(mx-mn)||1;
+  const pts=v.map((y,i)=>[2+i*(W-6)/(n-1),H-3-(y-mn)/rg*(H-8)]);
+  const l=pts[n-1];
+  return '<svg class="g-svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+gstEsc(aria)+'"><polyline fill="none" stroke="var(--g-axis)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" points="'+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')+'"/><circle cx="'+l[0].toFixed(1)+'" cy="'+l[1].toFixed(1)+'" r="3.5" style="fill:var(--s1);stroke:var(--g-surf);stroke-width:2"/></svg>';
+}
+function gstMeses(n){
+  const out=[],d=new Date();
+  for(let i=n-1;i>=0;i--){const x=new Date(d.getFullYear(),d.getMonth()-i,1);out.push({k:x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0'),l:GST_MES[x.getMonth()]+(i===n-1||x.getMonth()===0?'/'+String(x.getFullYear()).slice(2):'')});}
+  return out;
+}
+// ---------- gráficos ----------
+function chEvol(el,C){
+  const viz=el.querySelector('.g-viz'),tv=el.querySelector('.g-tv');
+  const W=Math.max(viz.clientWidth||el.clientWidth,280),H=232,m={l:32,r:6,t:16,b:26},iw=W-m.l-m.r,ih=H-m.t-m.b,n=C.meses.length;
+  const tot=C.meses.map((_,i)=>GST_ORDEM.reduce((s,p)=>s+C.evol[p][i],0));
+  const mx=Math.max.apply(null,tot.concat([1])),step=gstNice(mx/4),topv=Math.ceil(mx/step)*step||step;
+  const sy=v=>m.t+ih-v/topv*ih,slot=iw/n,bw=Math.min(22,slot*.62);
+  let s='<svg class="g-svg" viewBox="0 0 '+W+' '+H+'" width="100%" height="'+H+'" role="img" aria-label="Novas estratificações por mês e programa, últimos 12 meses">';
+  for(let v=0;v<=topv+1e-9;v+=step){const y=sy(v);s+='<line class="'+(v===0?'ax':'gr')+'" x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+y.toFixed(1)+'" y2="'+y.toFixed(1)+'"/><text x="'+(m.l-6)+'" y="'+(y+3.5).toFixed(1)+'" text-anchor="end">'+v+'</text>';}
+  C.meses.forEach((mo,i)=>{
+    const x=m.l+slot*i+(slot-bw)/2,segs=GST_ORDEM.filter(p=>C.evol[p][i]>0);let base=sy(0);
+    segs.forEach((p,j)=>{const h=C.evol[p][i]/topv*ih,y=base-h,ult=j===segs.length-1;
+      s+=gstBarra(+x.toFixed(1),+y.toFixed(1),+bw.toFixed(1),+Math.max(h-(j?2:0),1).toFixed(1),4,ult,'fill:'+GST_COR[p]);base=y;});
+    if(tot[i]>0&&(i>=n-2))s+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(base-4).toFixed(1)+'" text-anchor="middle" style="fill:var(--g-ink);font-weight:650">'+tot[i]+'</text>';
+    const rows=GST_ORDEM.filter(p=>C.evol[p][i]>0).map(p=>[GST_PROG[p][1],C.evol[p][i],GST_COR[p]]);
+    s+='<rect x="'+(m.l+slot*i).toFixed(1)+'" y="'+m.t+'" width="'+slot.toFixed(1)+'" height="'+ih+'" fill="transparent" tabindex="0"'+gstTipAttr(mo.k.split('-').reverse().join('/')+' · '+tot[i]+' novas',rows.length?rows:[['Nenhuma estratificação','0','transparent']])+'/>';
+    if(slot>=34||i%2===(n-1)%2)s+='<text x="'+(m.l+slot*i+slot/2).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+gstEsc(mo.l)+'</text>';
+  });
+  s+='</svg>'+gstLegenda(GST_ORDEM.map(p=>[GST_PROG[p][1],GST_COR[p]]));
+  viz.innerHTML=s;
+  tv.innerHTML=gstTabelaHtml(['Mês'].concat(GST_ORDEM.map(p=>GST_PROG[p][1]),['Total']),C.meses.map((mo,i)=>[mo.k.split('-').reverse().join('/')].concat(GST_ORDEM.map(p=>C.evol[p][i]),[tot[i]])));
+}
+function chStackH(el,rows,segs,aria){
+  const viz=el.querySelector('.g-viz'),tv=el.querySelector('.g-tv');
+  const W=Math.max(viz.clientWidth||el.clientWidth,300),lw=Math.min(122,Math.round(W*.34)),rw=40,bh=20,rh=34,bx=lw,bwid=Math.max(W-lw-rw-4,60),H=rows.length*rh+6;
+  let s='<svg class="g-svg" viewBox="0 0 '+W+' '+H+'" width="100%" height="'+H+'" role="img" aria-label="'+gstEsc(aria)+'">';
+  rows.forEach((r,i)=>{
+    const y=3+i*rh,cy=y+(rh-bh)/2,mc=Math.max(6,Math.floor(lw/6.4)),lab=r.label.length>mc?r.label.slice(0,mc-1)+'…':r.label;
+    s+='<text x="0" y="'+(cy+bh/2+3.5)+'" style="fill:var(--g-ink);'+(r.forte?'font-weight:650':'')+'">'+gstEsc(lab)+'</text>';
+    if(!r.n){s+='<text x="'+bx+'" y="'+(cy+bh/2+3.5)+'">sem fichas</text>';return;}
+    let x=bx;
+    const nz=segs.filter(sg=>(r.vals[sg.k]||0)>0);
+    nz.forEach((sg,j)=>{
+      const v=r.vals[sg.k],w=v/r.n*bwid,ult=j===nz.length-1,ww=Math.max(w-(ult?0:2),1);
+      s+='<rect x="'+x.toFixed(1)+'" y="'+cy+'" width="'+ww.toFixed(1)+'" height="'+bh+'" rx="'+(ww>8?3:1)+'" style="fill:'+sg.cor+'"/>';
+      if(w>=38)s+='<text x="'+(x+ww/2).toFixed(1)+'" y="'+(cy+bh/2+3.5)+'" text-anchor="middle" style="fill:'+sg.txt+';font-weight:650">'+Math.round(v/r.n*100)+'%</text>';
+      x+=w;
+    });
+    s+='<text x="'+(W-rw+8)+'" y="'+(cy+bh/2+3.5)+'" style="fill:var(--g-ink2);font-variant-numeric:tabular-nums">'+r.n+'</text>';
+    s+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rh+'" fill="transparent" tabindex="0"'+gstTipAttr(r.label+' · '+r.n+' pacientes',segs.filter(sg=>r.vals[sg.k]).map(sg=>[sg.nome,r.vals[sg.k]+' ('+gstFmtPct(gstPct(r.vals[sg.k],r.n))+')',sg.cor]))+'/>';
+  });
+  s+='</svg>'+gstLegenda(segs.map(sg=>[(sg.ic?sg.ic+' ':'')+sg.nome,sg.cor]));
+  viz.innerHTML=s;
+  tv.innerHTML=gstTabelaHtml(['Grupo','Pacientes'].concat(segs.map(sg=>sg.nome)),rows.map(r=>[r.label,r.n].concat(segs.map(sg=>(r.vals[sg.k]||0)+(r.n?' ('+gstFmtPct(gstPct(r.vals[sg.k]||0,r.n))+')':'')))));
+}
+const GST_SEG_RET=[{k:'emdia',nome:'Em dia',ic:'✓',cor:'var(--st-good)',txt:'#fff'},{k:'prox',nome:'Vence em 30 dias',ic:'◷',cor:'var(--st-warn)',txt:'#0b0b0b'},{k:'atraso',nome:'Em atraso',ic:'▲',cor:'var(--st-crit)',txt:'#fff'},{k:'semdata',nome:'Sem data',ic:'–',cor:'var(--st-none)',txt:'var(--g-ink)'}];
+const GST_SEG_RISCO=[{k:'alto',nome:'Alto',cor:'var(--o3)',txt:'#fff'},{k:'medio',nome:'Médio',cor:'var(--o2)',txt:'#fff'},{k:'baixo',nome:'Baixo',cor:'var(--o1)',txt:'#0b0b0b'},{k:'nc',nome:'Não classificado',cor:'var(--o0)',txt:'var(--g-ink2)'}];
+function gstLinhasProg(C,chave){
+  const mk=(label,lista,forte)=>{const vals={};lista.forEach(r=>{const k=chave(r);vals[k]=(vals[k]||0)+1;});return {label,n:lista.length,vals,forte};};
+  return [mk('Todos os programas',C.recs,true)].concat(GST_ORDEM.map(p=>mk(GST_PROG[p][0]+' '+GST_PROG[p][1],C.recs.filter(r=>r.prog===p))).filter(r=>r.n));
+}
+function chRet(el,C){chStackH(el,gstLinhasProg(C,r=>gstClasse(r,C.hoje)),GST_SEG_RET,'Situação do retorno por programa, em percentual');}
+function chRisco(el,C){chStackH(el,gstLinhasProg(C,r=>r.risco||'nc'),GST_SEG_RISCO,'Perfil de risco por programa, em percentual');}
+function gstPintar(){
+  const C=gstCtx;if(!C)return;
+  document.querySelectorAll('.g-chart[data-chart]').forEach(el=>{const f={evol:chEvol,ret:chRet,risco:chRisco}[el.dataset.chart];if(f)try{f(el,C);}catch(e){el.querySelector('.g-viz').textContent='Não foi possível desenhar este gráfico.';console.warn(e);}});
+}
+function gstCard(cls,id,titulo,sub){
+  return '<div class="g-c '+cls+'"><div class="g-ch"><div><h3>'+titulo+'</h3>'+(sub?'<p>'+sub+'</p>':'')+'</div><button type="button" class="g-tv-btn" data-tv="'+id+'" aria-pressed="false">Tabela</button></div><div class="g-chart" data-chart="'+id+'"><div class="g-viz"></div><div class="g-tv"></div></div></div>';
+}
+function gstCardSimples(cls,titulo,sub,corpo){return '<div class="g-c '+cls+'"><div class="g-ch"><div><h3>'+titulo+'</h3>'+(sub?'<p>'+sub+'</p>':'')+'</div></div>'+corpo+'</div>';}
+
+// ---------- blocos do painel ----------
+function gstEvolModelo(recs,meses){
+  const evol={};GST_ORDEM.forEach(p=>{evol[p]=meses.map(()=>0);});
+  let antes=0,sem=0;
+  recs.forEach(r=>{
+    if(!r.primeiro){sem++;return;}
+    const k=r.primeiro.slice(0,7),i=meses.findIndex(m=>m.k===k);
+    if(i>=0)evol[r.prog][i]++;else if(k<meses[0].k)antes++;
+  });
+  const cum=[];let c=antes;meses.forEach((_,i)=>{c+=GST_ORDEM.reduce((s,p)=>s+evol[p][i],0);cum.push(c);});
+  return {evol,cum,antes,sem};
+}
+function gstTile(n,lbl,kind,dl,cls,spark){
+  return '<button type="button" class="g-tile" data-gst="'+kind+'"><span class="lbl">'+lbl+'</span><span class="val">'+n.toLocaleString('pt-BR')+'</span>'+(dl?'<span class="dl '+(cls||'')+'">'+dl+'</span>':'')+(spark||'')+'</button>';
+}
+function gstHeroHtml(S,M){
+  const p=S.emdiaPct,st=gstStatus(p,M.emdia),cor={ok:'var(--st-good)',warn:'var(--st-warn)',bad:'var(--st-crit)',nd:'var(--st-none)'}[st];
+  const msg={ok:'✓ acima da meta',warn:'! próximo da meta',bad:'▲ abaixo da meta',nd:'sem dados'}[st];
+  return '<div class="g-hero"><span class="lbl">Retornos em dia</span><div class="big">'+(p===null?'—':gstFmtPct(p))+'</div>'+
+    '<div class="g-meter" role="img" aria-label="Retornos em dia: '+gstFmtPct(p)+', meta '+M.emdia+'%"><i style="width:'+Math.min(100,p||0)+'%;background:'+cor+'"></i><b style="left:'+Math.min(100,M.emdia)+'%"></b></div>'+
+    '<span class="meta">'+msg+' · meta '+M.emdia+'% · '+(S.comdata-S.atraso)+' de '+S.comdata+' pacientes com data de retorno</span></div>';
+}
+function gstCoberturaHtml(C){
+  const {recs,M,filtrado}=C,cnt=f=>recs.filter(f).length;
+  const lin=(lbl,n,meta,saiu,nota)=>{
+    const metaDin=Math.max(meta-(saiu||0),n),p=meta>0?gstPct(n,metaDin):null,st=gstStatus(p,M.cobertura);
+    const cor={ok:'var(--st-good)',warn:'var(--st-warn)',bad:'var(--st-crit)',nd:'var(--st-none)'}[st];
+    const txt=meta>0&&!filtrado?(n+'/'+metaDin+' · '+gstPill(p,M.cobertura)):n+' estratificado'+(n===1?'':'s');
+    return '<div class="g-cov"><span>'+lbl+'</span><div class="bar"><i style="width:'+Math.min(100,p||0)+'%;background:'+cor+'"></i></div><span class="v">'+txt+'</span></div>'+(saiu&&!filtrado?'<div class="g-note">'+nota+'</div>':'');
+  };
+  return lin('Hipertensos',cnt(r=>r.prog==='hasdm'&&String(r.diag).includes('HAS')),M.his)+
+    lin('Diabéticos',cnt(r=>r.prog==='hasdm'&&String(r.diag).includes('DM')),M.dia)+
+    lin('Idosos',cnt(r=>r.prog==='idoso'),M.ido,gstSaiu.ido,'Meta ajustada: − '+gstSaiu.ido+' (óbito/saída da lista)')+
+    lin('Crianças',cnt(r=>r.prog==='crianca'),M.cri,gstSaiu.cri,'Meta ajustada: − '+gstSaiu.cri+' (completaram 6 anos)')+
+    lin('Gestantes',cnt(r=>r.prog==='gestante'),M.ges,gstSaiu.ges,'Meta ajustada: − '+gstSaiu.ges+' (puerpério/encerradas)')+
+    lin('Saúde bucal',cnt(r=>r.prog==='bucal'),M.buc);
+}
+function gstRankHtml(C){
+  const por=gstGrupo(C.recs,[],C.hoje,r=>r.acs,r=>r.acs).filter(x=>x.s.atraso>0).sort((a,b)=>b.s.atraso-a.s.atraso).slice(0,10);
+  if(!por.length)return '<p class="g-vazio">Nenhum retorno em atraso 🎉</p>';
+  const mx=por[0].s.atraso,tot=C.S.atraso;
+  const top3=por.slice(0,3).reduce((s,x)=>s+x.s.atraso,0);
+  return '<div class="g-rank">'+por.map(x=>'<button type="button" data-gst="atraso" data-ac="'+gstEsc(x.nome)+'"><span class="nm" title="'+gstEsc(x.nome)+'">'+gstEsc(x.nome)+'</span><span class="bar"><i style="width:'+(x.s.atraso/mx*100).toFixed(1)+'%"></i></span><span class="v">'+x.s.atraso+' · '+gstFmtPct(gstPct(x.s.atraso,tot))+'</span></button>').join('')+'</div>'+
+    '<div class="g-scale">Os 3 primeiros concentram <b style="color:var(--g-ink)">'+gstFmtPct(gstPct(top3,tot))+'</b> dos '+tot+' atrasos.</div>';
+}
+function gstHeatHtml(C){
+  const eqs=gstGrupo(C.recs,[],C.hoje,r=>r.equipe,r=>r.equipe).sort((a,b)=>b.s.tot-a.s.tot).slice(0,10);
+  const progs=GST_ORDEM.filter(p=>C.recs.some(r=>r.prog===p));
+  if(!eqs.length||!progs.length)return '<p class="g-vazio">Sem dados para os filtros escolhidos.</p>';
+  const cel=eqs.map(e=>progs.map(p=>{const l=e.r.filter(r=>r.prog===p),s=gstStats(l,[],C.hoje);return {n:l.length,com:s.comdata,atr:s.atraso,pct:s.comdata?s.atraso/s.comdata*100:null};}));
+  const mx=Math.max.apply(null,cel.reduce((a,r)=>a.concat(r.map(c=>c.pct==null?0:c.pct)),[1]));
+  const css=['--sq1','--sq2','--sq3','--sq4','--sq5','--sq6','--sq7'];
+  let h='<div class="g-scroll" style="max-height:none"><table class="g-heat"><thead><tr><th class="rw"></th>'+progs.map(p=>'<th>'+GST_PROG[p][0]+'<br>'+GST_PROG[p][1]+'</th>').join('')+'</tr></thead><tbody>';
+  eqs.forEach((e,i)=>{
+    h+='<tr><th class="rw" title="'+gstEsc(e.nome)+'">'+gstEsc(e.nome)+'</th>'+progs.map((p,j)=>{
+      const c=cel[i][j];
+      if(!c.n)return '<td style="background:var(--g-soft);color:var(--g-muted)">–</td>';
+      if(c.pct==null)return '<td style="background:var(--g-soft);color:var(--g-muted)"'+gstTipAttr(e.nome+' · '+GST_PROG[p][1],[['Fichas',c.n,'transparent'],['Com data de retorno','0','transparent']])+'>s/d</td>';
+      const k=Math.min(6,Math.round(c.pct/mx*6)),dark=k>=3;
+      return '<td style="background:var('+css[k]+');color:'+(dark?'#fff':'#0b0b0b')+'"'+gstTipAttr(e.nome+' · '+GST_PROG[p][1],[['Em atraso',c.atr+' de '+c.com+' com data','transparent'],['Total de fichas',c.n,'transparent']])+'>'+(c.atr?'<button type="button" data-gst="atraso" data-eq="'+gstEsc(e.nome)+'" data-pg="'+p+'">'+Math.round(c.pct)+'%</button>':'0%')+'</td>';
+    }).join('')+'</tr>';
+  });
+  return h+'</tbody></table></div><div class="g-scale"><span>0%</span><i></i><span>'+Math.round(mx)+'% em atraso</span><span style="margin-left:.6rem">s/d = sem data de retorno</span></div>';
+}
+function gstQualidadeHtml(C){
+  const R=C.recs,n=R.length;
+  const it=[['Equipe ESF',r=>r.equipe!=='Sem equipe','semeq'],['ACS',r=>r.acs!=='Sem ACS','semacs'],['Microárea',r=>r.micro!=='—','semmicro'],['Data de retorno',r=>!!r.retorno,'semdata'],['Risco classificado',r=>!!r.risco,'semrisco']];
+  if(!n)return '<p class="g-vazio">Sem dados.</p>';
+  return it.map(x=>{const ok=R.filter(x[1]).length,p=gstPct(ok,n),falta=n-ok;
+    return '<div class="g-cov"><span>'+x[0]+'</span><div class="bar"><i style="width:'+p+'%;background:var(--sq5)"></i></div><span class="v">'+(p<90?'▲ ':'')+gstFmtPct(p)+(falta?' · <button type="button" class="g-pill bad" style="border:0;cursor:pointer" data-gst="'+x[2]+'">'+falta+' sem</button>':' · ✓')+'</span></div>';}).join('')+
+    '<div class="g-scale">Percentual de fichas ativas preenchidas. Clique no número para listar o que falta.</div>';
+}
+function gstInsights(C,grupos){
+  const L=[],{S,M,recs}=C;
+  const acs=grupos.acs.filter(x=>x.s.atraso>0&&x.nome!=='Sem ACS').sort((a,b)=>b.s.atraso-a.s.atraso);
+  if(S.atraso>0&&acs.length)L.push(['▲','<b>'+gstEsc(acs[0].nome)+'</b> concentra <b>'+acs[0].s.atraso+'</b> dos '+S.atraso+' retornos em atraso ('+gstFmtPct(gstPct(acs[0].s.atraso,S.atraso))+').']);
+  const eq=grupos.equipe.filter(x=>x.s.comdata>=5&&x.nome!=='Sem equipe').sort((a,b)=>(a.s.emdiaPct||0)-(b.s.emdiaPct||0));
+  if(eq.length>1)L.push(['◷','Menor índice de retornos em dia: <b>'+gstEsc(eq[0].nome)+'</b> com <b>'+gstFmtPct(eq[0].s.emdiaPct)+'</b> (meta '+M.emdia+'%). Melhor: <b>'+gstEsc(eq[eq.length-1].nome)+'</b> ('+gstFmtPct(eq[eq.length-1].s.emdiaPct)+').']);
+  const risco=recs.filter(r=>r.risco==='alto'&&['atraso','semdata'].indexOf(gstClasse(r,C.hoje))>=0).length;
+  if(risco)L.push(['!','<b>'+risco+'</b> paciente'+(risco===1?'':'s')+' de <b>alto risco</b> com retorno em atraso ou sem data marcada: prioridade de busca ativa.']);
+  const semEq=recs.filter(r=>r.equipe==='Sem equipe').length;
+  if(semEq)L.push(['▸','<b>'+semEq+'</b> fichas ('+gstFmtPct(gstPct(semEq,recs.length))+') estão sem equipe e não entram nos indicadores por equipe — veja <i>Qualidade dos dados</i>.']);
+  if(!C.filtrado){
+    const cob=[['hipertensos',recs.filter(r=>r.prog==='hasdm'&&String(r.diag).includes('HAS')).length,M.his],['diabéticos',recs.filter(r=>r.prog==='hasdm'&&String(r.diag).includes('DM')).length,M.dia],['idosos',recs.filter(r=>r.prog==='idoso').length,M.ido],['crianças',recs.filter(r=>r.prog==='crianca').length,M.cri]].filter(x=>x[2]>0).map(x=>[x[0],gstPct(x[1],x[2])||0]).sort((a,b)=>a[1]-b[1]);
+    if(cob.length)L.push(['◆','Menor cobertura de estratificação: <b>'+cob[0][0]+'</b> ('+gstFmtPct(cob[0][1])+' da população-alvo).']);
+  }
+  if(!L.length)L.push(['✓','Nada crítico para os filtros escolhidos.']);
+  return '<ul class="g-ins">'+L.map(l=>'<li><i aria-hidden="true">'+l[0]+'</i><span>'+l[1]+'</span></li>').join('')+'</ul>';
+}
+function gstTabelaDetalhe(C,grupos){
+  const abas=[['equipe','Equipe'],['acs','ACS'],['micro','Microárea'],['ubs','UBS']];
+  let lin=(grupos[gstTab]||[]).slice();
+  const val=(x,c)=>c==='nome'?x.nome:(c==='emdia'?(x.s.emdiaPct==null?-1:x.s.emdiaPct):x.s[c]);
+  lin.sort((a,b)=>{const va=val(a,gstSort.col),vb=val(b,gstSort.col);return (typeof va==='string'?va.localeCompare(vb,'pt'):va-vb)*gstSort.dir||b.s.tot-a.s.tot;});
+  const mxA=Math.max.apply(null,lin.map(x=>x.s.atraso).concat([1]));
+  const cols=[['nome',abas.filter(a=>a[0]===gstTab)[0][1]],['tot','Estratif.'],['alto','Alto risco'],['atraso','Em atraso'],['prox','Próx. 30 d'],['semdata','Sem data'],['faltou','Faltosos'],['emdia','Em dia']];
+  const att=x=>{const e=x.ex;return gstTab==='equipe'?' data-eq="'+gstEsc(e.equipe)+'"':gstTab==='acs'?' data-ac="'+gstEsc(e.acs)+'"':gstTab==='ubs'?' data-ub="'+gstEsc(e.ubs)+'"':' data-eq="'+gstEsc(e.equipe)+'" data-mi="'+gstEsc(e.micro)+'"';};
+  const tt=C.S;
+  const linha=(x,tot)=>{const s=x.s,a=tot?'':att(x);return '<tr class="'+(tot?'tot':'')+'"><td>'+gstEsc(x.nome)+'</td><td>'+gstNum(s.tot,'todos',a)+'</td><td>'+gstNum(s.alto,'alto',a)+'</td><td class="db" style="--w:'+(tot?0:(s.atraso/mxA*100).toFixed(0))+'%">'+gstNum(s.atraso,'atraso',a)+'</td><td>'+gstNum(s.prox,'prox',a)+'</td><td>'+gstNum(s.semdata,'semdata',a)+'</td><td>'+gstNum(s.faltou,'faltou',a)+'</td><td>'+gstPill(s.emdiaPct,C.M.emdia)+'</td></tr>';};
+  return '<div class="g-tabs" role="tablist">'+abas.map(a=>'<button type="button" role="tab" data-tab="'+a[0]+'" aria-selected="'+(a[0]===gstTab)+'">'+a[1]+'</button>').join('')+'</div>'+
+    (lin.length?'<div class="g-scroll"><table class="g-tb"><thead><tr>'+cols.map(c=>'<th data-sort="'+c[0]+'" aria-sort="'+(gstSort.col===c[0]?(gstSort.dir>0?'ascending':'descending'):'none')+'">'+c[1]+(gstSort.col===c[0]?(gstSort.dir>0?' ↑':' ↓'):'')+'</th>').join('')+'</tr></thead><tbody>'+lin.map(x=>linha(x,false)).join('')+linha({nome:'Total',s:tt},true)+'</tbody></table></div>':'<p class="g-vazio">Sem dados para os filtros escolhidos.</p>');
+}
+function gstMetasHtml(M){
+  return '<details><summary>🎯 Metas e população-alvo <small style="font-weight:400;color:var(--g-muted)"> · salvas neste aparelho</small></summary><div class="g-metas">'+
+    [['his','Hipertensos (população-alvo)'],['dia','Diabéticos (população-alvo)'],['ido','Idosos (população-alvo)'],['cri','Crianças (população-alvo)'],['ges','Gestantes (população-alvo)'],['buc','Saúde bucal (0 = sem meta)'],['emdia','Meta de retornos em dia (%)'],['cobertura','Meta de cobertura (%)']].map(x=>'<div><label for="gst-m-'+x[0]+'">'+x[1]+'</label><input type="number" min="0" id="gst-m-'+x[0]+'" value="'+M[x[0]]+'"></div>').join('')+
+    '</div><div style="display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap"><button type="button" class="g-btn pri" onclick="gstSalvarMetas()">Salvar metas</button><button type="button" class="g-btn" onclick="gstResetMetas()">Restaurar padrão</button></div></details>';
+}
 function gstRender(){
   if(!gstRaw)return;
-  const hoje=gestHoje(),M=gstMetas();
-  const recs=gstFiltrar(gstRecs),ag=gstFiltrar(gstAg),S=gstStats(recs,ag,hoje);
-  const filtrado=!!(gstEl('gst-f-equipe').value||gstEl('gst-f-micro').value||gstEl('gst-f-prog').value);
-  gstEl('gst-aviso').textContent='Atualizado em '+new Date().toLocaleString('pt-BR')+' · pacientes: todos os cadastros visíveis ao seu login · agenda (faltosos e consultas atrasadas): todas as agendas das equipes · retorno em atraso = data de retorno da última ficha já passou.';
-  // KPIs
-  const kp=(n,l,c,kind,sub)=>'<button type="button" class="gst-kpi" style="--kc:'+c+'" data-gst="'+kind+'"><b>'+n+'</b><span>'+l+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</button>';
-  let h='<div class="gst-kpis">'+
-    kp(S.tot,'Estratificados','#455a64','todos','pacientes ativos')+
-    kp(S.alto,'Alto risco','#c62828','alto',S.tot?gstPct(S.alto,S.tot)+'% do total':'')+
-    kp(S.atraso,'Retornos em atraso','#e65100','atraso','data de retorno vencida')+
-    kp(S.prox,'Retornos em 30 dias','#0277bd','prox','pendentes')+
-    kp(S.semdata,'Sem data de retorno','#78909c','semdata','completar a ficha')+
-    kp(S.faltou,'Faltosos (agenda)','#ad1457','faltou','busca ativa')+
-    kp(S.agatraso,'Consultas atrasadas (agenda)','#6a1b9a','agatraso','agendadas já vencidas')+
+  const hoje=gestHoje(),M=gstMetas(),recs=gstFiltrar(gstRecs),ag=gstFiltrar(gstAg),S=gstStats(recs,ag,hoje),filtrado=gstFiltroAtivo();
+  gstEl('gst-limpar').style.display=filtrado?'':'none';
+  gstEl('gst-aviso').textContent='Atualizado em '+new Date().toLocaleString('pt-BR')+' · '+recs.length+' pacientes ativos'+(filtrado?' (filtro aplicado)':'')+' · retorno em atraso = data de retorno da última ficha já vencida · agenda: todas as equipes';
+  const meses=gstMeses(12),E=gstEvolModelo(recs,meses),novos=GST_ORDEM.reduce((s,p)=>s+E.evol[p][11],0);
+  const grupos={equipe:gstGrupo(recs,ag,hoje,r=>r.equipe,r=>r.equipe),acs:gstGrupo(recs,ag,hoje,r=>r.acs,r=>r.acs),ubs:gstGrupo(recs,ag,hoje,r=>r.ubs,r=>r.ubs),
+    micro:gstGrupo(recs,ag,hoje,r=>r.equipe+'|'+r.micro,r=>r.equipe+' · '+(r.micro==='—'?'sem microárea':'Microárea '+r.micro))};
+  gstCtx={recs,ag,S,M,hoje,filtrado,meses,evol:E.evol};
+  const incompl=recs.filter(r=>r.equipe==='Sem equipe'||r.acs==='Sem ACS'||r.micro==='—'||!r.retorno||!r.risco).length;
+  const dlEst=novos?'+'+novos+' neste mês':'nenhuma nova neste mês';
+  let h='<div class="g-h2">Visão geral</div><div class="g-kpis">'+gstHeroHtml(S,M)+'<div class="g-tiles">'+
+    gstTile(S.tot,'Estratificados','todos',dlEst,novos?'up':'',gstSpark(E.cum,'Evolução acumulada de pacientes ativos, últimos 12 meses'))+
+    gstTile(S.alto,'Alto risco','alto',S.tot?gstFmtPct(gstPct(S.alto,S.tot))+' do total':'')+
+    gstTile(S.atraso,'Retornos em atraso','atraso',S.comdata?gstFmtPct(gstPct(S.atraso,S.comdata))+' dos com data':'',S.atraso?'bad':'')+
+    gstTile(S.prox,'Vencem em 30 dias','prox','a agendar')+
+    gstTile(S.semdata,'Sem data de retorno','semdata','completar a ficha')+
+    gstTile(S.faltou,'Faltosos (agenda)','faltou','busca ativa')+
+    gstTile(S.agatraso,'Consultas atrasadas','agatraso','agendadas já vencidas')+
+    gstTile(S.tot-incompl,'Fichas completas','incompleta',S.tot?gstFmtPct(gstPct(S.tot-incompl,S.tot))+' com todos os campos-chave':'',incompl?'bad':'up')+'</div></div>'+
+    '<div class="g-h2">Destaques</div>'+gstInsights(gstCtx,grupos)+
+    '<div class="g-h2">Análises</div><div class="g-grid">'+
+    gstCard('w7','evol','Novas estratificações por mês','Pacientes cadastrados pela 1ª vez, por programa'+(E.sem?' · '+E.sem+' fichas sem data de cadastro':''))+
+    gstCardSimples('w5','Cobertura da estratificação','meta de cobertura '+M.cobertura+'%'+(filtrado?' · com filtro: só contagem':''),gstCoberturaHtml(gstCtx))+
+    gstCard('w6','ret','Situação dos retornos por programa','Participação de cada situação nos pacientes ativos')+
+    gstCard('w6','risco','Perfil de risco por programa','Classificação de risco dos pacientes ativos')+
+    gstCardSimples('w6','Retornos em atraso por ACS','Top 10 · clique para ver os pacientes',gstRankHtml(gstCtx))+
+    gstCardSimples('w6','Atrasos: equipe × programa','% de retornos vencidos entre os que têm data',gstHeatHtml(gstCtx))+
+    gstCardSimples('w12','Detalhamento','Clique no número para listar os pacientes · clique no cabeçalho para ordenar',gstTabelaDetalhe(gstCtx,grupos))+
+    gstCardSimples('w6','Qualidade dos dados','Completude das fichas ativas',gstQualidadeHtml(gstCtx))+
+    gstCardSimples('w6','Metas','',gstMetasHtml(M))+
     '</div>';
-  // Retornos em dia vs meta
-  h+='<div class="gst-card"><h3>✅ Retornos em dia <span>'+gstSem(S.emdiaPct,M.emdia)+' <small style="font-weight:400">meta '+M.emdia+'%</small></span></h3><div class="gst-card-c">'+
-    '<div class="gst-trilho"><div class="gst-fill" style="width:'+(S.emdiaPct||0)+'%;background:'+(S.emdiaPct===null?'#b0bec5':S.emdiaPct>=M.emdia?'#43a047':S.emdiaPct>=M.emdia-15?'#fbc02d':'#e53935')+'"></div></div>'+
-    '<div class="gst-aviso" style="margin-top:.4rem">'+(S.comdata-S.atraso)+' de '+S.comdata+' pacientes com data de retorno estão em dia (não vencida).</div></div></div>';
-  // Cobertura
-  const cob=(lbl,cor,n,base,meta,saiu,nota)=>{
-    const metaDin=Math.max(meta-(saiu||0),n),p=meta>0?gstPct(n,metaDin):null;
-    return '<div class="gst-barra"><b style="color:'+cor+'">'+lbl+'</b><div class="gst-trilho"><div class="gst-fill" style="width:'+Math.min(100,p||0)+'%;background:'+cor+'"></div></div><small>'+(meta>0&&!filtrado?(n+'/'+metaDin+' · '+gstSem(p,M.cobertura)):n+' estratificado'+(n===1?'':'s'))+'</small></div>'+(saiu&&!filtrado?'<div class="gst-aviso" style="margin:-.2rem 0 .3rem 150px">'+nota+'</div>':'');
-  };
-  const todos=gstFiltrar(gstRecs);
-  const cnt=f=>todos.filter(f).length;
-  h+='<div class="gst-card"><h3>📈 Cobertura da estratificação <small style="font-weight:400">'+(filtrado?'(com filtro: só contagem — a meta é do município)':'meta de cobertura: '+M.cobertura+'%')+'</small></h3><div class="gst-card-c">'+
-    cob('Hipertensos','#c62828',cnt(r=>r.prog==='hasdm'&&r.diag.includes('HAS')),0,M.his)+
-    cob('Diabéticos','#6a1b9a',cnt(r=>r.prog==='hasdm'&&r.diag.includes('DM')),0,M.dia)+
-    cob('Idosos','#00796b',cnt(r=>r.prog==='idoso'),0,M.ido,gstSaiu.ido,'Meta ajustada: − '+gstSaiu.ido+' (óbito/saída da lista)')+
-    cob('Crianças','#b8860b',cnt(r=>r.prog==='crianca'),0,M.cri,gstSaiu.cri,'Meta ajustada: − '+gstSaiu.cri+' (completaram 6 anos)')+
-    cob('Gestantes','#2e7d32',cnt(r=>r.prog==='gestante'),0,M.ges,gstSaiu.ges,'Meta ajustada: − '+gstSaiu.ges+' (puerpério/encerradas)')+
-    cob('Saúde bucal','#1565c0',cnt(r=>r.prog==='bucal'),0,M.buc)+
-    '</div></div>';
-  // por equipe e por microárea
-  const agrup=(chave,rot)=>{
-    const m={};
-    recs.forEach(r=>{const k=chave(r);(m[k]=m[k]||{eq:r.equipe,mi:r.micro,r:[],a:[]}).r.push(r);});
-    ag.forEach(a=>{const k=chave(a);(m[k]=m[k]||{eq:a.equipe,mi:a.micro,r:[],a:[]}).a.push(a);});
-    return Object.keys(m).map(k=>{const x=m[k];x.nome=rot(x);x.s=gstStats(x.r,x.a,hoje);return x;}).sort((a,b)=>b.s.atraso-a.s.atraso||b.s.tot-a.s.tot);
-  };
-  const tabela=(titulo,linhas,porMicro)=>{
-    if(!linhas.length)return '<div class="gst-card"><h3>'+titulo+'</h3><div class="gst-card-c gst-vazio">Sem dados para os filtros escolhidos.</div></div>';
-    const tt=gstStats(recs,ag,hoje);
-    const linha=(x,sub)=>{const s=x.s,eq=x.eq,mi=porMicro?x.mi:'';
-      return '<tr class="'+(sub?'gst-sub':'')+'"><td>'+gstEsc(x.nome)+'</td><td>'+gstNum(s.tot,'todos',eq,mi)+'</td><td>'+gstNum(s.alto,'alto',eq,mi)+'</td><td>'+gstNum(s.atraso,'atraso',eq,mi)+'</td><td>'+gstNum(s.prox,'prox',eq,mi)+'</td><td>'+gstNum(s.semdata,'semdata',eq,mi)+'</td><td>'+gstNum(s.faltou,'faltou',eq,mi)+'</td><td>'+gstSem(s.emdiaPct,M.emdia)+'</td></tr>';};
-    return '<div class="gst-card"><h3>'+titulo+'</h3><div class="tabela-wrap" style="border:0;border-radius:0;max-height:480px;overflow:auto"><table class="gst-tab"><thead><tr><th>'+(porMicro?'Equipe · Microárea':'Equipe')+'</th><th>Estratif.</th><th>Alto risco</th><th>Em atraso</th><th>Próx. 30 d</th><th>Sem data</th><th>Faltosos</th><th>Em dia</th></tr></thead><tbody>'+
-      linhas.map(x=>linha(x,false)).join('')+linha({nome:'Total',eq:'',mi:'',s:tt},true)+'</tbody></table></div></div>';
-  };
-  h+=tabela('👩‍⚕️ Por equipe',agrup(r=>r.equipe,x=>x.eq),false);
-  h+=tabela('🗺️ Por microárea',agrup(r=>r.equipe+'|'+r.micro,x=>x.eq+' · '+(x.mi==='—'?'sem microárea':'Microárea '+x.mi)),true);
-  // metas
-  h+='<div class="gst-card"><h3>🎯 Metas (população-alvo e indicadores) <small style="font-weight:400">salvas neste aparelho</small></h3><div class="gst-card-c"><div class="gst-metas">'+
-    [['his','Hipertensos (população-alvo)'],['dia','Diabéticos (população-alvo)'],['ido','Idosos (população-alvo)'],['cri','Crianças (população-alvo)'],['ges','Gestantes (população-alvo)'],['buc','Saúde bucal (população-alvo; 0 = sem meta)'],['emdia','Meta de retornos em dia (%)'],['cobertura','Meta de cobertura (%)']].map(x=>'<div><label>'+x[1]+'</label><input type="number" min="0" id="gst-m-'+x[0]+'" value="'+M[x[0]]+'"></div>').join('')+
-    '</div><div style="display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap"><button type="button" class="btn btn-salvar" onclick="gstSalvarMetas()">💾 Salvar metas</button><button type="button" class="btn btn-nova" onclick="gstResetMetas()">↺ Restaurar padrão</button></div></div></div>';
   gstEl('gst-corpo').innerHTML=h;
+  gstPintar();
 }
+
 // ---------- detalhe (lista de pacientes) ----------
-function gstDetalhe(kind,eq,mi){
-  const hoje=gestHoje();
-  let base=gstFiltrar(gstRecs),bag=gstFiltrar(gstAg);
-  if(eq){base=base.filter(r=>r.equipe===eq);bag=bag.filter(r=>r.equipe===eq);}
-  if(mi){base=base.filter(r=>r.micro===mi);bag=bag.filter(r=>r.micro===mi);}
-  const T={todos:['Estratificados',()=>true],alto:['Alto risco',r=>r.risco==='alto'],atraso:['Retornos em atraso',r=>gstClasse(r,hoje)==='atraso'],prox:['Retornos nos próximos 30 dias',r=>gstClasse(r,hoje)==='prox'],semdata:['Sem data de retorno',r=>gstClasse(r,hoje)==='semdata']};
+function gstDetalhe(kind,f){
+  f=f||{};const hoje=gestHoje();
+  const aplica=l=>l.filter(r=>(!f.eq||r.equipe===f.eq)&&(!f.mi||r.micro===f.mi)&&(!f.ac||r.acs===f.ac)&&(!f.ub||r.ubs===f.ub)&&(!f.pg||r.prog===f.pg));
+  const base=aplica(gstFiltrar(gstRecs)),bag=aplica(gstFiltrar(gstAg));
+  const T={todos:['Estratificados',()=>true],alto:['Alto risco',r=>r.risco==='alto'],atraso:['Retornos em atraso',r=>gstClasse(r,hoje)==='atraso'],prox:['Retornos nos próximos 30 dias',r=>gstClasse(r,hoje)==='prox'],semdata:['Sem data de retorno',r=>gstClasse(r,hoje)==='semdata'],
+    semeq:['Fichas sem equipe',r=>r.equipe==='Sem equipe'],semacs:['Fichas sem ACS',r=>r.acs==='Sem ACS'],semmicro:['Fichas sem microárea',r=>r.micro==='—'],semrisco:['Fichas sem risco classificado',r=>!r.risco],incompleta:['Fichas incompletas (falta equipe, ACS, microárea, retorno ou risco)',r=>r.equipe==='Sem equipe'||r.acs==='Sem ACS'||r.micro==='—'||!r.retorno||!r.risco]};
   let lista,titulo;
   if(kind==='faltou'||kind==='agatraso'){lista=bag.filter(a=>a.ag===(kind==='faltou'?'faltou':'atrasada'));titulo=kind==='faltou'?'Faltosos (agenda)':'Consultas atrasadas (agenda)';}
   else{const t=T[kind]||T.todos;lista=base.filter(t[1]);titulo=t[0];}
   lista=lista.slice().sort((a,b)=>(a.retorno||'9999').localeCompare(b.retorno||'9999')||String(a.nome).localeCompare(String(b.nome)));
   gstListaAtual=lista;
-  const escopo=[eq,mi&&mi!=='—'?'Microárea '+mi:''].filter(Boolean).join(' · ');
+  const escopo=[f.ub,f.eq,f.mi&&f.mi!=='—'?'Microárea '+f.mi:'',f.ac?'ACS '+f.ac:'',f.pg?(GST_PROG[f.pg]||['',''])[1]:''].filter(Boolean).join(' · ');
   const linhas=lista.map(r=>{
-    const d=r.retorno?gstDias(r.retorno):null,at=r.retorno&&r.retorno<hoje;
-    const pg=GST_PROG[r.prog]||['','Outro'];
-    return '<tr data-n="'+gstEsc((r.nome||'').toLowerCase())+'"><td><b>'+gstEsc(r.nome)+'</b></td><td>'+pg[0]+' '+pg[1]+'</td><td>'+gstEsc(r.equipe)+'</td><td>'+gstEsc(r.micro)+'</td><td>'+gstEsc(GST_RISCO_TXT[r.risco])+'</td><td>'+(r.retorno?gstEsc(gestFmt(r.retorno)):'—')+'</td><td>'+(r.ag?gstEsc(r.status):(at?'<span class="gst-pill gst-ruim">'+d+' d de atraso</span>':(r.retorno?'em dia':'—')))+'</td></tr>';
+    const d=r.retorno?gstDias(r.retorno):null,at=r.retorno&&r.retorno<hoje,pg=GST_PROG[r.prog]||['','Outro'];
+    return '<tr data-n="'+gstEsc((r.nome||'').toLowerCase())+'"><td><b>'+gstEsc(r.nome)+'</b></td><td>'+pg[0]+' '+pg[1]+'</td><td>'+gstEsc(r.ubs)+'</td><td>'+gstEsc(r.equipe)+'</td><td>'+gstEsc(r.acs)+'</td><td>'+gstEsc(r.micro)+'</td><td>'+gstEsc(GST_RISCO_TXT[r.risco])+'</td><td>'+(r.retorno?gstEsc(gestFmt(r.retorno)):'—')+'</td><td>'+(r.ag?gstEsc(r.status):(at?'<span class="gst-pill gst-ruim">▲ '+d+' d de atraso</span>':(r.retorno?'em dia':'—')))+'</td></tr>';
   }).join('');
-  gstEl('gst-modal').innerHTML='<div class="gst-modal-top"><div><h3>'+gstEsc(titulo)+' — '+lista.length+'</h3><small style="color:var(--txt-3)">'+gstEsc(escopo||'Todas as equipes')+'</small></div><div><input type="text" id="gst-busca" placeholder="🔍 Buscar nome…" oninput="gstBuscarLista(this.value)" style="padding:.4rem .6rem;border:1.5px solid var(--border);border-radius:8px"><button type="button" class="btn btn-nova ag-mini" onclick="gstExportar(\'lista\')">📥 Excel</button><button type="button" class="btn btn-nova ag-mini" onclick="gstImprimirLista(\''+gstEsc(titulo)+'\')">🖨️ Imprimir</button><button type="button" class="btn btn-nova ag-mini" data-gst-fechar="1">✕ Fechar</button></div></div>'+
-    (lista.length?'<div class="tabela-wrap" style="max-height:62vh;overflow:auto"><table class="gst-tab" id="gst-tab-lista"><thead><tr><th>Paciente</th><th>Programa</th><th>Equipe</th><th>Microárea</th><th>Risco</th><th>'+(kind==='faltou'||kind==='agatraso'?'Data da consulta':'Retorno')+'</th><th>Situação</th></tr></thead><tbody>'+linhas+'</tbody></table></div>':'<p class="gst-vazio">Nenhum paciente nesta situação 🎉</p>');
+  gstEl('gst-modal').innerHTML='<div class="gst-modal-top"><div><h3>'+gstEsc(titulo)+' — '+lista.length+'</h3><small style="color:var(--g-muted)">'+gstEsc(escopo||'Todos os pacientes do filtro atual')+'</small></div><div><input type="text" id="gst-busca" placeholder="Buscar nome…" oninput="gstBuscarLista(this.value)" style="padding:.4rem .6rem;border:1px solid var(--g-axis);border-radius:8px;background:var(--g-surf);color:var(--g-ink);font-family:inherit"><button type="button" class="g-btn" onclick="gstExportar(\'lista\')">Excel</button><button type="button" class="g-btn" onclick="gstImprimirLista(\''+gstEsc(titulo)+'\')">Imprimir</button><button type="button" class="g-btn pri" data-gst-fechar="1">Fechar</button></div></div>'+
+    (lista.length?'<div class="tabela-wrap" style="max-height:62vh;overflow:auto"><table class="gst-tab" id="gst-tab-lista"><thead><tr><th>Paciente</th><th>Programa</th><th>UBS</th><th>Equipe</th><th>ACS</th><th>Microárea</th><th>Risco</th><th>'+(kind==='faltou'||kind==='agatraso'?'Data da consulta':'Retorno')+'</th><th>Situação</th></tr></thead><tbody>'+linhas+'</tbody></table></div>':'<p class="g-vazio">Nenhum paciente nesta situação 🎉</p>');
   gstEl('gst-ov').classList.add('aberto');
 }
 function gstDias(iso){return gestDias(iso)==null?0:Math.abs(gestDias(iso));}
 function gstBuscarLista(v){const t=(v||'').toLowerCase();document.querySelectorAll('#gst-tab-lista tbody tr').forEach(tr=>{tr.style.display=!t||tr.dataset.n.indexOf(t)>=0?'':'none';});}
 function gstFechar(){const o=gstEl('gst-ov');if(o)o.classList.remove('aberto');}
+// tema claro/escuro (lembra a escolha neste aparelho)
+function gstTema(){
+  const r=document.documentElement,esc=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+  const novo=esc?'light':'dark';r.setAttribute('data-theme',novo);try{localStorage.setItem('aps_gestor_tema',novo);}catch(e){}
+  if(gstRaw)gstPintar();
+}
+(function(){try{const t=localStorage.getItem('aps_gestor_tema');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+
 // ---------- exportar / imprimir ----------
 function gstBaixar(nome,mime,txt){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:mime}));a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
-function gstLinhaPac(r){return [r.nome,(GST_PROG[r.prog]||['','Outro'])[1],r.equipe,r.micro,GST_RISCO_TXT[r.risco],r.retorno?gestFmt(r.retorno):'',r.ag?r.status:(r.retorno&&r.retorno<gestHoje()?gstDias(r.retorno)+' dias de atraso':(r.retorno?'em dia':'sem data'))];}
+function gstLinhaPac(r){return [r.nome,(GST_PROG[r.prog]||['','Outro'])[1],r.ubs,r.equipe,r.acs,r.micro,GST_RISCO_TXT[r.risco],r.retorno?gestFmt(r.retorno):'',r.ag?r.status:(r.retorno&&r.retorno<gestHoje()?gstDias(r.retorno)+' dias de atraso':(r.retorno?'em dia':'sem data'))];}
 function gstExportar(kind){
   if(!gstRaw)return;
-  const cab=['Paciente','Programa','Equipe','Microárea','Risco','Data','Situação'];
+  const cab=['Paciente','Programa','UBS','Equipe','ACS','Microárea','Risco','Data','Situação'];
   const hoje=gestHoje(),recs=gstFiltrar(gstRecs),ag=gstFiltrar(gstAg);
   const abas=kind==='lista'?[['Lista',gstListaAtual]]:[['Estratificados',recs],['Em atraso',recs.filter(r=>gstClasse(r,hoje)==='atraso')],['Proximos 30 dias',recs.filter(r=>gstClasse(r,hoje)==='prox')],['Sem data de retorno',recs.filter(r=>gstClasse(r,hoje)==='semdata')],['Faltosos agenda',ag.filter(a=>a.ag==='faltou')],['Atrasadas agenda',ag.filter(a=>a.ag==='atrasada')]];
   const nome='painel-gestor-'+hoje+'.';
@@ -374,7 +696,7 @@ function gstJanelaImp(titulo,corpo){
   w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>'+gstEsc(titulo)+'</title><style>body{font-family:Arial,sans-serif;font-size:11px;color:#000;padding:16px 22px}h1{font-size:16px;margin:0}small{color:#555}table{border-collapse:collapse;width:100%;margin:8px 0}td,th{border:1px solid #999;padding:3px 5px;text-align:left}th{background:#eee}.gst-card{margin:10px 0;break-inside:avoid}.gst-card>h3{background:#eceff1;margin:0;padding:5px 8px;font-size:12px}.gst-kpis{display:flex;flex-wrap:wrap;gap:6px}.gst-kpi{border:1px solid #999;padding:5px 8px;border-top:3px solid #455a64;min-width:110px;background:#fff}.gst-kpi b{display:block;font-size:18px}.gst-barra{display:grid;grid-template-columns:120px 1fr 120px;gap:6px;margin:3px 0;align-items:center}.gst-trilho{background:#eee;height:10px;border-radius:5px}.gst-fill{height:10px;border-radius:5px}.gst-pill{font-weight:bold}.gst-metas,button[onclick],.gst-card:last-child{display:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body><h1>Secretaria de Saúde de Alto Alegre do Maranhão — '+gstEsc(titulo)+'</h1><small>Emitido em '+new Date().toLocaleString('pt-BR')+'</small>'+corpo+'<script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');
   w.document.close();
 }
-function gstImprimir(){gstJanelaImp('Painel do Gestor',gstEl('gst-corpo').innerHTML.replace(/<button[^>]*>(.*?)<\/button>/g,'$1'));}
+function gstImprimir(){window.print();}
 function gstImprimirLista(t){const tb=gstEl('gst-tab-lista');gstJanelaImp(t,tb?tb.outerHTML:'<p>Nenhum paciente.</p>');}
 
 
