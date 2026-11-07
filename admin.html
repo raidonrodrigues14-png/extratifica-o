@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin — Logins e cobrança</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f4f8;--surf:#fff;--surf2:#f8fafc;--bd:#e2e8f0;--t1:#0f172a;--t2:#334155;--t3:#64748b;--pri:#263238;--pri2:#455a64;
+  --ok:#0b7a3b;--okbg:#e3f5e9;--warn:#8a5a00;--warnbg:#fff3d6;--crit:#b02a2a;--critbg:#fde8e8;--neu:#475569;--neubg:#eceff3;--focus:#2a78d6;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1115;--surf:#171c22;--surf2:#1d242b;--bd:#2a333c;--t1:#eef1f4;--t2:#c5ccd3;--t3:#94a0ab;
+  --ok:#5fd68a;--okbg:#10301d;--warn:#f1be4d;--warnbg:#33290c;--crit:#ff8d8d;--critbg:#3a1717;--neu:#b4bec8;--neubg:#232b33;--pri:#455a64;--pri2:#5d7782}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--t1);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem .95rem;border-radius:9px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t2);font-size:.8rem;font-weight:600;cursor:pointer;min-height:38px;white-space:nowrap}
+.btn:hover{border-color:var(--t3)}
+.btn.pri{background:linear-gradient(135deg,#263238,#455a64);color:#fff;border-color:transparent}
+.btn.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.btn.crit{background:var(--critbg);color:var(--crit);border-color:transparent}
+.btn:disabled{opacity:.55;cursor:wait}
+.toast{position:fixed;bottom:1.2rem;right:1.2rem;left:1.2rem;max-width:420px;margin-left:auto;background:#263238;color:#fff;padding:.8rem 1.1rem;border-radius:12px;font-weight:600;font-size:.85rem;box-shadow:0 12px 30px rgba(0,0,0,.3);z-index:9999;display:none}
+.toast.show{display:block}.toast.erro{background:#b02a2a}
+/* login */
+#tela-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.2rem;background:linear-gradient(150deg,#1a252b,#263238 45%,#455a64)}
+.lg-card{background:#fff;border-radius:22px;padding:2.2rem 2rem;width:100%;max-width:400px;box-shadow:0 32px 64px rgba(0,0,0,.35);color:#0f172a}
+.lg-top{text-align:center;margin-bottom:1.3rem}.lg-ico{font-size:2.3rem}
+.lg-top h1{font-size:1.2rem;margin-top:.4rem;color:#263238}.lg-top p{font-size:.78rem;color:#64748b;margin-top:.25rem}
+.lg-card label{display:block;font-size:.68rem;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:.5px;margin:.9rem 0 .3rem}
+.lg-card input{width:100%;padding:.75rem .9rem;border:1.5px solid #e2e8f0;border-radius:10px;font-family:var(--font);font-size:16px;background:#fff;color:#0f172a}
+.lg-erro{display:none;background:#ffebee;color:#c62828;border-radius:9px;padding:.6rem .8rem;font-size:.8rem;font-weight:600;margin-top:.9rem}
+.lg-card .btn{width:100%;margin-top:1.2rem;padding:.85rem;font-size:.92rem}
+#tela-painel{display:none}
+/* topo */
+.top{background:linear-gradient(135deg,#263238,#455a64);color:#fff;padding:.5rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;min-height:58px;position:sticky;top:0;z-index:50}
+.top strong{display:block;font-size:1rem}.top span.s{font-size:.72rem;opacity:.8}
+.top .btn{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.3)}
+.wrap{max-width:1240px;margin:0 auto;padding:1.1rem 1.1rem 3rem}
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1rem}
+.tile{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:.8rem .95rem;text-align:left;cursor:pointer;color:var(--t1)}
+.tile[aria-pressed=true]{border-color:var(--focus);box-shadow:0 0 0 2px color-mix(in srgb,var(--focus) 25%,transparent)}
+.tile .n{font-size:1.7rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .l{font-size:.72rem;font-weight:600;color:var(--t3);margin-top:.15rem;display:flex;gap:.3rem;align-items:center}
+.tile.ok .n{color:var(--ok)}.tile.warn .n{color:var(--warn)}.tile.crit .n{color:var(--crit)}
+/* barra */
+.bar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:.8rem}
+.bar input,.bar select{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:9px;font-family:var(--font);font-size:.85rem;background:var(--surf);color:var(--t1);min-height:38px}
+.bar input[type=search]{flex:1;min-width:200px}
+.sp{flex:1}
+/* tabela */
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{background:var(--surf2);text-align:left;font-size:.68rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;padding:.6rem .8rem;border-bottom:1px solid var(--bd)}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--bd);vertical-align:middle;font-size:.84rem}
+tr:last-child td{border-bottom:none}
+.nome{font-weight:700}.sub{font-size:.72rem;color:var(--t3);margin-top:.1rem}
+.badge{display:inline-flex;align-items:center;gap:.3rem;border-radius:999px;padding:.2rem .6rem;font-size:.72rem;font-weight:700;white-space:nowrap}
+.b-ok{background:var(--okbg);color:var(--ok)}.b-warn{background:var(--warnbg);color:var(--warn)}.b-crit{background:var(--critbg);color:var(--crit)}.b-neu{background:var(--neubg);color:var(--neu)}
+.acoes{display:flex;gap:.35rem;flex-wrap:wrap}
+.acoes .btn{padding:.35rem .7rem;font-size:.76rem;min-height:34px}
+.vazio{padding:2rem;text-align:center;color:var(--t3)}
+.dica{background:var(--surf);border:1px dashed var(--bd);border-radius:12px;padding:.8rem 1rem;font-size:.8rem;color:var(--t2);margin-bottom:.9rem;display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(10,15,20,.55);display:none;align-items:center;justify-content:center;padding:1rem;z-index:200}
+.ov.show{display:flex}
+.modal{background:var(--surf);color:var(--t1);border-radius:16px;padding:1.3rem 1.3rem 1.1rem;width:100%;max-width:520px;max-height:92vh;overflow:auto;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.modal h2{font-size:1.05rem;margin-bottom:.15rem}.modal .sub{margin-bottom:.8rem}
+.modal label{display:block;font-size:.68rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin:.8rem 0 .3rem}
+.modal input,.modal select,.modal textarea{width:100%;padding:.62rem .75rem;border:1.5px solid var(--bd);border-radius:9px;font-family:var(--font);font-size:16px;background:var(--surf2);color:var(--t1)}
+.modal textarea{min-height:76px;resize:vertical}
+.modal .ln{display:flex;gap:.5rem;align-items:center}
+.modal .ln input[type=checkbox]{width:auto}
+.modal .rod{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.1rem;flex-wrap:wrap}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap}
+.chip{padding:.4rem .8rem;border-radius:999px;border:1.5px solid var(--bd);background:var(--surf2);font-weight:700;font-size:.8rem;cursor:pointer;color:var(--t2)}
+.chip[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.prev{margin-top:.9rem;background:var(--surf2);border-radius:10px;padding:.7rem .85rem;font-size:.85rem}
+.aviso{margin-top:.5rem;font-size:.76rem;color:var(--warn);background:var(--warnbg);padding:.45rem .65rem;border-radius:8px}
+.hist{margin-top:.5rem;font-size:.78rem;color:var(--t2)}.hist div{padding:.25rem 0;border-bottom:1px solid var(--bd)}
+.passos{font-size:.85rem;line-height:1.55;padding-left:1.1rem;color:var(--t2)}.passos li{margin:.4rem 0}
+.passos code{background:var(--surf2);padding:.05rem .35rem;border-radius:5px;font-size:.8rem}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){
+  .wrap{padding:.8rem .7rem 3rem}.tiles{grid-template-columns:repeat(2,1fr)}
+  table,thead,tbody,tr,td{display:block}thead{display:none}
+  tr{padding:.7rem .85rem;border-bottom:1px solid var(--bd)}td{border:none;padding:.15rem 0}
+  td[data-l]::before{content:attr(data-l)': ';font-size:.68rem;font-weight:700;color:var(--t3);text-transform:uppercase}
+  td.c-nome::before{content:none}.acoes{margin-top:.5rem}.acoes .btn{min-height:42px;flex:1}
+}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="status"></div>
+
+<div id="tela-login">
+  <div class="lg-card">
+    <div class="lg-top"><div class="lg-ico">🛠️</div><h1>Admin do Sistema</h1><p>Logins, grupos, UBS e cobrança<br>Acesso restrito ao administrador</p></div>
+    <form id="lg-form" autocomplete="on">
+      <label for="lg-user">Usuário</label>
+      <input type="text" id="lg-user" autocomplete="username" autocapitalize="none" placeholder="usuário do administrador">
+      <label for="lg-pass">Senha</label>
+      <input type="password" id="lg-pass" autocomplete="current-password" placeholder="••••••••">
+      <div class="lg-erro" id="lg-erro"></div>
+      <button type="submit" class="btn pri" id="lg-btn">Entrar →</button>
+    </form>
+  </div>
+</div>
+
+<div id="tela-painel">
+  <header class="top">
+    <div><strong>Admin · Logins e cobrança</strong><span class="s" id="ad-quem"></span></div>
+    <div style="display:flex;gap:.5rem"><button class="btn" id="b-novo" type="button">➕ Novo login</button><button class="btn" id="b-sair" type="button">Sair</button></div>
+  </header>
+  <main class="wrap">
+    <div class="tiles" id="tiles"></div>
+    <div class="bar">
+      <input type="search" id="f-busca" placeholder="Buscar por login, grupo ou UBS…" aria-label="Buscar">
+      <select id="f-grupo" aria-label="Filtrar por grupo"><option value="">Todos os grupos</option></select>
+      <span class="sp"></span>
+      <button class="btn" id="b-atualizar" type="button">Atualizar</button>
+    </div>
+    <div id="corpo"><div class="card"><div class="vazio">Carregando…</div></div></div>
+  </main>
+</div>
+
+<div class="ov" id="ov"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<script>
+const SUPABASE_URL='https://kqielgdslxjtykgqjmfg.supabase.co';
+const SUPABASE_KEY='sb_publishable_JowP-KiU83uoh8bL8r_OuA_lEyqXmSc';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:'aps-admin-auth',persistSession:true,autoRefreshToken:true}});
+const DOMINIO='sistemaaps.local';
+let LOGINS=[],GRUPOS=[],UBS=[],FILTRO='todos',BUSCA='',GRUPO_F='';
+const $=id=>document.getElementById(id);
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function toast(m,erro){const t=$('toast');t.textContent=m;t.className='toast show'+(erro?' erro':'');clearTimeout(toast._t);toast._t=setTimeout(()=>{t.className='toast';},4200);}
+function hoje(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date());}
+function dnum(iso){const p=String(iso).slice(0,10).split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/86400000;}
+function dif(iso){return Math.round(dnum(iso)-dnum(hoje()));}   // >0 = futuro
+function fmt(iso){return iso?String(iso).slice(0,10).split('-').reverse().join('/'):'—';}
+function somar(iso,d){const t=new Date((dnum(iso)+d)*86400000);return t.toISOString().slice(0,10);}
+function nomeLogin(e){return String(e||'').replace('@'+DOMINIO,'');}
+
+/* ---------- login ---------- */
+async function entrar(ev){
+  ev.preventDefault();
+  const u=$('lg-user').value.trim().toLowerCase(),p=$('lg-pass').value,er=$('lg-erro'),b=$('lg-btn');
+  er.style.display='none';
+  if(!u||!p){er.textContent='Informe usuário e senha.';er.style.display='block';return;}
+  b.disabled=true;
+  try{
+    const email=u.indexOf('@')>=0?u:u+'@'+DOMINIO;
+    const r=await sb.auth.signInWithPassword({email,password:p});
+    if(r.error)throw new Error('Usuário ou senha incorretos.');
+    const a=await sb.rpc('eh_admin');
+    if(a.error||a.data!==true){await sb.auth.signOut();throw new Error('Este usuário não é administrador.');}
+    $('lg-pass').value='';
+    await abrirPainel(email);
+  }catch(e){er.textContent=e.message||'Erro ao entrar.';er.style.display='block';}
+  b.disabled=false;
+}
+async function abrirPainel(email){
+  $('tela-login').style.display='none';$('tela-painel').style.display='block';
+  $('ad-quem').textContent=nomeLogin(email||'');
+  armarIdle();await carregar();
+}
+async function sair(){try{await sb.auth.signOut();}catch(e){}location.reload();}
+let _idle;function armarIdle(){const r=()=>{clearTimeout(_idle);_idle=setTimeout(sair,30*60*1000);};['click','keydown','touchstart'].forEach(e=>document.addEventListener(e,r,{passive:true}));r();}
+
+/* ---------- dados ---------- */
+async function carregar(){
+  const [a,g,u]=await Promise.all([sb.rpc('admin_listar'),sb.rpc('admin_listar_grupos'),sb.rpc('admin_listar_ubs')]);
+  if(a.error){toast('Erro ao carregar: '+a.error.message,true);$('corpo').innerHTML='<div class="card"><div class="vazio">Não foi possível carregar. Confira se o admin_setup.sql foi executado.</div></div>';return;}
+  LOGINS=a.data||[];GRUPOS=(g.data||[]);UBS=(u.data||[]);
+  const sel=$('f-grupo'),atual=GRUPO_F;
+  sel.innerHTML='<option value="">Todos os grupos</option>'+GRUPOS.map(x=>'<option value="'+esc(x.nome)+'">'+esc(x.nome)+'</option>').join('');
+  sel.value=atual;
+  render();
+}
+function status(l){
+  if(l.papel)return {k:'papel',ord:9,cls:'b-neu',ic:'🔑',txt:l.papel==='admin'?'Administrador':'Gestor'};
+  if(!l.grupo)return {k:'semgrupo',ord:1,cls:'b-warn',ic:'⚠️',txt:'Sem grupo'};
+  if(!l.vencimento)return {k:'sem',ord:4,cls:'b-neu',ic:'○',txt:'Sem vencimento'};
+  const d=dif(l.vencimento);
+  if(d<0)return {k:'venc',ord:0,cls:'b-crit',ic:'⛔',txt:'Vencido há '+(-d)+' d',d};
+  if(d<=7)return {k:'breve',ord:2,cls:'b-warn',ic:'⏳',txt:d===0?'Vence hoje':'Vence em '+d+' d',d};
+  return {k:'ok',ord:5,cls:'b-ok',ic:'✓',txt:'Em dia · '+d+' d',d};
+}
+function visiveis(){
+  const q=BUSCA.trim().toLowerCase();
+  return LOGINS.map(l=>({l,s:status(l)})).filter(({l,s})=>{
+    if(FILTRO!=='todos'){
+      if(FILTRO==='semgrupo'?(l.grupo||l.papel):s.k!==FILTRO)return false;
+    }
+    if(GRUPO_F&&l.grupo!==GRUPO_F)return false;
+    if(q&&!(String(l.email)+' '+(l.grupo||'')+' '+(l.ubs||'')).toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>a.s.ord-b.s.ord||(a.l.vencimento||'').localeCompare(b.l.vencimento||'')||String(a.l.email).localeCompare(String(b.l.email)));
+}
+function render(){
+  const cli=LOGINS.filter(l=>!l.papel).map(status);
+  const c=k=>cli.filter(s=>s.k===k).length;
+  const T=[['todos','Clientes',cli.length,'','👥'],['ok','Em dia',c('ok'),'ok','✓'],['breve','Vencem em 7 dias',c('breve'),'warn','⏳'],['venc','Vencidos',c('venc'),'crit','⛔'],['sem','Sem vencimento',c('sem'),'','○'],['semgrupo','Sem grupo',c('semgrupo'),c('semgrupo')?'warn':'','⚠️']];
+  $('tiles').innerHTML=T.map(t=>'<button type="button" class="tile '+t[3]+'" data-f="'+t[0]+'" aria-pressed="'+(FILTRO===t[0])+'"><div class="n">'+t[2]+'</div><div class="l"><span aria-hidden="true">'+t[4]+'</span>'+t[1]+'</div></button>').join('');
+  const v=visiveis();
+  if(!v.length){$('corpo').innerHTML='<div class="card"><div class="vazio">Nenhum login encontrado com esses filtros.</div></div>';return;}
+  let h='<div class="card"><table><thead><tr><th>Login</th><th>Grupo</th><th>UBS</th><th>Vencimento</th><th>Situação</th><th>Ações</th></tr></thead><tbody>';
+  v.forEach(({l,s})=>{
+    const pap=!!l.papel;
+    h+='<tr data-u="'+esc(l.user_id)+'">'+
+      '<td class="c-nome"><div class="nome">'+esc(nomeLogin(l.email))+'</div><div class="sub">'+(l.last_sign_in_at?'Último acesso '+fmt(l.last_sign_in_at):'Nunca acessou')+(l.ultimo_pagamento?' · Pago em '+fmt(l.ultimo_pagamento):'')+'</div></td>'+
+      '<td data-l="Grupo">'+(l.grupo?esc(l.grupo):'<span class="sub">—</span>')+'</td>'+
+      '<td data-l="UBS">'+(l.ubs?esc(l.ubs):'<span class="sub">—</span>')+'</td>'+
+      '<td data-l="Vencimento">'+(l.vencimento?fmt(l.vencimento):'<span class="sub">—</span>')+'</td>'+
+      '<td><span class="badge '+s.cls+'"><span aria-hidden="true">'+s.ic+'</span>'+esc(s.txt)+'</span></td>'+
+      '<td><div class="acoes">'+(pap?'':'<button class="btn ok" data-a="pago" type="button">💰 Pago</button><button class="btn" data-a="edit" type="button">✏️ Editar</button>'+(s.k==='venc'?'':'<button class="btn crit" data-a="bloq" type="button">⛔ Bloquear</button>'))+'</div></td></tr>';
+  });
+  $('corpo').innerHTML=h+'</tbody></table></div>';
+}
+
+/* ---------- modais ---------- */
+function abrir(html){$('modal').innerHTML=html;$('ov').classList.add('show');const f=$('modal').querySelector('input:not([type=checkbox]),select,button');if(f&&matchMedia('(min-width:761px)').matches)f.focus();}
+function fechar(){$('ov').classList.remove('show');$('modal').innerHTML='';}
+function acharLogin(id){return LOGINS.find(x=>x.user_id===id);}
+
+function modalPago(l){
+  const base=(l.vencimento&&dif(l.vencimento)>0)?String(l.vencimento).slice(0,10):hoje();
+  let dias=30;
+  abrir('<h2>💰 Registrar pagamento</h2><div class="sub">'+esc(nomeLogin(l.email))+(l.grupo?' · '+esc(l.grupo):'')+'</div>'+
+   '<label>Período pago</label><div class="chips" id="p-chips">'+[30,60,90,180,365].map(d=>'<button type="button" class="chip" data-d="'+d+'" aria-pressed="'+(d===30)+'">+'+d+' dias</button>').join('')+'</div>'+
+   '<label for="p-valor">Valor recebido (opcional)</label><input type="number" id="p-valor" min="0" step="0.01" inputmode="decimal" placeholder="R$">'+
+   '<label for="p-obs">Observação (opcional)</label><input type="text" id="p-obs" maxlength="120" placeholder="Ex.: PIX, mês de dezembro">'+
+   '<div class="prev" id="p-prev"></div>'+
+   '<div class="rod"><button class="btn" type="button" data-x="fechar">Cancelar</button><button class="btn pri" type="button" id="p-ok">Confirmar pagamento</button></div>');
+  const prev=()=>{$('p-prev').innerHTML='Vencimento: <b>'+(l.vencimento?fmt(l.vencimento):'sem data')+'</b> → <b>'+fmt(somar(base,dias))+'</b>'+(base===hoje()&&l.vencimento&&dif(l.vencimento)<=0?' <span class="sub">(conta a partir de hoje)</span>':'');};
+  prev();
+  $('p-chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;dias=+b.dataset.d;$('p-chips').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));prev();};
+  $('p-ok').onclick=async()=>{
+    const b=$('p-ok');b.disabled=true;
+    const vl=$('p-valor').value.trim();
+    const r=await sb.rpc('admin_renovar',{p_user:l.user_id,p_dias:dias,p_valor:vl===''?null:parseFloat(vl),p_obs:$('p-obs').value.trim()||null});
+    if(r.error){toast('Erro: '+r.error.message,true);b.disabled=false;return;}
+    fechar();toast('✓ '+nomeLogin(l.email)+' pago até '+fmt(r.data));await carregar();
+  };
+}
+async function bloquear(l){
+  if(!confirm('Bloquear '+nomeLogin(l.email)+' agora?\n\nA pessoa vê a tela do PIX no próximo acesso (ou em até 5 minutos, se estiver logada). Para liberar, registre um pagamento.'))return;
+  const r=await sb.rpc('admin_bloquear',{p_user:l.user_id});
+  if(r.error){toast('Erro: '+r.error.message,true);return;}
+  toast('⛔ '+nomeLogin(l.email)+' bloqueado');await carregar();
+}
+function modalEditar(l){
+  const gDl='<datalist id="e-glist">'+GRUPOS.map(g=>'<option value="'+esc(g.nome)+'">').join('')+'</datalist>';
+  const ubsOpt='<option value="">— sem UBS definida —</option>'+UBS.map(u=>'<option value="'+u.id+'">'+esc(u.nome)+(u.bairro?' · '+esc(u.bairro):'')+'</option>').join('');
+  abrir('<h2>✏️ Editar login</h2><div class="sub">'+esc(nomeLogin(l.email))+'</div>'+
+   '<label for="e-grupo">Grupo (mesmo nome = mesmos pacientes)</label><input type="text" id="e-grupo" list="e-glist" maxlength="80" placeholder="Ex.: UBS Jerumenha" value="'+esc(l.grupo||'')+'">'+gDl+
+   '<div id="e-gaviso"></div>'+
+   '<label for="e-ubs">UBS do grupo</label><select id="e-ubs">'+ubsOpt+'</select>'+
+   '<label for="e-eq">Equipes ESF do grupo (uma por linha; vazio = lista padrão)</label><textarea id="e-eq" placeholder="Equipe ESF - Piçarreira"></textarea>'+
+   '<label for="e-venc">Vencimento desta assinatura</label><div class="ln"><input type="date" id="e-venc" value="'+esc(l.vencimento?String(l.vencimento).slice(0,10):'')+'"><label class="ln" style="margin:0;text-transform:none;letter-spacing:0;font-size:.8rem;white-space:nowrap"><input type="checkbox" id="e-sem"> sem data</label></div>'+
+   '<div class="sub" style="margin-top:.3rem">Sem data = uso livre, sem bloqueio.</div>'+
+   '<label>Pagamentos registrados</label><div class="hist" id="e-hist">Carregando…</div>'+
+   '<div class="rod"><button class="btn" type="button" data-x="fechar">Cancelar</button><button class="btn pri" type="button" id="e-ok">Salvar</button></div>');
+  const sem=$('e-sem'),venc=$('e-venc');
+  sem.checked=!l.vencimento;venc.disabled=sem.checked;
+  sem.onchange=()=>{venc.disabled=sem.checked;if(sem.checked)venc.value='';};
+  const preencher=()=>{
+    const nome=$('e-grupo').value.trim(),g=GRUPOS.find(x=>x.nome===nome);
+    if(g){$('e-ubs').value=g.ubs_id||'';$('e-eq').value=(g.equipes||[]).join('\n');
+      const outros=g.membros-(l.grupo===nome?1:0);
+      $('e-gaviso').innerHTML=outros>0?'<div class="aviso">⚠️ UBS e equipes valem para os '+g.membros+' logins deste grupo.</div>':'';
+    }else{$('e-gaviso').innerHTML=nome?'<div class="aviso">Grupo novo: será criado ao salvar.</div>':'';if(!nome){$('e-ubs').value='';$('e-eq').value='';}}
+  };
+  $('e-grupo').addEventListener('input',preencher);preencher();
+  sb.rpc('admin_pagamentos',{p_user:l.user_id}).then(r=>{
+    const a=(r.data||[]);
+    $('e-hist').innerHTML=a.length?a.map(p=>'<div>'+fmt(p.criado_em)+' · +'+esc(p.dias)+' d → '+fmt(p.venc_novo)+(p.valor!=null?' · R$ '+Number(p.valor).toFixed(2).replace('.',','):'')+(p.obs?' · '+esc(p.obs):'')+'</div>').join(''):'<span class="sub">Nenhum pagamento registrado ainda.</span>';
+  });
+  $('e-ok').onclick=async()=>{
+    const b=$('e-ok');b.disabled=true;
+    const falha=m=>{toast('Erro: '+m,true);b.disabled=false;};
+    try{
+      const g=$('e-grupo').value.trim();
+      if(g!==(l.grupo||'')){const r=await sb.rpc('admin_vincular',{p_user:l.user_id,p_grupo:g});if(r.error)return falha(r.error.message);if(String(r.data).startsWith('ERRO'))return falha(r.data);}
+      if(g){
+        const eq=$('e-eq').value.split('\n').map(s=>s.trim()).filter(Boolean);
+        const r=await sb.rpc('admin_definir_grupo',{p_grupo:g,p_ubs:$('e-ubs').value?+$('e-ubs').value:null,p_equipes:eq});
+        if(r.error)return falha(r.error.message);if(String(r.data).startsWith('ERRO'))return falha(r.data);
+      }
+      const nv=sem.checked?'':venc.value,at=l.vencimento?String(l.vencimento).slice(0,10):'';
+      if(nv!==at){const r=await sb.rpc('admin_definir_vencimento',{p_user:l.user_id,p_venc:nv||null});if(r.error)return falha(r.error.message);if(String(r.data).startsWith('ERRO'))return falha(r.data);}
+      fechar();toast('✓ Alterações salvas');await carregar();
+    }catch(e){falha(e.message);}
+  };
+}
+function modalNovo(){
+  abrir('<h2>➕ Novo login</h2><div class="sub">São 2 passos rápidos</div><ol class="passos">'+
+   '<li>Abra o <a href="https://supabase.com/dashboard/project/kqielgdslxjtykgqjmfg/auth/users" target="_blank" rel="noopener">Supabase → Authentication → Users</a> e clique em <b>Add user</b>. E-mail: <code>usuario@sistemaaps.local</code>, defina a senha e marque <b>Auto Confirm User</b>.</li>'+
+   '<li>Volte aqui e clique em <b>Atualizar</b>. O login aparece como <b>⚠️ Sem grupo</b>: clique em <b>Editar</b> e escolha grupo, UBS, equipes e vencimento.</li></ol>'+
+   '<div class="rod"><button class="btn" type="button" data-x="fechar">Fechar</button><button class="btn pri" type="button" id="n-at">Atualizar lista agora</button></div>');
+  $('n-at').onclick=async()=>{fechar();await carregar();toast('Lista atualizada');};
+}
+
+/* ---------- eventos ---------- */
+$('lg-form').addEventListener('submit',entrar);
+$('b-sair').onclick=sair;$('b-novo').onclick=modalNovo;$('b-atualizar').onclick=async()=>{await carregar();toast('Lista atualizada');};
+$('f-busca').addEventListener('input',e=>{BUSCA=e.target.value;render();});
+$('f-grupo').addEventListener('change',e=>{GRUPO_F=e.target.value;render();});
+$('tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;FILTRO=(FILTRO===b.dataset.f&&b.dataset.f!=='todos')?'todos':b.dataset.f;render();});
+$('corpo').addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const l=acharLogin(b.closest('tr').dataset.u);if(!l)return;
+  if(b.dataset.a==='pago')modalPago(l);else if(b.dataset.a==='edit')modalEditar(l);else if(b.dataset.a==='bloq')bloquear(l);
+});
+$('ov').addEventListener('click',e=>{if(e.target===$('ov')||e.target.closest('[data-x=fechar]'))fechar();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fechar();});
+(async()=>{
+  try{
+    const s=await sb.auth.getSession();
+    if(s.data&&s.data.session){
+      const a=await sb.rpc('eh_admin');
+      if(a.data===true){await abrirPainel(s.data.session.user.email);return;}
+      await sb.auth.signOut();
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
